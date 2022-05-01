@@ -1,0 +1,105 @@
+@import 'animate.css';
+@import '~loaders.css/src/animations/pacman.scss';
+
+$primary-color: #ffd700;
+
+.home-container {
+    background-color: #001529;
+    width: 100%;
+    will-change: contents;
+    height: 90%;
+    min-height: 566px;
+
+    .home-items {
+        display: flex;
+        flex-direction: column;
+        transform-style: preserve-3d;
+        animation: fadeIn 1s forwards;
+        animation-delay: 1s;
+        margin-left: 5%;
+        margin-top: 2%;
+        align-items: center;
+
+        .image-title {
+            width: 200px;
+            animation: rotate 1s linear both;
+            animation-delay: 1.4s;
+        }
+
+        .text-title {
+            color: #e3e9f0;
+            font-family: 'Helvetica Neue';
+
+            &::before {
+                content: '<h1>  ';
+                color: $primary-color;
+                font-family: 'La Belle Aurore';
+                font-style: italic;
+                font-size: 18px;
+                opacity: 0.6;
+            }
+
+            &::after {
+                content: '  </h1>';
+                color: $primary-color;
+                font-family: 'La Belle Aurore';
+                font-size: 18px;
+                animation: fadeIn 1s 1.7s backwards;
+                opacity: 0.6;
+            }
+        }
+
+        .text-title-4 {
+            color: #e3e9f0;
+            font-family: sans-serif;
+            font-weight: 400;
+            font-size: 11px;
+            letter-spacing: 3px;
+            animation: fadeIn 1s 1.8s backwards;
+        }
+
+        .text-contact-button {
+            display: block;
+            color: #e3e9f0;
+            font-weight: bold;
+            text-decoration: none;
+            font-family: 'Helvetica Neue';
+            float: left;
+            animation: fadeIn 1s 1.8s backwards;
+            margin-bottom: 2%;
+        }
+    }
+
+    .form-tabs {
+        margin-left: 5%;
+        margin-top: 2%;
+
+        .tabs-form {
+            background-color: #e3e9f0;
+            margin-top: 2%;
+
+            .tabs-panel {
+                background-color: #e3e9f0;
+                width: 90%;
+                height: 90%;
+                margin-left: 3%;
+                margin-right: 2%;
+            }
+        }
+    }
+}
+
+.loader-active {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    width: 50px;
+    height: 50px;
+    animation: fadeOut 1s 1s;
+    animation-fill-mode: forwards;
+    color: $primary-color;
+}
