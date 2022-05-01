@@ -33,6 +33,7 @@
     "sass": "^1.50.1",
     "web-vitals": "^2.1.4"
   },
+  "homepage": "https://benion28.github.io/benion-tech-react/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
