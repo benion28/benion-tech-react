@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Form, Input, Button, Checkbox, Select, DatePicker, Alert  } from 'antd'
 import { UserOutlined, MailOutlined, EnvironmentOutlined, KeyOutlined, SolutionOutlined } from '@ant-design/icons'
+import { GlobalContext } from '../app/GlobalState'
 import '../styles/RegisterForm.scss'
 
 const { Option } = Select;
@@ -8,20 +9,21 @@ const { Item } = Form;
 const { Password } = Input;
 
 const AddStudentForm = () => {
-    const [form] = Form.useForm();
-    const [message, setMessage] = useState('');
-    const [error, setError] = useState('');
+    const { error, message } = useContext(GlobalContext)
+    const [form] = Form.useForm()
+    const [formMessage, setFormMessage] = useState('')
+    const [formError, setFormError] = useState('')
 
     const onFinish = (values) => {
         console.log('Success:', values);
-        setError('');
-        setMessage('Registeration data accepted !!');
+        setFormError('');
+        setFormMessage('Registeration data accepted !!')
     };
 
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
-        setMessage('');
-        setError('Registeration data rejected, check fields for errors !!');
+        setFormMessage('');
+        setFormError('Registeration data rejected, check fields for errors !!')
     };
 
     const validateMessages = {
@@ -38,6 +40,14 @@ const AddStudentForm = () => {
 
     return (
         <div className="form-group">
+            <div className="form-alert">
+                { formMessage !== '' && (
+                    <Alert message={formMessage} type="success" showIcon closable />
+                )}
+                { formError !== '' && (
+                    <Alert message={formError} type="error" showIcon closable />
+                )}
+            </div>
             <div className="form-alert">
                 { message !== '' && (
                     <Alert message={message} type="success" showIcon closable />

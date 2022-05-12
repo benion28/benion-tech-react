@@ -1,9 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
+import reducer from './reducer'
 
-import { usersApi } from '../services/usersApi'
 
-export default configureStore({
-    reducer: {
-        [ usersApi.reducerPath ]: usersApi.reducer
-    }
-});
+export default configureStore({ reducer })

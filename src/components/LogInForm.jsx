@@ -1,26 +1,31 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Form, Input, Button, Checkbox, Alert } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import '../styles/LogInForm.scss'
+import { GlobalContext } from '../app/GlobalState'
 
 const { Item } = Form;
 const { Password } = Input;
 
 const LogInForm = () => {
     const [form] = Form.useForm();
-    const [message, setMessage] = useState('');
-    const [error, setError] = useState('');
+    const [formMessage, setFormMessage] = useState('')
+    const [formError, setFormError] = useState('')
+    const { userLogin, message, error  } = useContext(GlobalContext)
 
-    const onFinish = (values) => {
-        console.log('Received values of form: ', values);
-        setError('');
-        setMessage('Log In data accepted !!');
-    };
+    const onFinish = async (values) => {
+        console.log('Received values of form: ', values)
+        setFormError('')
+        setFormMessage('Log In data accepted !!')
+
+        // Log In
+        userLogin(values)
+    }
 
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
-        setMessage('');
-        setError('Log In data rejected, check fields for errors !!');
+        setFormMessage('');
+        setFormError('Log In data rejected, check fields for errors !!');
     };
 
     const validateMessages = {
@@ -30,10 +35,18 @@ const LogInForm = () => {
     return (
         <div className="form-group">
             <div className="form-alert">
-                { message !== '' && (
+                { formMessage !== '' && (
+                    <Alert message={formMessage} type="success" showIcon closable />
+                )}
+                { formMessage !== '' && (
+                    <Alert message={formError} type="error" showIcon closable />
+                )}
+            </div>
+            <div className="form-alert">
+                { message !== null && (
                     <Alert message={message} type="success" showIcon closable />
                 )}
-                { error !== '' && (
+                { error !== null && (
                     <Alert message={error} type="error" showIcon closable />
                 )}
             </div>

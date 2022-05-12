@@ -1,25 +1,27 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Form, Input, Button, Alert } from 'antd'
 import { MailOutlined, SolutionOutlined } from '@ant-design/icons'
 import '../styles/ForgetForm.scss'
+import { GlobalContext } from '../app/GlobalState'
 
 const { Item } = Form;
 
 const ForgetForm = () => {
+    const { error, message } = useContext(GlobalContext)
     const [form] = Form.useForm();
-    const [message, setMessage] = useState('');
-    const [error, setError] = useState('');
+    const [formMessage, setFormMessage] = useState('')
+    const [formError, setFormError] = useState('')
 
     const onFinish = (values) => {
         console.log('Received values of form: ', values);
-        setError('');
-        setMessage('Reset data accepted !!');
+        setFormError('');
+        setFormMessage('Reset data accepted !!');
     };
 
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
-        setMessage('');
-        setError('Reset data rejected, check fields for errors !!');
+        setFormMessage('');
+        setFormError('Reset data rejected, check fields for errors !!');
     };
 
     const validateMessages = {
@@ -42,10 +44,18 @@ const ForgetForm = () => {
     return (
         <div className="form-group">
             <div className="form-alert">
-                { message !== '' && (
+                { formMessage !== '' && (
+                    <Alert message={formMessage} type="success" showIcon closable />
+                )}
+                { formError !== '' && (
+                    <Alert message={formError} type="error" showIcon closable />
+                )}
+            </div>
+            <div className="form-alert">
+                { message !== null && (
                     <Alert message={message} type="success" showIcon closable />
                 )}
-                { error !== '' && (
+                { error !== null && (
                     <Alert message={error} type="error" showIcon closable />
                 )}
             </div>

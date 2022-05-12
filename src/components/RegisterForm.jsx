@@ -1,28 +1,33 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Form, Input, Button, Checkbox, Select, DatePicker, Alert  } from 'antd'
 import { UserOutlined, LockOutlined, MailOutlined, EnvironmentOutlined, KeyOutlined, SolutionOutlined } from '@ant-design/icons'
 import '../styles/RegisterForm.scss'
+import { GlobalContext } from '../app/GlobalState'
 
 const { Option } = Select;
 const { Item } = Form;
 const { Password } = Input;
 
 const RegisterForm = () => {
-    const [form] = Form.useForm();
-    const [message, setMessage] = useState('');
-    const [error, setError] = useState('');
+    const [form] = Form.useForm()
+    const [formMessage, setFormMessage] = useState('')
+    const [formError, setFormError] = useState('')
+    const { registerUser, error, message } = useContext(GlobalContext)
 
-    const onFinish = (values) => {
+    const onFinish = async (values) => {
         console.log('Success:', values);
-        setError('');
-        setMessage('Registeration data accepted !!');
-    };
+        setFormError('')
+        setFormMessage('Registeration data accepted !!')
+
+        // Register User
+        registerUser(values)
+    }
 
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
-        setMessage('');
-        setError('Registeration data rejected, check fields for errors !!');
-    };
+        setFormMessage('');
+        setFormError('Registeration data rejected, check fields for errors !!');
+    }
 
     const validateMessages = {
         required: '${label} is required!',
@@ -30,7 +35,7 @@ const RegisterForm = () => {
             email: 'This is not a valid email!',
             number: 'This is not a valid number!',
         }
-    };
+    }
 
     const confirmPasswords = () => ({
         validator(_, value) {
@@ -40,19 +45,27 @@ const RegisterForm = () => {
 
             return Promise.reject(new Error('The two passwords that you entered do not match!'));
         }
-    });
+    })
 
     const onReset = () => {
         form.resetFields();
-    };
+    }
 
     return (
         <div className="form-group">
             <div className="form-alert">
-                { message !== '' && (
+                { formMessage !== '' && (
+                    <Alert message={formMessage} type="success" showIcon closable />
+                )}
+                { formError !== '' && (
+                    <Alert message={formError} type="error" showIcon closable />
+                )}
+            </div>
+            <div className="form-alert">
+                { message !== null && (
                     <Alert message={message} type="success" showIcon closable />
                 )}
-                { error !== '' && (
+                { error !== null && (
                     <Alert message={error} type="error" showIcon closable />
                 )}
             </div>

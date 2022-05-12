@@ -1,26 +1,28 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Form, Input, Button, Alert } from 'antd'
 import { UserOutlined, MailOutlined, SolutionOutlined } from '@ant-design/icons'
 import '../styles/ContactForm.scss'
+import { GlobalContext } from '../app/GlobalState'
 
-const { Item } = Form;
-const { TextArea } = Input;
+const { Item } = Form
+const { TextArea } = Input
 
 const ContactForm = () => {
-    const [form] = Form.useForm();
-    const [message, setMessage] = useState('');
-    const [error, setError] = useState('');
+    const { error, message } = useContext(GlobalContext)
+    const [form] = Form.useForm()
+    const [formMessage, setFormMessage] = useState('')
+    const [formError, setFormError] = useState('')
 
     const onFinish = (values) => {
-        console.log('Received values of form: ', values);
-        setError('');
-        setMessage('Message data accepted !!');
-    };
+        console.log('Received values of form: ', values)
+        setFormError('')
+        setFormMessage('Message data accepted !!')
+    }
 
     const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
-        setMessage('');
-        setError('Message data rejected, check fields for errors !!');
+        console.log('Failed:', errorInfo)
+        setFormMessage('')
+        setFormError('Message data rejected, check fields for errors !!')
     };
 
     const validateMessages = {
@@ -28,10 +30,18 @@ const ContactForm = () => {
         types: {
             email: 'This is not a valid email!'
         }
-    };
+    }
 
     return (
         <div className="form-group">
+            <div className="form-alert">
+                { formMessage !== '' && (
+                    <Alert message={formMessage} type="success" showIcon closable />
+                )}
+                { formError !== '' && (
+                    <Alert message={formError} type="error" showIcon closable />
+                )}
+            </div>
             <div className="form-alert">
                 { message !== '' && (
                     <Alert message={message} type="success" showIcon closable />

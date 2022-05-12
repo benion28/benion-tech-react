@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Form, Input, Button, Checkbox, Select, DatePicker, Alert  } from 'antd'
 import { UserOutlined, MailOutlined, EnvironmentOutlined, KeyOutlined, SolutionOutlined } from '@ant-design/icons'
+import { GlobalContext } from '../app/GlobalState'
 import '../styles/AddUserForm.scss'
 
 const { Option } = Select;
@@ -8,17 +9,25 @@ const { Item } = Form;
 const { Password } = Input;
 
 const AddUserForm = () => {
-    const [form] = Form.useForm();
-    const [message, setMessage] = useState('');
-    const [error, setError] = useState('');
+    const { getUsers, addUser, error, message } = useContext(GlobalContext)
+    const [form] = Form.useForm()
+    const [formMessage, setFormMessage] = useState('')
+    const [formError, setFormError] = useState('')
 
     const onFinish = (values) => {
         console.log('Success:', values);
-    };
+        setFormError('')
+        setFormMessage('User data accepted !!')
+
+        // Add User
+        addUser(values)
+    }
 
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
-    };
+        setFormMessage('');
+        setFormError('User data rejected, check fields for errors !!');
+    }
 
     const validateMessages = {
         required: '${label} is required!',
@@ -26,19 +35,27 @@ const AddUserForm = () => {
             email: 'This is not a valid email!',
             number: 'This is not a valid number!',
         }
-    };
+    }
 
     const onReset = () => {
         form.resetFields();
-    };
+    }
 
     return (
         <div className="form-group">
             <div className="form-alert">
-                { message !== '' && (
+                { formMessage !== '' && (
+                    <Alert message={formMessage} type="success" showIcon closable />
+                )}
+                { formError !== '' && (
+                    <Alert message={formError} type="error" showIcon closable />
+                )}
+            </div>
+            <div className="form-alert">
+                { message !== null && (
                     <Alert message={message} type="success" showIcon closable />
                 )}
-                { error !== '' && (
+                { error !== null && (
                     <Alert message={error} type="error" showIcon closable />
                 )}
             </div>
@@ -96,6 +113,11 @@ const AddUserForm = () => {
                     <Item>
                         <Button className="submit-button" type="primary" htmlType="submit">
                             Submit
+                        </Button>
+                    </Item>
+                    <Item>
+                        <Button className="submit-button" type="primary" onClick={ getUsers }>
+                            Get Users
                         </Button>
                     </Item>
                     <Item>
