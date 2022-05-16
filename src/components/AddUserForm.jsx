@@ -9,13 +9,13 @@ const { Item } = Form;
 const { Password } = Input;
 
 const AddUserForm = () => {
-    const { getUsers, addUser, error, message } = useContext(GlobalContext)
+    const { getUsers, addUser } = useContext(GlobalContext)
     const [form] = Form.useForm()
     const [formMessage, setFormMessage] = useState('')
     const [formError, setFormError] = useState('')
 
     const onFinish = (values) => {
-        console.log('Success:', values);
+        console.log('Success:', values)
         setFormError('')
         setFormMessage('User data accepted !!')
 
@@ -24,9 +24,9 @@ const AddUserForm = () => {
     }
 
     const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
-        setFormMessage('');
-        setFormError('User data rejected, check fields for errors !!');
+        console.log('Failed:', errorInfo)
+        setFormMessage('')
+        setFormError('User data rejected, check fields for errors !!')
     }
 
     const validateMessages = {
@@ -38,7 +38,7 @@ const AddUserForm = () => {
     }
 
     const onReset = () => {
-        form.resetFields();
+        form.resetFields()
     }
 
     return (
@@ -49,14 +49,6 @@ const AddUserForm = () => {
                 )}
                 { formError !== '' && (
                     <Alert message={formError} type="error" showIcon closable />
-                )}
-            </div>
-            <div className="form-alert">
-                { message !== null && (
-                    <Alert message={message} type="success" showIcon closable />
-                )}
-                { error !== null && (
-                    <Alert message={error} type="error" showIcon closable />
                 )}
             </div>
             <Form name="basic" form={ form } validateMessages={ validateMessages } initialValues={{ remember: true }} onFinish={ onFinish } onFinishFailed={ onFinishFailed } autoComplete="off">
@@ -113,11 +105,6 @@ const AddUserForm = () => {
                     <Item>
                         <Button className="submit-button" type="primary" htmlType="submit">
                             Submit
-                        </Button>
-                    </Item>
-                    <Item>
-                        <Button className="submit-button" type="primary" onClick={ getUsers }>
-                            Get Users
                         </Button>
                     </Item>
                     <Item>

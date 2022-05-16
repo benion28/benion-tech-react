@@ -1,6 +1,6 @@
 import React, { createContext, useReducer } from 'react'
 import axios from 'axios'
-import reducer from './reducer'
+import AppReducer from './AppReducer'
 import { initialState, host } from '../services/userHelper'
 import * as ACTIONS from '../services/actions'
 
@@ -9,8 +9,8 @@ export const GlobalContext = createContext(initialState)
 
 // Store Component
 export const GlobalStore = ({ children }) => {
-    const [ state, dispatch ] = useReducer(reducer, initialState)
-    const token = state.user.token
+    const [ state, dispatch ] = useReducer(AppReducer, initialState)
+    const token = state.user.token || ''
     const { Provider } = GlobalContext
 
     const config = {
@@ -33,13 +33,24 @@ export const GlobalStore = ({ children }) => {
             method: 'get',
             baseURL: host
         }).then(response => {
-            console.log(response)
             dispatch({
                 type: ACTIONS.getUsers,
                 payload: response.data.data.allUsers
             })
+            dispatch({
+                type: ACTIONS.usersError,
+                payload: null
+            })
+            dispatch({
+                type: ACTIONS.usersMessage,
+                payload: response.data.message
+            })
         }).catch(error => {
             console.log(error)
+            dispatch({
+                type: ACTIONS.usersMessage,
+                payload: null
+            })
             dispatch({
                 type: ACTIONS.usersError,
                 payload: error.response.data.error
@@ -56,17 +67,32 @@ export const GlobalStore = ({ children }) => {
             headers: config.headers,
             data: user
         }).then(response => {
-            console.log(response)
             dispatch({
                 type: ACTIONS.userLogIn,
                 payload: response.data.data
             })
             dispatch({
+                type: ACTIONS.usersError,
+                payload: null
+            })
+            dispatch({
                 type: ACTIONS.usersMessage,
                 payload: response.data.message
             })
+            if (response.data.data.role === "admin") {
+                getUsers()
+            } else {
+                dispatch({
+                    type: ACTIONS.getUsers,
+                    payload: []
+                })
+            }
         }).catch(error => {
             console.log(error)
+            dispatch({
+                type: ACTIONS.usersMessage,
+                payload: null
+            })
             dispatch({
                 type: ACTIONS.usersError,
                 payload: error.response.data.error
@@ -88,11 +114,19 @@ export const GlobalStore = ({ children }) => {
                 payload: id
             })
             dispatch({
+                type: ACTIONS.usersError,
+                payload: null
+            })
+            dispatch({
                 type: ACTIONS.usersMessage,
                 payload: response.data.message
             })
         }).catch(error => {
             console.log(error)
+            dispatch({
+                type: ACTIONS.usersMessage,
+                payload: null
+            })
             dispatch({
                 type: ACTIONS.usersError,
                 payload: error.response.data.error
@@ -114,11 +148,19 @@ export const GlobalStore = ({ children }) => {
                 payload: []
             })
             dispatch({
+                type: ACTIONS.usersError,
+                payload: null
+            })
+            dispatch({
                 type: ACTIONS.usersMessage,
                 payload: response.data.message
             })
         }).catch(error => {
             console.log(error)
+            dispatch({
+                type: ACTIONS.usersMessage,
+                payload: null
+            })
             dispatch({
                 type: ACTIONS.usersError,
                 payload: error.response.data.error
@@ -137,11 +179,111 @@ export const GlobalStore = ({ children }) => {
         }).then(response => {
             console.log(response)
             dispatch({
+                type: ACTIONS.usersError,
+                payload: null
+            })
+            dispatch({
                 type: ACTIONS.usersMessage,
                 payload: response.data.message
             })
         }).catch(error => {
             console.log(error)
+            dispatch({
+                type: ACTIONS.usersMessage,
+                payload: null
+            })
+            dispatch({
+                type: ACTIONS.usersError,
+                payload: error.response.data.error
+            })
+        })
+    }
+
+    // User Forget
+    const userForget = (user) => {
+        axios({
+            url: '/benion-users/api/forget-password',
+            method: 'put',
+            baseURL: host,
+            headers: config.headers,
+            data: user
+        }).then(response => {
+            console.log(response)
+            dispatch({
+                type: ACTIONS.usersError,
+                payload: null
+            })
+            dispatch({
+                type: ACTIONS.usersMessage,
+                payload: response.data.message
+            })
+        }).catch(error => {
+            console.log(error)
+            dispatch({
+                type: ACTIONS.usersMessage,
+                payload: null
+            })
+            dispatch({
+                type: ACTIONS.usersError,
+                payload: error.response.data.error
+            })
+        })
+    }
+    // User Logout
+    const userLogout = () => {
+        axios({
+            url: '/benion-users/api/logout',
+            method: 'get',
+            baseURL: host
+        }).then(response => {
+            dispatch({
+                type: ACTIONS.userLogOut
+            })
+            dispatch({
+                type: ACTIONS.usersError,
+                payload: null
+            })
+            dispatch({
+                type: ACTIONS.usersMessage,
+                payload: response.data.message
+            })
+        }).catch(error => {
+            console.log(error)
+            dispatch({
+                type: ACTIONS.usersMessage,
+                payload: null
+            })
+            dispatch({
+                type: ACTIONS.usersError,
+                payload: error.response.data.error
+            })
+        })
+    }
+
+    // User Contact Us
+    const userContact = (user) => {
+        axios({
+            url: '/benion-users/api/contact-us',
+            method: 'post',
+            baseURL: host,
+            headers: config.headers,
+            data: user
+        }).then(response => {
+            console.log(response)
+            dispatch({
+                type: ACTIONS.usersError,
+                payload: null
+            })
+            dispatch({
+                type: ACTIONS.usersMessage,
+                payload: response.data.message
+            })
+        }).catch(error => {
+            console.log(error)
+            dispatch({
+                type: ACTIONS.usersMessage,
+                payload: null
+            })
             dispatch({
                 type: ACTIONS.usersError,
                 payload: error.response.data.error
@@ -168,11 +310,19 @@ export const GlobalStore = ({ children }) => {
                 }
             })
             dispatch({
+                type: ACTIONS.usersError,
+                payload: null
+            })
+            dispatch({
                 type: ACTIONS.usersMessage,
                 payload: response.data.message
             })
         }).catch(error => {
             console.log(error)
+            dispatch({
+                type: ACTIONS.usersMessage,
+                payload: null
+            })
             dispatch({
                 type: ACTIONS.usersError,
                 payload: error.response.data.error
@@ -195,16 +345,29 @@ export const GlobalStore = ({ children }) => {
                 payload: response.data.data
             })
             dispatch({
+                type: ACTIONS.usersError,
+                payload: null
+            })
+            dispatch({
                 type: ACTIONS.usersMessage,
                 payload: response.data.message
             })
         }).catch(error => {
             console.log(error)
             dispatch({
+                type: ACTIONS.usersMessage,
+                payload: null
+            })
+            dispatch({
                 type: ACTIONS.usersError,
                 payload: error.response.data.error
             })
         })
+    }
+    
+    // Add Student
+    const addStudent = (student) => {
+        console.log(student)
     }
 
     return (
@@ -215,14 +378,20 @@ export const GlobalStore = ({ children }) => {
             user: state.user,
             loading: state.loading,
             error: state.error,
-            message: state.error,
+            message: state.message,
+            loggedIn: state.loggedIn,
+            state,
             deleteUser,
             deleteAllUsers,
             registerUser,
             getUsers,
             userLogin,
+            userLogout,
             updateUser,
-            addUser
+            addUser,
+            userForget,
+            userContact,
+            addStudent
         }}>
             { children }
         </Provider>

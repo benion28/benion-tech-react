@@ -1,0 +1,32 @@
+.form-group {
+  max-width: 500px;
+
+  .form-alert {
+      margin-bottom: 5%;
+  }
+}
+
+.form-controller {
+    display: flex;
+
+    .form-item {
+        width: 100%;
+        display: flex;
+    }
+}
+
+.button-controller {
+    width: 100%;
+    display: flex;
+
+    .submit-button {
+        width: 100%;
+        margin-right: 10%;
+    }
+
+    .reset-button {
+        width: 100%;
+        margin-left: 10%;
+    }
+}
+

@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import { RegisterForm, LogInForm, AnimateText, ForgetForm } from '../components'
+import { LogInForm, AnimateText } from '../components'
 import { Tabs, Typography, Row, Col, Image, Button  } from 'antd'
 import Loader from 'react-loaders'
 import { Link } from 'react-router-dom'
 import benionTechIcon from '../images/benion-tech-icon.png'
-import '../styles/Homepage.scss'
+import '../styles/LogIn.scss'
 
 const { TabPane } = Tabs;
 const { Title } = Typography;
 
-const Homepage = () => {
+const LogIn = () => {
     const [ letterClass, setLetterClass ] = useState('text-animate');
     const nameArray = ['B', 'e', 'r', 'n', 'a', 'r', 'd', ' ', 'I', 'o', 'r', 'v', 'e', 'r', ' ', '(', 'B', 'e', 'n', 'i', 'o', 'n', ')'];
     const techArray = ['B', 'e', 'n', 'i', 'o', 'n', '-', 'T', 'e', 'c', 'h'];
@@ -27,18 +27,14 @@ const Homepage = () => {
 
     return (
         <React.Fragment>
+            <Title level={2} className="heading">Electronic-Testing Center</Title>
             <Row className="home-container">
                 <Col className="home-items">
-                    {/* <Title className="text-title" level={2}><b>Hello</b>,</Title> */}
                     <Title className="text-title" level={2}><AnimateText letterClass={letterClass} stringArray={greeting1} index={7} /></Title>
-                    {/* <Title className="text-title" level={2}>Welcome to</Title> */}
                     <Title className="text-title" level={2}><AnimateText letterClass={letterClass} stringArray={greeting2} index={10} /></Title>
                     <Image className="image-title"src={benionTechIcon} />
-                    {/* <Title className="text-title" level={2}>Benion-Tech</Title> */}
                     <Title className="text-title" level={2}><AnimateText letterClass={letterClass} stringArray={techArray} index={15} /></Title>
-                    {/* <Title className="text-title" level={3}><b>Bernard Iorver</b> (Benion)</Title> */}
                     <Title className="text-title" level={3}><AnimateText letterClass={letterClass} stringArray={nameArray} index={25} /></Title>
-                    {/* <Title className="text-title-4" level={4}>Web Designer / Software Developer / Data Scientist</Title> */}
                     <Title className="text-title-4" level={4}><AnimateText letterClass={letterClass} stringArray={jobArray1} index={30} /> / <AnimateText letterClass={letterClass} stringArray={jobArray2} index={22} /> / <AnimateText letterClass={letterClass} stringArray={jobArray3} index={22} /></Title>
                     <Button className="text-contact-button" type="primary">
                         <Link to="/contact">CONTACT ME</Link>
@@ -46,14 +42,8 @@ const Homepage = () => {
                 </Col>
                 <Col className="form-tabs">
                     <Tabs defaultActiveKey="1" className="tabs-form" type="card">
-                        <TabPane className="tabs-panel" tab={ <span> <Title level={4}>Sign In</Title> </span> } key="1">
+                        <TabPane className="tabs-panel" tab={ <span> <Title level={4}>Log In</Title> </span> } key="1">
                             <LogInForm />
-                        </TabPane>
-                        <TabPane className="tabs-panel" tab={ <span> <Title level={4}>Sign Up</Title> </span> } key="2">
-                            <RegisterForm />
-                        </TabPane>
-                        <TabPane className="tabs-panel" tab={ <span> <Title level={4}>Forget Password</Title> </span> } key="3">
-                            <ForgetForm />
                         </TabPane>
                     </Tabs>
                 </Col>
@@ -63,5 +53,4 @@ const Homepage = () => {
     )
 }
 
-export default Homepage
-
+export default LogIn

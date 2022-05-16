@@ -1,18 +1,17 @@
 import * as ACTIONS from '../services/actions'
-import { initialState } from '../services/userHelper'
 
-const userReducer = (state = initialState, action) => {
+const AppReducer = (state, action) => {
     switch(action.type) {
         case ACTIONS.getUsers:
             return {
                 ...state,
-                users: action.payload.users,
+                users: action.payload,
                 loading: false
             }
         case ACTIONS.getUser:
             return {
                 ...state,
-                user: action.payload.user,
+                user: action.payload,
                 loading: false
             }
         case ACTIONS.usersError:
@@ -46,7 +45,15 @@ const userReducer = (state = initialState, action) => {
         case ACTIONS.userLogIn:
             return {
                 ...state,
-                user: action.payload
+                user: action.payload,
+                loggedIn: true
+            }
+        case ACTIONS.userLogOut:
+            return {
+                ...state,
+                users: [],
+                user: {},
+                loggedIn: false
             }
         case ACTIONS.updateUser:
             return {
@@ -61,4 +68,4 @@ const userReducer = (state = initialState, action) => {
     }
 }
 
-export default userReducer
+export default AppReducer

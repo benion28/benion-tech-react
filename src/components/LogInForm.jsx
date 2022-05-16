@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react'
+import { Link } from 'react-router-dom'
 import { Form, Input, Button, Checkbox, Alert } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import '../styles/LogInForm.scss'
@@ -11,7 +12,7 @@ const LogInForm = () => {
     const [form] = Form.useForm();
     const [formMessage, setFormMessage] = useState('')
     const [formError, setFormError] = useState('')
-    const { userLogin, message, error  } = useContext(GlobalContext)
+    const { userLogin, state  } = useContext(GlobalContext)
 
     const onFinish = async (values) => {
         console.log('Received values of form: ', values)
@@ -20,17 +21,20 @@ const LogInForm = () => {
 
         // Log In
         userLogin(values)
+        form.resetFields()
     }
 
     const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
-        setFormMessage('');
-        setFormError('Log In data rejected, check fields for errors !!');
-    };
+        console.log('Failed:', errorInfo)
+        setFormMessage('')
+        setFormError('Log In data rejected, check fields for errors !!')
+    }
 
     const validateMessages = {
         required: '${label} is required!'
-    };
+    }
+
+    console.log('Current State: ', state)
 
     return (
         <div className="form-group">
@@ -38,16 +42,8 @@ const LogInForm = () => {
                 { formMessage !== '' && (
                     <Alert message={formMessage} type="success" showIcon closable />
                 )}
-                { formMessage !== '' && (
+                { formError !== '' && (
                     <Alert message={formError} type="error" showIcon closable />
-                )}
-            </div>
-            <div className="form-alert">
-                { message !== null && (
-                    <Alert message={message} type="success" showIcon closable />
-                )}
-                { error !== null && (
-                    <Alert message={error} type="error" showIcon closable />
                 )}
             </div>
             <Form name="normal_login" form={ form } className="login-form" onFinishFailed={ onFinishFailed } validateMessages={ validateMessages } initialValues={{ remember: true }} onFinish={ onFinish }>
@@ -62,9 +58,10 @@ const LogInForm = () => {
                     <Item name="remember" valuePropName="checked" noStyle>
                         <Checkbox>Remember Me</Checkbox>
                     </Item>
-                    <a className="login-form-forgot" href="/contact">
-                        Contact Us
-                    </a>
+                    <Link className="login-form-forgot" to="/forget-password">Forgot Password</Link>
+                </Item>
+                <Item>
+                    Don't have an account? <Link to='/register'> Create Account</Link>
                 </Item>
                 <Item>
                     <Button type="primary" htmlType="submit" className="login-form-button">

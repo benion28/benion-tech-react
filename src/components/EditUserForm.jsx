@@ -1,33 +1,45 @@
 import React, { useState, useContext } from 'react'
-import { Form, Input, Button, Checkbox, Select, DatePicker, Alert  } from 'antd'
-import { UserOutlined, MailOutlined, EnvironmentOutlined, KeyOutlined, SolutionOutlined } from '@ant-design/icons'
+import { Form, Input, Button, Checkbox, Select, Alert  } from 'antd'
+import { UserOutlined, MailOutlined, EnvironmentOutlined, KeyOutlined, SolutionOutlined, MoneyCollectOutlined, CalendarOutlined } from '@ant-design/icons'
 import { GlobalContext } from '../app/GlobalState'
-import '../styles/RegisterForm.scss'
+import '../styles/EditUserForm.scss'
 
 const { Option } = Select;
 const { Item } = Form;
-const { Password } = Input;
 
-const AddStudentForm = () => {
-    const { addStudent } = useContext(GlobalContext)
+const EditUserForm = ({ user }) => {
+    const { updateUser } = useContext(GlobalContext)
     const [form] = Form.useForm()
     const [formMessage, setFormMessage] = useState('')
     const [formError, setFormError] = useState('')
 
-    const onFinish = (values) => {
-        console.log('Success:', values);
-        setFormError('');
-        setFormMessage('Registeration data accepted !!')
+    form.setFieldsValue({
+        _id: user._id,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        email: user.email,
+        username: user.username,
+        amountBalance: user.amountBalance,
+        gender: user.gender,
+        role: user.role,
+        birthday: user.birthday,
+        town: user.town
+    })
 
-        // Add Student
-        addStudent(values)
-    };
+    const onFinish = (values) => {
+        console.log('Success:', values)
+        setFormError('')
+        setFormMessage('User data accepted !!')
+
+        // Add User
+        updateUser(values)
+    }
 
     const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
-        setFormMessage('');
-        setFormError('Registeration data rejected, check fields for errors !!')
-    };
+        console.log('Failed:', errorInfo)
+        setFormMessage('')
+        setFormError('User data rejected, check fields for errors !!')
+    }
 
     const validateMessages = {
         required: '${label} is required!',
@@ -35,11 +47,11 @@ const AddStudentForm = () => {
             email: 'This is not a valid email!',
             number: 'This is not a valid number!',
         }
-    };
+    }
 
     const onReset = () => {
-        form.resetFields();
-    };
+        form.resetFields()
+    }
 
     return (
         <div className="form-group">
@@ -53,7 +65,12 @@ const AddStudentForm = () => {
             </div>
             <Form name="basic" form={ form } validateMessages={ validateMessages } initialValues={{ remember: true }} onFinish={ onFinish } onFinishFailed={ onFinishFailed } autoComplete="off">
                 <div className="form-controller">
-                    <Item className='form-item' label="First Name" name="firstname" rules={[ { required: true } ]}>
+                    <Item hidden className='form-item' name="_id" rules={[ { required: true } ]}>
+                        <Input hidden prefix={<KeyOutlined />} placeholder="Key" allowClear />
+                    </Item>
+                </div>
+                <div className="form-controller">
+                    <Item hidden className='form-item' label="First Name" name="firstname" rules={[ { required: true } ]}>
                         <Input prefix={<SolutionOutlined />} placeholder="First Name" allowClear />
                     </Item>
                     <Item className='form-item' label="Last Name" name="lastname" rules={[ { required: true } ]}>
@@ -69,8 +86,8 @@ const AddStudentForm = () => {
                     <Item className='form-item' label="Username" name="username" rules={[ { required: true } ]}>
                         <Input prefix={<UserOutlined />}  placeholder="Username" allowClear />
                     </Item>
-                    <Item className='form-item' label="Password" name="password" hasFeedback rules={[ { required: true, min: 8, max: 12 } ]}>
-                        <Password prefix={<KeyOutlined />} placeholder="Password" allowClear />
+                    <Item className='form-item' label="Amount" name="amountBalance" rules={[ { type:'number', required: true } ]}>
+                        <Input type='number' prefix={<MoneyCollectOutlined />} placeholder="Amount Balance" allowClear />
                     </Item>
                 </div>
                 <div className="form-controller">
@@ -89,8 +106,8 @@ const AddStudentForm = () => {
                     </Item>
                 </div>
                 <div className="form-controller">
-                    <Item className='form-item' name="birthday" label="Birthday" rules={[ { required: true } ]}>
-                        <DatePicker placeholder="Birthday" allowClear />
+                    <Item className='form-item' label="Birthday" name="birthday" rules={[ { required: true } ]}>
+                        <Input prefix={<CalendarOutlined />} placeholder="Birthday" allowClear />
                     </Item>
                     <Item className='form-item' label="Town" name="town" rules={[ { required: true } ]}>
                         <Input prefix={<EnvironmentOutlined />} placeholder="Town of Residence" allowClear />
@@ -98,13 +115,13 @@ const AddStudentForm = () => {
                 </div>
                 <div className="form-controller">
                     <Item label="Agree" name="agree" valuePropName="checked" rules={[ { required: true } ]}>
-                        <Checkbox>I intentionally wish to add a student</Checkbox>
+                        <Checkbox>I intentionally wish to update this user</Checkbox>
                     </Item>
                 </div>
                 <div className="button-controller">
                     <Item>
                         <Button className="submit-button" type="primary" htmlType="submit">
-                            Submit
+                            Update
                         </Button>
                     </Item>
                     <Item>
@@ -118,4 +135,5 @@ const AddStudentForm = () => {
     )
 }
 
-export default AddStudentForm
+export default EditUserForm
+

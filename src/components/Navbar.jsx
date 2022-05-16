@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Menu, Button, Typography, Avatar } from 'antd'
 import { Link } from 'react-router-dom'
 import {
@@ -9,9 +9,7 @@ import {
     FundOutlined,
     DesktopOutlined,
     ReadOutlined,
-    UserAddOutlined,
     UsergroupAddOutlined,
-    GroupOutlined,
     DollarOutlined,
     DatabaseOutlined,
     PlusOutlined,
@@ -20,6 +18,7 @@ import {
     HomeFilled
 } from '@ant-design/icons'
 import benionPassport from '../images/benion-passport.jpg'
+import { GlobalContext } from '../app/GlobalState'
 
 const { Title  } = Typography;
 const { Item  } = Menu;
@@ -27,6 +26,7 @@ const { Item  } = Menu;
 const Navbar = () => {
     const [activeMenu, setActiveMenu] = useState(true);
     const [screensize, setScreensize] = useState(null);
+    const { loggedIn } = useContext(GlobalContext)
 
     useEffect(() => {
         const handleResize = () => setScreensize(window.innerWidth);
@@ -57,12 +57,16 @@ const Navbar = () => {
             </div>
             {activeMenu && (
                 <Menu theme="dark">
-                    <Item icon={<HomeOutlined />}>
-                        <Link to="/"><b>Home</b></Link>
-                    </Item>
-                    <Item icon={<HomeFilled />}>
-                        <Link to="/benion-users/dashboard"><b>Dashboard</b></Link>
-                    </Item>
+                    {!loggedIn && (
+                        <Item icon={<HomeOutlined />}>
+                            <Link to="/"><b>Home</b></Link>
+                        </Item>
+                    )}
+                    {loggedIn && (
+                        <Item icon={<HomeFilled />}>
+                            <Link to="/benion-users/dashboard"><b>Dashboard</b></Link>
+                        </Item>
+                    )}
                     <Item icon={<FundOutlined />}>
                         <Link to="/works"><b>Works</b></Link>
                     </Item>
@@ -75,17 +79,11 @@ const Navbar = () => {
                     <Item icon={<MoneyCollectOutlined />}>
                         <Link to="/benion-donate"><b>Donate</b></Link>
                     </Item>
-                    <Item icon={<GroupOutlined />}>
-                        <Link to="/benion-users/all-users"><b>All Users</b></Link>
-                    </Item>
                     <Item icon={<ReadOutlined />}>
                         <Link to="/benion-users/all-users"><b>All Questions</b></Link>
                     </Item>
                     <Item icon={<DatabaseOutlined />}>
                         <Link to="/benion-users/all-news"><b>All News</b></Link>
-                    </Item>
-                    <Item icon={<UserAddOutlined />}>
-                        <Link to="/benion-users/add-user"><b>Add User</b></Link>
                     </Item>
                     <Item icon={<UsergroupAddOutlined />}>
                         <Link to="/benion-cbt/add-student"><b>Add Student</b></Link>

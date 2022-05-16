@@ -8,7 +8,7 @@ const { Item } = Form
 const { TextArea } = Input
 
 const ContactForm = () => {
-    const { error, message } = useContext(GlobalContext)
+    const { userContact } = useContext(GlobalContext)
     const [form] = Form.useForm()
     const [formMessage, setFormMessage] = useState('')
     const [formError, setFormError] = useState('')
@@ -17,6 +17,10 @@ const ContactForm = () => {
         console.log('Received values of form: ', values)
         setFormError('')
         setFormMessage('Message data accepted !!')
+
+        // User Contact
+        userContact(values)
+        form.resetFields()
     }
 
     const onFinishFailed = (errorInfo) => {
@@ -40,14 +44,6 @@ const ContactForm = () => {
                 )}
                 { formError !== '' && (
                     <Alert message={formError} type="error" showIcon closable />
-                )}
-            </div>
-            <div className="form-alert">
-                { message !== '' && (
-                    <Alert message={message} type="success" showIcon closable />
-                )}
-                { error !== '' && (
-                    <Alert message={error} type="error" showIcon closable />
                 )}
             </div>
             <Form name="normal_login" form={ form } className="contact-form" onFinishFailed={ onFinishFailed } validateMessages={ validateMessages } initialValues={{ remember: true }} onFinish={ onFinish }>

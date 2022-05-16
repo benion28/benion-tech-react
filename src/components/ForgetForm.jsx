@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react'
 import { Form, Input, Button, Alert } from 'antd'
+import { Link } from 'react-router-dom'
 import { MailOutlined, SolutionOutlined } from '@ant-design/icons'
 import '../styles/ForgetForm.scss'
 import { GlobalContext } from '../app/GlobalState'
@@ -7,7 +8,7 @@ import { GlobalContext } from '../app/GlobalState'
 const { Item } = Form;
 
 const ForgetForm = () => {
-    const { error, message } = useContext(GlobalContext)
+    const { userForget } = useContext(GlobalContext)
     const [form] = Form.useForm();
     const [formMessage, setFormMessage] = useState('')
     const [formError, setFormError] = useState('')
@@ -16,6 +17,10 @@ const ForgetForm = () => {
         console.log('Received values of form: ', values);
         setFormError('');
         setFormMessage('Reset data accepted !!');
+
+        // User Forget
+        userForget(values)
+        form.resetFields()
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -51,20 +56,15 @@ const ForgetForm = () => {
                     <Alert message={formError} type="error" showIcon closable />
                 )}
             </div>
-            <div className="form-alert">
-                { message !== null && (
-                    <Alert message={message} type="success" showIcon closable />
-                )}
-                { error !== null && (
-                    <Alert message={error} type="error" showIcon closable />
-                )}
-            </div>
             <Form name="normal_login" form={ form } className="forget-form" onFinishFailed={ onFinishFailed } validateMessages={ validateMessages } initialValues={{ remember: true }} onFinish={ onFinish }>
                 <Item className='form-item' label="Email" name="email" rules={[ { type:'email', required: true } ]}>
                     <Input prefix={<MailOutlined className="site-form-item-icon" />} placeholder="Your Email Address" allowClear />
                 </Item>
                 <Item className='form-item' label="Confirm" name="email2" dependencies={['email']} hasFeedback rules={[ { required: true }, confirmEmails ]}>
                     <Input prefix={<SolutionOutlined className="site-form-item-icon" />} placeholder="Retype Your Email Address" allowClear />
+                </Item>
+                <Item>
+                    You can now <Link to='/login'> Log In</Link> Or <Link to='/register'> Create An Account</Link>
                 </Item>
                 <Item>
                     <Button type="danger" htmlType="submit" className="forget-form-button">

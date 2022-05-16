@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react'
 import { Form, Input, Button, Checkbox, Select, DatePicker, Alert  } from 'antd'
+import { Link } from 'react-router-dom'
 import { UserOutlined, LockOutlined, MailOutlined, EnvironmentOutlined, KeyOutlined, SolutionOutlined } from '@ant-design/icons'
 import '../styles/RegisterForm.scss'
 import { GlobalContext } from '../app/GlobalState'
@@ -12,7 +13,7 @@ const RegisterForm = () => {
     const [form] = Form.useForm()
     const [formMessage, setFormMessage] = useState('')
     const [formError, setFormError] = useState('')
-    const { registerUser, error, message } = useContext(GlobalContext)
+    const { registerUser } = useContext(GlobalContext)
 
     const onFinish = async (values) => {
         console.log('Success:', values);
@@ -21,6 +22,7 @@ const RegisterForm = () => {
 
         // Register User
         registerUser(values)
+        form.resetFields()
     }
 
     const onFinishFailed = (errorInfo) => {
@@ -59,14 +61,6 @@ const RegisterForm = () => {
                 )}
                 { formError !== '' && (
                     <Alert message={formError} type="error" showIcon closable />
-                )}
-            </div>
-            <div className="form-alert">
-                { message !== null && (
-                    <Alert message={message} type="success" showIcon closable />
-                )}
-                { error !== null && (
-                    <Alert message={error} type="error" showIcon closable />
                 )}
             </div>
             <Form name="basic" form={ form } validateMessages={ validateMessages } initialValues={{ remember: true }} onFinish={ onFinish } onFinishFailed={ onFinishFailed } autoComplete="off">
@@ -114,6 +108,11 @@ const RegisterForm = () => {
                 <div className="form-controller">
                     <Item label="Agree" name="agree" valuePropName="checked" rules={[ { required: true } ]}>
                         <Checkbox>I have read and accepted the terms and conditions</Checkbox>
+                    </Item>
+                </div>
+                <div className="form-controller">
+                    <Item>
+                        Already had an account? <Link to='/login'> Log In</Link>
                     </Item>
                 </div>
                 <div className="button-controller">

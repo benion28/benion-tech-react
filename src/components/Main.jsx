@@ -1,17 +1,16 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { Layout } from 'antd'
-import { Homepage, Works, About, Dashboard, Cbt, News, Donate, Contact, AddUser, AddStudent } from '../components'
-import { useGetUsersQuery } from '../services/usersApi'
+import { Homepage, Works, About, Dashboard, Cbt, News, Donate, Contact, Register, LogIn, ServerResponse, Forget } from '../components'
 
 const Main = () => {
-    // const { data, isFetching } = useGetUsersQuery();
-    // console.log(data);
-
     return (
         <div>
            <Layout>
                <div className="routes">
+                   <div className="form-alert">
+                       <ServerResponse />
+                   </div>
                    <Routes>
                        <Route exact path="/" element={<Homepage />} />
                        <Route exact path="/works" element={<Works />} />
@@ -21,8 +20,9 @@ const Main = () => {
                        <Route exact path="/benion-cbt" element={<Cbt />} />
                        <Route exact path="/benion-news" element={<News />} />
                        <Route exact path="/benion-donate" element={<Donate />} />
-                       <Route exact path="/benion-users/add-user" element={<AddUser />} />
-                       <Route exact path="/benion-cbt/add-student" element={<AddStudent />} />
+                       <Route exact path="/register" element={<Register />} />
+                       <Route exact path="/login" element={<LogIn />} />
+                       <Route exact path="/forget-password" element={<Forget />} />
                    </Routes>
                </div>
            </Layout>

@@ -25,3 +25,9 @@ yarn-error.log*
 # personal
 /old
 .env
+usersApi - Copy.js
+cbtReducer - Copy.js
+reducer - Copy.js
+store - Copy.js
+userReducer - Copy.js
+index - Copy.js
