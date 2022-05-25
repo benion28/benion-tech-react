@@ -28,7 +28,7 @@ const Footer = () => {
                     <Link to="/"><b>Home</b></Link>
                 )}
                 {loggedIn && (
-                    <Link to="/benion-users/dashboard"><b>Dashboard</b></Link>
+                    <Link to="/dashboard"><b>Dashboard</b></Link>
                 )}
                 <Link to="/works"><b>Works</b></Link>
                 <Link to="/contact"><b>Contact</b></Link>

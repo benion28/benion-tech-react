@@ -1,10 +1,12 @@
 import React, { useState, useContext } from 'react'
 import { Typography, Menu, Dropdown, Button, Tabs } from 'antd'
-import { DownOutlined, SmileOutlined, LogoutOutlined, TableOutlined, MoneyCollectOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom'
+import { DownOutlined, SmileOutlined, LogoutOutlined, TableOutlined, MoneyCollectOutlined, LoginOutlined } from '@ant-design/icons';
 import Loader from 'react-loaders'
 import { UsersTable } from '../components'
 import '../styles/Dashboard.scss'
 import { GlobalContext } from '../app/GlobalState'
+import { formatAmount } from '../services/userHelper';
 
 
 const { Title } = Typography;
@@ -28,9 +30,14 @@ const Dashboard = () => {
     const menuItems = [
         {
             label: (
-                <Title level={5}>
-                    <MoneyCollectOutlined /> <b>Account Balance: </b>$ { user.amountBalance !== null ? user.amountBalance : 0 }
-                </Title>
+                <div>
+                    <Title level={5}>
+                        <MoneyCollectOutlined /> <b>Account Balance: </b>
+                    </Title>
+                    <Title className="user-amount" level={2}>
+                        ${ user.amountBalance !== null ? formatAmount(user.amountBalance) : formatAmount(8828) }
+                    </Title>
+                </div>
             )
         },
         {
@@ -70,6 +77,16 @@ const Dashboard = () => {
                     <LogoutOutlined />
                     Log Out
                 </Button>
+            )
+        },
+        {
+            label: !loggedIn && (
+                <Link to="/login">
+                    <Button className="dropdown-menu-button">
+                        <LoginOutlined />
+                        Log In
+                    </Button>
+                </Link>
             )
         }
     ]

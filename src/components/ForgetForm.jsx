@@ -8,7 +8,7 @@ import { GlobalContext } from '../app/GlobalState'
 const { Item } = Form;
 
 const ForgetForm = () => {
-    const { userForget } = useContext(GlobalContext)
+    const { userForget, state } = useContext(GlobalContext)
     const [form] = Form.useForm();
     const [formMessage, setFormMessage] = useState('')
     const [formError, setFormError] = useState('')
@@ -56,22 +56,38 @@ const ForgetForm = () => {
                     <Alert message={formError} type="error" showIcon closable />
                 )}
             </div>
-            <Form name="normal_login" form={ form } className="forget-form" onFinishFailed={ onFinishFailed } validateMessages={ validateMessages } initialValues={{ remember: true }} onFinish={ onFinish }>
-                <Item className='form-item' label="Email" name="email" rules={[ { type:'email', required: true } ]}>
-                    <Input prefix={<MailOutlined className="site-form-item-icon" />} placeholder="Your Email Address" allowClear />
-                </Item>
-                <Item className='form-item' label="Confirm" name="email2" dependencies={['email']} hasFeedback rules={[ { required: true }, confirmEmails ]}>
-                    <Input prefix={<SolutionOutlined className="site-form-item-icon" />} placeholder="Retype Your Email Address" allowClear />
-                </Item>
-                <Item>
-                    You can now <Link to='/login'> Log In</Link> Or <Link to='/register'> Create An Account</Link>
-                </Item>
-                <Item>
-                    <Button type="danger" htmlType="submit" className="forget-form-button">
-                        Send Reset Link
-                    </Button>
-                </Item>
-            </Form>
+            { !state.loggedIn && (
+                <Form name="normal_login" form={ form } className="forget-form" onFinishFailed={ onFinishFailed } validateMessages={ validateMessages } initialValues={{ remember: true }} onFinish={ onFinish }>
+                    <Item className='form-item' label="Email" name="email" rules={[ { type:'email', required: true } ]}>
+                        <Input prefix={<MailOutlined className="site-form-item-icon" />} placeholder="Your Email Address" allowClear />
+                    </Item>
+                    <Item className='form-item' label="Confirm" name="email2" dependencies={['email']} hasFeedback rules={[ { required: true }, confirmEmails ]}>
+                        <Input prefix={<SolutionOutlined className="site-form-item-icon" />} placeholder="Retype Your Email Address" allowClear />
+                    </Item>
+                    <Item>
+                        You can now <Link to='/login'> Log In</Link> Or <Link to='/register'> Create An Account</Link>
+                    </Item>
+                    <Item>
+                        <Button type="danger" htmlType="submit" className="forget-form-button">
+                            Send Reset Link
+                        </Button>
+                    </Item>
+                </Form>
+            )}
+            { state.loggedIn && (
+                <Alert 
+                    className="information-alert-form" 
+                    message="You are now logged in  !!!" 
+                    description={ ` ` } 
+                    type="info" 
+                    showIcon 
+                />
+            )}
+            { state.loggedIn && (
+                <h2 className="alert-link" level={1}>
+                    You can now go to the <Link to="/dashboard">Dashboard</Link> panel
+                </h2>
+            )}
         </div>
     )
 }

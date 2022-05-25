@@ -9,7 +9,7 @@ const { Item } = Form;
 const { Password } = Input;
 
 const AddUserForm = () => {
-    const { getUsers, addUser } = useContext(GlobalContext)
+    const { addUser } = useContext(GlobalContext)
     const [form] = Form.useForm()
     const [formMessage, setFormMessage] = useState('')
     const [formError, setFormError] = useState('')

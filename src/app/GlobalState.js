@@ -168,10 +168,41 @@ export const GlobalStore = ({ children }) => {
         })
     }
 
+    // Google User Sign In
+    const googleSignIn = () => {
+        axios({
+            url: '/auth/api/google-login',
+            method: 'get',
+            baseURL: host,
+            headers: config.headers
+        }).then(response => {
+            console.log(response)
+            dispatch({
+                type: ACTIONS.usersError,
+                payload: null
+            })
+            dispatch({
+                type: ACTIONS.usersMessage,
+                payload: "Google Auth Requested"
+            })
+        }).catch(error => {
+            console.log(error)
+            dispatch({
+                type: ACTIONS.usersMessage,
+                payload: null
+            })
+            dispatch({
+                type: ACTIONS.usersError,
+                payload: `Google Auth Error (${error.message})`
+            })
+        })
+    }
+
+
     // Register User
     const registerUser = (user) => {
         axios({
-            url: '/benion-users/api/register',
+            url: process.env.USER_ACTIVATE_EMAIL ? '/benion-users/api/register-activate' : '/benion-users/api/register',
             method: 'post',
             baseURL: host,
             headers: config.headers,
@@ -391,7 +422,8 @@ export const GlobalStore = ({ children }) => {
             addUser,
             userForget,
             userContact,
-            addStudent
+            addStudent,
+            googleSignIn
         }}>
             { children }
         </Provider>

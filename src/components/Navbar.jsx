@@ -64,7 +64,7 @@ const Navbar = () => {
                     )}
                     {loggedIn && (
                         <Item icon={<HomeFilled />}>
-                            <Link to="/benion-users/dashboard"><b>Dashboard</b></Link>
+                            <Link to="/dashboard"><b>Dashboard</b></Link>
                         </Item>
                     )}
                     <Item icon={<FundOutlined />}>
