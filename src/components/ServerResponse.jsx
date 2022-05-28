@@ -4,14 +4,14 @@ import { GlobalContext } from '../app/GlobalState'
 import '../styles/ServerResponse.scss'
 
 const ServerResponse = () => {
-    const { error, message } = useContext(GlobalContext)
+    const { state } = useContext(GlobalContext)
     return (
         <div className="container">
-            { message !== null && (
-                <Alert message={message} type="success" showIcon closable />
+            { state.message !== null && (
+                <Alert message={state.message} type="success" showIcon closable />
             )}
-            { error !== null && (
-                <Alert message={error} type="error" showIcon closable />
+            { state.error !== null && (
+                <Alert message={state.error} type="error" showIcon closable />
             )}
         </div>
     )

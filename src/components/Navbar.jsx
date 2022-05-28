@@ -26,7 +26,7 @@ const { Item  } = Menu;
 const Navbar = () => {
     const [activeMenu, setActiveMenu] = useState(true);
     const [screensize, setScreensize] = useState(null);
-    const { loggedIn } = useContext(GlobalContext)
+    const { state } = useContext(GlobalContext)
 
     useEffect(() => {
         const handleResize = () => setScreensize(window.innerWidth);
@@ -57,12 +57,12 @@ const Navbar = () => {
             </div>
             {activeMenu && (
                 <Menu theme="dark">
-                    {!loggedIn && (
+                    {!state.loggedIn && (
                         <Item icon={<HomeOutlined />}>
                             <Link to="/"><b>Home</b></Link>
                         </Item>
                     )}
-                    {loggedIn && (
+                    {state.loggedIn && (
                         <Item icon={<HomeFilled />}>
                             <Link to="/dashboard"><b>Dashboard</b></Link>
                         </Item>

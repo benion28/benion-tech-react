@@ -11,7 +11,7 @@ const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", 
 
 const Footer = () => {
     const [date, setDate] = useState(new Date());
-    const { loggedIn } = useContext(GlobalContext)
+    const { state } = useContext(GlobalContext)
 
     setInterval(() => {
         setDate(new Date());
@@ -24,10 +24,10 @@ const Footer = () => {
                 All rights reserved <CopyrightCircleOutlined />
             </Title>
             <Space>
-                {!loggedIn && (
+                {!state.loggedIn && (
                     <Link to="/"><b>Home</b></Link>
                 )}
-                {loggedIn && (
+                {state.loggedIn && (
                     <Link to="/dashboard"><b>Dashboard</b></Link>
                 )}
                 <Link to="/works"><b>Works</b></Link>

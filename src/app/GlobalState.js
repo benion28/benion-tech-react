@@ -3,6 +3,8 @@ import axios from 'axios'
 import AppReducer from './AppReducer'
 import { initialState, host } from '../services/userHelper'
 import * as ACTIONS from '../services/actions'
+import * as USERS_STATE from './usersState'
+import * as CBT_USERS_STATE from './cbtUsersState'
 
 // Create Context
 export const GlobalContext = createContext(initialState)
@@ -26,391 +28,111 @@ export const GlobalStore = ({ children }) => {
         }
     }
 
+    //                    -----------------------------  USERS   ---------------------------                //
+
     // Get Users
     const getUsers = () => {
-        axios({
-            url: '/benion-users/api/users',
-            method: 'get',
-            baseURL: host
-        }).then(response => {
-            dispatch({
-                type: ACTIONS.getUsers,
-                payload: response.data.data.allUsers
-            })
-            dispatch({
-                type: ACTIONS.usersError,
-                payload: null
-            })
-            dispatch({
-                type: ACTIONS.usersMessage,
-                payload: response.data.message
-            })
-        }).catch(error => {
-            console.log(error)
-            dispatch({
-                type: ACTIONS.usersMessage,
-                payload: null
-            })
-            dispatch({
-                type: ACTIONS.usersError,
-                payload: error.response.data.error
-            })
-        })
+        USERS_STATE.getUsers(axios, host, ACTIONS, dispatch)
     }
 
     // User Login
     const userLogin = (user) => {
-        axios({
-            url: '/benion-users/api/login',
-            method: 'post',
-            baseURL: host,
-            headers: config.headers,
-            data: user
-        }).then(response => {
-            dispatch({
-                type: ACTIONS.userLogIn,
-                payload: response.data.data
-            })
-            dispatch({
-                type: ACTIONS.usersError,
-                payload: null
-            })
-            dispatch({
-                type: ACTIONS.usersMessage,
-                payload: response.data.message
-            })
-            if (response.data.data.role === "admin") {
-                getUsers()
-            } else {
-                dispatch({
-                    type: ACTIONS.getUsers,
-                    payload: []
-                })
-            }
-        }).catch(error => {
-            console.log(error)
-            dispatch({
-                type: ACTIONS.usersMessage,
-                payload: null
-            })
-            dispatch({
-                type: ACTIONS.usersError,
-                payload: error.response.data.error
-            })
-        })
+        USERS_STATE.userLogin(user, axios, host, config, ACTIONS, dispatch, getUsers, getCbtUsers)
     }
 
     // Delete User
     const deleteUser = (id) => {
-        axios({
-            url: `/benion-users/api/delete-user/${ id }`,
-            method: 'delete',
-            baseURL: host,
-            headers: adminConfig.headers
-        }).then(response => {
-            console.log(response)
-            dispatch({
-                type: ACTIONS.deleteUser,
-                payload: id
-            })
-            dispatch({
-                type: ACTIONS.usersError,
-                payload: null
-            })
-            dispatch({
-                type: ACTIONS.usersMessage,
-                payload: response.data.message
-            })
-        }).catch(error => {
-            console.log(error)
-            dispatch({
-                type: ACTIONS.usersMessage,
-                payload: null
-            })
-            dispatch({
-                type: ACTIONS.usersError,
-                payload: error.response.data.error
-            })
-        })
+        USERS_STATE.deleteUser(id, axios, host, adminConfig, ACTIONS, dispatch)
     }
 
     // Delete All User
     const deleteAllUsers = () => {
-        axios({
-            url: '/benion-users/api/delete-all-users',
-            method: 'delete',
-            baseURL: host,
-            headers: adminConfig.headers
-        }).then(response => {
-            console.log(response)
-            dispatch({
-                type: ACTIONS.deleteAllUsers,
-                payload: []
-            })
-            dispatch({
-                type: ACTIONS.usersError,
-                payload: null
-            })
-            dispatch({
-                type: ACTIONS.usersMessage,
-                payload: response.data.message
-            })
-        }).catch(error => {
-            console.log(error)
-            dispatch({
-                type: ACTIONS.usersMessage,
-                payload: null
-            })
-            dispatch({
-                type: ACTIONS.usersError,
-                payload: error.response.data.error
-            })
-        })
+        USERS_STATE.deleteAllUsers(axios, host, adminConfig, ACTIONS, dispatch)
     }
 
     // Google User Sign In
     const googleSignIn = () => {
-        axios({
-            url: '/auth/api/google-login',
-            method: 'get',
-            baseURL: host,
-            headers: config.headers
-        }).then(response => {
-            console.log(response)
-            dispatch({
-                type: ACTIONS.usersError,
-                payload: null
-            })
-            dispatch({
-                type: ACTIONS.usersMessage,
-                payload: "Google Auth Requested"
-            })
-        }).catch(error => {
-            console.log(error)
-            dispatch({
-                type: ACTIONS.usersMessage,
-                payload: null
-            })
-            dispatch({
-                type: ACTIONS.usersError,
-                payload: `Google Auth Error (${error.message})`
-            })
-        })
+        USERS_STATE.googleSignIn(axios, host, config, ACTIONS, dispatch)
     }
 
 
     // Register User
     const registerUser = (user) => {
-        axios({
-            url: process.env.USER_ACTIVATE_EMAIL ? '/benion-users/api/register-activate' : '/benion-users/api/register',
-            method: 'post',
-            baseURL: host,
-            headers: config.headers,
-            data: user
-        }).then(response => {
-            console.log(response)
-            dispatch({
-                type: ACTIONS.usersError,
-                payload: null
-            })
-            dispatch({
-                type: ACTIONS.usersMessage,
-                payload: response.data.message
-            })
-        }).catch(error => {
-            console.log(error)
-            dispatch({
-                type: ACTIONS.usersMessage,
-                payload: null
-            })
-            dispatch({
-                type: ACTIONS.usersError,
-                payload: error.response.data.error
-            })
-        })
+        USERS_STATE.registerUser(user, axios, host, config, ACTIONS, dispatch)
     }
 
     // User Forget
     const userForget = (user) => {
-        axios({
-            url: '/benion-users/api/forget-password',
-            method: 'put',
-            baseURL: host,
-            headers: config.headers,
-            data: user
-        }).then(response => {
-            console.log(response)
-            dispatch({
-                type: ACTIONS.usersError,
-                payload: null
-            })
-            dispatch({
-                type: ACTIONS.usersMessage,
-                payload: response.data.message
-            })
-        }).catch(error => {
-            console.log(error)
-            dispatch({
-                type: ACTIONS.usersMessage,
-                payload: null
-            })
-            dispatch({
-                type: ACTIONS.usersError,
-                payload: error.response.data.error
-            })
-        })
+        USERS_STATE.userForget(user, axios, host, config, ACTIONS, dispatch)
     }
     // User Logout
     const userLogout = () => {
-        axios({
-            url: '/benion-users/api/logout',
-            method: 'get',
-            baseURL: host
-        }).then(response => {
-            dispatch({
-                type: ACTIONS.userLogOut
-            })
-            dispatch({
-                type: ACTIONS.usersError,
-                payload: null
-            })
-            dispatch({
-                type: ACTIONS.usersMessage,
-                payload: response.data.message
-            })
-        }).catch(error => {
-            console.log(error)
-            dispatch({
-                type: ACTIONS.usersMessage,
-                payload: null
-            })
-            dispatch({
-                type: ACTIONS.usersError,
-                payload: error.response.data.error
-            })
-        })
+        USERS_STATE.userLogout(axios, host, ACTIONS, dispatch)
     }
 
     // User Contact Us
     const userContact = (user) => {
-        axios({
-            url: '/benion-users/api/contact-us',
-            method: 'post',
-            baseURL: host,
-            headers: config.headers,
-            data: user
-        }).then(response => {
-            console.log(response)
-            dispatch({
-                type: ACTIONS.usersError,
-                payload: null
-            })
-            dispatch({
-                type: ACTIONS.usersMessage,
-                payload: response.data.message
-            })
-        }).catch(error => {
-            console.log(error)
-            dispatch({
-                type: ACTIONS.usersMessage,
-                payload: null
-            })
-            dispatch({
-                type: ACTIONS.usersError,
-                payload: error.response.data.error
-            })
-        })
+        USERS_STATE.userContact(user, axios, host, config, ACTIONS, dispatch)
     }
 
     // Update User
     const updateUser = (user) => {
-        const id = user._id
-        axios({
-            url: `/benion-users/api/edit-user/${id}`,
-            method: 'put',
-            baseURL: host,
-            headers: adminConfig.headers,
-            data: user
-        }).then(response => {
-            console.log(response)
-            dispatch({
-                type: ACTIONS.updateUser,
-                payload: {
-                    id,
-                    data: response.data.data
-                }
-            })
-            dispatch({
-                type: ACTIONS.usersError,
-                payload: null
-            })
-            dispatch({
-                type: ACTIONS.usersMessage,
-                payload: response.data.message
-            })
-        }).catch(error => {
-            console.log(error)
-            dispatch({
-                type: ACTIONS.usersMessage,
-                payload: null
-            })
-            dispatch({
-                type: ACTIONS.usersError,
-                payload: error.response.data.error
-            })
-        })
+        USERS_STATE.updateUser(user, axios, host, adminConfig, ACTIONS, dispatch)
     }
 
     // Add User
     const addUser = (user) => {
-        axios({
-            url: '/benion-users/api/add-user',
-            method: 'post',
-            baseURL: host,
-            headers: config.headers,
-            data: user
-        }).then(response => {
-            console.log(response)
-            dispatch({
-                type: ACTIONS.addUser,
-                payload: response.data.data
-            })
-            dispatch({
-                type: ACTIONS.usersError,
-                payload: null
-            })
-            dispatch({
-                type: ACTIONS.usersMessage,
-                payload: response.data.message
-            })
-        }).catch(error => {
-            console.log(error)
-            dispatch({
-                type: ACTIONS.usersMessage,
-                payload: null
-            })
-            dispatch({
-                type: ACTIONS.usersError,
-                payload: error.response.data.error
-            })
-        })
+        USERS_STATE.addUser(user, axios, host, config, ACTIONS, dispatch)
+    }
+
+    //                    -----------------------------  CBT USERS   ---------------------------                //
+    
+    // Add Cbt User
+    const addCbtUser = (user) => {
+        CBT_USERS_STATE.addCbtUser(user, axios, host, adminConfig, ACTIONS, dispatch)
+    }
+
+     // Register Cbt Student
+    const registerCbtUser = (user) => {
+        CBT_USERS_STATE.registerCbtUser(user, axios, host, config, ACTIONS, dispatch)
     }
     
-    // Add Student
-    const addStudent = (student) => {
-        console.log(student)
+    // Get Cbt Users
+    const getCbtUsers = () => {
+        CBT_USERS_STATE.getCbtUsers(axios, host, ACTIONS, dispatch)
+    }
+
+    // Cbt User Login
+    const cbtUserLogin = (user) => {
+        CBT_USERS_STATE.cbtUserLogin(user, axios, host, config, ACTIONS, dispatch, getCbtUsers)
+    }
+
+    // Delete User
+    const deleteCbtUser = (id) => {
+        CBT_USERS_STATE.deleteCbtUser(id, axios, host, adminConfig, ACTIONS, dispatch)
+    }
+
+    // Delete All User
+    const deleteAllCbtUsers = () => {
+        CBT_USERS_STATE.deleteAllCbtUsers(axios, host, adminConfig, ACTIONS, dispatch)
+    }
+
+    // Find Cbt User
+    const cbtUserFind = (user, state) => {
+        CBT_USERS_STATE.cbtUserFind(user, state, ACTIONS, dispatch)
+    }
+    // Cbt User Logout
+    const cbtUserLogout = () => {
+        CBT_USERS_STATE.cbtUserLogout(axios, host, ACTIONS, dispatch)
+    }
+
+    // Update Cbt User
+    const updateCbtUser = (user) => {
+        CBT_USERS_STATE.updateCbtUser(user, axios, host, adminConfig, ACTIONS, dispatch)
     }
 
     return (
         <Provider value={{
-            allUsers: state.users.allUsers,
-            guestUsers: state.users.guestUsers,
-            adminUsers: state.users.adminUsers,
-            user: state.user,
-            loading: state.loading,
-            error: state.error,
-            message: state.message,
-            loggedIn: state.loggedIn,
             state,
             deleteUser,
             deleteAllUsers,
@@ -422,8 +144,16 @@ export const GlobalStore = ({ children }) => {
             addUser,
             userForget,
             userContact,
-            addStudent,
-            googleSignIn
+            googleSignIn,
+            addCbtUser,
+            getCbtUsers,
+            registerCbtUser,
+            cbtUserLogin,
+            deleteCbtUser,
+            deleteAllCbtUsers,
+            updateCbtUser,
+            cbtUserLogout,
+            cbtUserFind
         }}>
             { children }
         </Provider>

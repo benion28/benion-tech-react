@@ -14,10 +14,9 @@ import {
     LinkedinOutlined
 } from '@ant-design/icons';
 import { AnimateText, ContactForm } from '../components'
-import { Link } from 'react-router-dom'
 import '../styles/Contact.scss'
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 const Contact = () => {
     const [ letterClass, setLetterClass ] = useState('text-animate');

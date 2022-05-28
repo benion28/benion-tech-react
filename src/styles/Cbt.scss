@@ -17,3 +17,13 @@ $primary-color: #ffd700;
     animation-fill-mode: forwards;
     color: $primary-color;
 }
+
+.continue-exam-container {
+    max-width: 400px;
+    margin-left: 7%;
+    margin-bottom: 5%;
+
+    .information-alert {
+        margin-bottom: 5%;
+    }
+}

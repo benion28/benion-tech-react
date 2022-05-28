@@ -1,0 +1,36 @@
+.login-form {
+  max-width: 300px;
+  margin-left: 7%;
+
+  .information-alert {
+    margin-bottom: 2%;
+  }
+}
+
+.login-form-forgot {
+  float: right;
+}
+
+.ant-col-rtl .login-form-forgot {
+  float: left;
+}
+
+.login-form-button {
+  width: 100%;
+}
+
+.google-button {
+  display: flex;
+  align-items: center;
+  margin-top: 5%;
+  width: 100%;
+}
+
+.information-alert-form {
+  margin-bottom: 5%;
+}
+
+.alert-link {
+  margin-bottom: 10%;
+}
+

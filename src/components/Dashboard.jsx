@@ -14,7 +14,7 @@ const { TabPane } = Tabs;
 
 const Dashboard = () => {
     const [showTable, setShowTable] = useState(false)
-    const { user, loggedIn, userLogout } = useContext(GlobalContext)
+    const { state, userLogout } = useContext(GlobalContext)
     // const data = {
     //     _id: 'fjsnklgs89pi0iojfk344930[',
     //     firstname: 'Bernard',
@@ -35,7 +35,7 @@ const Dashboard = () => {
                         <MoneyCollectOutlined /> <b>Account Balance: </b>
                     </Title>
                     <Title className="user-amount" level={2}>
-                        ${ user.amountBalance !== null ? formatAmount(user.amountBalance) : formatAmount(8828) }
+                        ${ state.user.amountBalance !== null ? formatAmount(state.user.amountBalance) : formatAmount(8828) }
                     </Title>
                 </div>
             )
@@ -44,7 +44,7 @@ const Dashboard = () => {
             type: 'divider',
         },
         {
-            label: user.role === 'admin' && (
+            label: state.user.role === 'admin' && (
                 <Button className="dropdown-menu-button" onClick={() => setShowTable(true) }>
                     <TableOutlined />
                     Admin Tables
@@ -72,7 +72,7 @@ const Dashboard = () => {
         },
         {
             danger: true,
-            label: loggedIn && (
+            label: state.loggedIn && (
                 <Button className="dropdown-menu-button" onClick={() => userLogout }>
                     <LogoutOutlined />
                     Log Out
@@ -80,7 +80,7 @@ const Dashboard = () => {
             )
         },
         {
-            label: !loggedIn && (
+            label: !state.loggedIn && (
                 <Link to="/login">
                     <Button className="dropdown-menu-button">
                         <LoginOutlined />
@@ -94,17 +94,17 @@ const Dashboard = () => {
     return (
         <React.Fragment>
             <div className="heading">
-                <Title level={2} className="text">User Dashboard ({ user.role === 'admin' ? 'Admin' : 'Guest' })</Title>
+                <Title level={2} className="text">User Dashboard ({ state.user.role === 'admin' ? 'Admin' : 'Guest' })</Title>
                 <div className="dropdown">
                     <Title level={1} className="text-avatar">
                         <span className='text-span'>
-                            { user.token !== null ? (user.firstname[0].toUpperCase()).concat(user.lastname[0].toUpperCase()) : 'GU' }
+                            { state.user.token !== null ? (state.user.firstname[0].toUpperCase()).concat(state.user.lastname[0].toUpperCase()) : 'GU' }
                         </span>
                     </Title>
                     <Dropdown overlay={<Menu items={ menuItems } />}>
                         <a href='/' onClick={e => e.preventDefault()}>
                             <Title level={4} className="dropdown-text">
-                                { user.username !== null ? user.username : 'guest' }  <DownOutlined />
+                                { state.user.username !== null ? state.user.username : 'guest' }  <DownOutlined />
                             </Title>
                         </a>
                     </Dropdown>

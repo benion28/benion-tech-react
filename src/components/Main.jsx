@@ -1,7 +1,7 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { Layout } from 'antd'
-import { Homepage, Works, About, Dashboard, Cbt, News, Donate, Contact, Register, LogIn, ServerResponse, Forget } from '../components'
+import { Homepage, Works, About, Dashboard, Cbt, News, Donate, Contact, Register, LogIn, ServerResponse, Forget, CbtExam } from '../components'
 
 const Main = () => {
     return (
@@ -23,6 +23,7 @@ const Main = () => {
                        <Route exact path="/register" element={<Register />} />
                        <Route exact path="/login" element={<LogIn />} />
                        <Route exact path="/forget-password" element={<Forget />} />
+                       <Route exact path="/benion-cbt/exams" element={<CbtExam />} />
                    </Routes>
                </div>
            </Layout>
