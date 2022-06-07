@@ -4,6 +4,8 @@ const alpha = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 const numbers = "0123456789"
 const symbols = "!@#$%^&*_-)(=+{}[];:><,./?~'`"
 
+const production = true
+
 const generatePassword = (length, chars) => {
     let password = ""
     for (let i = 0; i < length; i++) {
@@ -88,7 +90,7 @@ export const initialState = {
     cbtLoggedIn: false
 }
 
-export const host =  'http://localhost:8828' || 'https://benion-tech-server.herokuapp.com'
+export const host = production ? 'https://benion-tech-server.herokuapp.com' : 'http://localhost:8828'
 
 export const formatAmountMillify = (value) => {
     const dollarRate = 512
