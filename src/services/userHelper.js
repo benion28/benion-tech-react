@@ -88,7 +88,7 @@ export const initialState = {
     cbtLoggedIn: false
 }
 
-export const host = 'http://localhost:8828' || 'https://benion-tech-server.herokuapp.com'
+export const host =  'http://localhost:8828' || 'https://benion-tech-server.herokuapp.com'
 
 export const formatAmountMillify = (value) => {
     const dollarRate = 512
