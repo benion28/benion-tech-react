@@ -1,15 +1,15 @@
 import React, { useState, useContext } from 'react'
-import { Form, Input, Button, Checkbox, Select, Alert  } from 'antd'
-import { UserOutlined, MailOutlined, EnvironmentOutlined, KeyOutlined, SolutionOutlined, MoneyCollectOutlined, CalendarOutlined } from '@ant-design/icons'
+import { Form, Input, Button, Select, Alert  } from 'antd'
+import { SolutionOutlined } from '@ant-design/icons'
 import { GlobalContext } from '../app/GlobalState'
-import '../styles/EditUserForm.scss'
-import { genders, userRoles } from '../services/userHelper'
+import '../styles/CbtEditUserForm.scss'
+import { cbtCategories, cbtClasses, cbtRoles, cbtSchools, genders } from '../services/userHelper';
 
-const { Option } = Select;
-const { Item } = Form;
+const { Option } = Select
+const { Item } = Form
 
-const EditUserForm = ({ user }) => {
-    const { updateUser } = useContext(GlobalContext)
+const CbtEditUserForm = ({ user }) => {
+    const { updateCbtUser } = useContext(GlobalContext)
     const [form] = Form.useForm()
     const [formMessage, setFormMessage] = useState('')
     const [formError, setFormError] = useState('')
@@ -18,13 +18,11 @@ const EditUserForm = ({ user }) => {
         _id: user._id,
         firstname: user.firstname,
         lastname: user.lastname,
-        email: user.email,
-        username: user.username,
-        amountBalance: user.amountBalance,
+        category: user.category,
         gender: user.gender,
         role: user.role,
-        birthday: user.birthday,
-        town: user.town
+        className: user.className,
+        school: user.school
     })
 
     const onFinish = (values) => {
@@ -37,7 +35,8 @@ const EditUserForm = ({ user }) => {
             ...user,
             ...values
         }
-        updateUser(data)
+        console.log(data)
+        updateCbtUser(data)
     }
 
     const onFinishFailed = (errorInfo) => {
@@ -70,7 +69,7 @@ const EditUserForm = ({ user }) => {
             </div>
             <Form name="basic" form={ form } validateMessages={ validateMessages } initialValues={{ remember: true }} onFinish={ onFinish } onFinishFailed={ onFinishFailed } autoComplete="off">
                 <div className="form-controller">
-                    <Item hidden className='form-item' label="First Name" name="firstname" rules={[ { required: true } ]}>
+                    <Item className='form-item' label="First Name" name="firstname" rules={[ { required: true } ]}>
                         <Input prefix={<SolutionOutlined />} placeholder="First Name" allowClear />
                     </Item>
                     <Item className='form-item' label="Last Name" name="lastname" rules={[ { required: true } ]}>
@@ -78,19 +77,22 @@ const EditUserForm = ({ user }) => {
                     </Item>
                 </div>
                 <div className="form-controller">
-                    <Item className='form-item' label="Email" name="email" rules={[ { type:'email', required: true } ]}>
-                        <Input prefix={<MailOutlined />} placeholder="Email Address" allowClear />
+                    <Item className='form-item' name="school" label="School" rules={[ { required: true } ]}>
+                        <Select placeholder="Select a Class"  allowClear>
+                            {cbtSchools.map(item => (
+                                <Option key={item.value} value={item.value}>{item.name}</Option>
+                            ))}
+                        </Select>
                     </Item>
                 </div>
                 <div className="form-controller">
-                    <Item className='form-item' label="Username" name="username" rules={[ { required: true } ]}>
-                        <Input prefix={<UserOutlined />}  placeholder="Username" allowClear />
+                    <Item className='form-item' name="category" label="Category" rules={[ { required: true } ]}>
+                        <Select placeholder="Select a Category"  allowClear>
+                            {cbtCategories.map(item => (
+                                <Option key={item.value} value={item.value}>{item.name}</Option>
+                            ))}
+                        </Select>
                     </Item>
-                    <Item className='form-item' label="Amount" name="amountBalance" rules={[ { type:'number', required: true } ]}>
-                        <Input type='number' prefix={<MoneyCollectOutlined />} placeholder="Amount Balance" allowClear />
-                    </Item>
-                </div>
-                <div className="form-controller">
                     <Item className='form-item' name="gender" label="Gender" rules={[ { required: true } ]}>
                         <Select placeholder="Select a Gender"  allowClear>
                             {genders.map(item => (
@@ -98,31 +100,27 @@ const EditUserForm = ({ user }) => {
                             ))}
                         </Select>
                     </Item>
+                </div>
+                <div className="form-controller">
+                    <Item className='form-item' name="className" label="Class" rules={[ { required: true } ]}>
+                        <Select placeholder="Select a Class"  allowClear>
+                            {cbtClasses.map(item => (
+                                <Option key={item.value} value={item.value}>{item.name}</Option>
+                            ))}
+                        </Select>
+                    </Item>
                     <Item className='form-item' name="role" label="Role" rules={[ { required: true } ]}>
                         <Select placeholder="Select a Role"  allowClear>
-                            {userRoles.map(item => (
+                            {cbtRoles.map(item => (
                                 <Option key={item.value} value={item.value}>{item.name}</Option>
                             ))}
                         </Select>
                     </Item>
                 </div>
-                <div className="form-controller">
-                    <Item className='form-item' label="Birthday" name="birthday" rules={[ { required: true } ]}>
-                        <Input prefix={<CalendarOutlined />} placeholder="Birthday" allowClear />
-                    </Item>
-                    <Item className='form-item' label="Town" name="town" rules={[ { required: true } ]}>
-                        <Input prefix={<EnvironmentOutlined />} placeholder="Town of Residence" allowClear />
-                    </Item>
-                </div>
-                <div className="form-controller">
-                    <Item label="Agree" name="agree" valuePropName="checked" rules={[ { required: true } ]}>
-                        <Checkbox>I intentionally wish to update this user</Checkbox>
-                    </Item>
-                </div>
                 <div className="button-controller">
                     <Item>
                         <Button className="submit-button" type="primary" htmlType="submit">
-                            Update
+                            Submit
                         </Button>
                     </Item>
                     <Item>
@@ -136,5 +134,4 @@ const EditUserForm = ({ user }) => {
     )
 }
 
-export default EditUserForm
-
+export default CbtEditUserForm

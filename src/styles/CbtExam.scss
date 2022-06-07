@@ -149,3 +149,31 @@ $secondary-color: #001529;
     margin-right: 5%;
     width: 90%;
 }
+
+.button-controller {
+    width: 100%;
+    display: flex;
+
+    .submit-button {
+        width: 90%;
+        margin-right: 5pt;
+        margin-left: 5pt;
+    }
+
+    .next-button {
+        width: 90%;
+        margin-left: 5pt;
+        margin-right: 5pt;
+    }
+
+    .previous-button {
+        width: 90%;
+        margin-left: 5pt;
+        margin-right: 5pt;
+    }
+}
+
+.radio-option {
+    width: 100%;
+    margin-top: 5pt;
+}

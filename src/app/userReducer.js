@@ -1,7 +1,7 @@
 export const getUsers = (state, action) => {
     return {
         ...state,
-        users: action.payload,
+        users: action.payload.allUsers,
         loading: false
     }
 }
@@ -66,15 +66,5 @@ export const userLogOut = (state, action) => {
         users: [],
         user: {},
         loggedIn: false
-    }
-}
-
-export const updateUser = (state, action) => {
-    return {
-        ...state,
-        users: [
-            ...state.users.filter(user => user._id !== action.payload.id),
-            action.payload.user
-        ]
     }
 }

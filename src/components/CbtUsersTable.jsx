@@ -1,14 +1,14 @@
 import React, { useContext, useState } from 'react'
-import { EditOutlined, DeleteOutlined, UserAddOutlined, QuestionCircleOutlined, CloseOutlined } from '@ant-design/icons'
+import { EditOutlined, DeleteOutlined, UsergroupAddOutlined, QuestionCircleOutlined, CloseOutlined } from '@ant-design/icons'
 import { Table, Space, Button, Popconfirm, Typography, Popover } from 'antd'
-import { AddUserForm, EditUserForm } from '../components'
+import { CbtAddForm, CbtEditUserForm } from '../components'
 import { GlobalContext } from '../app/GlobalState'
-import '../styles/UsersTable.scss'
-import { genders, userRoles } from '../services/userHelper'
+import '../styles/CbtUsersTable.scss'
+import { cbtCategories, cbtClasses, cbtRoles, cbtSchools, genders } from '../services/userHelper'
 
 const { Text, Title } = Typography;
 
-const UsersTable = () => {
+const CbtUsersTable = () => {
     const { state, deleteUser } = useContext(GlobalContext)
     const [ newUserPopover, setNewUserPopover ] = useState(false)
     const [ editUserPopover, setEditUserPopover ] = useState(false)
@@ -46,7 +46,7 @@ const UsersTable = () => {
         title: () => (<b>Role</b>),
         dataIndex: 'role',
         key: 'role',
-        filters: userRoles.map(role => (
+        filters: cbtRoles.map(role => (
             {
                 text: role.name,
                 value: role.value
@@ -67,23 +67,54 @@ const UsersTable = () => {
         onFilter: (value, record) => record.gender.indexOf(value) === 0
     },
     {
-        title: () => (<b>Town</b>),
-        dataIndex: 'town',
-        defaultSortOrder: 'descend',
-        key: 'town'
+        title: () => (<b>Category</b>),
+        dataIndex: 'category',
+        key: 'category',
+        filters: cbtCategories.map(category => (
+            {
+                text: category.name,
+                value: category.value
+            }
+        )),
+        onFilter: (value, record) => record.category.indexOf(value) === 0
     },
     {
-        title: () => (<b>Balance</b>),
-        dataIndex: 'amountBalance',
+        title: () => (<b>Access Code</b>),
+        dataIndex: 'accessCode',
         defaultSortOrder: 'descend',
-        key: 'amountBalance',
-        sorter: (a, b) => a.amountBalance - b.amountBalance
+        key: 'accessCode',
+        sorter: (a, b) => a.accessCode - b.accessCode
     },
     {
-        title: () => (<b>Email</b>),
-        dataIndex: 'email',
+        title: () => (<b>Creator</b>),
+        dataIndex: 'creator',
         defaultSortOrder: 'descend',
-        key: 'email'
+        key: 'creator',
+        sorter: (a, b) => a.creator - b.creator
+    },
+    {
+        title: () => (<b>Class</b>),
+        dataIndex: 'className',
+        key: 'className',
+        filters: cbtClasses.map(className => (
+            {
+                text: className.name,
+                value: className.value
+            }
+        )),
+        onFilter: (value, record) => record.className.indexOf(value) === 0
+    },
+    {
+        title: () => (<b>School</b>),
+        dataIndex: 'school',
+        key: 'school',
+        filters: cbtSchools.map(school => (
+            {
+                text: school.name,
+                value: school.value
+            }
+        )),
+        onFilter: (value, record) => record.school.indexOf(value) === 0
     },
     {
         title: () => (<b>Actions</b>),
@@ -92,8 +123,8 @@ const UsersTable = () => {
             <Space size='middle'>
                 <Popover
                     placement='bottomLeft'
-                    content={ <EditUserForm user={details} />}
-                    title= {() => (<Title level={2} className='add-user-title'><b>Edit Existing User</b> <Button onClick={ () => setEditUserPopover(false) } className='add-user-button'><CloseOutlined /></Button></Title>)}
+                    content={ <CbtEditUserForm user={details} />}
+                    title= {() => (<Title level={2} className='add-user-title'><b>Edit Existing Cbt User</b> <Button onClick={ () => setEditUserPopover(false) } className='add-user-button'><CloseOutlined /></Button></Title>)}
                     trigger='click'
                     visible={ editUserPopover && (record._id === details._id) }
                 >
@@ -121,30 +152,30 @@ const UsersTable = () => {
                 <div className="add-user">
                     <Popover
                         placement='bottomRight'
-                        content={ <AddUserForm />}
+                        content={ <CbtAddForm />}
                         title= {() => (<Title level={2} className='add-user-title'><b>Add New User</b> <Button onClick={ () => setNewUserPopover(false) } className='add-user-button'><CloseOutlined /></Button></Title>)}
                         trigger='click'
                         visible={ newUserPopover }
                     >
                         <Button className='add-button' onClick={ () => setNewUserPopover(true) }>
-                            <UserAddOutlined  />  Add User
+                            <UsergroupAddOutlined  />  Add Cbt User
                         </Button>
                     </Popover>
                 </div>
                 
             </div>
             <div className="table-container">
-                <Table rowKey={ (record) => record._id } className='table' columns={columns} dataSource={state.users} />
+                <Table rowKey={ (record) => record._id } className='table' columns={columns} dataSource={state.cbtUsers} />
             </div>
             <div className="footer">
                 { state.users.length > 0 && (
                     <Text className='footer-text' level={1}>
-                        <b>Currently there are { state.users.length } Users !!!</b>
+                        <b>Currently there are { state.cbtUsers.length } Cbt Users !!!</b>
                     </Text>
                 )}
                 { state.users.length < 1 && (
                     <Text className='footer-text' level={1}>
-                        <b>Currently there are no Users !!!</b>
+                        <b>Currently there are no Cbt Users !!!</b>
                     </Text>
                 )}
             </div>
@@ -152,4 +183,5 @@ const UsersTable = () => {
     )
 }
 
-export default UsersTable
+export default CbtUsersTable
+

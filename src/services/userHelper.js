@@ -1,3 +1,5 @@
+import millify from "millify"
+
 const alpha = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 const numbers = "0123456789"
 const symbols = "!@#$%^&*_-)(=+{}[];:><,./?~'`"
@@ -15,6 +17,42 @@ export const initialState = {
     cbtUsers: [],
     cbtExams: [],
     cbtQuestions: [],
+    cryptos: { 
+        stats: {
+            totalCoins: null, 
+            totalExchanges: null, 
+            totalMarketCap: null, 
+            total24hVolume: null, 
+            totalMarkets: null
+        }, 
+        coins: []
+    },
+    news: {
+        cryptoNews: {
+            value: []
+        },
+        bingNews: {
+            value: []
+        }
+    },
+    crypto: {
+        name: "Crypto",
+        description: "Hello Crypto",
+        symbol: "SYM",
+        price: 0,
+        marketCap: 0,
+        rank: 0,
+        "24hVolume": 0,
+        allTimeHigh: {
+            price: 0
+        },
+        supply: { 
+            total: 0, 
+            circulating: 0 
+        },
+        links: []
+    },
+    cryptoHistory: [],
     user: {
         firstname: null,
         lastname: null,
@@ -24,11 +62,13 @@ export const initialState = {
         amountBalance: null
     },
     cbtUser: {
-        firstname: 'Bemshima',
-        lastname: 'Iorver',
+        firstname: null,
+        lastname: null,
         username: null,
         role: null,
         token: null,
+        creator: null,
+        accessCode: null,
         password: null,
         activeExam: 'khjhjkjk',
         examTime: 29
@@ -45,12 +85,19 @@ export const initialState = {
     message: null,
     loading: true,
     loggedIn: false,
-    cbtLoggedIn: true
+    cbtLoggedIn: false
 }
 
 export const host = 'http://localhost:8828' || 'https://benion-tech-server.herokuapp.com'
 
-export const formatAmount = (value) => {
+export const formatAmountMillify = (value) => {
+    const dollarRate = 512
+    let inDollar = (Math.floor(value/dollarRate))
+
+    return `${millify(inDollar)} (N${millify(value)})`
+}
+
+export const formatAmountManually = (value) => {
     const dollarRate = 512
     let amount = value.toString()
     let inDollar = (Math.floor(value/dollarRate)).toString()
@@ -92,8 +139,9 @@ export const formatAmount = (value) => {
     return `${inDollar} (N${amount})`
 }
 
-export const createPassword = (length, hasNumbers, hasSymbols) => {
-    let chars = alpha
+export const createPassword = (length, hasAlpha, hasNumbers, hasSymbols) => {
+    let chars = ""
+    hasAlpha = hasAlpha ? (chars += alpha) : ""
     hasNumbers = hasNumbers ? (chars += numbers) : ""
     hasSymbols = hasSymbols ? (chars += symbols) : ""
     return generatePassword(length, chars)
@@ -113,5 +161,29 @@ export const cbtSchools = [
     { name: 'Midland Rock Dynamic School', value: 'mrds' },
     { name: 'Great Bethel International School', value: 'gbis' },
     { name: 'Key Hope Comprehensive School', value: 'khcs' },
+    { name: 'Others', value: 'others' }
+]
+
+export const cbtRoles = [
+    { name: 'Admin', value: 'admin' },
+    { name: 'Moderator', value: 'moderator' },
+    { name: 'Student', value: 'student' }
+]
+
+export const userRoles = [
+    { name: 'Admin', value: 'admin' },
+    { name: 'Guest', value: 'guest' }
+]
+
+export const cbtCategories = [
+    { name: 'Junior', value: 'junior' },
+    { name: 'Science', value: 'science' },
+    { name: 'Arts', value: 'arts' },
+    { name: 'Commercial', value: 'commercial' }
+]
+
+export const genders = [
+    { name: 'Male', value: 'male' },
+    { name: 'Female', value: 'female' },
     { name: 'Others', value: 'others' }
 ]

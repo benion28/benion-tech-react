@@ -6,7 +6,7 @@ export const getUsers = (axios, host, ACTIONS, dispatch) => {
     }).then(response => {
         dispatch({
             type: ACTIONS.getUsers,
-            payload: response.data.data.allUsers
+            payload: response.data.data
         })
         dispatch({
             type: ACTIONS.usersError,
@@ -17,7 +17,6 @@ export const getUsers = (axios, host, ACTIONS, dispatch) => {
             payload: response.data.message
         })
     }).catch(error => {
-        console.log(error)
         dispatch({
             type: ACTIONS.usersMessage,
             payload: null
@@ -63,7 +62,6 @@ export const userLogin = (user, axios, host, config, ACTIONS, dispatch, getUsers
             })
         }
     }).catch(error => {
-        console.log(error)
         dispatch({
             type: ACTIONS.usersMessage,
             payload: null
@@ -82,7 +80,6 @@ export const deleteUser = (id, axios, host, adminConfig, ACTIONS, dispatch) => {
         baseURL: host,
         headers: adminConfig.headers
     }).then(response => {
-        console.log(response)
         dispatch({
             type: ACTIONS.deleteUser,
             payload: id
@@ -96,7 +93,6 @@ export const deleteUser = (id, axios, host, adminConfig, ACTIONS, dispatch) => {
             payload: response.data.message
         })
     }).catch(error => {
-        console.log(error)
         dispatch({
             type: ACTIONS.usersMessage,
             payload: null
@@ -115,7 +111,6 @@ export const deleteAllUsers = (axios, host, adminConfig, ACTIONS, dispatch) => {
         baseURL: host,
         headers: adminConfig.headers
     }).then(response => {
-        console.log(response)
         dispatch({
             type: ACTIONS.deleteAllUsers,
             payload: []
@@ -129,7 +124,6 @@ export const deleteAllUsers = (axios, host, adminConfig, ACTIONS, dispatch) => {
             payload: response.data.message
         })
     }).catch(error => {
-        console.log(error)
         dispatch({
             type: ACTIONS.usersMessage,
             payload: null
@@ -178,7 +172,6 @@ export const registerUser = (user, axios, host, config, ACTIONS, dispatch) => {
         headers: config.headers,
         data: user
     }).then(response => {
-        console.log(response)
         dispatch({
             type: ACTIONS.usersError,
             payload: null
@@ -188,7 +181,6 @@ export const registerUser = (user, axios, host, config, ACTIONS, dispatch) => {
             payload: response.data.message
         })
     }).catch(error => {
-        console.log(error)
         dispatch({
             type: ACTIONS.usersMessage,
             payload: null
@@ -208,7 +200,6 @@ export const userForget = (user, axios, host, config, ACTIONS, dispatch) => {
         headers: config.headers,
         data: user
     }).then(response => {
-        console.log(response)
         dispatch({
             type: ACTIONS.usersError,
             payload: null
@@ -218,7 +209,6 @@ export const userForget = (user, axios, host, config, ACTIONS, dispatch) => {
             payload: response.data.message
         })
     }).catch(error => {
-        console.log(error)
         dispatch({
             type: ACTIONS.usersMessage,
             payload: null
@@ -248,7 +238,6 @@ export const userLogout = (axios, host, ACTIONS, dispatch) => {
             payload: response.data.message
         })
     }).catch(error => {
-        console.log(error)
         dispatch({
             type: ACTIONS.usersMessage,
             payload: null
@@ -268,7 +257,6 @@ export const userContact = (user, axios, host, config, ACTIONS, dispatch) => {
         headers: config.headers,
         data: user
     }).then(response => {
-        console.log(response)
         dispatch({
             type: ACTIONS.usersError,
             payload: null
@@ -278,7 +266,6 @@ export const userContact = (user, axios, host, config, ACTIONS, dispatch) => {
             payload: response.data.message
         })
     }).catch(error => {
-        console.log(error)
         dispatch({
             type: ACTIONS.usersMessage,
             payload: null
@@ -290,7 +277,7 @@ export const userContact = (user, axios, host, config, ACTIONS, dispatch) => {
     })
 }
 
-export const updateUser = (user, axios, host, adminConfig, ACTIONS, dispatch) => {
+export const updateUser = (user, axios, host, adminConfig, ACTIONS, dispatch, getUsers) => {
     const id = user._id
     axios({
         url: `/benion-users/api/edit-user/${id}`,
@@ -299,14 +286,7 @@ export const updateUser = (user, axios, host, adminConfig, ACTIONS, dispatch) =>
         headers: adminConfig.headers,
         data: user
     }).then(response => {
-        console.log(response)
-        dispatch({
-            type: ACTIONS.updateUser,
-            payload: {
-                id,
-                data: response.data.data
-            }
-        })
+        getUsers()
         dispatch({
             type: ACTIONS.usersError,
             payload: null
@@ -316,7 +296,6 @@ export const updateUser = (user, axios, host, adminConfig, ACTIONS, dispatch) =>
             payload: response.data.message
         })
     }).catch(error => {
-        console.log(error)
         dispatch({
             type: ACTIONS.usersMessage,
             payload: null
@@ -336,7 +315,6 @@ export const addUser = (user, axios, host, config, ACTIONS, dispatch) => {
         headers: config.headers,
         data: user
     }).then(response => {
-        console.log(response)
         dispatch({
             type: ACTIONS.addUser,
             payload: response.data.data
@@ -350,7 +328,6 @@ export const addUser = (user, axios, host, config, ACTIONS, dispatch) => {
             payload: response.data.message
         })
     }).catch(error => {
-        console.log(error)
         dispatch({
             type: ACTIONS.usersMessage,
             payload: null

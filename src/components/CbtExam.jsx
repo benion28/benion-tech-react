@@ -1,19 +1,24 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { AnimateText } from '../components'
-import { Typography, Row, Col, Image, Alert, Tabs  } from 'antd'
+import { Typography, Row, Col, Image, Alert, Tabs, Radio, Button, Form, Input  } from 'antd'
 import Loader from 'react-loaders'
 import benionTechIcon from '../images/benion-tech-icon.png'
 import { GlobalContext } from '../app/GlobalState'
 import '../styles/CbtExam.scss'
 
 const { Title } = Typography
+const { Item } = Form
+const { Group } = Radio
 const { TabPane } = Tabs
 
 const CbtExam = () => {
+    const [form] = Form.useForm()
     const { state } = useContext(GlobalContext)
     const [time, setTime] = useState(state.cbtExam.examTime)
     const [submitted, setSubmitted] = useState(false)
+    const questionNumber = 1
+    const question = "Exam Questions, Options and Buttons, Exam Questions, Options and Buttons, Exam Questions, Options and Buttons, Exam Questions, Options and Buttons,"
 
     const [ letterClass, setLetterClass ] = useState('text-animate')
     const nameArray = ['C', 'B', 'T', ' ', 'E', 'x', 'a', 'm', ' ', 'C', 'e', 'n', 't', 'e', 'r']
@@ -43,6 +48,35 @@ const CbtExam = () => {
         console.log("Answers submitted successfully")
     }
 
+    const onFinish = async (values) => {
+        console.log('Success:', values)
+
+        // Submit Answers
+        submitAnswers()
+        setSubmitted(true)
+        form.resetFields()
+    }
+
+    const onFinishFailed = (errorInfo) => {
+        console.log('Failed:', errorInfo)
+    }
+
+    const validateMessages = {
+        required: '${label} is required!',
+        types: {
+            email: 'This is not a valid email!',
+            number: 'This is not a valid number!',
+        }
+    }
+
+    const onNext = () => {
+        form.resetFields();
+    }
+
+     form.setFieldsValue({
+        question: questionNumber
+     })
+
     return (
         <React.Fragment>
              <Title level={2} className="text"><b>Exam Dashboard:</b> Welcome {state.cbtUser.activeExam !== '' ? "Back" : ""} ({ state.cbtLoggedIn ? `${state.cbtUser.firstname} ${state.cbtUser.lastname}` : 'Guest User' })</Title>
@@ -68,12 +102,42 @@ const CbtExam = () => {
                                         </Title>
                                     </span>
                                 </div>
-                                <h3 className="alert-link">
-                                    Exam Questions, Options and Buttons,
-                                    Exam Questions, Options and Buttons,
-                                    Exam Questions, Options and Buttons,
-                                    Exam Questions, Options and Buttons,
-                                </h3>
+                                <Form name="basic" form={ form } validateMessages={ validateMessages } initialValues={{ remember: true }} onFinish={ onFinish } onFinishFailed={ onFinishFailed } autoComplete="off">
+                                    <div className="form-controller">
+                                        <Item className='form-item' name='question'>
+                                            <h1>
+                                                <b>({ questionNumber.toString() }):</b>  { question }
+                                            </h1>
+                                        </Item>
+                                    </div>
+                                    <div className="form-controller">
+                                        <Item className='form-item' name="option" rules={[ { required: true } ]}>
+                                            <Group>
+                                                <Radio className='radio-option' value={'a'}><h3> <b>(a).</b> {'A'} </h3></Radio>
+                                                <Radio className='radio-option' value={'b'}><h3> <b>(b).</b> {'B'} </h3></Radio>
+                                                <Radio className='radio-option' value={'c'}><h3> <b>(c).</b> {'C'} </h3></Radio>
+                                                <Radio className='radio-option' value={'d'}><h3> <b>(d).</b> {'D'} </h3></Radio>
+                                            </Group>
+                                        </Item>
+                                    </div>
+                                    <div className="button-controller">
+                                        <Item>
+                                            <Button className="previous-button" type="primary" onClick={ onNext }>
+                                                Previous
+                                            </Button>
+                                        </Item>
+                                        <Item>
+                                            <Button className="next-button" type="primary" onClick={ onNext }>
+                                                Next
+                                            </Button>
+                                        </Item>
+                                        <Item>
+                                            <Button className="submit-button" type="danger" htmlType="submit">
+                                                Submit
+                                            </Button>
+                                        </Item>
+                                    </div>
+                                </Form>
                             </TabPane>
                         </Tabs>
                     </Col>

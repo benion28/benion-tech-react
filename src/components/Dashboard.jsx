@@ -3,10 +3,10 @@ import { Typography, Menu, Dropdown, Button, Tabs } from 'antd'
 import { Link } from 'react-router-dom'
 import { DownOutlined, SmileOutlined, LogoutOutlined, TableOutlined, MoneyCollectOutlined, LoginOutlined } from '@ant-design/icons';
 import Loader from 'react-loaders'
-import { UsersTable } from '../components'
+import { UsersTable, CbtUsersTable } from '../components'
 import '../styles/Dashboard.scss'
 import { GlobalContext } from '../app/GlobalState'
-import { formatAmount } from '../services/userHelper';
+import { formatAmountManually } from '../services/userHelper';
 
 
 const { Title } = Typography;
@@ -15,18 +15,7 @@ const { TabPane } = Tabs;
 const Dashboard = () => {
     const [showTable, setShowTable] = useState(false)
     const { state, userLogout } = useContext(GlobalContext)
-    // const data = {
-    //     _id: 'fjsnklgs89pi0iojfk344930[',
-    //     firstname: 'Bernard',
-    //     lastname: 'Iorver',
-    //     email: 'bernard.iorver28@gmail.com',
-    //     username: 'benion',
-    //     amountBalance: 300,
-    //     gender: 'male',
-    //     role: 'admin',
-    //     birthday: '2002-10-14',
-    //     town: 'Kaduna'
-    // }
+
     const menuItems = [
         {
             label: (
@@ -35,7 +24,7 @@ const Dashboard = () => {
                         <MoneyCollectOutlined /> <b>Account Balance: </b>
                     </Title>
                     <Title className="user-amount" level={2}>
-                        ${ state.user.amountBalance !== null ? formatAmount(state.user.amountBalance) : formatAmount(8828) }
+                        ${ state.user.amountBalance !== null ? formatAmountManually(state.user.amountBalance) : formatAmountManually(0) }
                     </Title>
                 </div>
             )
@@ -117,7 +106,7 @@ const Dashboard = () => {
                             <UsersTable />
                         </TabPane>
                         <TabPane className="tabs-panel" tab={ <span> <Title level={4}>Students</Title> </span> } key="2">
-                            <h1>Students</h1>
+                            <CbtUsersTable />
                         </TabPane>
                     </Tabs>
                 </div>

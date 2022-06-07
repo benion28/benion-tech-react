@@ -9,7 +9,7 @@ import {
     FundOutlined,
     DesktopOutlined,
     ReadOutlined,
-    UsergroupAddOutlined,
+    DollarCircleOutlined,
     DollarOutlined,
     DatabaseOutlined,
     PlusOutlined,
@@ -70,6 +70,9 @@ const Navbar = () => {
                     <Item icon={<FundOutlined />}>
                         <Link to="/works"><b>Works</b></Link>
                     </Item>
+                    <Item icon={<DollarCircleOutlined />}>
+                        <Link to="/cryptos"><b>Cryptos</b></Link>
+                    </Item>
                     <Item icon={<GlobalOutlined />}>
                         <Link to="/benion-news"><b>News</b></Link>
                     </Item>
@@ -84,9 +87,6 @@ const Navbar = () => {
                     </Item>
                     <Item icon={<DatabaseOutlined />}>
                         <Link to="/benion-users/all-news"><b>All News</b></Link>
-                    </Item>
-                    <Item icon={<UsergroupAddOutlined />}>
-                        <Link to="/benion-cbt/add-student"><b>Add Student</b></Link>
                     </Item>
                     <Item icon={<BulbOutlined />}>
                         <Link to="/benion-news/activate-user"><b>Activate User</b></Link>

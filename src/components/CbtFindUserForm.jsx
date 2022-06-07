@@ -3,6 +3,7 @@ import { Form, Input, Button, Select, Alert } from 'antd'
 import { UserOutlined, SearchOutlined } from '@ant-design/icons'
 import '../styles/CbtFindUserForm.scss'
 import { GlobalContext } from '../app/GlobalState'
+import { cbtClasses, cbtSchools } from '../services/userHelper';
 
 const { Item } = Form
 const { Option } = Select
@@ -22,7 +23,7 @@ const CbtFindUserForm = () => {
         // Find Username
         const user = cbtUserFind(values)
         if (user.success) {
-            setFoundUser(user)
+            setFoundUser(user.data)
             form.resetFields()
         }
     }
@@ -36,8 +37,6 @@ const CbtFindUserForm = () => {
     const validateMessages = {
         required: '${label} is required!'
     }
-
-    console.log('Current State: ', state)
 
     return (
         <React.Fragment>
@@ -63,19 +62,19 @@ const CbtFindUserForm = () => {
                         </Item>
                         <Item className='form-item' name="school" label="School" rules={[ { required: true } ]}>
                             <Select placeholder="Select a School"  allowClear>
-                                <Option value="male">Male</Option>
-                                <Option value="female">Female</Option>
-                                <Option value="other">Other</Option>
+                                {cbtSchools.map(item => (
+                                    <Option key={item.value} value={item.value}>{item.name}</Option>
+                                ))}
                             </Select>
                         </Item>
-                        <Item className='form-item' name="class" label="Class" rules={[ { required: true } ]}>
+                        <Item className='form-item' name="className" label="Class" rules={[ { required: true } ]}>
                             <Select placeholder="Select a Class"  allowClear>
-                                <Option value="male">Male</Option>
-                                <Option value="female">Female</Option>
-                                <Option value="other">Other</Option>
+                                {cbtClasses.map(item => (
+                                    <Option key={item.value} value={item.value}>{item.name}</Option>
+                                ))}
                             </Select>
                         </Item>
-                        <Item className='form-item' name="class" label="Role" rules={[ { required: true } ]}>
+                        <Item className='form-item' name="role" label="Role" rules={[ { required: true } ]}>
                             <Select placeholder="Select a Role"  allowClear>
                                 <Option value="student">Student</Option>
                                 <Option value="moderator">Moderator</Option>

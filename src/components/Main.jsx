@@ -1,9 +1,35 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { Layout } from 'antd'
-import { Homepage, Works, About, Dashboard, Cbt, News, Donate, Contact, Register, LogIn, ServerResponse, Forget, CbtExam } from '../components'
+import { 
+    Homepage, 
+    Works, 
+    About, 
+    Dashboard, 
+    Cbt, 
+    News, 
+    Donate, 
+    Contact, 
+    Register, 
+    LogIn, 
+    ServerResponse, 
+    Forget, 
+    CbtExam,
+    Cryptos,
+    Crypto
+} from '../components'
+import { GlobalContext } from '../app/GlobalState'
 
 const Main = () => {
+    const { state, getCryptos, getCryptoNews, getBingNews } = useContext(GlobalContext)
+
+    useEffect(() => {
+        getCryptos({ count: 10 })
+        getCryptoNews({ count: 200, newsCategory: "crypto" })
+        getBingNews({ count: 200 })
+        console.log("Current State: ", state)
+    }, [state, getCryptos, getCryptoNews, getBingNews])
+
     return (
         <div>
            <Layout>
@@ -24,6 +50,8 @@ const Main = () => {
                        <Route exact path="/login" element={<LogIn />} />
                        <Route exact path="/forget-password" element={<Forget />} />
                        <Route exact path="/benion-cbt/exams" element={<CbtExam />} />
+                       <Route exact path="/cryptos" element={<Cryptos />} />
+                       <Route exact path="/crypto/:id" element={<Crypto />} />
                    </Routes>
                </div>
            </Layout>

@@ -1,7 +1,7 @@
 export const getCbtUsers = (state, action) => {
     return {
         ...state,
-        cbtUsers: action.payload,
+        cbtUsers: action.payload.allCbtUsers,
         loading: false
     }
 }
@@ -9,7 +9,7 @@ export const getCbtUsers = (state, action) => {
 export const cbtUserLogIn = (state, action) => {
     return {
         ...state,
-        cbtUsers: action.payload,
+        cbtUser: action.payload,
         cbtLoggedIn: true
     }
 }
@@ -20,16 +20,6 @@ export const cbtUserLogOut = (state, action) => {
         cbtUsers: [],
         cbtUser: {},
         cbtLoggedIn: false
-    }
-}
-
-export const updateCbtUser = (state, action) => {
-    return {
-        ...state,
-        cbtUsers: [
-            ...state.cbtUsers.filter(user => user._id !== action.payload.id),
-            action.payload.user
-        ]
     }
 }
 

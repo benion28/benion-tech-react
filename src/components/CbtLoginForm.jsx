@@ -33,8 +33,6 @@ const CbtLoginForm = () => {
         required: '${label} is required!'
     }
 
-    console.log('Current State: ', state)
-
     return (
         <React.Fragment>
             <div className="form-group">

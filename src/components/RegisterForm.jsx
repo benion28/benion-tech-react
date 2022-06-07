@@ -4,10 +4,11 @@ import { Link } from 'react-router-dom'
 import { UserOutlined, LockOutlined, MailOutlined, EnvironmentOutlined, KeyOutlined, SolutionOutlined } from '@ant-design/icons'
 import '../styles/RegisterForm.scss'
 import { GlobalContext } from '../app/GlobalState'
+import { genders } from '../services/userHelper'
 
-const { Option } = Select;
-const { Item } = Form;
-const { Password } = Input;
+const { Option } = Select
+const { Item } = Form
+const { Password } = Input
 
 const RegisterForm = () => {
     const [form] = Form.useForm()
@@ -16,7 +17,7 @@ const RegisterForm = () => {
     const { registerUser, state } = useContext(GlobalContext)
 
     const onFinish = async (values) => {
-        console.log('Success:', values);
+        
         setFormError('')
         setFormMessage('Registeration data accepted !!')
 
@@ -27,7 +28,7 @@ const RegisterForm = () => {
     }
 
     const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
+        
         setFormMessage('');
         setFormError('Registeration data rejected, check fields for errors !!');
     }
@@ -93,9 +94,9 @@ const RegisterForm = () => {
                         </Item>
                         <Item className='form-item' name="gender" label="Gender" rules={[ { required: true } ]}>
                             <Select placeholder="Select a Gender"  allowClear>
-                                <Option value="male">Male</Option>
-                                <Option value="female">Female</Option>
-                                <Option value="other">Other</Option>
+                                {genders.map(item => (
+                                    <Option key={item.value} value={item.value}>{item.name}</Option>
+                                ))}
                             </Select>
                         </Item>
                     </div>

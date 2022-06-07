@@ -3,6 +3,7 @@ import { Form, Input, Button, Checkbox, Select, DatePicker, Alert  } from 'antd'
 import { UserOutlined, MailOutlined, EnvironmentOutlined, KeyOutlined, SolutionOutlined } from '@ant-design/icons'
 import { GlobalContext } from '../app/GlobalState'
 import '../styles/AddUserForm.scss'
+import { genders, userRoles } from '../services/userHelper'
 
 const { Option } = Select;
 const { Item } = Form;
@@ -76,15 +77,16 @@ const AddUserForm = () => {
                 <div className="form-controller">
                     <Item className='form-item' name="gender" label="Gender" rules={[ { required: true } ]}>
                         <Select placeholder="Select a Gender"  allowClear>
-                            <Option value="male">Male</Option>
-                            <Option value="female">Female</Option>
-                            <Option value="other">Other</Option>
+                            {genders.map(item => (
+                                <Option key={item.value} value={item.value}>{item.name}</Option>
+                            ))}
                         </Select>
                     </Item>
                     <Item className='form-item' name="role" label="Role" rules={[ { required: true } ]}>
                         <Select placeholder="Select a Role"  allowClear>
-                            <Option value="guest">Guest</Option>
-                            <Option value="admin">Admin</Option>
+                            {userRoles.map(item => (
+                                <Option key={item.value} value={item.value}>{item.name}</Option>
+                            ))}
                         </Select>
                     </Item>
                 </div>

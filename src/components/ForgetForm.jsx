@@ -24,7 +24,7 @@ const ForgetForm = () => {
     };
 
     const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
+        
         setFormMessage('');
         setFormError('Reset data rejected, check fields for errors !!');
     };

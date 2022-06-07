@@ -184,7 +184,7 @@ a:hover{
 
 .coin-heading-container .coin-name{
     font-weight: 900;
-    color: var(--pink);
+    color: #df546b;
 }
 
 .coin-heading-container p{
@@ -204,13 +204,13 @@ a:hover{
     font-weight: 700;
     font-size: 1.4rem;
     margin-top: 20px;
-    color: var(--pink);
+    color: #df546b;
 }
 
 .coin-details-heading{
     font-weight: 700 !important;
     margin-top: 20px !important;
-    color: var(--pink) !important;
+    color: #df546b !important;
 }
 
 .coin-stats{
@@ -247,7 +247,7 @@ a:hover{
 
 .coin-desc-link h2{
     font-weight: 700;
-    color: var(--pink);
+    color: #6414a7;
 }
 
 .coin-desc-link p{
@@ -256,7 +256,7 @@ a:hover{
 }
 
 .coin-desc-link a{
-    color: var(--pink);
+    color: #6414a7;
 }
 
 .coin-desc-link h3{
@@ -286,7 +286,7 @@ a:hover{
 }
 
 .coin-link a{
-    color: var(--pink);
+    color: #6414a7;
     font-weight: 700;
     font-size: 1rem;
 }
@@ -409,4 +409,22 @@ width: 70%;
     flex-direction: column;
     padding: 20px;
     align-items: center;
+}
+
+.search-range-crypto {
+    display: flex;
+    flex-direction: row;
+    width: 60%;
+    margin-top: 2pt;
+    margin-bottom: 10pt;
+
+}
+
+.search-range-crypto .search-input {
+    margin-right: 10pt;
+    width: 70%;
+}
+
+.global-stats {
+    margin-bottom: 7pt
 }

@@ -1,13 +1,14 @@
 
 import React, { useState, useContext } from 'react'
 import { Form, Input, Button, Select, Alert  } from 'antd'
-import { SolutionOutlined, BookOutlined } from '@ant-design/icons'
+import { SolutionOutlined, BookOutlined, KeyOutlined, LockOutlined } from '@ant-design/icons'
 import '../styles/CbtRegisterForm.scss'
 import { GlobalContext } from '../app/GlobalState'
-import { cbtClasses, cbtSchools } from '../services/userHelper';
+import { cbtCategories, cbtClasses, cbtSchools, createPassword, genders } from '../services/userHelper';
 
-const { Option } = Select;
-const { Item } = Form;
+const { Option } = Select
+const { Item } = Form
+const { Password } = Input
 
 const CbtRegisterForm = () => {
     const [form] = Form.useForm()
@@ -16,18 +17,24 @@ const CbtRegisterForm = () => {
     const { registerCbtUser, state } = useContext(GlobalContext)
 
     const onFinish = async (values) => {
-        console.log('Success:', values);
+        
         setFormError('')
         setFormMessage('Cbt Registeration data accepted !!')
 
+        const user = {
+            ...values,
+            role: "student",
+            accessCode: createPassword(8, false, true, false)
+        }
+
         // Register Cbt User
-        registerCbtUser(values)
+        registerCbtUser(user)
 
         form.resetFields()
     }
 
     const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
+        
         setFormMessage('');
         setFormError('Cbt Registeration data rejected, check fields for errors !!');
     }
@@ -39,6 +46,16 @@ const CbtRegisterForm = () => {
             number: 'This is not a valid number!',
         }
     }
+
+    const confirmPasswords = () => ({
+        validator(_, value) {
+            if (!value || form.getFieldValue('password') === value) {
+                return Promise.resolve();
+            }
+
+            return Promise.reject(new Error('The two passwords that you entered do not match!'));
+        }
+    })
 
     const onReset = () => {
         form.resetFields();
@@ -66,7 +83,7 @@ const CbtRegisterForm = () => {
                     </div>
                     <div className="form-controller">
                         <Item className='form-item' name="school" label="School" rules={[ { required: true } ]}>
-                            <Select placeholder="Select a Class"  allowClear>
+                            <Select placeholder="Select a School"  allowClear>
                                 {cbtSchools.map(item => (
                                     <Option key={item.value} value={item.value}>{item.name}</Option>
                                 ))}
@@ -74,31 +91,38 @@ const CbtRegisterForm = () => {
                         </Item>
                     </div>
                     <div className="form-controller">
+                        <Item className='form-item' label="Password" name="password" hasFeedback rules={[ { required: true, min: 8, max: 12 } ]}>
+                            <Password prefix={<KeyOutlined />} placeholder="Your Password" allowClear />
+                        </Item>
+                        <Item className='form-item' label="Confirm" name="password2" dependencies={['password']} hasFeedback rules={[ { required: true }, confirmPasswords ]}>
+                            <Password prefix={<LockOutlined />} placeholder="Confirm Password" allowClear />
+                        </Item>
+                    </div>
+                    <div className="form-controller">
                         <Item className='form-item' name="category" label="Category" rules={[ { required: true } ]}>
                             <Select placeholder="Select a Category"  allowClear>
-                                <Option value="junior">Junior</Option>
-                                <Option value="science">Science</Option>
-                                <Option value="arts">Arts</Option>
-                                <Option value="commercial">Commercial</Option>
+                                {cbtCategories.map(item => (
+                                    <Option key={item.value} value={item.value}>{item.name}</Option>
+                                ))}
                             </Select>
                         </Item>
                         <Item className='form-item' name="gender" label="Gender" rules={[ { required: true } ]}>
                             <Select placeholder="Select a Gender"  allowClear>
-                                <Option value="male">Male</Option>
-                                <Option value="female">Female</Option>
-                                <Option value="other">Other</Option>
+                                {genders.map(item => (
+                                    <Option key={item.value} value={item.value}>{item.name}</Option>
+                                ))}
                             </Select>
                         </Item>
                     </div>
                     <div className="form-controller">
-                        <Item className='form-item' name="class" label="Class" rules={[ { required: true } ]}>
+                        <Item className='form-item' name="className" label="Class" rules={[ { required: true } ]}>
                             <Select placeholder="Select a Class"  allowClear>
                                 {cbtClasses.map(item => (
                                     <Option key={item.value} value={item.value}>{item.name}</Option>
                                 ))}
                             </Select>
                         </Item>
-                        <Item className='form-item' label="Access Code" name="accessCode" rules={[ { required: true } ]}>
+                        <Item className='form-item' label="Access Code" name="creator" rules={[ { required: true } ]}>
                             <Input prefix={<BookOutlined />} placeholder="Your Access Code" allowClear />
                         </Item>
                     </div>

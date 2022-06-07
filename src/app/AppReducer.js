@@ -1,6 +1,7 @@
 import * as ACTIONS from '../services/actions'
 import * as USERS_REDUCER from './userReducer'
 import * as CBT_REDUCER from './cbtReducer'
+import * as NEWS_REDUCER from './newsReducer'
 
 const AppReducer = (state, action) => {
     switch(action.type) {
@@ -23,8 +24,6 @@ const AppReducer = (state, action) => {
             return USERS_REDUCER.userLogIn(state, action)
         case ACTIONS.userLogOut:
             return USERS_REDUCER.userLogOut(state, action)
-        case ACTIONS.updateUser:
-            return USERS_REDUCER.updateUser(state, action)
         // Cbt
         case ACTIONS.getCbtUsers:
             return CBT_REDUCER.getCbtUsers(state, action)
@@ -32,8 +31,6 @@ const AppReducer = (state, action) => {
             return CBT_REDUCER.cbtUserLogIn(state, action)
         case ACTIONS.cbtUserLogOut:
             return CBT_REDUCER.cbtUserLogOut(state, action)
-        case ACTIONS.updateCbtUser:
-            return CBT_REDUCER.updateCbtUser(state, action)
         case ACTIONS.registerCbtUser:
             return CBT_REDUCER.registerCbtUser(state, action)
         case ACTIONS.addCbtUser:
@@ -44,6 +41,15 @@ const AppReducer = (state, action) => {
             return CBT_REDUCER.deleteCbtUser(state, action)
         case ACTIONS.deleteAllCbtUsers:
             return CBT_REDUCER.deleteAllCbtUsers(state, action)
+        // News
+        case ACTIONS.getCryptos:
+            return NEWS_REDUCER.getCryptos(state, action)
+        case ACTIONS.getCryptoNews:
+            return NEWS_REDUCER.getCryptoNews(state, action)
+        case ACTIONS.getCrypto:
+            return NEWS_REDUCER.getCrypto(state, action)
+        case ACTIONS.getCryptoHistory:
+            return NEWS_REDUCER.getCryptoHistory(state, action)
         default:
             return state
     }

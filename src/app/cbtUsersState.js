@@ -73,8 +73,8 @@ export const getCbtUsers = (axios, host, ACTIONS, dispatch) => {
         baseURL: host
     }).then(response => {
         dispatch({
-            type: ACTIONS.getUsers,
-            payload: response.data.data.allUsers
+            type: ACTIONS.getCbtUsers,
+            payload: response.data.data
         })
         dispatch({
             type: ACTIONS.usersError,
@@ -234,7 +234,7 @@ export const cbtUserLogout = (axios, host, ACTIONS, dispatch) => {
     })
 }
 
-export const updateCbtUser = (user, axios, host, adminConfig, ACTIONS, dispatch) => {
+export const updateCbtUser = (user, axios, host, adminConfig, ACTIONS, dispatch, getCbtUsers) => {
     const id = user._id
     axios({
         url: `/benion-cbt/api/edit-user/${id}`,
@@ -244,13 +244,7 @@ export const updateCbtUser = (user, axios, host, adminConfig, ACTIONS, dispatch)
         data: user
     }).then(response => {
         console.log(response)
-        dispatch({
-            type: ACTIONS.updateCbtUser,
-            payload: {
-                id,
-                data: response.data.data
-            }
-        })
+        getCbtUsers()
         dispatch({
             type: ACTIONS.usersError,
             payload: null

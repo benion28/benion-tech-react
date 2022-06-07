@@ -5,6 +5,7 @@ import { initialState, host } from '../services/userHelper'
 import * as ACTIONS from '../services/actions'
 import * as USERS_STATE from './usersState'
 import * as CBT_USERS_STATE from './cbtUsersState'
+import * as NEWS_STATE from './newsState'
 
 // Create Context
 export const GlobalContext = createContext(initialState)
@@ -77,7 +78,7 @@ export const GlobalStore = ({ children }) => {
 
     // Update User
     const updateUser = (user) => {
-        USERS_STATE.updateUser(user, axios, host, adminConfig, ACTIONS, dispatch)
+        USERS_STATE.updateUser(user, axios, host, adminConfig, ACTIONS, dispatch, getUsers)
     }
 
     // Add User
@@ -128,7 +129,35 @@ export const GlobalStore = ({ children }) => {
 
     // Update Cbt User
     const updateCbtUser = (user) => {
-        CBT_USERS_STATE.updateCbtUser(user, axios, host, adminConfig, ACTIONS, dispatch)
+        CBT_USERS_STATE.updateCbtUser(user, axios, host, adminConfig, ACTIONS, dispatch, getCbtUsers)
+    }
+
+
+     //                    -----------------------------  NEWS   ---------------------------                //
+
+     // Get News
+    const getCryptos = (details) => {
+        NEWS_STATE.getCryptos(details, axios, host, config, ACTIONS, dispatch)
+    }
+
+     // Get Crypto News
+    const getCryptoNews = (details) => {
+        NEWS_STATE.getCryptoNews(details, axios, host, config, ACTIONS, dispatch)
+    }
+
+    // Get Bing News
+    const getBingNews = (details) => {
+        NEWS_STATE.getBingNews(details, axios, host, config, ACTIONS, dispatch)
+    }
+
+    // Get Crypto
+    const getCrypto = (id) => {
+        NEWS_STATE.getCrypto(id, axios, host, config, ACTIONS, dispatch)
+    }
+
+    // Get News
+    const getCryptoHistory = (details) => {
+        NEWS_STATE.getCryptoHistory(details, axios, host, config, ACTIONS, dispatch)
     }
 
     return (
@@ -153,7 +182,12 @@ export const GlobalStore = ({ children }) => {
             deleteAllCbtUsers,
             updateCbtUser,
             cbtUserLogout,
-            cbtUserFind
+            cbtUserFind,
+            getCryptos,
+            getCryptoNews,
+            getBingNews,
+            getCrypto,
+            getCryptoHistory
         }}>
             { children }
         </Provider>
