@@ -4,7 +4,7 @@ const alpha = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 const numbers = "0123456789"
 const symbols = "!@#$%^&*_-)(=+{}[];:><,./?~'`"
 
-const production = true
+export const production = true
 
 const generatePassword = (length, chars) => {
     let password = ""
@@ -72,21 +72,27 @@ export const initialState = {
         creator: null,
         accessCode: null,
         password: null,
-        activeExam: 'khjhjkjk',
-        examTime: 29
+        activeExam: null,
+        completed: false
     },
     cbtExam: {
         category: 'science',
-        activeExam: '',
-        examTime: 29,
-        examTimeLimit: 30,
+        id: 'jhgfjh',
+        examTime: 10,
         selected: 'maths',
-        username: 'benion'
+        username: 'benion',
+        answered: '1,3',
+        answers: '1vghfhfghn,3gfghfhgg',
+        completed: false
     },
+    totalQuestions: 20,
+    examTimeLimit: 30,
+    examCategory: 'science',
     error: null,
     message: null,
     loading: true,
     loggedIn: false,
+    showAlert: false,
     cbtLoggedIn: false
 }
 
@@ -155,8 +161,7 @@ export const cbtClasses = [
     { name: 'JSS 3', value: 'jss-3' },
     { name: 'SSS 1', value: 'sss-1' },
     { name: 'SSS 2', value: 'sss-2' },
-    { name: 'SSS 3', value: 'sss-3' },
-    { name: 'Graduated', value: 'graduated' }
+    { name: 'SSS 3', value: 'sss-3' }
 ]
 
 export const cbtSchools = [
@@ -178,6 +183,7 @@ export const userRoles = [
 ]
 
 export const cbtCategories = [
+    { name: 'General', value: 'general' },
     { name: 'Junior', value: 'junior' },
     { name: 'Science', value: 'science' },
     { name: 'Arts', value: 'arts' },
@@ -188,4 +194,20 @@ export const genders = [
     { name: 'Male', value: 'male' },
     { name: 'Female', value: 'female' },
     { name: 'Others', value: 'others' }
+]
+
+export const terms = [
+    { name: '1st Term', value: 'first-term' },
+    { name: '2nd Term', value: 'second-term' },
+    { name: '3rd Term', value: 'third-term' }
+]
+
+export const subjects = [
+    { name: 'Mathematics', value: 'maths' },
+    { name: 'English Language', value: 'english' },
+    { name: 'Chemistry', value: 'chemistry' },
+    { name: 'Physics', value: 'physics' },
+    { name: 'Basic Science', value: 'b-science' },
+    { name: 'Government', value: 'government' },
+    { name: 'Economics', value: 'economics' }
 ]

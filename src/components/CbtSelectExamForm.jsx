@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Form, Button, Select, Alert } from 'antd'
 import { BookOutlined  } from '@ant-design/icons'
 import '../styles/CbtSelectExamForm.scss'
+import { production } from '../services/userHelper'
 import { GlobalContext } from '../app/GlobalState'
 
 const { Item } = Form
@@ -12,43 +13,43 @@ const CbtSelectExamForm = () => {
     const [form] = Form.useForm();
     const [formMessage, setFormMessage] = useState('')
     const [formError, setFormError] = useState('')
-    const { cbtUserFind, state  } = useContext(GlobalContext)
+    const { state, examCategory  } = useContext(GlobalContext)
 
     const onFinish = async (values) => {
-        console.log('Received values of form: ', values)
+        !production && (console.log("Select Exam data accepted !!", values))
         setFormError('')
-        setFormMessage('Find Username data accepted !!')
+        setFormMessage('Select Exam data accepted !!')
 
-        // Find Username
+        examCategory(values.examType)
     }
 
     const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo)
+        !production && (console.log("Select Exam data rejected !!", errorInfo))
         setFormMessage('')
-        setFormError('Find Username data rejected, check fields for errors !!')
+        setFormError('Select Exam data rejected, check fields for errors !!')
     }
 
     const validateMessages = {
         required: '${label} is required!'
     }
 
-    console.log('Current State: ', state)
-
     return (
         <React.Fragment>
             <div className="form-group">
-                <div className="form-alert">
-                    { formMessage !== '' && (
-                        <Alert message={formMessage} type="success" showIcon closable />
-                    )}
-                    { formError !== '' && (
-                        <Alert message={formError} type="error" showIcon closable />
-                    )}
-                </div>
+                { (!production || (state.user.role === 'admin' && state.showAlert)) && (
+                    <div className="form-alert">
+                        { formMessage !== '' && (
+                            <Alert message={formMessage} type="success" showIcon closable />
+                        )}
+                        { formError !== '' && (
+                            <Alert message={formError} type="error" showIcon closable />
+                        )}
+                    </div>
+                )}
                 <Form name="normal_login" form={ form } className="login-form" onFinishFailed={ onFinishFailed } validateMessages={ validateMessages } initialValues={{ remember: true }} onFinish={ onFinish }>
                     <Alert className="information-alert" message="Exam Instructions" description="You are required to answer 20 questions in 30 minutes. Make sure you submit on completion of all the questions" type="info" showIcon />
-                    <Item className='form-item' name="exam-type" label="Exam Type" rules={[ { required: true } ]}>
-                        <Select placeholder="Select an Exam Type"  allowClear>
+                    <Item className='form-item' name="examType" label="Exam Type" rules={[ { required: true } ]}>
+                        <Select placeholder="Select an Exam Type" defaultValue={state.cbtUser.category}  allowClear>
                             <Option value="current">Current</Option>
                             <Option value="junior">Junior</Option>
                             {(state.cbtUser.category !== 'junior' && state.cbtUser.category !== null) && (

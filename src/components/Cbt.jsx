@@ -58,7 +58,7 @@ const Cbt = () => {
                         </Tabs>
                     </Col>
                 )}
-                {state.cbtLoggedIn && state.cbtUser.activeExam === '' && (
+                {state.cbtLoggedIn && state.cbtUser.completed && (
                     <Col className="form-tabs">
                         <Tabs defaultActiveKey="1" className="tabs-form" type="card">
                             <TabPane className="tabs-panel" tab={ <span> <Title level={4}>CBT Exam Selector</Title> </span> } key="1">
@@ -67,7 +67,7 @@ const Cbt = () => {
                         </Tabs>
                     </Col>
                 )}
-                {state.cbtLoggedIn && state.cbtUser.activeExam !== '' && (
+                {state.cbtLoggedIn && !state.cbtUser.completed && (
                     <Col className="form-tabs">
                         <Tabs defaultActiveKey="1" className="tabs-form" type="card">
                             <TabPane className="tabs-panel" tab={ <span> <Title level={4}>CBT Exam In Progress</Title> </span> } key="1">

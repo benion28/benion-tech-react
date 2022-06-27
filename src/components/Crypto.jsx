@@ -17,6 +17,7 @@ import {
 } from '@ant-design/icons'
 
 import { GlobalContext } from '../app/GlobalState'
+import { production } from '../services/userHelper'
 import { LineChart } from '../components'
 
 const { Fragment } = React
@@ -36,8 +37,8 @@ const Crypto = () => {
         setCoinHistory(state.cryptoHistory)
         setCryptoDetails(state.crypto)
     }, [state.crypto, state.cryptoHistory, timePeriod, id, getCryptoHistory, getCrypto])
-
-    console.log("coin History", coinHistory)
+    
+    !production && (console.log("coin History", coinHistory))
 
     const time = ['3h', '24h', '7d', '30d', '1y', '3m', '3y', '5y']
 

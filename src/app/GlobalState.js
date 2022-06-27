@@ -38,7 +38,7 @@ export const GlobalStore = ({ children }) => {
 
     // User Login
     const userLogin = (user) => {
-        USERS_STATE.userLogin(user, axios, host, config, ACTIONS, dispatch, getUsers, getCbtUsers)
+        USERS_STATE.userLogin(user, axios, host, config, ACTIONS, dispatch, getUsers, getCbtUsers, getCbtExams, getCbtQuestions)
     }
 
     // Delete User
@@ -86,6 +86,13 @@ export const GlobalStore = ({ children }) => {
         USERS_STATE.addUser(user, axios, host, config, ACTIONS, dispatch)
     }
 
+    // Show Alerts
+    const showAlert = (value) => {
+        USERS_STATE.showAlert(value, ACTIONS, dispatch)
+    }
+    
+
+
     //                    -----------------------------  CBT USERS   ---------------------------                //
     
     // Add Cbt User
@@ -105,7 +112,7 @@ export const GlobalStore = ({ children }) => {
 
     // Cbt User Login
     const cbtUserLogin = (user) => {
-        CBT_USERS_STATE.cbtUserLogin(user, axios, host, config, ACTIONS, dispatch, getCbtUsers)
+        CBT_USERS_STATE.cbtUserLogin(user, axios, host, config, ACTIONS, dispatch, getCbtUsers, getCbtExams, getCbtQuestions)
     }
 
     // Delete User
@@ -130,6 +137,46 @@ export const GlobalStore = ({ children }) => {
     // Update Cbt User
     const updateCbtUser = (user) => {
         CBT_USERS_STATE.updateCbtUser(user, axios, host, adminConfig, ACTIONS, dispatch, getCbtUsers)
+    }
+
+    // Update Cbt Exam
+    const updateExam = (values) => {
+        CBT_USERS_STATE.updateExam(values, axios, host, config, ACTIONS, dispatch, getCbtUsers, getCbtExams)
+    }
+
+    // Create Cbt Exam
+    const createExam = (values) => {
+        CBT_USERS_STATE.createExam(values, axios, host, config, ACTIONS, dispatch, getCbtUsers, getCbtExams)
+    }
+
+    // Get Cbt Exams
+    const getCbtExams = () => {
+        CBT_USERS_STATE.getCbtExams(axios, host, ACTIONS, dispatch)
+    }
+
+    // Get Cbt Exams
+    const getCbtQuestions = () => {
+        CBT_USERS_STATE.getCbtQuestions(axios, host, ACTIONS, dispatch)
+    }
+
+    // Exam Category
+    const examCategory = (category) => {
+        CBT_USERS_STATE.examCategory(category, ACTIONS, dispatch)
+    }
+
+    // Add Exam Question
+    const addQuestion = (object) => {
+        CBT_USERS_STATE.addQuestion(object, axios, host, adminConfig, ACTIONS, dispatch, getCbtExams, getCbtQuestions)
+    }
+
+    // Edit Exam Question
+    const editQuestion = (object, key) => {
+        CBT_USERS_STATE.editQuestion(object, key, axios, host, adminConfig, ACTIONS, dispatch, getCbtExams, getCbtQuestions)
+    }
+
+    // Delete Question
+    const deleteQuestion = (key) => {
+        CBT_USERS_STATE.deleteQuestion(key, axios, host, adminConfig, ACTIONS, dispatch, getCbtQuestions)
     }
 
 
@@ -181,8 +228,17 @@ export const GlobalStore = ({ children }) => {
             deleteCbtUser,
             deleteAllCbtUsers,
             updateCbtUser,
+            showAlert,
             cbtUserLogout,
             cbtUserFind,
+            updateExam,
+            createExam,
+            getCbtExams,
+            getCbtQuestions,
+            examCategory,
+            addQuestion,
+            editQuestion,
+            deleteQuestion,
             getCryptos,
             getCryptoNews,
             getBingNews,

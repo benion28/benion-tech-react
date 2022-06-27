@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react'
 import { Form, Input, Button, Alert } from 'antd'
 import { UserOutlined, LockOutlined, LoginOutlined } from '@ant-design/icons'
 import '../styles/CbtLoginForm.scss'
+import { production } from '../services/userHelper'
 import { GlobalContext } from '../app/GlobalState'
 
 const { Item } = Form
@@ -14,9 +15,9 @@ const CbtLoginForm = () => {
     const { cbtUserLogin, state  } = useContext(GlobalContext)
 
     const onFinish = async (values) => {
-        console.log('Received values of form: ', values)
+        !production && (console.log("Cbt Login data accepted !!", values))
         setFormError('')
-        setFormMessage('Log In data accepted !!')
+        setFormMessage('Cbt Login data accepted !!')
 
         // Cbt Log In
         cbtUserLogin(values)
@@ -24,9 +25,9 @@ const CbtLoginForm = () => {
     }
 
     const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo)
+        !production && (console.log("Cbt Login data rejected !!", errorInfo))
         setFormMessage('')
-        setFormError('Log In data rejected, check fields for errors !!')
+        setFormError('Cbt Login data rejected !!, check fields for errors !!')
     }
 
     const validateMessages = {
@@ -36,15 +37,17 @@ const CbtLoginForm = () => {
     return (
         <React.Fragment>
             <div className="form-group">
-                <div className="form-alert">
-                    { formMessage !== '' && (
-                        <Alert message={formMessage} type="success" showIcon closable />
-                    )}
-                    { formError !== '' && (
-                        <Alert message={formError} type="error" showIcon closable />
-                    )}
-                </div>
-                { !state.loggedIn && (
+                { (!production || (state.user.role === 'admin' && state.showAlert)) && (
+                    <div className="form-alert">
+                        { formMessage !== '' && (
+                            <Alert message={formMessage} type="success" showIcon closable />
+                        )}
+                        { formError !== '' && (
+                            <Alert message={formError} type="error" showIcon closable />
+                        )}
+                    </div>
+                )}
+                { !state.cbtLoggedIn && (
                     <Form name="normal_login" form={ form } className="login-form" onFinishFailed={ onFinishFailed } validateMessages={ validateMessages } initialValues={{ remember: true }} onFinish={ onFinish }>
                         <Item label="Username" name="username" rules={[ { required: true} ]}>
                             <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" allowClear />
@@ -52,7 +55,7 @@ const CbtLoginForm = () => {
                         <Item label="Password" name="password" rules={[ { required: true, min: 8, max: 12 } ]} hasFeedback>
                             <Password prefix={<LockOutlined className="site-form-item-icon" />} placeholder="Password" allowClear />
                         </Item>
-                        { !state.loggedIn && (
+                        { !state.cbtLoggedIn && (
                             <Item>
                                 <Button type="primary" htmlType="submit" className="login-form-button">
                                     Log In <LoginOutlined />

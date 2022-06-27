@@ -23,7 +23,9 @@ const AppReducer = (state, action) => {
         case ACTIONS.userLogIn:
             return USERS_REDUCER.userLogIn(state, action)
         case ACTIONS.userLogOut:
-            return USERS_REDUCER.userLogOut(state, action)
+            return USERS_REDUCER.userLogOut(state)
+        case ACTIONS.showAlert:
+            return USERS_REDUCER.showAlert(state, action)
         // Cbt
         case ACTIONS.getCbtUsers:
             return CBT_REDUCER.getCbtUsers(state, action)
@@ -41,6 +43,18 @@ const AppReducer = (state, action) => {
             return CBT_REDUCER.deleteCbtUser(state, action)
         case ACTIONS.deleteAllCbtUsers:
             return CBT_REDUCER.deleteAllCbtUsers(state, action)
+        case ACTIONS.getCbtExams:
+            return CBT_REDUCER.getCbtExams(state, action)
+        case ACTIONS.getCbtQuestions:
+            return CBT_REDUCER.getCbtQuestions(state, action)
+        case ACTIONS.createExam:
+            return CBT_REDUCER.createExam(state, action)
+        case ACTIONS.deleteQuestion:
+            return CBT_REDUCER.deleteQuestion(state, action)
+        case ACTIONS.addQuestion:
+            return CBT_REDUCER.addQuestion(state, action)
+        case ACTIONS.examCategory:
+            return CBT_REDUCER.examCategory(state, action)
         // News
         case ACTIONS.getCryptos:
             return NEWS_REDUCER.getCryptos(state, action)

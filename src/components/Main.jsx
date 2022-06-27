@@ -19,6 +19,7 @@ import {
     Crypto
 } from '../components'
 import { GlobalContext } from '../app/GlobalState'
+import { production } from '../services/userHelper'
 
 const Main = () => {
     const { state, getCryptos, getCryptoNews, getBingNews } = useContext(GlobalContext)
@@ -27,16 +28,20 @@ const Main = () => {
         getCryptos({ count: 10 })
         getCryptoNews({ count: 200, newsCategory: "crypto" })
         getBingNews({ count: 200 })
-        console.log("Current State: ", state)
+        if (!production || state.showAlert) {
+            console.log("Current State: ", state)
+        }
     }, [state, getCryptos, getCryptoNews, getBingNews])
 
     return (
         <div>
            <Layout>
                <div className="routes">
-                   <div className="form-alert">
-                       <ServerResponse />
-                   </div>
+                   { (!production || (state.user.role === 'admin' && state.showAlert)) && (
+                    <div className="form-alert">
+                        <ServerResponse />
+                    </div>
+                   )}
                    <Routes>
                        <Route exact path="/" element={<Homepage />} />
                        <Route exact path="/works" element={<Works />} />

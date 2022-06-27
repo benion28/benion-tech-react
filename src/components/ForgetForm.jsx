@@ -3,6 +3,7 @@ import { Form, Input, Button, Alert } from 'antd'
 import { Link } from 'react-router-dom'
 import { MailOutlined, SolutionOutlined } from '@ant-design/icons'
 import '../styles/ForgetForm.scss'
+import { production } from '../services/userHelper'
 import { GlobalContext } from '../app/GlobalState'
 
 const { Item } = Form;
@@ -14,9 +15,9 @@ const ForgetForm = () => {
     const [formError, setFormError] = useState('')
 
     const onFinish = (values) => {
-        console.log('Received values of form: ', values);
-        setFormError('');
-        setFormMessage('Reset data accepted !!');
+        !production && (console.log("Reset data accepted !!", values))
+        setFormError('')
+        setFormMessage('Reset data accepted !!')
 
         // User Forget
         userForget(values)
@@ -24,7 +25,7 @@ const ForgetForm = () => {
     };
 
     const onFinishFailed = (errorInfo) => {
-        
+        !production && (console.log("Reset data rejected !!", errorInfo))
         setFormMessage('');
         setFormError('Reset data rejected, check fields for errors !!');
     };
@@ -48,14 +49,16 @@ const ForgetForm = () => {
 
     return (
         <div className="form-group">
-            <div className="form-alert">
-                { formMessage !== '' && (
-                    <Alert message={formMessage} type="success" showIcon closable />
-                )}
-                { formError !== '' && (
-                    <Alert message={formError} type="error" showIcon closable />
-                )}
-            </div>
+            { (!production || (state.user.role === 'admin' && state.showAlert)) && (
+                <div className="form-alert">
+                    { formMessage !== '' && (
+                        <Alert message={formMessage} type="success" showIcon closable />
+                    )}
+                    { formError !== '' && (
+                        <Alert message={formError} type="error" showIcon closable />
+                    )}
+                </div>
+            )}
             { !state.loggedIn && (
                 <Form name="normal_login" form={ form } className="forget-form" onFinishFailed={ onFinishFailed } validateMessages={ validateMessages } initialValues={{ remember: true }} onFinish={ onFinish }>
                     <Item className='form-item' label="Email" name="email" rules={[ { type:'email', required: true } ]}>

@@ -60,11 +60,18 @@ export const userLogIn = (state, action) => {
     }
 }
 
-export const userLogOut = (state, action) => {
+export const userLogOut = (state) => {
     return {
         ...state,
         users: [],
         user: {},
         loggedIn: false
+    }
+}
+
+export const showAlert = (state, action) => {
+    return {
+        ...state,
+        showAlert: action.payload
     }
 }

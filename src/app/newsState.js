@@ -1,3 +1,5 @@
+import { production } from '../services/userHelper'
+
 export const getCryptos = (details, axios, host, config, ACTIONS, dispatch) => {
     axios({
         url: '/benion-news/api/all-cryptos',
@@ -6,6 +8,7 @@ export const getCryptos = (details, axios, host, config, ACTIONS, dispatch) => {
         headers: config.headers,
         data: details
     }).then(response => {
+        !production && (console.log("Get Cryptos Response", response))
         dispatch({
             type: ACTIONS.getCryptos,
             payload: response.data.data
@@ -19,6 +22,7 @@ export const getCryptos = (details, axios, host, config, ACTIONS, dispatch) => {
             payload: response.data.message
         })
     }).catch(error => {
+        !production && (console.log("Get Cryptos Error", error))
         dispatch({
             type: ACTIONS.usersMessage,
             payload: null
@@ -38,6 +42,7 @@ export const getCryptoHistory = (details, axios, host, config, ACTIONS, dispatch
         headers: config.headers,
         data: details
     }).then(response => {
+        !production && (console.log("Get Crypto History Response", response))
         dispatch({
             type: ACTIONS.getCryptoHistory,
             payload: response.data.data
@@ -51,6 +56,7 @@ export const getCryptoHistory = (details, axios, host, config, ACTIONS, dispatch
             payload: response.data.message
         })
     }).catch(error => {
+        !production && (console.log("Get Crypto History Error", error))
         dispatch({
             type: ACTIONS.usersMessage,
             payload: null
@@ -69,6 +75,7 @@ export const getCrypto = (id, axios, host, config, ACTIONS, dispatch) => {
         baseURL: host,
         headers: config.headers
     }).then(response => {
+        !production && (console.log("Get Crypto Response", response))
         dispatch({
             type: ACTIONS.getCrypto,
             payload: response.data.data
@@ -82,6 +89,7 @@ export const getCrypto = (id, axios, host, config, ACTIONS, dispatch) => {
             payload: response.data.message
         })
     }).catch(error => {
+        !production && (console.log("Get Crypto Error", error))
         dispatch({
             type: ACTIONS.usersMessage,
             payload: null
@@ -101,7 +109,7 @@ export const getCryptoNews = (details, axios, host, config, ACTIONS, dispatch) =
         headers: config.headers,
         data: details
     }).then(response => {
-        console.log("Cryptos News", response.data.data)
+        !production && (console.log("Get Crypto News Response", response))
         dispatch({
             type: ACTIONS.getCryptoNews,
             payload: response.data.data
@@ -115,7 +123,7 @@ export const getCryptoNews = (details, axios, host, config, ACTIONS, dispatch) =
             payload: response.data.message
         })
     }).catch(error => {
-        console.log(error)
+        !production && (console.log("Get Crypto News Error", error))
         dispatch({
             type: ACTIONS.usersMessage,
             payload: null
@@ -135,7 +143,7 @@ export const getBingNews = (details, axios, host, config, ACTIONS, dispatch) => 
         headers: config.headers,
         data: details
     }).then(response => {
-        console.log("Bing News", response.data.data)
+        !production && (console.log("Get Bing News Response", response))
         dispatch({
             type: ACTIONS.getCryptoNews,
             payload: response.data.data
@@ -149,7 +157,7 @@ export const getBingNews = (details, axios, host, config, ACTIONS, dispatch) => 
             payload: response.data.message
         })
     }).catch(error => {
-        console.log(error)
+        !production && (console.log("Get Bing News Error", error))
         dispatch({
             type: ACTIONS.usersMessage,
             payload: null

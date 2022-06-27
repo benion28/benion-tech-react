@@ -3,31 +3,31 @@ import { Form, Input, Button, Checkbox, Select, DatePicker, Alert  } from 'antd'
 import { UserOutlined, MailOutlined, EnvironmentOutlined, KeyOutlined, SolutionOutlined } from '@ant-design/icons'
 import { GlobalContext } from '../app/GlobalState'
 import '../styles/AddUserForm.scss'
-import { genders, userRoles } from '../services/userHelper'
+import { genders, userRoles, production } from '../services/userHelper'
 
 const { Option } = Select;
 const { Item } = Form;
 const { Password } = Input;
 
 const AddUserForm = () => {
-    const { addUser } = useContext(GlobalContext)
+    const { state, addUser } = useContext(GlobalContext)
     const [form] = Form.useForm()
     const [formMessage, setFormMessage] = useState('')
     const [formError, setFormError] = useState('')
 
     const onFinish = (values) => {
-        console.log('Success:', values)
+        !production && (console.log('Add User data success !!', values))
         setFormError('')
-        setFormMessage('User data accepted !!')
+        setFormMessage('Add User data success !!')
 
         // Add User
         addUser(values)
     }
 
     const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo)
+        !production && (console.log('Add User data failed !!', errorInfo))
         setFormMessage('')
-        setFormError('User data rejected, check fields for errors !!')
+        setFormError('Add User data failed, check fields for errors !!')
     }
 
     const validateMessages = {
@@ -44,14 +44,16 @@ const AddUserForm = () => {
 
     return (
         <div className="form-group">
-            <div className="form-alert">
-                { formMessage !== '' && (
-                    <Alert message={formMessage} type="success" showIcon closable />
-                )}
-                { formError !== '' && (
-                    <Alert message={formError} type="error" showIcon closable />
-                )}
-            </div>
+            { (!production || (state.user.role === 'admin' && state.showAlert)) && (
+                <div className="form-alert">
+                    { formMessage !== '' && (
+                        <Alert message={formMessage} type="success" showIcon closable />
+                    )}
+                    { formError !== '' && (
+                        <Alert message={formError} type="error" showIcon closable />
+                    )}
+                </div>
+            )}
             <Form name="basic" form={ form } validateMessages={ validateMessages } initialValues={{ remember: true }} onFinish={ onFinish } onFinishFailed={ onFinishFailed } autoComplete="off">
                 <div className="form-controller">
                     <Item className='form-item' label="First Name" name="firstname" rules={[ { required: true } ]}>

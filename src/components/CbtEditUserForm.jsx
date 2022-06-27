@@ -3,13 +3,13 @@ import { Form, Input, Button, Select, Alert  } from 'antd'
 import { SolutionOutlined } from '@ant-design/icons'
 import { GlobalContext } from '../app/GlobalState'
 import '../styles/CbtEditUserForm.scss'
-import { cbtCategories, cbtClasses, cbtRoles, cbtSchools, genders } from '../services/userHelper';
+import { cbtCategories, cbtClasses, cbtRoles, cbtSchools, genders, production } from '../services/userHelper'
 
 const { Option } = Select
 const { Item } = Form
 
 const CbtEditUserForm = ({ user }) => {
-    const { updateCbtUser } = useContext(GlobalContext)
+    const { state, updateCbtUser } = useContext(GlobalContext)
     const [form] = Form.useForm()
     const [formMessage, setFormMessage] = useState('')
     const [formError, setFormError] = useState('')
@@ -26,21 +26,21 @@ const CbtEditUserForm = ({ user }) => {
     })
 
     const onFinish = (values) => {
-        console.log('Success:', values)
+        !production && (console.log('Cbt Edit data accepted !!', values))
         setFormError('')
-        setFormMessage('User data accepted !!')
+        setFormMessage('Cbt Edit data accepted !!')
 
         // Add User
         const data = {
             ...user,
             ...values
         }
-        console.log(data)
+
         updateCbtUser(data)
     }
 
     const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo)
+        !production && (console.log('Cbt Edit data rejected !!', errorInfo))
         setFormMessage('')
         setFormError('User data rejected, check fields for errors !!')
     }
@@ -59,14 +59,16 @@ const CbtEditUserForm = ({ user }) => {
 
     return (
         <div className="form-group">
-            <div className="form-alert">
-                { formMessage !== '' && (
-                    <Alert message={formMessage} type="success" showIcon closable />
-                )}
-                { formError !== '' && (
-                    <Alert message={formError} type="error" showIcon closable />
-                )}
-            </div>
+            { (!production || (state.user.role === 'admin' && state.showAlert)) && (
+                <div className="form-alert">
+                    { formMessage !== '' && (
+                        <Alert message={formMessage} type="success" showIcon closable />
+                    )}
+                    { formError !== '' && (
+                        <Alert message={formError} type="error" showIcon closable />
+                    )}
+                </div>
+            )}
             <Form name="basic" form={ form } validateMessages={ validateMessages } initialValues={{ remember: true }} onFinish={ onFinish } onFinishFailed={ onFinishFailed } autoComplete="off">
                 <div className="form-controller">
                     <Item className='form-item' label="First Name" name="firstname" rules={[ { required: true } ]}>
@@ -107,6 +109,7 @@ const CbtEditUserForm = ({ user }) => {
                             {cbtClasses.map(item => (
                                 <Option key={item.value} value={item.value}>{item.name}</Option>
                             ))}
+                            <Option value="graduated">Graduated</Option>
                         </Select>
                     </Item>
                     <Item className='form-item' name="role" label="Role" rules={[ { required: true } ]}>

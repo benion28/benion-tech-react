@@ -1,15 +1,15 @@
 import React, { useState, useContext } from 'react'
 import { Form, Input, Button, Checkbox, Select, Alert  } from 'antd'
-import { UserOutlined, MailOutlined, EnvironmentOutlined, KeyOutlined, SolutionOutlined, MoneyCollectOutlined, CalendarOutlined } from '@ant-design/icons'
+import { UserOutlined, MailOutlined, EnvironmentOutlined, SolutionOutlined, MoneyCollectOutlined, CalendarOutlined } from '@ant-design/icons'
 import { GlobalContext } from '../app/GlobalState'
 import '../styles/EditUserForm.scss'
-import { genders, userRoles } from '../services/userHelper'
+import { genders, userRoles, production } from '../services/userHelper'
 
 const { Option } = Select;
 const { Item } = Form;
 
 const EditUserForm = ({ user }) => {
-    const { updateUser } = useContext(GlobalContext)
+    const { state, updateUser } = useContext(GlobalContext)
     const [form] = Form.useForm()
     const [formMessage, setFormMessage] = useState('')
     const [formError, setFormError] = useState('')
@@ -28,9 +28,9 @@ const EditUserForm = ({ user }) => {
     })
 
     const onFinish = (values) => {
-        console.log('Success:', values)
+        !production && (console.log("Edit User data accepted !!", values))
         setFormError('')
-        setFormMessage('User data accepted !!')
+        setFormMessage('Edit User data accepted !!')
 
         // Add User
         const data = {
@@ -41,9 +41,9 @@ const EditUserForm = ({ user }) => {
     }
 
     const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo)
+        !production && (console.log("Edit User data rejected !!", errorInfo))
         setFormMessage('')
-        setFormError('User data rejected, check fields for errors !!')
+        setFormError('Edit User data rejected, check fields for errors !!')
     }
 
     const validateMessages = {
@@ -60,14 +60,16 @@ const EditUserForm = ({ user }) => {
 
     return (
         <div className="form-group">
-            <div className="form-alert">
-                { formMessage !== '' && (
-                    <Alert message={formMessage} type="success" showIcon closable />
-                )}
-                { formError !== '' && (
-                    <Alert message={formError} type="error" showIcon closable />
-                )}
-            </div>
+            { (!production || (state.user.role === 'admin' && state.showAlert)) && (
+                <div className="form-alert">
+                    { formMessage !== '' && (
+                        <Alert message={formMessage} type="success" showIcon closable />
+                    )}
+                    { formError !== '' && (
+                        <Alert message={formError} type="error" showIcon closable />
+                    )}
+                </div>
+            )}
             <Form name="basic" form={ form } validateMessages={ validateMessages } initialValues={{ remember: true }} onFinish={ onFinish } onFinishFailed={ onFinishFailed } autoComplete="off">
                 <div className="form-controller">
                     <Item hidden className='form-item' label="First Name" name="firstname" rules={[ { required: true } ]}>

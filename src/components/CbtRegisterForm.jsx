@@ -4,7 +4,7 @@ import { Form, Input, Button, Select, Alert  } from 'antd'
 import { SolutionOutlined, BookOutlined, KeyOutlined, LockOutlined } from '@ant-design/icons'
 import '../styles/CbtRegisterForm.scss'
 import { GlobalContext } from '../app/GlobalState'
-import { cbtCategories, cbtClasses, cbtSchools, createPassword, genders } from '../services/userHelper';
+import { cbtCategories, cbtClasses, cbtSchools, createPassword, genders, production } from '../services/userHelper'
 
 const { Option } = Select
 const { Item } = Form
@@ -17,7 +17,7 @@ const CbtRegisterForm = () => {
     const { registerCbtUser, state } = useContext(GlobalContext)
 
     const onFinish = async (values) => {
-        
+       !production && (console.log('Cbt Registeration data accepted !!', values)) 
         setFormError('')
         setFormMessage('Cbt Registeration data accepted !!')
 
@@ -34,9 +34,9 @@ const CbtRegisterForm = () => {
     }
 
     const onFinishFailed = (errorInfo) => {
-        
+        !production && (console.log('Cbt Registeration data rejected !!', errorInfo))
         setFormMessage('');
-        setFormError('Cbt Registeration data rejected, check fields for errors !!');
+        setFormError('Cbt Registeration data rejected !!, check fields for errors !!');
     }
 
     const validateMessages = {
@@ -63,15 +63,17 @@ const CbtRegisterForm = () => {
 
     return (
         <div className="form-group">
-            <div className="form-alert">
-                { formMessage !== '' && (
-                    <Alert message={formMessage} type="success" showIcon closable />
-                )}
-                { formError !== '' && (
-                    <Alert message={formError} type="error" showIcon closable />
-                )}
-            </div>
-            { !state.loggedIn && (
+            { (!production || (state.user.role === 'admin' && state.showAlert)) && (
+                <div className="form-alert">
+                    { formMessage !== '' && (
+                        <Alert message={formMessage} type="success" showIcon closable />
+                    )}
+                    { formError !== '' && (
+                        <Alert message={formError} type="error" showIcon closable />
+                    )}
+                </div>
+            )}
+            { !state.cbtLoggedIn && (
                 <Form name="basic" form={ form } validateMessages={ validateMessages } initialValues={{ remember: true }} onFinish={ onFinish } onFinishFailed={ onFinishFailed } autoComplete="off">
                     <div className="form-controller">
                         <Item className='form-item' label="First Name" name="firstname" rules={[ { required: true } ]}>
@@ -120,6 +122,7 @@ const CbtRegisterForm = () => {
                                 {cbtClasses.map(item => (
                                     <Option key={item.value} value={item.value}>{item.name}</Option>
                                 ))}
+                                <Option value="graduated">Graduated</Option>
                             </Select>
                         </Item>
                         <Item className='form-item' label="Access Code" name="creator" rules={[ { required: true } ]}>

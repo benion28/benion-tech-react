@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Select, Typography, Row, Col, Avatar, Card } from "antd";
-import moment from "moment";
-import { GlobalContext } from '../app/GlobalState';
+import React, { useContext, useEffect, useState } from 'react'
+import { Select, Typography, Row, Col, Avatar, Card, Input } from "antd"
+import moment from "moment"
+import { GlobalContext } from '../app/GlobalState'
 
 const { Text, Title } = Typography
 const { Option } = Select
@@ -29,11 +29,12 @@ const CryptoNews = () => {
         <Row gutter={[ 24, 24 ]}>
             {cryptoNews.length !== 0 && (
                 <Col span={24}>
+                    <Input className="search-input" placeholder="Search News" onChange={(event) => setNewsCategory(event.target.value) } />
                     <Select
                         showSearch
                         defaultValue={"Crypto"}
                         className="select-news"
-                        placeholder="Select a Crypto"
+                        placeholder="Select a Crypto News"
                         optionFilterProp="children"
                         onChange={(value) => setNewsCategory(value)}
                         filterOption={(input, option) => option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}

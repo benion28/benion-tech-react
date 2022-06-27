@@ -3,7 +3,7 @@ import { Form, Input, Button, Select, Alert } from 'antd'
 import { UserOutlined, SearchOutlined } from '@ant-design/icons'
 import '../styles/CbtFindUserForm.scss'
 import { GlobalContext } from '../app/GlobalState'
-import { cbtClasses, cbtSchools } from '../services/userHelper';
+import { cbtClasses, cbtSchools, production } from '../services/userHelper'
 
 const { Item } = Form
 const { Option } = Select
@@ -16,9 +16,9 @@ const CbtFindUserForm = () => {
     const { cbtUserFind, state  } = useContext(GlobalContext)
 
     const onFinish = async (values) => {
-        console.log('Received values of form: ', values)
+        !production && (console.log("Cbt Find User data accepted", values))
         setFormError('')
-        setFormMessage('Find Username data accepted !!')
+        setFormMessage("Cbt Find User data accepted")
 
         // Find Username
         const user = cbtUserFind(values)
@@ -29,9 +29,9 @@ const CbtFindUserForm = () => {
     }
 
     const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo)
+        !production && (console.log("Cbt Find User data rejected", errorInfo))
         setFormMessage('')
-        setFormError('Find Username data rejected, check fields for errors !!')
+        setFormError("Cbt Find User data rejected")
     }
 
     const validateMessages = {
@@ -41,15 +41,17 @@ const CbtFindUserForm = () => {
     return (
         <React.Fragment>
             <div className="form-group">
-                <div className="form-alert">
-                    { formMessage !== '' && (
-                        <Alert message={formMessage} type="success" showIcon closable />
-                    )}
-                    { formError !== '' && (
-                        <Alert message={formError} type="error" showIcon closable />
-                    )}
-                </div>
-                { !state.loggedIn && (
+                { (!production || (state.user.role === 'admin' && state.showAlert)) && (
+                    <div className="form-alert">
+                        { formMessage !== '' && (
+                            <Alert message={formMessage} type="success" showIcon closable />
+                        )}
+                        { formError !== '' && (
+                            <Alert message={formError} type="error" showIcon closable />
+                        )}
+                    </div>
+                )}
+                { !state.cbtLoggedIn && (
                     <Form name="normal_login" form={ form } className="login-form" onFinishFailed={ onFinishFailed } validateMessages={ validateMessages } initialValues={{ remember: true }} onFinish={ onFinish }>
                         {foundUser !== null && (
                             <Alert className="information-alert" message={foundUser.username} description="The above is the username found with the provided details" type="info" showIcon />
@@ -72,6 +74,7 @@ const CbtFindUserForm = () => {
                                 {cbtClasses.map(item => (
                                     <Option key={item.value} value={item.value}>{item.name}</Option>
                                 ))}
+                                <Option value="graduated">Graduated</Option>
                             </Select>
                         </Item>
                         <Item className='form-item' name="role" label="Role" rules={[ { required: true } ]}>
@@ -81,7 +84,7 @@ const CbtFindUserForm = () => {
                                 <Option value="admin">Administrator</Option>
                             </Select>
                         </Item>
-                        { !state.loggedIn && (
+                        { !state.cbtLoggedIn && (
                             <Item>
                                 <Button type="primary" htmlType="submit" className="login-form-button">
                                     Search For Username <SearchOutlined />

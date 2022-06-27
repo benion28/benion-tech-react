@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { UserOutlined, LockOutlined, MailOutlined, EnvironmentOutlined, KeyOutlined, SolutionOutlined } from '@ant-design/icons'
 import '../styles/RegisterForm.scss'
 import { GlobalContext } from '../app/GlobalState'
-import { genders } from '../services/userHelper'
+import { genders, production } from '../services/userHelper'
 
 const { Option } = Select
 const { Item } = Form
@@ -17,7 +17,7 @@ const RegisterForm = () => {
     const { registerUser, state } = useContext(GlobalContext)
 
     const onFinish = async (values) => {
-        
+        !production && (console.log("Registeration data accepted !!", values))
         setFormError('')
         setFormMessage('Registeration data accepted !!')
 
@@ -28,9 +28,9 @@ const RegisterForm = () => {
     }
 
     const onFinishFailed = (errorInfo) => {
-        
+        !production && (console.log("Registeration data rejected !!", errorInfo))
         setFormMessage('');
-        setFormError('Registeration data rejected, check fields for errors !!');
+        setFormError('Registeration data rejected, check fields for errors !!')
     }
 
     const validateMessages = {
@@ -57,14 +57,16 @@ const RegisterForm = () => {
 
     return (
         <div className="form-group">
-            <div className="form-alert">
-                { formMessage !== '' && (
-                    <Alert message={formMessage} type="success" showIcon closable />
-                )}
-                { formError !== '' && (
-                    <Alert message={formError} type="error" showIcon closable />
-                )}
-            </div>
+            { (!production || (state.user.role === 'admin' && state.showAlert)) && (
+                <div className="form-alert">
+                    { formMessage !== '' && (
+                        <Alert message={formMessage} type="success" showIcon closable />
+                    )}
+                    { formError !== '' && (
+                        <Alert message={formError} type="error" showIcon closable />
+                    )}
+                </div>
+            )}
             { !state.loggedIn && (
                 <Form name="basic" form={ form } validateMessages={ validateMessages } initialValues={{ remember: true }} onFinish={ onFinish } onFinishFailed={ onFinishFailed } autoComplete="off">
                     <div className="form-controller">

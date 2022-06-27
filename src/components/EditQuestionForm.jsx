@@ -2,33 +2,45 @@
 import React, { useState, useContext } from 'react'
 import { Form, Input, Button, Select, Alert  } from 'antd'
 import { SolutionOutlined } from '@ant-design/icons'
-import '../styles/CbtAddForm.scss'
+import '../styles/EditQuestionForm.scss'
 import { GlobalContext } from '../app/GlobalState'
-import { cbtCategories, cbtClasses, cbtRoles, cbtSchools, createPassword, genders } from '../services/userHelper'
+import { cbtCategories, cbtClasses, terms, subjects } from '../services/userHelper'
 
 const { Option } = Select
 const { Item } = Form
+const { TextArea } = Input
 
-const CbtAddForm = () => {
+const EditQuestionForm = ({ question }) => {
     const [form] = Form.useForm()
     const [formMessage, setFormMessage] = useState('')
     const [formError, setFormError] = useState('')
-    const { addCbtUser, state, production } = useContext(GlobalContext)
+    const { editQuestion, state, production } = useContext(GlobalContext)
+
+    form.setFieldsValue({
+        question: question.question,
+        optionA: question.optionA,
+        optionB: question.optionB,
+        optionC: question.optionC,
+        optionD: question.optionD,
+        answer: question.answer,
+        className: question.className,
+        term: question.term,
+        category: question.category,
+        subject: question.subject
+    })
 
     const onFinish = async (values) => {
         !production && (console.log('Cbt Registeration data accepted !!', values))
         setFormError('')
         setFormMessage('Cbt Registeration data accepted !!')
 
-        const user = {
-            ...values,
-            accessCode: createPassword(8, false, true, false),
-            creator: state.cbtUser.accessCode,
-            password: createPassword(8, true, true, false)
-        }
+        // const object = {
+        //     ...values,
+        //     creator: state.cbtUser.accessCode
+        // }
 
-        // Register Cbt User
-        addCbtUser(user)
+        // Add Exam Question
+        editQuestion(values, question.$key)
 
         form.resetFields()
     }
@@ -65,17 +77,33 @@ const CbtAddForm = () => {
             )}
             <Form name="basic" form={ form } validateMessages={ validateMessages } initialValues={{ remember: true }} onFinish={ onFinish } onFinishFailed={ onFinishFailed } autoComplete="off">
                 <div className="form-controller">
-                    <Item className='form-item' label="First Name" name="firstname" rules={[ { required: true } ]}>
-                        <Input prefix={<SolutionOutlined />} placeholder="First Name" allowClear />
-                    </Item>
-                    <Item className='form-item' label="Last Name" name="lastname" rules={[ { required: true } ]}>
-                        <Input prefix={<SolutionOutlined />} placeholder="Last Name" allowClear />
+                    <Item className='form-item' label="Question" name="question" rules={[ { required: true } ]} hasFeedback>
+                        <TextArea prefix={<SolutionOutlined className="site-form-item-icon" />} placeholder="Input Question" allowClear />
                     </Item>
                 </div>
                 <div className="form-controller">
-                    <Item className='form-item' name="school" label="School" rules={[ { required: true } ]}>
-                        <Select placeholder="Select a Class"  allowClear>
-                            {cbtSchools.map(item => (
+                    <Item className='form-item' label="Option A" name="optionA" rules={[ { required: true } ]}>
+                        <Input prefix={<SolutionOutlined />} placeholder="Option A" allowClear />
+                    </Item>
+                    <Item className='form-item' label="Option B" name="optionB" rules={[ { required: true } ]}>
+                        <Input prefix={<SolutionOutlined />} placeholder="Option B" allowClear />
+                    </Item>
+                </div>
+                <div className="form-controller">
+                    <Item className='form-item' label="Option C" name="optionC" rules={[ { required: true } ]}>
+                        <Input prefix={<SolutionOutlined />} placeholder="Option C" allowClear />
+                    </Item>
+                    <Item className='form-item' label="Option D" name="optionD" rules={[ { required: true } ]}>
+                        <Input prefix={<SolutionOutlined />} placeholder="Option D" allowClear />
+                    </Item>
+                </div>
+                <div className="form-controller">
+                    <Item className='form-item' label="Answer" name="answer" rules={[ { required: true } ]}>
+                        <Input prefix={<SolutionOutlined />} placeholder="Answer" allowClear />
+                    </Item>
+                    <Item className='form-item' name="term" label="Term" rules={[ { required: true } ]}>
+                        <Select placeholder="Select a Term"  allowClear>
+                            {terms.map(item => (
                                 <Option key={item.value} value={item.value}>{item.name}</Option>
                             ))}
                         </Select>
@@ -89,26 +117,18 @@ const CbtAddForm = () => {
                             ))}
                         </Select>
                     </Item>
-                    <Item className='form-item' name="gender" label="Gender" rules={[ { required: true } ]}>
-                        <Select placeholder="Select a Gender"  allowClear>
-                            {genders.map(item => (
+                    <Item className='form-item' name="className" label="Class" rules={[ { required: true } ]}>
+                        <Select placeholder="Select a Class"  allowClear>
+                            {cbtClasses.map(item => (
                                 <Option key={item.value} value={item.value}>{item.name}</Option>
                             ))}
                         </Select>
                     </Item>
                 </div>
                 <div className="form-controller">
-                    <Item className='form-item' name="className" label="Class" rules={[ { required: true } ]}>
-                        <Select placeholder="Select a Class"  allowClear>
-                            {cbtClasses.map(item => (
-                                <Option key={item.value} value={item.value}>{item.name}</Option>
-                            ))}
-                            <Option value="graduated">Graduated</Option>
-                        </Select>
-                    </Item>
-                    <Item className='form-item' name="role" label="Role" rules={[ { required: true } ]}>
-                        <Select placeholder="Select a Role"  allowClear>
-                            {cbtRoles.map(item => (
+                    <Item className='form-item' name="subject" label="Subject" rules={[ { required: true } ]}>
+                        <Select placeholder="Select a Subject"  allowClear>
+                            {subjects.map(item => (
                                 <Option key={item.value} value={item.value}>{item.name}</Option>
                             ))}
                         </Select>
@@ -131,4 +151,4 @@ const CbtAddForm = () => {
     )
 }
 
-export default CbtAddForm
+export default EditQuestionForm

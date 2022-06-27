@@ -12,13 +12,14 @@ import {
     DollarCircleOutlined,
     DollarOutlined,
     DatabaseOutlined,
-    PlusOutlined,
     PlusCircleOutlined,
     GlobalOutlined,
-    HomeFilled
+    HomeFilled,
+    PoweroffOutlined
 } from '@ant-design/icons'
 import benionPassport from '../images/benion-passport.jpg'
 import { GlobalContext } from '../app/GlobalState'
+import '../styles/Navbar.scss'
 
 const { Title  } = Typography;
 const { Item  } = Menu;
@@ -26,7 +27,7 @@ const { Item  } = Menu;
 const Navbar = () => {
     const [activeMenu, setActiveMenu] = useState(true);
     const [screensize, setScreensize] = useState(null);
-    const { state } = useContext(GlobalContext)
+    const { state, showAlert } = useContext(GlobalContext)
 
     useEffect(() => {
         const handleResize = () => setScreensize(window.innerWidth);
@@ -79,6 +80,11 @@ const Navbar = () => {
                     <Item icon={<DesktopOutlined />}>
                         <Link to="/benion-cbt"><b>CBT</b></Link>
                     </Item>
+                    { (state.user.role === 'admin' && state.loggedIn) && (
+                        <Item icon={<PoweroffOutlined />}>
+                            <Button type='ghost' onClick={ () => showAlert(!state.showAlert) } className='alert-item'><b>Swich Alert ({ state.showAlert ? "OFF" : "ON" }) </b> <PoweroffOutlined className={ state.showAlert ? 'alert-on' : 'alert-off' } /></Button>
+                        </Item>
+                    )}
                     <Item icon={<MoneyCollectOutlined />}>
                         <Link to="/benion-donate"><b>Donate</b></Link>
                     </Item>
@@ -93,9 +99,6 @@ const Navbar = () => {
                     </Item>
                     <Item icon={<PlusCircleOutlined />}>
                         <Link to="/benion-news/add-news"><b>Add News</b></Link>
-                    </Item>
-                    <Item icon={<PlusOutlined />}>
-                        <Link to="/benion-cbt/add-question"><b>Add Question</b></Link>
                     </Item>
                     <Item icon={<DollarOutlined />}>
                         <Link to="/benion-users/deposit-for-user"><b>Deposit For User</b></Link>

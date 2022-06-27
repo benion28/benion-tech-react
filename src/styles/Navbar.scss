@@ -1,0 +1,15 @@
+.alert-item {
+    background: none;
+    border: none;
+    color: #dbdfe2;
+
+    .alert-on {
+        color: #0a8b0a;
+        size: 15pt;
+    }
+
+    .alert-off {
+        color: #f31212;
+        size: 15pt;
+    }
+}

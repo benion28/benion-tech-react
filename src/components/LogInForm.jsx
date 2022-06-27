@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Form, Input, Button, Checkbox, Alert } from 'antd'
 import { UserOutlined, LockOutlined, GoogleOutlined, LoginOutlined } from '@ant-design/icons'
 import '../styles/LogInForm.scss'
+import { production } from '../services/userHelper'
 import { GlobalContext } from '../app/GlobalState'
 
 const { Item } = Form
@@ -15,7 +16,7 @@ const LogInForm = () => {
     const { userLogin, state, googleSignIn  } = useContext(GlobalContext)
 
     const onFinish = async (values) => {
-        console.log('Received values of form: ', values)
+        !production && (console.log("Log In data accepted !!", values))
         setFormError('')
         setFormMessage('Log In data accepted !!')
 
@@ -25,13 +26,13 @@ const LogInForm = () => {
     }
 
     const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo)
+        !production && (console.log("Log In data rejected !!", errorInfo))
         setFormMessage('')
         setFormError('Log In data rejected, check fields for errors !!')
     }
 
     const onGoogleSignIn = () => {
-        console.log('Google Auth Requested')
+        !production && (console.log('Google Auth Requested'))
         googleSignIn()
     }
 
@@ -39,19 +40,19 @@ const LogInForm = () => {
         required: '${label} is required!'
     }
 
-    console.log('Current State: ', state)
-
     return (
         <React.Fragment>
             <div className="form-group">
-                <div className="form-alert">
-                    { formMessage !== '' && (
-                        <Alert message={formMessage} type="success" showIcon closable />
-                    )}
-                    { formError !== '' && (
-                        <Alert message={formError} type="error" showIcon closable />
-                    )}
-                </div>
+                { (!production || (state.user.role === 'admin' && state.showAlert)) && (
+                    <div className="form-alert">
+                        { formMessage !== '' && (
+                            <Alert message={formMessage} type="success" showIcon closable />
+                        )}
+                        { formError !== '' && (
+                            <Alert message={formError} type="error" showIcon closable />
+                        )}
+                    </div>
+                )}
                 { !state.loggedIn && (
                     <Form name="normal_login" form={ form } className="login-form" onFinishFailed={ onFinishFailed } validateMessages={ validateMessages } initialValues={{ remember: true }} onFinish={ onFinish }>
                         <Alert className="information-alert" message="You can also log in as Guest User  !!!" description="you can use 'username as guest';     and 'password as guest123'  !!!" type="info" showIcon />

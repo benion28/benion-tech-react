@@ -1,12 +1,12 @@
 import React, { useState, useContext } from 'react'
 import { Typography, Menu, Dropdown, Button, Tabs } from 'antd'
 import { Link } from 'react-router-dom'
-import { DownOutlined, SmileOutlined, LogoutOutlined, TableOutlined, MoneyCollectOutlined, LoginOutlined } from '@ant-design/icons';
+import { DownOutlined, SmileOutlined, LogoutOutlined, TableOutlined, MoneyCollectOutlined, LoginOutlined, BookOutlined } from '@ant-design/icons';
 import Loader from 'react-loaders'
-import { UsersTable, CbtUsersTable } from '../components'
+import { UsersTable, CbtUsersTable, Questions } from '../components'
 import '../styles/Dashboard.scss'
 import { GlobalContext } from '../app/GlobalState'
-import { formatAmountManually } from '../services/userHelper';
+import { formatAmountManually } from '../services/userHelper'
 
 
 const { Title } = Typography;
@@ -36,7 +36,15 @@ const Dashboard = () => {
             label: state.user.role === 'admin' && (
                 <Button className="dropdown-menu-button" onClick={() => setShowTable(true) }>
                     <TableOutlined />
-                    Admin Tables
+                    Tables
+                </Button>
+            )
+        },
+        {
+            label: state.user.role === 'admin' && (
+                <Button className="dropdown-menu-button" onClick={() => setShowTable(false) }>
+                    <BookOutlined />
+                    Questions
                 </Button>
             )
         },
@@ -109,6 +117,13 @@ const Dashboard = () => {
                             <CbtUsersTable />
                         </TabPane>
                     </Tabs>
+                </div>
+            )}
+            { (!showTable && state.cbtUser.role !== "student") && (
+                <div className="questions">
+                    <div className="list">
+                        <Questions />
+                    </div>
                 </div>
             )}
             <Loader type="pacman" />

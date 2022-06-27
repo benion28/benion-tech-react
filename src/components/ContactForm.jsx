@@ -2,19 +2,20 @@ import React, { useState, useContext } from 'react'
 import { Form, Input, Button, Alert } from 'antd'
 import { UserOutlined, MailOutlined, SolutionOutlined } from '@ant-design/icons'
 import '../styles/ContactForm.scss'
+import { production } from '../services/userHelper'
 import { GlobalContext } from '../app/GlobalState'
 
 const { Item } = Form
 const { TextArea } = Input
 
 const ContactForm = () => {
-    const { userContact } = useContext(GlobalContext)
+    const { state, userContact } = useContext(GlobalContext)
     const [form] = Form.useForm()
     const [formMessage, setFormMessage] = useState('')
     const [formError, setFormError] = useState('')
 
     const onFinish = (values) => {
-        console.log('Received values of form: ', values)
+        !production && (console.log("Message data accepted !!", values))
         setFormError('')
         setFormMessage('Message data accepted !!')
 
@@ -24,7 +25,7 @@ const ContactForm = () => {
     }
 
     const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo)
+        !production && (console.log("Message data rejected !!", errorInfo))
         setFormMessage('')
         setFormError('Message data rejected, check fields for errors !!')
     };
@@ -38,14 +39,16 @@ const ContactForm = () => {
 
     return (
         <div className="form-group">
-            <div className="form-alert">
-                { formMessage !== '' && (
-                    <Alert message={formMessage} type="success" showIcon closable />
-                )}
-                { formError !== '' && (
-                    <Alert message={formError} type="error" showIcon closable />
-                )}
-            </div>
+            { (!production || (state.user.role === 'admin' && state.showAlert)) && (
+                <div className="form-alert">
+                    { formMessage !== '' && (
+                        <Alert message={formMessage} type="success" showIcon closable />
+                    )}
+                    { formError !== '' && (
+                        <Alert message={formError} type="error" showIcon closable />
+                    )}
+                </div>
+            )}
             <Form name="normal_login" form={ form } className="contact-form" onFinishFailed={ onFinishFailed } validateMessages={ validateMessages } initialValues={{ remember: true }} onFinish={ onFinish }>
                 <Alert className="information-alert" message="Informational Notes  !!!" description="Send us email about complaints and recommendations, directly to our inbox" type="info" showIcon />
                 <Item label="Full Name" name="fullname" rules={[ { required: true } ]}>

@@ -210,7 +210,6 @@ a:hover{
 .coin-details-heading{
     font-weight: 700 !important;
     margin-top: 20px !important;
-    color: #df546b !important;
 }
 
 .coin-stats{
@@ -427,4 +426,24 @@ width: 70%;
 
 .global-stats {
     margin-bottom: 7pt
+}
+
+.exam-question-sorter {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 10pt;
+    margin-bottom: 10pt;
+}
+
+.exam-question-sorter .option-item {
+    margin-left: 7pt;
+}
+
+.button-controller .reset-button {
+    margin-left: 7pt;
+}
+
+.button-controller .submit-button {
+    margin-left: 7pt;
 }
