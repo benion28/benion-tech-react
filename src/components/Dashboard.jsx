@@ -3,7 +3,7 @@ import { Typography, Menu, Dropdown, Button, Tabs } from 'antd'
 import { Link } from 'react-router-dom'
 import { DownOutlined, SmileOutlined, LogoutOutlined, TableOutlined, MoneyCollectOutlined, LoginOutlined, BookOutlined } from '@ant-design/icons';
 import Loader from 'react-loaders'
-import { UsersTable, CbtUsersTable, Questions } from '../components'
+import { UsersTable, CbtUsersTable, Questions, ExamsTable } from '../components'
 import '../styles/Dashboard.scss'
 import { GlobalContext } from '../app/GlobalState'
 import { formatAmountManually } from '../services/userHelper'
@@ -116,10 +116,13 @@ const Dashboard = () => {
                         <TabPane className="tabs-panel" tab={ <span> <Title level={4}>Students</Title> </span> } key="2">
                             <CbtUsersTable />
                         </TabPane>
+                        <TabPane className="tabs-panel" tab={ <span> <Title level={4}>Exam Data</Title> </span> } key="3">
+                            <ExamsTable />
+                        </TabPane>
                     </Tabs>
                 </div>
             )}
-            { (!showTable && state.cbtUser.role !== "student") && (
+            { (!showTable && state.cbtLoggedIn && state.cbtUser.role !== "student") && (
                 <div className="questions">
                     <div className="list">
                         <Questions />

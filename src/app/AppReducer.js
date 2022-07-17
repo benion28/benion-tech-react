@@ -49,6 +49,10 @@ const AppReducer = (state, action) => {
             return CBT_REDUCER.getCbtQuestions(state, action)
         case ACTIONS.createExam:
             return CBT_REDUCER.createExam(state, action)
+        case ACTIONS.updateExam:
+            return CBT_REDUCER.updateExam(state, action)
+        case ACTIONS.deleteCbtExam:
+            return CBT_REDUCER.deleteExam(state, action)
         case ACTIONS.deleteQuestion:
             return CBT_REDUCER.deleteQuestion(state, action)
         case ACTIONS.addQuestion:

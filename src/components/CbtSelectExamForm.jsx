@@ -1,26 +1,35 @@
 import React, { useState, useContext } from 'react'
-import { Link } from 'react-router-dom'
 import { Form, Button, Select, Alert } from 'antd'
 import { BookOutlined  } from '@ant-design/icons'
 import '../styles/CbtSelectExamForm.scss'
-import { production } from '../services/userHelper'
+import { production, getCategoryName, cbtCategories, getTermName, terms, getSubjectName, subjects, getClassName, cbtClasses } from '../services/userHelper'
 import { GlobalContext } from '../app/GlobalState'
 
 const { Item } = Form
 const { Option } = Select
 
 const CbtSelectExamForm = () => {
-    const [form] = Form.useForm();
+    const [form] = Form.useForm()
     const [formMessage, setFormMessage] = useState('')
     const [formError, setFormError] = useState('')
     const { state, examCategory  } = useContext(GlobalContext)
+    const tempCategory = state.cbtUser.className[0] === 'j' ? state.juniorExamCategory : state.seniorExamCategory
+    const tempClassName = state.cbtUser.className === 'graduated' ? 'sss-3' : state.cbtUser.className
+
+    const formInitials = {
+        examTerm: state.cbtExamTerm,
+        examCategory: tempCategory,
+        examSubject: state.cbtExamSubject,
+        examClass: tempClassName
+    }
+
+    form.setFieldsValue(formInitials)
 
     const onFinish = async (values) => {
         !production && (console.log("Select Exam data accepted !!", values))
         setFormError('')
         setFormMessage('Select Exam data accepted !!')
-
-        examCategory(values.examType)
+        examCategory(values)
     }
 
     const onFinishFailed = (errorInfo) => {
@@ -46,29 +55,61 @@ const CbtSelectExamForm = () => {
                         )}
                     </div>
                 )}
-                <Form name="normal_login" form={ form } className="login-form" onFinishFailed={ onFinishFailed } validateMessages={ validateMessages } initialValues={{ remember: true }} onFinish={ onFinish }>
-                    <Alert className="information-alert" message="Exam Instructions" description="You are required to answer 20 questions in 30 minutes. Make sure you submit on completion of all the questions" type="info" showIcon />
-                    <Item className='form-item' name="examType" label="Exam Type" rules={[ { required: true } ]}>
-                        <Select placeholder="Select an Exam Type" defaultValue={state.cbtUser.category}  allowClear>
-                            <Option value="current">Current</Option>
-                            <Option value="junior">Junior</Option>
-                            {(state.cbtUser.category !== 'junior' && state.cbtUser.category !== null) && (
-                                <Option value="science">Science</Option>
+                <Form name="normal_login" form={ form } className="login-form" onFinishFailed={ onFinishFailed } validateMessages={ validateMessages } initialValues={formInitials} onFinish={ onFinish }>
+                    <Alert className="information-alert" message="Exam Instructions" description={`You are required to answer ${state.totalQuestions} questions in ${state.examTimeLimit} minutes. Make sure you submit on completion of all the questions`} type="info" showIcon />
+                    <Item className='form-item' name="examTerm" rules={[ { required: true } ]}>
+                        <Select placeholder="Select an Exam Term" allowClear>
+                            {state.cbtLoggedIn && (
+                                <Option value={state.cbtExamTerm}>{getTermName(state.cbtExamTerm)} - Current</Option>
                             )}
-                            {(state.cbtUser.category !== 'junior' && state.cbtUser.category !== null) && (
-                                <Option value="arts">Arts</Option>
+                            {(state.cbtUser.role !== 'student' && state.cbtLoggedIn) && terms.filter(item => item.value !== state.cbtExamTerm).map(item => (
+                                <Option key={item.value} value={item.value}>{item.name}</Option>
+                            ))}
+                        </Select>
+                    </Item>
+                    <Item className='form-item' name="examClass" rules={[ { required: true } ]}>
+                        <Select placeholder="Select an Exam Class" allowClear>
+                            {(state.cbtLoggedIn && state.cbtUser.role === 'student') && (
+                                <Option value={state.cbtUser.className}>{getClassName(state.cbtUser.className)}  - Current</Option>
+                            )}    
+                            {(state.cbtLoggedIn && state.cbtUser.role !== 'student' && state.cbtUser.className === 'graduated') && (
+                                <Option value={tempClassName}>{getClassName(tempClassName)}  - Current</Option>
+                            )}  
+                            {(state.cbtUser.role !== 'student' && state.cbtLoggedIn) && cbtClasses.filter(item => item.value !== tempClassName).map(item => (
+                                <Option key={item.value} value={item.value}>{item.name}</Option>
+                            ))}
+                        </Select>
+                    </Item>
+                    <Item className='form-item' name="examSubject" rules={[ { required: true } ]}>
+                        <Select placeholder="Select an Exam Subject" allowClear>
+                            {state.cbtLoggedIn && (
+                                <Option value={state.cbtExamSubject}>{getSubjectName(state.cbtExamSubject)}  - Current</Option>
+                            )}         
+                            {(state.cbtUser.role !== 'student' && state.cbtLoggedIn) && subjects.filter(item => item.value !== state.cbtExamSubject).map(item => (
+                                <Option key={item.value} value={item.value}>{item.name}</Option>
+                            ))}
+                        </Select>
+                    </Item>
+                    <Item className='form-item' name="examCategory" rules={[ { required: true } ]}>
+                        <Select placeholder="Select an Exam Category" allowClear>
+                            {state.cbtLoggedIn && (
+                                <Option value={tempCategory}>{getCategoryName(tempCategory)} - Selected</Option>
                             )}
-                            {(state.cbtUser.category !== 'junior' && state.cbtUser.category !== null) && (
-                                <Option value="commercial">Commercial</Option>
+                            {(state.cbtUser.role !== 'student' && state.cbtLoggedIn) && cbtCategories.filter(item => item.value !== tempCategory).map(item => (
+                                <Option key={item.value} value={item.value}>{item.name}</Option>
+                            ))}
+                            {(state.cbtLoggedIn && ((state.advanceExam && state.cbtUser.className[0] === 'j') || state.cbtUser.role !== 'student')) && (
+                                <Option value="jse">JSE</Option>
+                            )}
+                            {(state.cbtLoggedIn && ((state.advanceExam && state.cbtUser.className[0] === 's') || state.cbtUser.role !== 'student')) && (
+                                <Option value="sse">SSE</Option>
                             )}
                         </Select>
                     </Item>
                     <Item>
-                        <Link to="/benion-cbt/exams">
-                            <Button type="primary" htmlType="submit" className="login-form-button">
-                                Start Exams <BookOutlined />
-                            </Button>
-                        </Link>
+                        <Button type="primary" htmlType="submit" className="login-form-button">
+                            Start Exams <BookOutlined />
+                        </Button>
                     </Item>
                 </Form>
             </div>

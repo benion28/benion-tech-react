@@ -1,3 +1,6 @@
+import lodash from "lodash"
+import { anExam, cbtExam, cbtUser } from "../services/userHelper"
+
 export const getCbtUsers = (state, action) => {
     return {
         ...state,
@@ -25,21 +28,59 @@ export const getCbtQuestions = (state, action) => {
 export const createExam = (state, action) => {
     return {
         ...state,
-        cbtExam: action.payload
+        cbtExam: action.payload,
+        cbtAnswers: action.payload.answers,
+        cbtAnswered: action.payload.answered,
+        cbtExamKey: action.payload.$key
+    }
+}
+
+export const updateExam = (state, action) => {
+    return {
+        ...state,
+        cbtExam: action.payload,
+        cbtAnswers: action.payload.answers,
+        cbtAnswered: action.payload.answered
+    }
+}
+
+export const deleteExam = (state, action) => {
+    return {
+        ...state,
+        cbtExams: state.cbtExams.filter(data => data.$key !== action.payload)
     }
 }
 
 export const examCategory = (state, action) => {
     return {
         ...state,
-        tempExamCategory: action.payload
+        cbtExam: lodash.extend(state.cbtExam, {completed: false}),
+        cbtExamTerm: action.payload.examTerm,
+        examCategory: action.payload.examCategory,
+        cbtExamSubject: action.payload.examSubject,
+        cbtExamClass: action.payload.examClass,
+        startExam: true
+    }
+}
+
+export const examAnswered = (state, action) => {
+    return {
+        ...state,
+        cbtAnswers: action.payload.answers,
+        cbtAnswered: action.payload.answered
     }
 }
 
 export const cbtUserLogIn = (state, action) => {
+    const exams = anExam(state, action.payload)
+    const exam = exams[0]
+    const payload = action.payload
     return {
         ...state,
-        cbtUser: action.payload,
+        cbtUser: lodash.extend(state.cbtUser, payload),
+        cbtExam: lodash.extend(state.cbtExam, exam),
+        cbtExamCompleted: exam.completed,
+        cbtTimeSpent: exam.examTime,
         cbtLoggedIn: true
     }
 }
@@ -48,7 +89,8 @@ export const cbtUserLogOut = (state, action) => {
     return {
         ...state,
         cbtUsers: [],
-        cbtUser: {},
+        cbtUser,
+        cbtExam,
         cbtLoggedIn: false
     }
 }

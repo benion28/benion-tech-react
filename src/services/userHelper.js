@@ -14,11 +14,88 @@ const generatePassword = (length, chars) => {
     return password
 }
 
+export const user = {
+    firstname: null,
+    lastname: null,
+    username: null,
+    role: null,
+    token: null,
+    amountBalance: null
+}
+
+export const cbtUser = {
+    firstname: null,
+    lastname: null,
+    username: null,
+    category: null,
+    className: null,
+    role: null,
+    token: null,
+    creator: null,
+    accessCode: null,
+    password: null,
+    activeExam: null,
+    completed: true
+}
+
+const cbtUserOld = {
+    firstname: 'Bernard',
+    lastname: 'Iorver',
+    username: '2022/ADM/42710',
+    category: 'science',
+    className: 'graduated',
+    role: 'admin',
+    token: null,
+    creator: null,
+    accessCode: null,
+    password: null,
+    activeExam: null,
+    completed: true
+}
+
+const cbtExamOld = {
+    $key: null,
+    category: 'general',
+    id: 'jhgfjh',
+    className: 'sss-1',
+    examTime: 10,
+    subject: 'maths',
+    username: 'benion',
+    answered: '1,3',
+    answers: '1vghfhfghn,3gfghfhgg',
+    term: 'second-term',
+    completed: false
+}
+
+export const cbtExam = {
+    $key: null,
+    category: null,
+    id: null,
+    className: null,
+    examTime: 1,
+    subject: null,
+    username: null,
+    answered: '',
+    answers: '',
+    term: null,
+    completed: true
+}
+
 export const initialState = {
     users: [],
     cbtUsers: [],
-    cbtExams: [],
-    cbtQuestions: [],
+    cbtExams: [
+        [],
+        [],
+        {},
+        []
+    ],
+    cbtQuestions: [
+        [],
+        [],
+        {},
+        []
+    ],
     cryptos: { 
         stats: {
             totalCoins: null, 
@@ -55,42 +132,27 @@ export const initialState = {
         links: []
     },
     cryptoHistory: [],
-    user: {
-        firstname: null,
-        lastname: null,
-        username: null,
-        role: null,
-        token: null,
-        amountBalance: null
-    },
-    cbtUser: {
-        firstname: null,
-        lastname: null,
-        username: null,
-        role: null,
-        token: null,
-        creator: null,
-        accessCode: null,
-        password: null,
-        activeExam: null,
-        completed: false
-    },
-    cbtExam: {
-        category: 'science',
-        id: 'jhgfjh',
-        examTime: 10,
-        selected: 'maths',
-        username: 'benion',
-        answered: '1,3',
-        answers: '1vghfhfghn,3gfghfhgg',
-        completed: false
-    },
-    totalQuestions: 20,
+    user,
+    cbtUser,
+    cbtExam,
+    totalQuestions: 19,
     examTimeLimit: 30,
-    examCategory: 'science',
+    cbtTimeSpent: 0,
+    cbtExamTerm: 'second-term',
+    cbtExamSubject: 'maths',
+    cbtExamClass: '',
+    examCategory: '',
+    seniorExamCategory: 'general',
+    juniorExamCategory: 'junior',
+    cbtExamCompleted: true,
+    advanceExam: false,
+    cbtAnswers: '',
+    cbtAnswered: '',
+    cbtExamKey: '',
     error: null,
     message: null,
     loading: true,
+    startExam: false,
     loggedIn: false,
     showAlert: false,
     cbtLoggedIn: false
@@ -211,3 +273,37 @@ export const subjects = [
     { name: 'Government', value: 'government' },
     { name: 'Economics', value: 'economics' }
 ]
+
+export const getClassName = (className) => {
+    if (className === "graduated") {
+        return "Graduated"
+    } else {
+        const filteredData = cbtClasses.filter(data => data.value === className)
+        return filteredData[0].name
+    }
+}
+
+export const getCategoryName = (category) => {
+    const filteredData = cbtCategories.filter(data => data.value === category)
+    return filteredData[0].name
+}
+
+export const getTermName = (term) => {
+    const filteredData = terms.filter(data => data.value === term)
+    return filteredData[0].name
+}
+
+export const getSubjectName = (subject) => {
+    const filteredData = subjects.filter(data => data.value === subject)
+    return filteredData[0].name
+}
+
+export const anExam = (state, payload) => {
+    const filterUsername = state.cbtExams[3].filter(item => item.username === payload.username)
+    const filterCompleted = filterUsername.filter(item => !item.completed)
+    if (filterCompleted.length > 0) {
+        return filterCompleted
+    } else {
+        return [cbtExam]
+    }
+}

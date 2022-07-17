@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
-import { AnimateText } from '../components'
-import { Typography, Row, Col, Image, Alert, Tabs, Radio, Button, Form  } from 'antd'
+import { Typography, Row, Col, Alert, Tabs, Radio, Button, Form  } from 'antd'
 import Loader from 'react-loaders'
-import benionTechIcon from '../images/benion-tech-icon.png'
 import { GlobalContext } from '../app/GlobalState'
-import { production } from '../services/userHelper'
+import { createPassword, production } from '../services/userHelper'
 import '../styles/CbtExam.scss'
 
 const { Title } = Typography
@@ -13,86 +11,44 @@ const { Item } = Form
 const { Group } = Radio
 const { TabPane } = Tabs
 
- const examQuestions = [
-         {
-            id: '0', 
-            question: 'asfgsdkjgdfjhjklfdhgawsdsdfgjklkmmbghfbnhfg',
-            optionA: 'bfhgdf',
-            optionB: 'gdsgfd',
-            optionC: 'etergdf',
-            optionD: 'asasfsdxcz',
-            answer: 'bfhgdf'
-        },
-        {
-            id: '1', 
-            question: '1asfgsdhfgjfhdsfagdgjkfgjfgsdgdfvdffgdbvxdgvdxvxcbvcxzxvdfgdfvdvdfbvdfgvbdfv',
-            optionA: '1bfhgdf',
-            optionB: '1gdsgfd',
-            optionC: '1etergdf',
-            optionD: '1asasfsdxcz',
-            answer: '1etergdf'
-        },
-        {
-            id: '2', 
-            question: '2asfgsdhfgjfhdsfagdgjkfgjfgsdgdfvdffgdbvxdgvdxvxcbvcxzxvdfgdfvdvdfbvdfgvbdfv',
-            optionA: '2bfhgdf',
-            optionB: '2gdsgfd',
-            optionC: '2etergdf',
-            optionD: '2asasfsdxcz',
-            answer: '2bfhgdf'
-        },
-        {
-            id: '3', 
-            question: '3asfgsdhfgjfhdsfagdgjkfgjfgsdgdfvdffgdbvxdgvdxvxcbvcxzxvdfgdfvdvdfbvdfgvbdfv',
-            optionA: '3bfhgdf',
-            optionB: '3gdsgfd',
-            optionC: '3etergdf',
-            optionD: '3asasfsdxcz',
-            answer: '3gdsgfd'
-        }
-     ]
-
 const CbtExam = () => {
     const [form] = Form.useForm()
-    const { state, createExam, updateExam } = useContext(GlobalContext)
+    const { state, createExam, updateExam, userContact } = useContext(GlobalContext)
     const [formMessage, setFormMessage] = useState('')
     const [examData, setExamData] = useState({})
-    const [answered, setAnswered] = useState(state.cbtExam.answered.split(","))
-    const [serialNo, setSerialNo] = useState(answered.length + 1)
-    const [cbtExamQuestions, setCbtExamQuestions] = useState(examQuestions)
-    const [answers, setAnswers] = useState(state.cbtExam.answers.split(","))
+    const [answered, setAnswered] = useState(state.cbtAnswered.split(","))
+    const [serialNo, setSerialNo] = useState(state.cbtAnswered !== '' ? answered.length + 1 : 1)
+    const [cbtExamQuestions, setCbtExamQuestions] = useState(state?.cbtQuestions[3])
+    const [answers, setAnswers] = useState(state.cbtAnswers.split(","))
     const [answer, setAnswer] = useState('')
+    const [score, setScore] = useState(0)
+    const [key, setKey] = useState('')
     const [formError, setFormError] = useState('')
-    const [time, setTime] = useState(state.cbtExam.examTime)
+    const [time, setTime] = useState(state.cbtTimeSpent)
     const [submitted, setSubmitted] = useState(false)
-
-    const [ letterClass, setLetterClass ] = useState('text-animate')
-    const nameArray = ['C', 'B', 'T', ' ', 'E', 'x', 'a', 'm', ' ', 'C', 'e', 'n', 't', 'e', 'r']
-    const techArray = ['B', 'e', 'n', 'i', 'o', 'n', '-', 'T', 'e', 'c', 'h']
-    const greeting1 = ['H', 'e', 'l', 'l', 'o', ',']
-    const greeting2 = ['W', 'e', 'l', 'c', 'o', 'm', 'e', ' ', 't', 'o']
+    const [updated, setUpdated] = useState(false)
 
     setInterval(() => {
         setTime(time + 1)
-
-        if (time >= state.examTimeLimit) {
-            setSubmitted(true)
-        }
-
-        if (submitted && state.cbtLoggedIn) {
-            onSubmit()
-        }
     }, 60000)
 
     useEffect(() => {
-        setTimeout(() => {
-            setLetterClass('text-animate-hover')
-        }, 5000)
-        
-        // const allQuestions = cbtExamQuestions.filter(exam => exam.category === state.examCategory)
-        const allQuestions = examQuestions
+        const subjectFilter = cbtExamQuestions.filter(exam => exam.subject === state.cbtExamSubject)
+        let allQuestions = subjectFilter
+        if (state.examCategory === "sse") {
+            const categoryFilter = subjectFilter.filter(exam => exam.category === "general")
+            allQuestions = categoryFilter
+        } else if (state.examCategory === "jse") {
+            const categoryFilter = subjectFilter.filter(exam => exam.category === "junior")
+            allQuestions = categoryFilter
+        } else {
+            const termFilter = subjectFilter.filter(exam => exam.term === state.cbtExamTerm)
+            const categoryFilter = termFilter.filter(exam => exam.category === state.examCategory)
+            const classFilter = categoryFilter.filter(exam => exam.className === state.cbtExamClass)
+            allQuestions = classFilter
+        }
 
-        if (answered.length > 0) {
+        if (answered.length > 0 && state.cbtAnswered !== '') {
             let foundQuestions = []
             let otherQuestions = []
             let found = false
@@ -118,7 +74,101 @@ const CbtExam = () => {
         }
         
         setExamData(cbtExamQuestions[serialNo - 1])
-    }, [setCbtExamQuestions, setSerialNo, serialNo, state.cbtExam.category, answered, setAnswered, cbtExamQuestions, state.cbtExam.answered])
+
+        if (state.cbtLoggedIn && (time >= state.examTimeLimit)) {
+            if (!submitted && ((state.cbtTimeSpent - time) > 0)) {
+                const answersArray = answers
+                answersArray[serialNo - 1] = answer
+                setAnswers(answersArray)
+
+                if (answered[serialNo - 1] === undefined) {
+                    const answeredArray = answered
+                    answeredArray[serialNo - 1] = key
+                    setAnswered(answeredArray)
+                }
+                
+                let mark = 0
+                 for (let index = 0; index < answered.length; index++) {
+                    const question = cbtExamQuestions.filter(item => item.$key === answered[index])
+                    if(answers[index] === question[0].answer) {
+                        mark = mark + 1
+                    }
+                }
+                setSubmitted(true)
+
+                const data = {
+                    ...state.cbtExam,
+                    id: state.cbtExam.id !== null ? state.cbtExam.id : createPassword(10, true, true, false),
+                    examTime: time,
+                    username: state.cbtUser.username,
+                    answered: answered.toString(),
+                    answers: answers.toString(),
+                    completed: true,
+                    timeLimit: state.examTimeLimit,
+                    score: mark,
+                    subject: state.cbtExamSubject,
+                    term: state.cbtExamTerm,
+                    className: state.cbtExamClass,
+                    category: state.examCategory,
+                    finalScore: mark
+                }
+
+                if (updated) {
+                    // Update
+                    updateExam(state.cbtExamKey, data)
+                } else {
+                    // Save
+                    createExam(data)
+                }
+                
+                userContact({
+                    fullname: `${state.cbtUser.firstname} ${state.cbtUser.lastname}`,
+                    email: 'benion-cbt@exams.com',
+                    message: `I just concluded the ${state.cbtExamSubject} exams, i answered ${answered.length} questions and scored ${mark} (${Math.floor((mark/state.totalQuestions) * 100)}%)`
+                })
+            }
+        } else {
+            if (!submitted && ((time - state.cbtTimeSpent) > 0)) {
+                const data = {
+                    ...state.cbtExam,
+                    id: state.cbtExam.id !== null ? state.cbtExam.id : createPassword(10, true, true, false),
+                    examTime: time,
+                    username: state.cbtUser.username,
+                    answered: answered.toString(),
+                    answers: answers.toString(),
+                    completed: submitted ? true : false,
+                    timeLimit: state.examTimeLimit,
+                    score: 404404,
+                    subject: state.cbtExamSubject,
+                    term: state.cbtExamTerm,
+                    className: state.cbtExamClass,
+                    category: state.examCategory
+                }
+                
+                if (updated) {
+                    // Update
+                    // updateExam(state.cbtExamKey, data)
+                    console.log("Update Exam - Save", data)
+                } else {
+                    // Save
+                    setUpdated(true)
+                    // createExam(data)
+                    console.log("Create Exam - Save", data)
+                }
+            }
+        }
+    }, [
+        setCbtExamQuestions, setSerialNo, serialNo, state.cbtExam.category, answered, setAnswered, answer, score,
+        cbtExamQuestions, state.cbtExam.answered, examData.answer, form, state.cbtAnswered, answers, key, createExam,
+        state.cbtExamSubject, state.cbtExamTerm, state.examCategory, state.cbtExamClass, state.cbtUser.firstname,
+        state.cbtUser.username, state.cbtUser.lastname, state.cbtExam, state.cbtLoggedIn, state.examTimeLimit, state.cbtTimeSpent,
+        state.totalQuestions, submitted, time, updateExam, userContact, updated, state.cbtAnswers, state.cbtExamKey
+    ])
+    
+    const setValues = (value) => {
+        setAnswer(value)
+        setKey(examData.$key)
+    }
 
     const submitAnswers = () => {
         !production && (console.log("Answers submitted successfully"))
@@ -141,24 +191,14 @@ const CbtExam = () => {
         setFormError("Cbt Exam data rejected")
     }
 
-    const validateMessages = {
-        required: '${label} is required!',
-        types: {
-            email: 'This is not a valid email!',
-            number: 'This is not a valid number!',
-        }
-    }
-
     const onNext = () => {
         const answersArray = answers
         answersArray[serialNo - 1] = answer
         setAnswers(answersArray)
 
-        if (answered[serialNo - 1] === undefined) {
-            const answeredArray = answered
-            answeredArray[serialNo - 1] = examData.id
-            setAnswered(answeredArray)
-        }
+        const answeredArray = answered
+        answeredArray[serialNo - 1] = key
+        setAnswered(answeredArray)
 
         form.resetFields()
         setSerialNo(serialNo + 1)
@@ -170,59 +210,76 @@ const CbtExam = () => {
         setAnswers(answersArray)
 
         const answeredArray = answered
-        answeredArray[serialNo - 1] = examData.id
+        answeredArray[serialNo - 1] = key
         setAnswered(answeredArray)
 
         form.resetFields()
         setSerialNo(serialNo - 1)
     }
 
+    const examScore = () => {
+        let mark = 0
+        for (let index = 0; index < answered.length; index++) {
+            const question = cbtExamQuestions.filter(item => item.$key === answered[index])
+            if(answers[index] === question[0].answer) {
+                mark = mark + 1
+            }
+        }
+        setScore(mark)
+        return mark
+    }
+
     const onSubmit = () => {
-        console.log("Cbt Answered", answered.toString())
-        console.log("Cbt Answers", answers.toString())
+        const answersArray = answers
+        answersArray[serialNo - 1] = answer
+        setAnswers(answersArray)
+
+        if (answered[serialNo - 1] === undefined) {
+            const answeredArray = answered
+            answeredArray[serialNo - 1] = key
+            setAnswered(answeredArray)
+        }
+        setSubmitted(true)
 
         const data = {
             ...state.cbtExam,
+            id: state.cbtExam.id !== null ? state.cbtExam.id : createPassword(10, true, true, false),
             examTime: time,
             username: state.cbtUser.username,
             answered: answered.toString(),
             answers: answers.toString(),
-            completed: true
+            completed: true,
+            timeLimit: state.examTimeLimit,
+            score: examScore(),
+            subject: state.cbtExamSubject,
+            term: state.cbtExamTerm,
+            className: state.cbtExamClass,
+            category: state.examCategory,
+            finalScore: examScore()
         }
 
-        if (state.cbtExam.id !== undefined) {
-            const values = {
-                ...data,
-                id: state.cbtExam.id,
-                activeExam: state.cbtExam.id
-            }
-            // Update Exam
-            updateExam(values)
+        if (updated) {
+            // Update
+            updateExam(state.cbtExamKey, data)
         } else {
-            // Create Exam
+            // Save
             createExam(data)
         }
+        
+        userContact({
+            fullname: `${state.cbtUser.firstname} ${state.cbtUser.lastname}`,
+            email: 'benion-cbt@exams.com',
+            message: `I just concluded the ${state.cbtExamSubject} exams, i answered ${answered.length} questions and scored ${examScore()} (${Math.floor((examScore()/state.totalQuestions) * 100)}%)`
+        })
     }
-
-    //  form.setFieldsValue({
-    //     question: questionNumber
-    //  })
 
     return (
         <React.Fragment>
-             <Title level={2} className="text"><b>Exam Dashboard:</b> Welcome {!state.cbtUser.completed ? "Back" : ""} ({ state.cbtLoggedIn ? `${state.cbtUser.firstname} ${state.cbtUser.lastname}` : 'Guest User' })</Title>
             <Row className="home-container">
-                <Col className="home-items">
-                    <Title className="text-title" level={2}><AnimateText letterClass={letterClass} stringArray={greeting1} index={7} /></Title>
-                    <Title className="text-title" level={2}><AnimateText letterClass={letterClass} stringArray={greeting2} index={10} /></Title>
-                    <Image className="image-title"src={benionTechIcon} />
-                    <Title className="text-title" level={2}><AnimateText letterClass={letterClass} stringArray={techArray} index={15} /></Title>
-                    <Title className="text-title" level={3}><AnimateText letterClass={letterClass} stringArray={nameArray} index={25} /></Title>
-                </Col>
-                {(state.cbtLoggedIn && !state.cbtUser.completed && !submitted) && (
+                {(state.cbtLoggedIn && !state.cbtExam.completed && !submitted) && (
                     <Col className="exams-container">
                         <Tabs defaultActiveKey="1" className="tabs-form" type="card">
-                            <TabPane className="tabs-panel" tab={ <span> <Title level={4}>CBT Exam In Progress</Title> </span> } key="1">
+                            <TabPane className="tabs-panel" tab={ <span> <Title level={5}><b>CBT Exam In Progress</b> -  Welcome {!state.cbtExam.completed ? "Back" : ""} ({ state.cbtLoggedIn ? `${state.cbtUser.firstname} ${state.cbtUser.lastname}` : 'Guest User' })</Title> </span> } key="1">
                                 <div className="time-container">
                                     <Title className="time-left" level={3}>
                                         Time Left:
@@ -243,7 +300,7 @@ const CbtExam = () => {
                                         )}
                                     </div>
                                 )}
-                                <Form name="basic" form={ form } validateMessages={ validateMessages } initialValues={{ remember: true }} onFinish={ onFinish } onFinishFailed={ onFinishFailed } autoComplete="off">
+                                <Form name="basic" form={ form } onFinish={ onFinish } onFinishFailed={ onFinishFailed } initialValues={{option: answers[serialNo - 1] !== null ? answers[serialNo - 1] : ''}} autoComplete="off">
                                     <div className="form-controller">
                                         <Item className='form-item' name='question'>
                                             <h1>
@@ -252,8 +309,8 @@ const CbtExam = () => {
                                         </Item>
                                     </div>
                                     <div className="form-controller">
-                                        <Item className='form-item' name="option" rules={[ { required: true } ]}>
-                                            <Group defaultValue={examData.answer} onChange={(value) => setAnswer(value.target.value)}>
+                                        <Item className='form-item' name="option">
+                                            <Group initialValue={answers[serialNo - 1] !== null ? answers[serialNo - 1] : ''} onChange={(value) => setValues(value.target.value)}>
                                                 <Radio className='radio-option' value={examData.optionA}><h3> <b>(a).</b> {examData.optionA} </h3></Radio>
                                                 <Radio className='radio-option' value={examData.optionB}><h3> <b>(b).</b> {examData.optionB} </h3></Radio>
                                                 <Radio className='radio-option' value={examData.optionC}><h3> <b>(c).</b> {examData.optionC} </h3></Radio>
@@ -290,7 +347,7 @@ const CbtExam = () => {
                                 <Alert 
                                     className="information-alert-form" 
                                     message="Exam Submitted Successfully  !!!" 
-                                    description={ `You scored ${state.cbtExam.examTimeLimit}%` } 
+                                    description={ `CONGRATULATIONS ${state.cbtUser.firstname} ${state.cbtUser.lastname} !!! You answered ${answered.length} questions and scored ${score} (${Math.floor((score/state.totalQuestions) * 100)}%) in ${time} minutes` } 
                                     type="info" 
                                     showIcon 
                                 />

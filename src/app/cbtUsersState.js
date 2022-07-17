@@ -130,19 +130,8 @@ export const cbtUserLogin = (user, axios, host, config, ACTIONS, dispatch, getCb
                 payload: []
             })
         }
-        if (response.data.data.role === "admin" || response.data.data.role === "moderator") {
-            getCbtExams()
-            getCbtQuestions()
-        } else {
-            dispatch({
-                type: ACTIONS.getCbtQuestions,
-                payload: []
-            })
-            dispatch({
-                type: ACTIONS.getCbtExams,
-                payload: []
-            })
-        }
+        getCbtExams()
+        getCbtQuestions()
     }).catch(error => {
         !production && (console.log("Cbt User Login Error", error))
         dispatch({
@@ -323,10 +312,43 @@ export const cbtUserFind = (user, state, ACTIONS, dispatch) => {
     }
 }
 
-export const updateExam = (values, axios, host, config, ACTIONS, dispatch, getCbtUsers) => {
-    const id = values._id
+export const deleteCbtExam = (key, axios, host, adminConfig, ACTIONS, dispatch, getCbtExams) => {
     axios({
-        url: `/benion-cbt/api/edit-exam/${id}`,
+        url: `/benion-cbt/api/delete-exam/${key}`,
+        method: 'delete',
+        baseURL: host,
+        headers: adminConfig.headers
+    }).then(response => {
+        !production && (console.log("Delete Cbt Exam Response", response))
+        getCbtExams()
+        dispatch({
+            type: ACTIONS.deleteCbtExam,
+            payload: key
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersMessage,
+            payload: response.data.message
+        })
+    }).catch(error => {
+        !production && (console.log("Delete Cbt Exam Response", error))
+        dispatch({
+            type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: `Delete Cbt-Exam Error (${error.message})`
+        })
+    })
+}
+
+export const updateExam = (values, key, axios, host, config, ACTIONS, dispatch, getCbtUsers, getCbtExams) => {
+    axios({
+        url: `/benion-cbt/api/edit-exam/${key}`,
         method: 'put',
         baseURL: host,
         headers: config.headers,
@@ -334,6 +356,11 @@ export const updateExam = (values, axios, host, config, ACTIONS, dispatch, getCb
     }).then(response => {
         !production && (console.log("Update Cbt-Exam Response", response))
         getCbtExams()
+        getCbtUsers()
+        dispatch({
+            type: ACTIONS.updateExam,
+            payload: response.data.data
+        })
         dispatch({
             type: ACTIONS.usersError,
             payload: null
@@ -357,7 +384,7 @@ export const updateExam = (values, axios, host, config, ACTIONS, dispatch, getCb
 
 export const createExam = (values, axios, host, config, ACTIONS, dispatch, getCbtUsers, getCbtExams) => {
     axios({
-        url: '/benion-cbt/api/create-exam',
+        url: '/benion-cbt/api/add-exam',
         method: 'post',
         baseURL: host,
         headers: config.headers,
@@ -455,10 +482,17 @@ export const getCbtQuestions = (axios, host, ACTIONS, dispatch) => {
     })
 }
 
-export const examCategory = (category, ACTIONS, dispatch) => {
+export const examCategory = (values, ACTIONS, dispatch) => {
     dispatch({
         type: ACTIONS.examCategory,
-        payload: category
+        payload: values
+    })
+}
+
+export const examAnswered = (values, ACTIONS, dispatch) => {
+    dispatch({
+        type: ACTIONS.examAnswered,
+        payload: values
     })
 }
 

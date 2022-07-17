@@ -140,8 +140,13 @@ export const GlobalStore = ({ children }) => {
     }
 
     // Update Cbt Exam
-    const updateExam = (values) => {
-        CBT_USERS_STATE.updateExam(values, axios, host, config, ACTIONS, dispatch, getCbtUsers, getCbtExams)
+    const updateExam = (key, values) => {
+        CBT_USERS_STATE.updateExam(values, key, axios, host, config, ACTIONS, dispatch, getCbtUsers, getCbtExams)
+    }
+
+    // Delete Cbt Exam
+    const deleteExam = (key) => {
+        CBT_USERS_STATE.deleteCbtExam(key, axios, host, adminConfig, ACTIONS, dispatch, getCbtExams)
     }
 
     // Create Cbt Exam
@@ -160,8 +165,13 @@ export const GlobalStore = ({ children }) => {
     }
 
     // Exam Category
-    const examCategory = (category) => {
-        CBT_USERS_STATE.examCategory(category, ACTIONS, dispatch)
+    const examCategory = (values) => {
+        CBT_USERS_STATE.examCategory(values, ACTIONS, dispatch)
+    }
+
+    // Exam Answered
+    const examAnswered = (values) => {
+        CBT_USERS_STATE.examCategory(values, ACTIONS, dispatch)
     }
 
     // Add Exam Question
@@ -184,27 +194,27 @@ export const GlobalStore = ({ children }) => {
 
      // Get News
     const getCryptos = (details) => {
-        NEWS_STATE.getCryptos(details, axios, host, config, ACTIONS, dispatch)
+        // NEWS_STATE.getCryptos(details, axios, host, config, ACTIONS, dispatch)
     }
 
      // Get Crypto News
     const getCryptoNews = (details) => {
-        NEWS_STATE.getCryptoNews(details, axios, host, config, ACTIONS, dispatch)
+        // NEWS_STATE.getCryptoNews(details, axios, host, config, ACTIONS, dispatch)
     }
 
     // Get Bing News
     const getBingNews = (details) => {
-        NEWS_STATE.getBingNews(details, axios, host, config, ACTIONS, dispatch)
+        // NEWS_STATE.getBingNews(details, axios, host, config, ACTIONS, dispatch)
     }
 
     // Get Crypto
     const getCrypto = (id) => {
-        NEWS_STATE.getCrypto(id, axios, host, config, ACTIONS, dispatch)
+        // NEWS_STATE.getCrypto(id, axios, host, config, ACTIONS, dispatch)
     }
 
     // Get News
     const getCryptoHistory = (details) => {
-        NEWS_STATE.getCryptoHistory(details, axios, host, config, ACTIONS, dispatch)
+        // NEWS_STATE.getCryptoHistory(details, axios, host, config, ACTIONS, dispatch)
     }
 
     return (
@@ -233,9 +243,11 @@ export const GlobalStore = ({ children }) => {
             cbtUserFind,
             updateExam,
             createExam,
+            deleteExam,
             getCbtExams,
             getCbtQuestions,
             examCategory,
+            examAnswered,
             addQuestion,
             editQuestion,
             deleteQuestion,

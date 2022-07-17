@@ -13,6 +13,8 @@ const { Password } = Input
 const CbtRegisterForm = () => {
     const [form] = Form.useForm()
     const [formMessage, setFormMessage] = useState('')
+    const [senior, setSenior] = useState(false)
+    const [graduated, setGraduated] = useState(false)
     const [formError, setFormError] = useState('')
     const { registerCbtUser, state } = useContext(GlobalContext)
 
@@ -61,6 +63,17 @@ const CbtRegisterForm = () => {
         form.resetFields();
     }
 
+    const handleCategory = (value) => {
+        if (value[0] === "s") {
+            setSenior(true)
+        }
+
+        if (value[0] === "g") {
+            setSenior(false)
+            setGraduated(true)
+        }
+    }
+
     return (
         <div className="form-group">
             { (!production || (state.user.role === 'admin' && state.showAlert)) && (
@@ -101,11 +114,12 @@ const CbtRegisterForm = () => {
                         </Item>
                     </div>
                     <div className="form-controller">
-                        <Item className='form-item' name="category" label="Category" rules={[ { required: true } ]}>
-                            <Select placeholder="Select a Category"  allowClear>
-                                {cbtCategories.map(item => (
+                        <Item className='form-item' name="className" label="Class" rules={[ { required: true } ]}>
+                            <Select placeholder="Select a Class" onChange={(value) => handleCategory(value)}  allowClear>
+                                {cbtClasses.map(item => (
                                     <Option key={item.value} value={item.value}>{item.name}</Option>
                                 ))}
+                                <Option value="graduated">Graduated</Option>
                             </Select>
                         </Item>
                         <Item className='form-item' name="gender" label="Gender" rules={[ { required: true } ]}>
@@ -117,12 +131,17 @@ const CbtRegisterForm = () => {
                         </Item>
                     </div>
                     <div className="form-controller">
-                        <Item className='form-item' name="className" label="Class" rules={[ { required: true } ]}>
-                            <Select placeholder="Select a Class"  allowClear>
-                                {cbtClasses.map(item => (
+                        <Item className='form-item' name="category" label="Category" rules={[ { required: true } ]}>
+                            <Select placeholder="Select a Category"  allowClear>
+                                {senior && cbtCategories.filter(item => item.value !== 'general').filter(item => item.value !== "junior").map(item => (
                                     <Option key={item.value} value={item.value}>{item.name}</Option>
                                 ))}
-                                <Option value="graduated">Graduated</Option>
+                                {(!senior && !graduated) && cbtCategories.filter(item => item.value === "junior").map(item => (
+                                    <Option key={item.value} value={item.value}>{item.name}</Option>
+                                ))}
+                                {(graduated && !senior) && cbtCategories.filter(item => item.value !== 'general').map(item => (
+                                    <Option key={item.value} value={item.value}>{item.name}</Option>
+                                ))}
                             </Select>
                         </Item>
                         <Item className='form-item' label="Access Code" name="creator" rules={[ { required: true } ]}>

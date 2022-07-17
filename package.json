@@ -20,6 +20,7 @@
     "gsap-trial": "^3.10.4",
     "html-react-parser": "^1.4.12",
     "loaders.css": "^0.1.2",
+    "lodash": "^4.17.21",
     "millify": "^4.0.0",
     "moment": "^2.29.3",
     "react": "^18.0.0",

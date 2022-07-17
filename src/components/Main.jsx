@@ -14,9 +14,9 @@ import {
     LogIn, 
     ServerResponse, 
     Forget, 
-    CbtExam,
     Cryptos,
-    Crypto
+    Crypto,
+    TestArea
 } from '../components'
 import { GlobalContext } from '../app/GlobalState'
 import { production } from '../services/userHelper'
@@ -54,9 +54,9 @@ const Main = () => {
                        <Route exact path="/register" element={<Register />} />
                        <Route exact path="/login" element={<LogIn />} />
                        <Route exact path="/forget-password" element={<Forget />} />
-                       <Route exact path="/benion-cbt/exams" element={<CbtExam />} />
                        <Route exact path="/cryptos" element={<Cryptos />} />
                        <Route exact path="/crypto/:id" element={<Crypto />} />
+                       <Route exact path="/test-area" element={<TestArea />} />
                    </Routes>
                </div>
            </Layout>

@@ -1,3 +1,6 @@
+import lodash from "lodash"
+import { user } from "../services/userHelper"
+
 export const getUsers = (state, action) => {
     return {
         ...state,
@@ -53,9 +56,10 @@ export const addUser = (state, action) => {
 }
 
 export const userLogIn = (state, action) => {
+    const payload = action.payload
     return {
         ...state,
-        user: action.payload,
+        user: lodash.extend(state.user, payload),
         loggedIn: true
     }
 }
@@ -64,7 +68,7 @@ export const userLogOut = (state) => {
     return {
         ...state,
         users: [],
-        user: {},
+        user,
         loggedIn: false
     }
 }
