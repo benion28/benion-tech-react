@@ -25,7 +25,7 @@ const CbtSelectExamForm = () => {
 
     form.setFieldsValue(formInitials)
 
-    const onFinish = async (values) => {
+    const onFinish = (values) => {
         !production && (console.log("Select Exam data accepted !!", values))
         setFormError('')
         setFormMessage('Select Exam data accepted !!')

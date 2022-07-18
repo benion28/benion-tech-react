@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Typography, Row, Col, Alert, Tabs, Radio, Button, Form  } from 'antd'
 import Loader from 'react-loaders'
 import { GlobalContext } from '../app/GlobalState'
-import { createPassword, production } from '../services/userHelper'
+import { createPassword, getCategoryName, getClassName, getSubjectName, production } from '../services/userHelper'
 import '../styles/CbtExam.scss'
 
 const { Title } = Typography
@@ -122,8 +122,8 @@ const CbtExam = () => {
                 
                 userContact({
                     fullname: `${state.cbtUser.firstname} ${state.cbtUser.lastname}`,
-                    email: 'benion-cbt@exams.com',
-                    message: `I just concluded the ${state.cbtExamSubject} exams, i answered ${answered.length} questions and scored ${mark} (${Math.floor((mark/state.totalQuestions) * 100)}%)`
+                    email: `${state.cbtUser.firstname.toLowerCase()}-${state.cbtUser.lastname.toLowerCase()}-cbt@exams.com`,
+                    message: `I just concluded the ${getSubjectName(state.cbtExamSubject)} exams for ${getClassName(state.cbtExamClass)} of ${getCategoryName(state.examCategory)} category, i answered ${answered.length} questions and scored ${mark} (${Math.floor((mark/state.totalQuestions) * 100)}%)`
                 })
             }
         } else {
@@ -263,8 +263,8 @@ const CbtExam = () => {
         
         userContact({
             fullname: `${state.cbtUser.firstname} ${state.cbtUser.lastname}`,
-            email: 'benion-cbt@exams.com',
-            message: `I just concluded the ${state.cbtExamSubject} exams, i answered ${answered.length} questions and scored ${examScore()} (${Math.floor((examScore()/state.totalQuestions) * 100)}%)`
+            email: `${state.cbtUser.firstname.toLowerCase()}-${state.cbtUser.lastname.toLowerCase()}-cbt@exams.com`,
+            message: `I just concluded the ${getSubjectName(state.cbtExamSubject)} exams for ${getClassName(state.cbtExamClass)} of ${getCategoryName(state.examCategory)} category, i answered ${answered.length} questions and scored ${examScore()} (${Math.floor((examScore()/state.totalQuestions) * 100)}%)`
         })
     }
 

@@ -46,8 +46,7 @@ export const updateExam = (state, action) => {
 
 export const deleteExam = (state, action) => {
     return {
-        ...state,
-        cbtExams: state.cbtExams[3].filter(data => data.$key !== action.payload)
+        ...state
     }
 }
 
@@ -138,8 +137,7 @@ export const deleteAllCbtUsers = (state, action) => {
 
 export const deleteQuestion = (state, action) => {
     return {
-        ...state,
-        cbtQuestions: state.cbtQuestions[3].filter(question => question.$key !== action.payload)
+        ...state
     }
 }
 

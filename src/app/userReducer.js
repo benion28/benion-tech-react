@@ -90,7 +90,6 @@ export const getContactMessages = (state, action) => {
 
 export const deleteContactMessage = (state, action) => {
     return {
-        ...state,
-        contactMessages: state.contactMessages[3].filter(question => question.$key !== action.payload)
+        ...state
     }
 }
