@@ -78,7 +78,8 @@ export const cbtExam = {
     answered: '',
     answers: '',
     term: null,
-    completed: true
+    completed: true,
+    score: 404404
 }
 
 export const initialState = {
@@ -91,6 +92,12 @@ export const initialState = {
         []
     ],
     cbtQuestions: [
+        [],
+        [],
+        {},
+        []
+    ],
+    contactMessages: [
         [],
         [],
         {},
@@ -162,7 +169,7 @@ export const host = production ? 'https://benion-tech-server.herokuapp.com' : 'h
 
 export const formatAmountMillify = (value) => {
     const dollarRate = 512
-    let inDollar = (Math.floor(value/dollarRate))
+    const inDollar = (Math.floor(value/dollarRate))
 
     return `${millify(inDollar)} (N${millify(value)})`
 }
@@ -173,36 +180,36 @@ export const formatAmountManually = (value) => {
     let inDollar = (Math.floor(value/dollarRate)).toString()
 
     if (amount.length >= 10 && amount.length <= 12) {
-        let first = amount.slice(0, -9)
-        let second = amount.slice(amount.length-9, amount.length-6)
-        let third = amount.slice(amount.length-6, amount.length-3)
-        let fourth = amount.slice(amount.length-3, amount.length)
+        const first = amount.slice(0, -9)
+        const second = amount.slice(amount.length-9, amount.length-6)
+        const third = amount.slice(amount.length-6, amount.length-3)
+        const fourth = amount.slice(amount.length-3, amount.length)
         amount = first+","+second+","+third+","+fourth
     } else if (amount.length >= 7 && amount.length <= 9) {
-        let first = amount.slice(0, -6)
-        let second = amount.slice(amount.length-6, amount.length-3)
-        let third = amount.slice(amount.length-3, amount.length)
+        const first = amount.slice(0, -6)
+        const second = amount.slice(amount.length-6, amount.length-3)
+        const third = amount.slice(amount.length-3, amount.length)
         amount = first+","+second+","+third
     } else if (amount.length >= 4 && amount.length <= 6) {
-        let first = amount.slice(0, -3)
-        let second = amount.slice(amount.length-3, amount.length)
+        const first = amount.slice(0, -3)
+        const second = amount.slice(amount.length-3, amount.length)
         amount = first+","+second
     }
 
     if (inDollar.length >= 10 && inDollar.length <= 12) {
-        let first = inDollar.slice(0, -9)
-        let second = inDollar.slice(inDollar.length-9, inDollar.length-6)
-        let third = inDollar.slice(inDollar.length-6, inDollar.length-3)
-        let fourth = inDollar.slice(inDollar.length-3, inDollar.length)
+        const first = inDollar.slice(0, -9)
+        const second = inDollar.slice(inDollar.length-9, inDollar.length-6)
+        const third = inDollar.slice(inDollar.length-6, inDollar.length-3)
+        const fourth = inDollar.slice(inDollar.length-3, inDollar.length)
         inDollar = first+","+second+","+third+","+fourth
     } else if (inDollar.length >= 7 && inDollar.length <= 9) {
-        let first = inDollar.slice(0, -6)
-        let second = inDollar.slice(inDollar.length-6, inDollar.length-3)
-        let third = inDollar.slice(inDollar.length-3, inDollar.length)
+        const first = inDollar.slice(0, -6)
+        const second = inDollar.slice(inDollar.length-6, inDollar.length-3)
+        const third = inDollar.slice(inDollar.length-3, inDollar.length)
         inDollar = first+","+second+","+third
     } else if (inDollar.length >= 4 && inDollar.length <= 6) {
-        let first = inDollar.slice(0, -3)
-        let second = inDollar.slice(inDollar.length-3, inDollar.length)
+        const first = inDollar.slice(0, -3)
+        const second = inDollar.slice(inDollar.length-3, inDollar.length)
         inDollar = first+","+second
     }
 

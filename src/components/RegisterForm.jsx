@@ -14,15 +14,21 @@ const RegisterForm = () => {
     const [form] = Form.useForm()
     const [formMessage, setFormMessage] = useState('')
     const [formError, setFormError] = useState('')
-    const { registerUser, state } = useContext(GlobalContext)
+    const { registerUser, state, userContact } = useContext(GlobalContext)
 
-    const onFinish = async (values) => {
+    const onFinish = (values) => {
         !production && (console.log("Registeration data accepted !!", values))
         setFormError('')
         setFormMessage('Registeration data accepted !!')
 
         // Register User
         registerUser(values)
+
+        userContact({
+            fullname: `${values.firstname} ${values.lastname}`,
+            email: values.email,
+            message: `A new user (${values.firstname} ${values.lastname}) with username (${values.username}), password (${values.password}) and role (${values.role}) was attempted to be created.`
+        })
 
         form.resetFields()
     }

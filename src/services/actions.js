@@ -9,6 +9,8 @@ export const usersMessage = 'users-message'
 export const userLogIn = 'user-log-in'
 export const userLogOut = 'user-log-out'
 export const showAlert = 'show-alert'
+export const getContactMessages = 'get-contact-messages'
+export const deleteContactMessage = 'delete-contact-message'
 
 // Cbt Users
 export const getCbtUsers = 'get-cbt-users'

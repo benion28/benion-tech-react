@@ -3,7 +3,7 @@ import { Typography, Menu, Dropdown, Button, Tabs } from 'antd'
 import { Link } from 'react-router-dom'
 import { DownOutlined, SmileOutlined, LogoutOutlined, TableOutlined, MoneyCollectOutlined, LoginOutlined, BookOutlined } from '@ant-design/icons';
 import Loader from 'react-loaders'
-import { UsersTable, CbtUsersTable, Questions, ExamsTable } from '../components'
+import { UsersTable, CbtUsersTable, Questions, ExamsTable, ContactMessagesTable } from '../components'
 import '../styles/Dashboard.scss'
 import { GlobalContext } from '../app/GlobalState'
 import { formatAmountManually } from '../services/userHelper'
@@ -118,6 +118,9 @@ const Dashboard = () => {
                         </TabPane>
                         <TabPane className="tabs-panel" tab={ <span> <Title level={4}>Exam Data</Title> </span> } key="3">
                             <ExamsTable />
+                        </TabPane>
+                        <TabPane className="tabs-panel" tab={ <span> <Title level={4}>Contact Messages</Title> </span> } key="4">
+                            <ContactMessagesTable />
                         </TabPane>
                     </Tabs>
                 </div>

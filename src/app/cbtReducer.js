@@ -47,7 +47,7 @@ export const updateExam = (state, action) => {
 export const deleteExam = (state, action) => {
     return {
         ...state,
-        cbtExams: state.cbtExams.filter(data => data.$key !== action.payload)
+        cbtExams: state.cbtExams[3].filter(data => data.$key !== action.payload)
     }
 }
 
@@ -88,7 +88,6 @@ export const cbtUserLogIn = (state, action) => {
 export const cbtUserLogOut = (state, action) => {
     return {
         ...state,
-        cbtUsers: [],
         cbtUser,
         cbtExam,
         cbtLoggedIn: false
@@ -140,7 +139,7 @@ export const deleteAllCbtUsers = (state, action) => {
 export const deleteQuestion = (state, action) => {
     return {
         ...state,
-        cbtQuestions: state.cbtQuestions.filter(question => question.$key !== action.payload)
+        cbtQuestions: state.cbtQuestions[3].filter(question => question.$key !== action.payload)
     }
 }
 

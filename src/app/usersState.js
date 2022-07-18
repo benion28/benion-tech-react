@@ -32,7 +32,7 @@ export const getUsers = (axios, host, ACTIONS, dispatch) => {
     })
 }
 
-export const userLogin = (user, axios, host, config, ACTIONS, dispatch, getUsers, getCbtUsers, getCbtExams, getCbtQuestions) => {
+export const userLogin = (user, axios, host, config, ACTIONS, dispatch, getUsers, getCbtUsers, getCbtExams, getCbtQuestions, getContactMessages) => {
     axios({
         url: '/benion-users/api/login',
         method: 'post',
@@ -58,6 +58,7 @@ export const userLogin = (user, axios, host, config, ACTIONS, dispatch, getUsers
             getCbtUsers()
             getCbtExams()
             getCbtQuestions()
+            getContactMessages()
         } else {
             dispatch({
                 type: ACTIONS.getUsers,
@@ -376,5 +377,71 @@ export const showAlert = (value, ACTIONS, dispatch) => {
     dispatch({
         type: ACTIONS.showAlert,
         payload: value
+    })
+}
+
+export const getContactMessages = (axios, host, ACTIONS, dispatch) => {
+    axios({
+        url: '/benion-users/api/contact-messages',
+        method: 'get',
+        baseURL: host
+    }).then(response => {
+        !production && (console.log("Get Contact Messages Response", response))
+        dispatch({
+            type: ACTIONS.getContactMessages,
+            payload: response.data.data
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersMessage,
+            payload: response.data.message
+        })
+    }).catch(error => {
+        !production && (console.log("Get Contact Messages Error", error))
+        dispatch({
+            type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: `Get Contact Messages Error (${error.message})`
+        })
+    })
+}
+
+export const deleteContactMessage = (key, axios, host, adminConfig, ACTIONS, dispatch, getContactMessages) => {
+    axios({
+        url: `/benion-users/api/delete-contact-message/${ key }`,
+        method: 'delete',
+        baseURL: host,
+        headers: adminConfig.headers
+    }).then(response => {
+        !production && (console.log("Delete Contact Message Response", response))
+        getContactMessages()
+        dispatch({
+            type: ACTIONS.deleteContactMessage,
+            payload: key
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersMessage,
+            payload: response.data.message
+        })
+    }).catch(error => {
+        !production && (console.log("Delete Contact Message Error", error))
+        dispatch({
+            type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: `Delete Contact Message Error (${error.message})`
+        })
     })
 }

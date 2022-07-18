@@ -13,7 +13,7 @@ const { TabPane } = Tabs
 
 const CbtExam = () => {
     const [form] = Form.useForm()
-    const { state, createExam, updateExam, userContact } = useContext(GlobalContext)
+    const { state, createExam, updateExam, userContact, cbtUserLogout } = useContext(GlobalContext)
     const [formMessage, setFormMessage] = useState('')
     const [examData, setExamData] = useState({})
     const [answered, setAnswered] = useState(state.cbtAnswered.split(","))
@@ -49,8 +49,8 @@ const CbtExam = () => {
         }
 
         if (answered.length > 0 && state.cbtAnswered !== '') {
-            let foundQuestions = []
-            let otherQuestions = []
+            const foundQuestions = []
+            const otherQuestions = []
             let found = false
             for (let index = 0; index < allQuestions.length; index++) {
                 for (let index2 = 0; index2 < answered.length; index2++) {
@@ -109,8 +109,7 @@ const CbtExam = () => {
                     subject: state.cbtExamSubject,
                     term: state.cbtExamTerm,
                     className: state.cbtExamClass,
-                    category: state.examCategory,
-                    finalScore: mark
+                    category: state.examCategory
                 }
 
                 if (updated) {
@@ -138,7 +137,6 @@ const CbtExam = () => {
                     answers: answers.toString(),
                     completed: submitted ? true : false,
                     timeLimit: state.examTimeLimit,
-                    score: 404404,
                     subject: state.cbtExamSubject,
                     term: state.cbtExamTerm,
                     className: state.cbtExamClass,
@@ -147,20 +145,18 @@ const CbtExam = () => {
                 
                 if (updated) {
                     // Update
-                    // updateExam(state.cbtExamKey, data)
-                    console.log("Update Exam - Save", data)
+                    updateExam(state.cbtExamKey, data)
                 } else {
                     // Save
                     setUpdated(true)
-                    // createExam(data)
-                    console.log("Create Exam - Save", data)
+                    createExam({...data,  score: 404404})
                 }
             }
         }
     }, [
         setCbtExamQuestions, setSerialNo, serialNo, state.cbtExam.category, answered, setAnswered, answer, score,
         cbtExamQuestions, state.cbtExam.answered, examData.answer, form, state.cbtAnswered, answers, key, createExam,
-        state.cbtExamSubject, state.cbtExamTerm, state.examCategory, state.cbtExamClass, state.cbtUser.firstname,
+        state.cbtExamSubject, state.cbtExamTerm, state.examCategory, state.cbtExamClass, state.cbtUser.firstname, cbtUserLogout,
         state.cbtUser.username, state.cbtUser.lastname, state.cbtExam, state.cbtLoggedIn, state.examTimeLimit, state.cbtTimeSpent,
         state.totalQuestions, submitted, time, updateExam, userContact, updated, state.cbtAnswers, state.cbtExamKey
     ])
@@ -174,7 +170,7 @@ const CbtExam = () => {
         !production && (console.log("Answers submitted successfully"))
     }
 
-    const onFinish = async (values) => {
+    const onFinish = (values) => {
         !production && (console.log("Cbt Exam data accepted", values))
         setFormError('')
         setFormMessage("Cbt Exam data accepted")
@@ -254,8 +250,7 @@ const CbtExam = () => {
             subject: state.cbtExamSubject,
             term: state.cbtExamTerm,
             className: state.cbtExamClass,
-            category: state.examCategory,
-            finalScore: examScore()
+            category: state.examCategory
         }
 
         if (updated) {
@@ -352,7 +347,7 @@ const CbtExam = () => {
                                     showIcon 
                                 />
                                 <h3 className="alert-link">
-                                    You are now logged out, you can return back to the <Link to="/benion-cbt">Log In Page</Link> to take another exam
+                                    You are now logged out, you can return back to the <a href="/benion-cbt">Log In Page</a> to take another exam
                                 </h3>
                             </TabPane>
                         </Tabs>

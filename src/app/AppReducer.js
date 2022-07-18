@@ -26,6 +26,10 @@ const AppReducer = (state, action) => {
             return USERS_REDUCER.userLogOut(state)
         case ACTIONS.showAlert:
             return USERS_REDUCER.showAlert(state, action)
+        case ACTIONS.getContactMessages:
+            return USERS_REDUCER.getContactMessages(state, action)
+        case ACTIONS.deleteContactMessage:
+            return USERS_REDUCER.deleteContactMessage(state, action)
         // Cbt
         case ACTIONS.getCbtUsers:
             return CBT_REDUCER.getCbtUsers(state, action)

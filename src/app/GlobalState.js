@@ -38,7 +38,7 @@ export const GlobalStore = ({ children }) => {
 
     // User Login
     const userLogin = (user) => {
-        USERS_STATE.userLogin(user, axios, host, config, ACTIONS, dispatch, getUsers, getCbtUsers, getCbtExams, getCbtQuestions)
+        USERS_STATE.userLogin(user, axios, host, config, ACTIONS, dispatch, getUsers, getCbtUsers, getCbtExams, getCbtQuestions, getContactMessages)
     }
 
     // Delete User
@@ -89,6 +89,16 @@ export const GlobalStore = ({ children }) => {
     // Show Alerts
     const showAlert = (value) => {
         USERS_STATE.showAlert(value, ACTIONS, dispatch)
+    }
+
+    // Get Contact Messages
+    const getContactMessages = () => {
+        USERS_STATE.getContactMessages(axios, host, ACTIONS, dispatch)
+    }
+
+    // Delete User
+    const deleteContactMessage = (key) => {
+        USERS_STATE.deleteContactMessage(key, axios, host, adminConfig, ACTIONS, dispatch, getContactMessages)
     }
     
 
@@ -239,6 +249,8 @@ export const GlobalStore = ({ children }) => {
             deleteAllCbtUsers,
             updateCbtUser,
             showAlert,
+            getContactMessages,
+            deleteContactMessage,
             cbtUserLogout,
             cbtUserFind,
             updateExam,

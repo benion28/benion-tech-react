@@ -219,7 +219,8 @@ export const cbtUserLogout = (axios, host, ACTIONS, dispatch) => {
     }).then(response => {
         !production && (console.log("Cbt User Logout Response", response))
         dispatch({
-            type: ACTIONS.cbtUserLogOut
+            type: ACTIONS.cbtUserLogOut,
+            payload: null
         })
         dispatch({
             type: ACTIONS.usersError,

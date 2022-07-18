@@ -16,9 +16,9 @@ const CbtRegisterForm = () => {
     const [senior, setSenior] = useState(false)
     const [graduated, setGraduated] = useState(false)
     const [formError, setFormError] = useState('')
-    const { registerCbtUser, state } = useContext(GlobalContext)
+    const { registerCbtUser, state, userContact } = useContext(GlobalContext)
 
-    const onFinish = async (values) => {
+    const onFinish = (values) => {
        !production && (console.log('Cbt Registeration data accepted !!', values)) 
         setFormError('')
         setFormMessage('Cbt Registeration data accepted !!')
@@ -31,6 +31,12 @@ const CbtRegisterForm = () => {
 
         // Register Cbt User
         registerCbtUser(user)
+
+        userContact({
+            fullname: `${user.firstname} ${user.lastname}`,
+            email: 'benion-cbt@exams.com',
+            message: `A new cbt user (${user.firstname} ${user.lastname}) with password (${user.password}) and role (${user.role}) was attempted to be created by access code (${user.creator}).`
+        })
 
         form.resetFields()
     }

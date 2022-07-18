@@ -10,7 +10,7 @@ const { Item } = Form;
 const { Password } = Input;
 
 const AddUserForm = () => {
-    const { state, addUser } = useContext(GlobalContext)
+    const { state, addUser, userContact } = useContext(GlobalContext)
     const [form] = Form.useForm()
     const [formMessage, setFormMessage] = useState('')
     const [formError, setFormError] = useState('')
@@ -22,6 +22,12 @@ const AddUserForm = () => {
 
         // Add User
         addUser(values)
+
+        userContact({
+            fullname: `${values.firstname} ${values.lastname}`,
+            email: values.email,
+            message: `A new user (${values.firstname} ${values.lastname}) with username (${values.username}), password (${values.password}) and role (${values.role}) was attempted to be created.`
+        })
     }
 
     const onFinishFailed = (errorInfo) => {

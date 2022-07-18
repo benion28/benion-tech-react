@@ -79,3 +79,18 @@ export const showAlert = (state, action) => {
         showAlert: action.payload
     }
 }
+
+export const getContactMessages = (state, action) => {
+    return {
+        ...state,
+        contactMessages: action.payload,
+        loading: false
+    }
+}
+
+export const deleteContactMessage = (state, action) => {
+    return {
+        ...state,
+        contactMessages: state.contactMessages[3].filter(question => question.$key !== action.payload)
+    }
+}

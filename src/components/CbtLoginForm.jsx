@@ -14,7 +14,7 @@ const CbtLoginForm = () => {
     const [formError, setFormError] = useState('')
     const { cbtUserLogin, state  } = useContext(GlobalContext)
 
-    const onFinish = async (values) => {
+    const onFinish = (values) => {
         !production && (console.log("Cbt Login data accepted !!", values))
         setFormError('')
         setFormMessage('Cbt Login data accepted !!')
