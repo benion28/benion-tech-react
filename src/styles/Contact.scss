@@ -273,6 +273,17 @@ $primary-color: #ffd700;
     }
 }
 
+@media screen and (max-width: 1000px){
+    .contact-container {
+        display: flex;
+        flex-direction: column;
+
+        .form-container {
+            width: 90%;
+        }
+    }
+}
+
 .loader-active {
     display: block;
     position: absolute;

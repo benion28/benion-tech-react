@@ -1,5 +1,5 @@
 import lodash from "lodash"
-import { anExam, cbtExam, cbtUser } from "../services/userHelper"
+import { anExam, cbtExam, cbtUser, completeExam, anCompletedExam } from "../services/userHelper"
 
 export const getCbtUsers = (state, action) => {
     return {
@@ -44,13 +44,16 @@ export const updateExam = (state, action) => {
     }
 }
 
-export const deleteExam = (state, action) => {
-    return {
-        ...state
-    }
-}
-
 export const examCategory = (state, action) => {
+    const exams = anCompletedExam(state, action.payload, state.cbtUser.username)
+    const exam = exams[0]
+    const completedExam = {
+        examTime: exam.examTime,
+        answers: exam.answers,
+        completed: exam.completed,
+        score: exam.score
+    }
+
     return {
         ...state,
         cbtExam: lodash.extend(state.cbtExam, {completed: false}),
@@ -58,7 +61,8 @@ export const examCategory = (state, action) => {
         examCategory: action.payload.examCategory,
         cbtExamSubject: action.payload.examSubject,
         cbtExamClass: action.payload.examClass,
-        startExam: true
+        startExam: exam.$key !== null && exam.completed ? false : true,
+        completeExam: exam.$key !== null && exam.completed ? lodash.extend(state.completeExam, completedExam) : completeExam
     }
 }
 
@@ -74,6 +78,7 @@ export const cbtUserLogIn = (state, action) => {
     const exams = anExam(state, action.payload)
     const exam = exams[0]
     const payload = action.payload
+    
     return {
         ...state,
         cbtUser: lodash.extend(state.cbtUser, payload),
@@ -90,26 +95,6 @@ export const cbtUserLogOut = (state, action) => {
         cbtUser,
         cbtExam,
         cbtLoggedIn: false
-    }
-}
-
-export const registerCbtUser = (state, action) => {
-    return {
-        ...state,
-        cbtUsers: [
-            ...state.cbtUsers,
-            action.payload.user
-        ]
-    }
-}
-
-export const addCbtUser = (state, action) => {
-    return {
-        ...state,
-        cbtUsers: [
-            ...state.cbtUsers,
-            action.payload.user
-        ]
     }
 }
 
@@ -132,12 +117,6 @@ export const deleteAllCbtUsers = (state, action) => {
     return {
         ...state,
         cbtUsers: action.payload
-    }
-}
-
-export const deleteQuestion = (state, action) => {
-    return {
-        ...state
     }
 }
 

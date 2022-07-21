@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { CbtLoginForm, AnimateText, CbtRegisterForm, CbtFindUserForm, CbtSelectExamForm, Questions, CbtExam } from '../components'
-import { BookOutlined  } from '@ant-design/icons'
+import { 
+    CbtLoginForm, AnimateText, CbtRegisterForm, CbtFindUserForm, ExamsTable,
+    CbtSelectExamForm, Questions, CbtExam, UsersTable, CbtUsersTable, ContactMessagesTable
+} from '../components'
+import { BookOutlined, EyeInvisibleOutlined, EyeOutlined  } from '@ant-design/icons'
 import { Tabs, Typography, Row, Col, Image, Button, Alert  } from 'antd'
 import Loader from 'react-loaders'
 import { GlobalContext } from '../app/GlobalState'
@@ -16,6 +19,7 @@ const Cbt = () => {
     const techArray = ['B', 'e', 'n', 'i', 'o', 'n', '-', 'T', 'e', 'c', 'h']
     const greeting1 = ['H', 'e', 'l', 'l', 'o', ',']
     const greeting2 = ['W', 'e', 'l', 'c', 'o', 'm', 'e', ' ', 't', 'o']
+    const [showTable, setShowTable] = useState(false)
     const { state, examCategory, examAnswered  } = useContext(GlobalContext)
 
     useEffect(() => {
@@ -65,7 +69,7 @@ const Cbt = () => {
                         </Tabs>
                     </Col>
                 )}
-                {(state.cbtLoggedIn && state.cbtExamCompleted && !state.startExam ) && (
+                {(!state.completeExam.completed && state.cbtLoggedIn && state.cbtExamCompleted && !state.startExam ) && (
                     <Col className="form-tabs">
                         <Tabs defaultActiveKey="1" className="tabs-form" type="card">
                             <TabPane className="tabs-panel" tab={ <span> <Title level={4}>CBT Exam Selector</Title> </span> } key="1">
@@ -74,7 +78,7 @@ const Cbt = () => {
                         </Tabs>
                     </Col>
                 )}
-                {(state.cbtLoggedIn && !state.cbtExamCompleted && !state.startExam ) && (
+                {(!state.completeExam.completed && state.cbtLoggedIn && !state.cbtExamCompleted && !state.startExam ) && (
                     <Col className="form-tabs">
                         <Tabs defaultActiveKey="1" className="tabs-form" type="card">
                             <TabPane className="tabs-panel" tab={ <span> <Title level={4}>CBT Exam In Progress</Title> </span> } key="1">
@@ -88,12 +92,63 @@ const Cbt = () => {
                         </Tabs>
                     </Col>
                 )}
-                {state.cbtLoggedIn && state.startExam && (
+                {(!state.completeExam.completed && state.cbtLoggedIn && state.startExam) && (
                     <div className="exams">
                         <CbtExam />
                     </div>
                 )}
-                { (state.cbtLoggedIn && state.cbtUser.role !== "student" && !state.startExam ) && (
+                {(state.completeExam.completed && state.cbtLoggedIn && !state.startExam) && (
+                    <div className="exams-container">
+                        <Tabs defaultActiveKey="1" className="tabs-form" type="card">
+                            <TabPane className="tabs-panel" tab={ <span> <Title level={4}>CBT Exam Completed</Title> </span> } key="1">
+                                <Alert 
+                                    className="information-alert-form" 
+                                    message="Exam Already Accessed  !!!" 
+                                    description={ `DEAR ${state.cbtUser.firstname} ${state.cbtUser.lastname} !!! You have already written this exam, answered ${state.completeExam.answered.length} question${state.completeExam.answered.length > 1 ? 's' : ''} and scored ${state.completeExam.score} in ${state.completeExam.examTime} minute${state.completeExam.examTime > 1 ? 's' : ''}` } 
+                                    type="info" 
+                                    showIcon 
+                                />
+                                <h3 className="alert-link">
+                                    You can check back later to take another available exam
+                                </h3>
+                            </TabPane>
+                        </Tabs>
+                    </div>
+                )}
+                { (state.loggedIn || state.cbtLoggedIn) && (
+                    <div className="toggle-container">
+                        <Button className='toggle-button' onClick={ () => setShowTable(!showTable) }>
+                            {showTable ? <EyeInvisibleOutlined  /> : <EyeOutlined  />} {showTable ? "Hide" : "Show"} Tables
+                        </Button>
+                    </div>
+                )}
+                { (showTable && (state.loggedIn || state.cbtLoggedIn)) && (
+                    <div className="tables">
+                        <Tabs defaultActiveKey="1" className="tabs-form" type="card">
+                            { (state.loggedIn && state.user.role === "admin") && (
+                                <TabPane className="tabs-panel" tab={ <span> <Title level={4}>Users</Title> </span> } key="1">
+                                    <UsersTable />
+                                </TabPane>
+                            )}
+                            { (state.cbtUser.role !== "student" || state.user.role === "admin") && (
+                                <TabPane className="tabs-panel" tab={ <span> <Title level={4}>Students</Title> </span> } key="2">
+                                    <CbtUsersTable />
+                                </TabPane>
+                            )}
+                            { (state.cbtUser.role !== "student" || state.user.role === "admin") && (
+                                <TabPane className="tabs-panel" tab={ <span> <Title level={4}>Exam Data</Title> </span> } key="3">
+                                    <ExamsTable />
+                                </TabPane>
+                            )}
+                            { (state.loggedIn && state.user.role === "admin") && (
+                                <TabPane className="tabs-panel" tab={ <span> <Title level={4}>Contact Messages</Title> </span> } key="4">
+                                    <ContactMessagesTable />
+                                </TabPane>
+                            )}
+                        </Tabs>
+                    </div>
+                )}
+                { (!showTable && state.cbtLoggedIn && state.cbtUser.role !== "student") && (
                     <div className="questions">
                         <div className="list">
                             <Questions />

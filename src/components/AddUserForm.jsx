@@ -7,7 +7,7 @@ import { genders, userRoles, production } from '../services/userHelper'
 
 const { Option } = Select;
 const { Item } = Form;
-const { Password } = Input;
+const { Password } = Input
 
 const AddUserForm = () => {
     const { state, addUser, userContact } = useContext(GlobalContext)
@@ -28,6 +28,8 @@ const AddUserForm = () => {
             email: values.email,
             message: `A new user (${values.firstname} ${values.lastname}) with username (${values.username}), password (${values.password}) and role (${values.role}) was attempted to be created.`
         })
+
+        form.resetFields()
     }
 
     const onFinishFailed = (errorInfo) => {

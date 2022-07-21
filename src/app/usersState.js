@@ -16,13 +16,17 @@ export const getUsers = (axios, host, ACTIONS, dispatch) => {
             payload: null
         })
         dispatch({
-            type: ACTIONS.usersMessage,
-            payload: response.data.message
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
         })
     }).catch(error => {
         !production && (console.log("Get Users Error", error))
         dispatch({
             type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
             payload: null
         })
         dispatch({
@@ -50,8 +54,8 @@ export const userLogin = (user, axios, host, config, ACTIONS, dispatch, getUsers
             payload: null
         })
         dispatch({
-            type: ACTIONS.usersMessage,
-            payload: response.data.message
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
         })
         if (response.data.data.role === "admin") {
             getUsers()
@@ -84,6 +88,10 @@ export const userLogin = (user, axios, host, config, ACTIONS, dispatch, getUsers
             payload: null
         })
         dispatch({
+            type: ACTIONS.usersWarning,
+            payload: null
+        })
+        dispatch({
             type: ACTIONS.usersError,
             payload: `User Login Error (${error.message})`
         })
@@ -107,13 +115,17 @@ export const deleteUser = (id, axios, host, adminConfig, ACTIONS, dispatch) => {
             payload: null
         })
         dispatch({
-            type: ACTIONS.usersMessage,
-            payload: response.data.message
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
         })
     }).catch(error => {
         !production && (console.log("Delete User Error", error))
         dispatch({
             type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
             payload: null
         })
         dispatch({
@@ -140,13 +152,17 @@ export const deleteAllUsers = (axios, host, adminConfig, ACTIONS, dispatch) => {
             payload: null
         })
         dispatch({
-            type: ACTIONS.usersMessage,
-            payload: response.data.message
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
         })
     }).catch(error => {
         !production && (console.log("Delete All Users Error", error))
         dispatch({
             type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
             payload: null
         })
         dispatch({
@@ -179,13 +195,17 @@ export const googleSignIn = (axios, host, config, ACTIONS, dispatch) => {
             payload: null
         })
         dispatch({
+            type: ACTIONS.usersWarning,
+            payload: null
+        })
+        dispatch({
             type: ACTIONS.usersError,
             payload: `Google Auth Error (${error.message})`
         })
     })
 }
 
-export const registerUser = (user, axios, host, config, ACTIONS, dispatch) => {
+export const registerUser = (user, axios, host, config, ACTIONS, dispatch, getContactMessages) => {
     axios({
         url: process.env.USER_ACTIVATE_EMAIL ? '/benion-users/api/register-activate' : '/benion-users/api/register',
         method: 'post',
@@ -194,18 +214,23 @@ export const registerUser = (user, axios, host, config, ACTIONS, dispatch) => {
         data: user
     }).then(response => {
         !production && (console.log("Register User Response", response))
+        getContactMessages()
         dispatch({
             type: ACTIONS.usersError,
             payload: null
         })
         dispatch({
-            type: ACTIONS.usersMessage,
-            payload: response.data.message
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
         })
     }).catch(error => {
         !production && (console.log("Register User Error", error))
         dispatch({
             type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
             payload: null
         })
         dispatch({
@@ -229,13 +254,17 @@ export const userForget = (user, axios, host, config, ACTIONS, dispatch) => {
             payload: null
         })
         dispatch({
-            type: ACTIONS.usersMessage,
-            payload: response.data.message
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
         })
     }).catch(error => {
         !production && (console.log("User Forget Error", error))
         dispatch({
             type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
             payload: null
         })
         dispatch({
@@ -260,13 +289,17 @@ export const userLogout = (axios, host, ACTIONS, dispatch) => {
             payload: null
         })
         dispatch({
-            type: ACTIONS.usersMessage,
-            payload: response.data.message
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
         })
     }).catch(error => {
         !production && (console.log("User Logout Error", error))
         dispatch({
             type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
             payload: null
         })
         dispatch({
@@ -290,13 +323,17 @@ export const userContact = (user, axios, host, config, ACTIONS, dispatch) => {
             payload: null
         })
         dispatch({
-            type: ACTIONS.usersMessage,
-            payload: response.data.message
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
         })
     }).catch(error => {
         !production && (console.log("User Contact Error", error))
         dispatch({
             type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
             payload: null
         })
         dispatch({
@@ -322,13 +359,17 @@ export const updateUser = (user, axios, host, adminConfig, ACTIONS, dispatch, ge
             payload: null
         })
         dispatch({
-            type: ACTIONS.usersMessage,
-            payload: response.data.message
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
         })
     }).catch(error => {
         !production && (console.log("Update User Error", error))
         dispatch({
             type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
             payload: null
         })
         dispatch({
@@ -338,7 +379,7 @@ export const updateUser = (user, axios, host, adminConfig, ACTIONS, dispatch, ge
     })
 }
 
-export const addUser = (user, axios, host, config, ACTIONS, dispatch) => {
+export const addUser = (user, axios, host, config, ACTIONS, dispatch, getUsers, getContactMessages) => {
     axios({
         url: '/benion-users/api/add-user',
         method: 'post',
@@ -347,22 +388,28 @@ export const addUser = (user, axios, host, config, ACTIONS, dispatch) => {
         data: user
     }).then(response => {
         !production && (console.log("Add User Response", response))
+        getUsers()
+        getContactMessages()
         dispatch({
             type: ACTIONS.addUser,
-            payload: response.data.data
+            payload: null
         })
         dispatch({
             type: ACTIONS.usersError,
             payload: null
         })
         dispatch({
-            type: ACTIONS.usersMessage,
-            payload: response.data.message
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
         })
     }).catch(error => {
         !production && (console.log("Add User Error", error))
         dispatch({
             type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
             payload: null
         })
         dispatch({
@@ -388,8 +435,8 @@ export const getContactMessages = (axios, host, ACTIONS, dispatch) => {
     }).then(response => {
         !production && (console.log("Get Contact Messages Response", response))
         dispatch({
-            type: ACTIONS.getContactMessages,
-            payload: response.data.data
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
         })
         dispatch({
             type: ACTIONS.usersError,
@@ -403,6 +450,10 @@ export const getContactMessages = (axios, host, ACTIONS, dispatch) => {
         !production && (console.log("Get Contact Messages Error", error))
         dispatch({
             type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
             payload: null
         })
         dispatch({
@@ -430,8 +481,8 @@ export const deleteContactMessage = (key, axios, host, adminConfig, ACTIONS, dis
             payload: null
         })
         dispatch({
-            type: ACTIONS.usersMessage,
-            payload: response.data.message
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
         })
     }).catch(error => {
         !production && (console.log("Delete Contact Message Error", error))
@@ -440,8 +491,148 @@ export const deleteContactMessage = (key, axios, host, adminConfig, ACTIONS, dis
             payload: null
         })
         dispatch({
+            type: ACTIONS.usersWarning,
+            payload: null
+        })
+        dispatch({
             type: ACTIONS.usersError,
             payload: `Delete Contact Message Error (${error.message})`
+        })
+    })
+}
+
+export const activateUser = (user, axios, host, adminConfig, ACTIONS, dispatch) => {
+    axios({
+        url: '/benion-users/api/activate-email',
+        method: 'post',
+        baseURL: host,
+        headers: adminConfig.headers,
+        data: user
+    }).then(response => {
+        !production && (console.log("Activate User Response", response))
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: null
+        })
+        dispatch({
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
+        })
+    }).catch(error => {
+        !production && (console.log("Activate User Error", error))
+        dispatch({
+            type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: `Activate User Error (${error.message})`
+        })
+    })
+}
+
+export const depositForUser = (user, axios, host, adminConfig, ACTIONS, dispatch) => {
+    axios({
+        url: '/benion-users/api/deposit-for-user',
+        method: 'put',
+        baseURL: host,
+        headers: adminConfig.headers,
+        data: user
+    }).then(response => {
+        !production && (console.log("Deposit For User Response", response))
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: null
+        })
+        dispatch({
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
+        })
+    }).catch(error => {
+        !production && (console.log("Deposit For User Error", error))
+        dispatch({
+            type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: `Deposit For User Error (${error.message})`
+        })
+    })
+}
+
+export const changeUserPassword = (token, user, axios, host, adminConfig, ACTIONS, dispatch) => {
+    axios({
+        url: `/benion-users/api/change-password/${token}`,
+        method: 'put',
+        baseURL: host,
+        headers: adminConfig.headers,
+        data: user
+    }).then(response => {
+        !production && (console.log("Change User Password Response", response))
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: null
+        })
+        dispatch({
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
+        })
+    }).catch(error => {
+        !production && (console.log("Change User Password Error", error))
+        dispatch({
+            type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: `Change User Password Error (${error.message})`
+        })
+    })
+}
+
+export const updateUserPassword = (user, axios, host, adminConfig, ACTIONS, dispatch) => {
+    axios({
+        url: `/benion-users/api/update-password`,
+        method: 'put',
+        baseURL: host,
+        headers: adminConfig.headers,
+        data: user
+    }).then(response => {
+        !production && (console.log("Update User Password Response", response))
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: null
+        })
+        dispatch({
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
+        })
+    }).catch(error => {
+        !production && (console.log("Update User Password Error", error))
+        dispatch({
+            type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: `Update User Password Error (${error.message})`
         })
     })
 }

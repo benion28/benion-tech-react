@@ -7,6 +7,7 @@ $secondary-color: #001529;
 .heading {
     display: flex;
     flex-direction: row;
+    width: 95%;
 
     .dropdown {
         display: flex;
@@ -57,4 +58,41 @@ $secondary-color: #001529;
     text-align: center;
     font-weight: bold;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.toggle-container {
+    width: 100%;
+
+    .toggle-button {
+        margin-top: 2pt;
+        margin-left: 3pt;
+        margin-bottom: 5pt;
+    }
+}
+
+.admin-tools {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 3px;
+
+    .admin-tool {
+        margin-left: 2pt;
+        margin-right: 2pt;
+    }
+}
+
+@media screen and (max-width: 1000px){
+    .admin-tools {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 3px;
+    }
+}
+
+@media screen and (max-width: 500px){
+    .admin-tools {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        grid-gap: 3px;
+    }
 }

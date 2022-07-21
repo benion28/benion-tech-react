@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { DeleteOutlined, QuestionCircleOutlined } from '@ant-design/icons'
-import { Table, Space, Button, Popconfirm, Typography } from 'antd'
+import { Table, Space, Button, Popconfirm, Typography, Badge } from 'antd'
 import { GlobalContext } from '../app/GlobalState'
 import '../styles/ExamsTable.scss'
 
@@ -18,19 +18,20 @@ const ExamsTable = () => {
         title: () => (<b>Username</b>),
         dataIndex: 'username',
         defaultSortOrder: 'descend',
+        sorter: (a, b) => a.username.length - b.username.length,
         key: 'username'
     },
     {
         title: () => (<b>Answered</b>),
         dataIndex: 'answered',
-        defaultSortOrder: 'descend',
-        key: 'answered'
+        key: 'answered',
+        render: (answered) => `${answered} (${answered.split(",").length} questions)`
     },
     {
         title: () => (<b>Answers</b>),
         dataIndex: 'answers',
-        defaultSortOrder: 'descend',
-        key: 'answers'
+        key: 'answers',
+        render: (answers) => `${answers} (${answers.split(",").length} answers)`
     },
     {
         title: () => (<b>Exam Time</b>),
@@ -57,21 +58,17 @@ const ExamsTable = () => {
         title: () => (<b>Completed</b>),
         dataIndex: 'completed',
         key: 'completed',
-        filters: [
-            {
-                text: "False",
-                value: false
-            },
-            {
-                text: "True",
-                value: true
-            }
-        ],
-        onFilter: (value, record) => record.completed.indexOf(value) === 0
+        sorter: true,
+        render: (completed) => (
+          <span>
+            {completed ? <Badge status="success" /> : <Badge status="warning" />} {completed.toString()} 
+            </span>
+        )
     },
     {
         title: () => (<b>Actions</b>),
         key: 'actions',
+        fixed: 'right',
         render: (record) => (
             <Space size='middle'>
                 <Popconfirm

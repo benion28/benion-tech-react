@@ -15,7 +15,7 @@ const LogInForm = () => {
     const [formError, setFormError] = useState('')
     const { userLogin, state, googleSignIn  } = useContext(GlobalContext)
 
-    const onFinish = async (values) => {
+    const onFinish = (values) => {
         !production && (console.log("Log In data accepted !!", values))
         setFormError('')
         setFormMessage('Log In data accepted !!')

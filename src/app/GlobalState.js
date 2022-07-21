@@ -59,7 +59,7 @@ export const GlobalStore = ({ children }) => {
 
     // Register User
     const registerUser = (user) => {
-        USERS_STATE.registerUser(user, axios, host, config, ACTIONS, dispatch)
+        USERS_STATE.registerUser(user, axios, host, config, ACTIONS, dispatch, getContactMessages)
     }
 
     // User Forget
@@ -83,7 +83,7 @@ export const GlobalStore = ({ children }) => {
 
     // Add User
     const addUser = (user) => {
-        USERS_STATE.addUser(user, axios, host, config, ACTIONS, dispatch)
+        USERS_STATE.addUser(user, axios, host, config, ACTIONS, dispatch, getUsers, getContactMessages)
     }
 
     // Show Alerts
@@ -100,6 +100,26 @@ export const GlobalStore = ({ children }) => {
     const deleteContactMessage = (key) => {
         USERS_STATE.deleteContactMessage(key, axios, host, adminConfig, ACTIONS, dispatch, getContactMessages)
     }
+
+    // Activate User
+    const activateUser = (user) => {
+        USERS_STATE.activateUser(user, axios, host, adminConfig, ACTIONS, dispatch)
+    }
+
+    // Deposit For User
+    const depositForUser = (user) => {
+        USERS_STATE.depositForUser(user, axios, host, adminConfig, ACTIONS, dispatch)
+    }
+
+    // Change User Password
+    const changeUserPassword = (token, user) => {
+        USERS_STATE.changeUserPassword(token, user, axios, host, adminConfig, ACTIONS, dispatch)
+    }
+
+    // Change User Password
+    const updateUserPassword = (user) => {
+        USERS_STATE.updateUserPassword(user, axios, host, adminConfig, ACTIONS, dispatch)
+    }
     
 
 
@@ -107,12 +127,12 @@ export const GlobalStore = ({ children }) => {
     
     // Add Cbt User
     const addCbtUser = (user) => {
-        CBT_USERS_STATE.addCbtUser(user, axios, host, adminConfig, ACTIONS, dispatch)
+        CBT_USERS_STATE.addCbtUser(user, axios, host, adminConfig, ACTIONS, dispatch, getCbtUsers, getContactMessages)
     }
 
      // Register Cbt Student
     const registerCbtUser = (user) => {
-        CBT_USERS_STATE.registerCbtUser(user, axios, host, config, ACTIONS, dispatch)
+        CBT_USERS_STATE.registerCbtUser(user, axios, host, config, ACTIONS, dispatch, getContactMessages)
     }
     
     // Get Cbt Users
@@ -199,6 +219,11 @@ export const GlobalStore = ({ children }) => {
         CBT_USERS_STATE.deleteQuestion(key, axios, host, adminConfig, ACTIONS, dispatch, getCbtQuestions)
     }
 
+    // Change Cbt User Password
+    const updateCbtUserPassword = (user) => {
+        CBT_USERS_STATE.updateCbtUserPassword(user, axios, host, adminConfig, ACTIONS, dispatch)
+    }
+
 
      //                    -----------------------------  NEWS   ---------------------------                //
 
@@ -241,6 +266,10 @@ export const GlobalStore = ({ children }) => {
             userForget,
             userContact,
             googleSignIn,
+            activateUser,
+            depositForUser,
+            changeUserPassword,
+            updateUserPassword,
             addCbtUser,
             getCbtUsers,
             registerCbtUser,
@@ -258,6 +287,7 @@ export const GlobalStore = ({ children }) => {
             deleteExam,
             getCbtExams,
             getCbtQuestions,
+            updateCbtUserPassword,
             examCategory,
             examAnswered,
             addQuestion,

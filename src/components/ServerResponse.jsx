@@ -10,6 +10,9 @@ const ServerResponse = () => {
             { state.message !== null && (
                 <Alert message={state.message} type="success" showIcon closable />
             )}
+            { state.warning !== null && (
+                <Alert message={state.warning} type="warning" showIcon closable />
+            )}
             { state.error !== null && (
                 <Alert message={state.error} type="error" showIcon closable />
             )}

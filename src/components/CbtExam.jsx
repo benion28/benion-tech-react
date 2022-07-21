@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { Link } from 'react-router-dom'
 import { Typography, Row, Col, Alert, Tabs, Radio, Button, Form  } from 'antd'
 import Loader from 'react-loaders'
 import { GlobalContext } from '../app/GlobalState'
@@ -274,7 +273,7 @@ const CbtExam = () => {
                 {(state.cbtLoggedIn && !state.cbtExam.completed && !submitted) && (
                     <Col className="exams-container">
                         <Tabs defaultActiveKey="1" className="tabs-form" type="card">
-                            <TabPane className="tabs-panel" tab={ <span> <Title level={5}><b>CBT Exam In Progress</b> -  Welcome {!state.cbtExam.completed ? "Back" : ""} ({ state.cbtLoggedIn ? `${state.cbtUser.firstname} ${state.cbtUser.lastname}` : 'Guest User' })</Title> </span> } key="1">
+                            <TabPane className="tabs-panel" tab={ <span> <Title level={5}><b>Welcome {!state.cbtExam.completed ? "Back" : ""} ({ state.cbtLoggedIn ? `${state.cbtUser.firstname} ${state.cbtUser.lastname}` : 'Guest User' }) - CBT Exam In Progress</b></Title> </span> } key="1">
                                 <div className="time-container">
                                     <Title className="time-left" level={3}>
                                         Time Left:

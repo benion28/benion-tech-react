@@ -4,6 +4,7 @@ import { AddQuestionForm, EditQuestionForm } from '../components'
 import { GlobalContext } from '../app/GlobalState'
 import { cbtCategories, cbtClasses, subjects, terms, getClassName } from '../services/userHelper';
 import { CloseOutlined, DeleteOutlined, EditOutlined, PlusOutlined, QuestionCircleOutlined } from '@ant-design/icons';
+import '../styles/Questions.scss'
 
 const { Fragment } = React
 const { Title, Text } = Typography

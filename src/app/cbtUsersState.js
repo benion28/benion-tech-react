@@ -1,6 +1,6 @@
 import { production } from '../services/userHelper'
 
-export const registerCbtUser = (user, axios, host, config, ACTIONS, dispatch) => {
+export const registerCbtUser = (user, axios, host, config, ACTIONS, dispatch, getContactMessages) => {
     axios({
         url: '/benion-cbt/api/register',
         method: 'post',
@@ -9,23 +9,23 @@ export const registerCbtUser = (user, axios, host, config, ACTIONS, dispatch) =>
         data: user
     }).then(response => {
         !production && (console.log("Register Cbt Response", response))
-        getCbtUsers()
-        dispatch({
-            type: ACTIONS.registerCbtUser,
-            payload: response.data.data
-        })
+        getContactMessages()
         dispatch({
             type: ACTIONS.usersError,
             payload: null
         })
         dispatch({
-            type: ACTIONS.usersMessage,
-            payload: response.data.message
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
         })
     }).catch(error => {
         !production && (console.log("Register Cbt Error", error))
         dispatch({
             type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
             payload: null
         })
         dispatch({
@@ -35,7 +35,7 @@ export const registerCbtUser = (user, axios, host, config, ACTIONS, dispatch) =>
     })
 }
 
-export const addCbtUser = (user, axios, host, adminConfig, ACTIONS, dispatch) => {
+export const addCbtUser = (user, axios, host, adminConfig, ACTIONS, dispatch, getCbtUsers, getContactMessages) => {
     axios({
         url: '/benion-cbt/api/add-user',
         method: 'post',
@@ -44,22 +44,24 @@ export const addCbtUser = (user, axios, host, adminConfig, ACTIONS, dispatch) =>
         data: user
     }).then(response => {
         !production && (console.log("Add Cbt Response", response))
-        dispatch({
-            type: ACTIONS.registerCbtUser,
-            payload: response.data.data
-        })
+        getCbtUsers()
+        getContactMessages()
         dispatch({
             type: ACTIONS.usersError,
             payload: null
         })
         dispatch({
-            type: ACTIONS.usersMessage,
-            payload: response.data.message
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
         })
     }).catch(error => {
         !production && (console.log("Add Cbt Response", error))
         dispatch({
             type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
             payload: null
         })
         dispatch({
@@ -85,13 +87,17 @@ export const getCbtUsers = (axios, host, ACTIONS, dispatch) => {
             payload: null
         })
         dispatch({
-            type: ACTIONS.usersMessage,
-            payload: response.data.message
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
         })
     }).catch(error => {
         !production && (console.log("Get Cbt Users Error", error))
         dispatch({
             type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
             payload: null
         })
         dispatch({
@@ -119,8 +125,8 @@ export const cbtUserLogin = (user, axios, host, config, ACTIONS, dispatch, getCb
             payload: null
         })
         dispatch({
-            type: ACTIONS.usersMessage,
-            payload: response.data.message
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
         })
         if (response.data.data.role === "admin") {
             getCbtUsers()
@@ -136,6 +142,10 @@ export const cbtUserLogin = (user, axios, host, config, ACTIONS, dispatch, getCb
         !production && (console.log("Cbt User Login Error", error))
         dispatch({
             type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
             payload: null
         })
         dispatch({
@@ -162,13 +172,17 @@ export const deleteCbtUser = (id, axios, host, adminConfig, ACTIONS, dispatch) =
             payload: null
         })
         dispatch({
-            type: ACTIONS.usersMessage,
-            payload: response.data.message
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
         })
     }).catch(error => {
         !production && (console.log("Delete Cbt User Error", error))
         dispatch({
             type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
             payload: null
         })
         dispatch({
@@ -195,13 +209,17 @@ export const deleteAllCbtUsers = (axios, host, adminConfig, ACTIONS, dispatch) =
             payload: null
         })
         dispatch({
-            type: ACTIONS.usersMessage,
-            payload: response.data.message
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
         })
     }).catch(error => {
         !production && (console.log("Delete All Cbt Users Error", error))
         dispatch({
             type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
             payload: null
         })
         dispatch({
@@ -227,13 +245,17 @@ export const cbtUserLogout = (axios, host, ACTIONS, dispatch) => {
             payload: null
         })
         dispatch({
-            type: ACTIONS.usersMessage,
-            payload: response.data.message
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
         })
     }).catch(error => {
         !production && (console.log("Cbt User Logout Error", error))
         dispatch({
             type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
             payload: null
         })
         dispatch({
@@ -259,13 +281,17 @@ export const updateCbtUser = (user, axios, host, adminConfig, ACTIONS, dispatch,
             payload: null
         })
         dispatch({
-            type: ACTIONS.usersMessage,
-            payload: response.data.message
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
         })
     }).catch(error => {
         !production && (console.log("Update Cbt User Error", error))
         dispatch({
             type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
             payload: null
         })
         dispatch({
@@ -276,11 +302,12 @@ export const updateCbtUser = (user, axios, host, adminConfig, ACTIONS, dispatch,
 }
 
 export const cbtUserFind = (user, state, ACTIONS, dispatch) => {
-    let filteredUser = state.cbtUsers.filter(data => data.role === user.role)
-    filteredUser.filter(data => data.school === user.school)
-    filteredUser.filter(data => data.class === user.class)
-    filteredUser.filter(data => data.lastname.toLowerCase() === user.lastname.toLowerCase())
-    filteredUser.filter(data => data.firstname.toLowerCase() === user.firstname.toLowerCase())
+    const roleFilter = state.cbtUsers.filter(data => data.role === user.role)
+    const schoolFilter = roleFilter.filter(data => data.school === user.school)
+    const classFilter = schoolFilter.filter(data => data.class === user.class)
+    const lastNameFilter = classFilter.filter(data => data.lastname.toLowerCase() === user.lastname.toLowerCase())
+    const firstNameFilter = lastNameFilter.filter(data => data.firstname.toLowerCase() === user.firstname.toLowerCase())
+    const filteredUser = firstNameFilter
 
     if (filteredUser.length > 0) {
         dispatch({
@@ -299,6 +326,10 @@ export const cbtUserFind = (user, state, ACTIONS, dispatch) => {
     } else {
         dispatch({
             type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
             payload: null
         })
         dispatch({
@@ -323,21 +354,21 @@ export const deleteCbtExam = (key, axios, host, adminConfig, ACTIONS, dispatch, 
         !production && (console.log("Delete Cbt Exam Response", response))
         getCbtExams()
         dispatch({
-            type: ACTIONS.deleteCbtExam,
-            payload: key
-        })
-        dispatch({
             type: ACTIONS.usersError,
             payload: null
         })
         dispatch({
-            type: ACTIONS.usersMessage,
-            payload: response.data.message
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
         })
     }).catch(error => {
         !production && (console.log("Delete Cbt Exam Response", error))
         dispatch({
             type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
             payload: null
         })
         dispatch({
@@ -367,13 +398,17 @@ export const updateExam = (values, key, axios, host, config, ACTIONS, dispatch, 
             payload: null
         })
         dispatch({
-            type: ACTIONS.usersMessage,
-            payload: response.data.message
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
         })
     }).catch(error => {
         !production && (console.log("Update Cbt Exam Error", error))
         dispatch({
             type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
             payload: null
         })
         dispatch({
@@ -403,13 +438,17 @@ export const createExam = (values, axios, host, config, ACTIONS, dispatch, getCb
             payload: null
         })
         dispatch({
-            type: ACTIONS.usersMessage,
-            payload: response.data.message
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
         })
     }).catch(error => {
         !production && (console.log("Create Cbt-Exam Error", error))
         dispatch({
             type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
             payload: null
         })
         dispatch({
@@ -435,13 +474,17 @@ export const getCbtExams = (axios, host, ACTIONS, dispatch) => {
             payload: null
         })
         dispatch({
-            type: ACTIONS.usersMessage,
-            payload: response.data.message
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
         })
     }).catch(error => {
         !production && (console.log("Get Cbt-Exams Error", error))
         dispatch({
             type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
             payload: null
         })
         dispatch({
@@ -467,13 +510,17 @@ export const getCbtQuestions = (axios, host, ACTIONS, dispatch) => {
             payload: null
         })
         dispatch({
-            type: ACTIONS.usersMessage,
-            payload: response.data.message
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
         })
     }).catch(error => {
         !production && (console.log("Get Cbt-Questions Error", error))
         dispatch({
             type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
             payload: null
         })
         dispatch({
@@ -517,13 +564,17 @@ export const addQuestion = (object, axios, host, config, ACTIONS, dispatch, getC
             payload: null
         })
         dispatch({
-            type: ACTIONS.usersMessage,
-            payload: response.data.message
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
         })
     }).catch(error => {
         !production && (console.log("Add Question Error", error))
         dispatch({
             type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
             payload: null
         })
         dispatch({
@@ -548,13 +599,17 @@ export const editQuestion = (object, key, axios, host, config, ACTIONS, dispatch
             payload: null
         })
         dispatch({
-            type: ACTIONS.usersMessage,
-            payload: response.data.message
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
         })
     }).catch(error => {
         !production && (console.log("Edit Question Error", error))
         dispatch({
             type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
             payload: null
         })
         dispatch({
@@ -574,16 +629,12 @@ export const deleteQuestion = (key, axios, host, adminConfig, ACTIONS, dispatch,
         !production && (console.log("Delete Exam-Question Response", response))
         getCbtQuestions()
         dispatch({
-            type: ACTIONS.deleteQuestion,
-            payload: key
-        })
-        dispatch({
             type: ACTIONS.usersError,
             payload: null
         })
         dispatch({
-            type: ACTIONS.usersMessage,
-            payload: response.data.message
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
         })
     }).catch(error => {
         !production && (console.log("Delete Exam-Question Error", error))
@@ -592,8 +643,46 @@ export const deleteQuestion = (key, axios, host, adminConfig, ACTIONS, dispatch,
             payload: null
         })
         dispatch({
+            type: ACTIONS.usersWarning,
+            payload: null
+        })
+        dispatch({
             type: ACTIONS.usersError,
             payload: `Delete Exam-Question Error (${error.message})`
+        })
+    })
+}
+
+export const updateCbtUserPassword = (user, axios, host, adminConfig, ACTIONS, dispatch) => {
+    axios({
+        url: "/benion-cbt/api/edit-user-password",
+        method: 'put',
+        baseURL: host,
+        headers: adminConfig.headers,
+        data: user
+    }).then(response => {
+        !production && (console.log("Update Cbt User Password Response", response))
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: null
+        })
+        dispatch({
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
+        })
+    }).catch(error => {
+        !production && (console.log("Update Cbt User Password Error", error))
+        dispatch({
+            type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: `Update Cbt User Password Error (${error.message})`
         })
     })
 }

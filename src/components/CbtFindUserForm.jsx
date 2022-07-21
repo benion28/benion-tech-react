@@ -15,7 +15,7 @@ const CbtFindUserForm = () => {
     const [formError, setFormError] = useState('')
     const { cbtUserFind, state  } = useContext(GlobalContext)
 
-    const onFinish = async (values) => {
+    const onFinish = (values) => {
         !production && (console.log("Cbt Find User data accepted", values))
         setFormError('')
         setFormMessage("Cbt Find User data accepted")

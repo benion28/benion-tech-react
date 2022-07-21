@@ -28,18 +28,21 @@ const UsersTable = () => {
         title: () => (<b>First Name</b>),
         dataIndex: 'firstname',
         defaultSortOrder: 'descend',
+        sorter: (a, b) => a.firstname.length - b.firstname.length,
         key: 'firstname'
     },
     {
         title: () => (<b>Last Name</b>),
         dataIndex: 'lastname',
         defaultSortOrder: 'descend',
+        sorter: (a, b) => a.lastname.length - b.lastname.length,
         key: 'lastname'
     },
     {
         title: () => (<b>Username</b>),
         dataIndex: 'username',
         defaultSortOrder: 'descend',
+        sorter: (a, b) => a.username.length - b.username.length,
         key: 'username'
     },
     {
@@ -70,6 +73,7 @@ const UsersTable = () => {
         title: () => (<b>Town</b>),
         dataIndex: 'town',
         defaultSortOrder: 'descend',
+        sorter: (a, b) => a.town.length - b.town.length,
         key: 'town'
     },
     {
@@ -83,11 +87,13 @@ const UsersTable = () => {
         title: () => (<b>Email</b>),
         dataIndex: 'email',
         defaultSortOrder: 'descend',
+        sorter: (a, b) => a.email.length - b.email.length,
         key: 'email'
     },
     {
         title: () => (<b>Actions</b>),
         key: 'actions',
+        fixed: 'right',
         render: (record) => (
             <Space size='middle'>
                 <Popover

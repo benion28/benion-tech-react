@@ -9,13 +9,13 @@ import { cbtCategories, cbtClasses, cbtRoles, cbtSchools, genders } from '../ser
 const { Text, Title } = Typography;
 
 const CbtUsersTable = () => {
-    const { state, deleteUser } = useContext(GlobalContext)
+    const { state, deleteCbtUser } = useContext(GlobalContext)
     const [ newUserPopover, setNewUserPopover ] = useState(false)
     const [ editUserPopover, setEditUserPopover ] = useState(false)
     const [ details, setDetails ] = useState({ _id: 'gfsgdfgdew4rrewtr5e' })
 
     const deleteConfirm = (id) => {
-        deleteUser(id)
+        deleteCbtUser(id)
     }
 
     const onEdit = (user) => {
@@ -28,18 +28,21 @@ const CbtUsersTable = () => {
         title: () => (<b>First Name</b>),
         dataIndex: 'firstname',
         defaultSortOrder: 'descend',
+        sorter: (a, b) => a.firstname.length - b.firstname.length,
         key: 'firstname'
     },
     {
         title: () => (<b>Last Name</b>),
         dataIndex: 'lastname',
         defaultSortOrder: 'descend',
+        sorter: (a, b) => a.lastname.length - b.lastname.length,
         key: 'lastname'
     },
     {
         title: () => (<b>Username</b>),
         dataIndex: 'username',
         defaultSortOrder: 'descend',
+        sorter: (a, b) => a.username.length - b.username.length,
         key: 'username'
     },
     {
@@ -119,6 +122,7 @@ const CbtUsersTable = () => {
     {
         title: () => (<b>Actions</b>),
         key: 'actions',
+        fixed: 'right',
         render: (record) => (
             <Space size='middle'>
                 <Popover
@@ -149,31 +153,32 @@ const CbtUsersTable = () => {
     return (
         <React.Fragment>
             <div className="tools-container">
-                <div className="add-user">
-                    <Popover
-                        placement='bottomRight'
-                        content={ <CbtAddForm />}
-                        title= {() => (<Title level={2} className='add-user-title'><b>Add New User</b> <Button onClick={ () => setNewUserPopover(false) } className='add-user-button'><CloseOutlined /></Button></Title>)}
-                        trigger='click'
-                        visible={ newUserPopover }
-                    >
-                        <Button className='add-button' onClick={ () => setNewUserPopover(true) }>
-                            <UsergroupAddOutlined  />  Add Cbt User
-                        </Button>
-                    </Popover>
-                </div>
-                
+                { (state.cbtLoggedIn && state.cbtUser.role !== "student") && (
+                    <div className="add-user">
+                        <Popover
+                            placement='bottomRight'
+                            content={ <CbtAddForm />}
+                            title= {() => (<Title level={2} className='add-user-title'><b>Add New User</b> <Button onClick={ () => setNewUserPopover(false) } className='add-user-button'><CloseOutlined /></Button></Title>)}
+                            trigger='click'
+                            visible={ newUserPopover }
+                        >
+                            <Button className='add-button' onClick={ () => setNewUserPopover(true) }>
+                                <UsergroupAddOutlined  />  Add Cbt User
+                            </Button>
+                        </Popover>
+                    </div>
+                )}
             </div>
             <div className="table-container">
                 <Table rowKey={ (record) => record._id } className='table' columns={columns} dataSource={state.cbtUsers} />
             </div>
             <div className="footer">
-                { state.users.length > 0 && (
+                { state.cbtUsers.length > 0 && (
                     <Text className='footer-text' level={1}>
                         <b>Currently there are { state.cbtUsers.length } Cbt Users !!!</b>
                     </Text>
                 )}
-                { state.users.length < 1 && (
+                { state.cbtUsers.length < 1 && (
                     <Text className='footer-text' level={1}>
                         <b>Currently there are no Cbt Users !!!</b>
                     </Text>

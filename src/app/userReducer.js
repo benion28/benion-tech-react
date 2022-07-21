@@ -31,6 +31,13 @@ export const usersMessage = (state, action) => {
     }
 }
 
+export const usersWarning = (state, action) => {
+    return {
+        ...state,
+        warning: action.payload
+    }
+}
+
 export const deleteUser = (state, action) => {
     return {
         ...state,
@@ -47,11 +54,7 @@ export const deleteAllUsers = (state, action) => {
 
 export const addUser = (state, action) => {
     return {
-        ...state,
-        users: [
-            ...state.users,
-            action.payload
-        ]
+        ...state
     }
 }
 

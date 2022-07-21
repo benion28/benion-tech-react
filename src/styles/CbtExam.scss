@@ -137,11 +137,15 @@ $secondary-color: #001529;
 }
 
 .exams-container {
-    max-width: 600px;
+    max-width: 95%;
     margin-left: 7%;
     margin-bottom: 5%;
     margin-top: 5%;
     background-color: #e3e9f0;
+
+    .tabs-form {
+        width: 98%;
+    }
 }
 
 .tabs-panel {

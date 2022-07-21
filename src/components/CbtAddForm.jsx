@@ -93,7 +93,7 @@ const CbtAddForm = () => {
                 </div>
                 <div className="form-controller">
                     <Item className='form-item' name="school" label="School" rules={[ { required: true } ]}>
-                        <Select placeholder="Select a Class"  allowClear>
+                        <Select placeholder="Select a School"  allowClear>
                             {cbtSchools.map(item => (
                                 <Option key={item.value} value={item.value}>{item.name}</Option>
                             ))}

@@ -38,41 +38,12 @@ export const cbtUser = {
     completed: true
 }
 
-const cbtUserOld = {
-    firstname: 'Bernard',
-    lastname: 'Iorver',
-    username: '2022/ADM/42710',
-    category: 'science',
-    className: 'graduated',
-    role: 'admin',
-    token: null,
-    creator: null,
-    accessCode: null,
-    password: null,
-    activeExam: null,
-    completed: true
-}
-
-const cbtExamOld = {
-    $key: null,
-    category: 'general',
-    id: 'jhgfjh',
-    className: 'sss-1',
-    examTime: 10,
-    subject: 'maths',
-    username: 'benion',
-    answered: '1,3',
-    answers: '1vghfhfghn,3gfghfhgg',
-    term: 'second-term',
-    completed: false
-}
-
 export const cbtExam = {
     $key: null,
     category: null,
     id: null,
     className: null,
-    examTime: 1,
+    examTime: 0,
     subject: null,
     username: null,
     answered: '',
@@ -80,6 +51,13 @@ export const cbtExam = {
     term: null,
     completed: true,
     score: 404404
+}
+
+export const completeExam = {
+    examTime: 0,
+    answers: '',
+    completed: false,
+    score: 0
 }
 
 export const initialState = {
@@ -142,6 +120,7 @@ export const initialState = {
     user,
     cbtUser,
     cbtExam,
+    completeExam,
     totalQuestions: 19,
     examTimeLimit: 30,
     cbtTimeSpent: 0,
@@ -158,6 +137,7 @@ export const initialState = {
     cbtExamKey: '',
     error: null,
     message: null,
+    warning: null,
     loading: true,
     startExam: false,
     loggedIn: false,
@@ -310,6 +290,21 @@ export const anExam = (state, payload) => {
     const filterCompleted = filterUsername.filter(item => !item.completed)
     if (filterCompleted.length > 0) {
         return filterCompleted
+    } else {
+        return [cbtExam]
+    }
+}
+
+export const anCompletedExam = (state, payload, username) => {
+    const filterUsername = state.cbtExams[3].filter(item => item.username === username)
+    const filterCategory = filterUsername.filter(item => item.category === payload.examCategory)
+    const filterClass = filterCategory.filter(item => item.className === payload.examClass)
+    const filterSubject = filterClass.filter(item => item.subject === payload.examSubject)
+    const filterTerm = filterSubject.filter(item => item.term === payload.examTerm)
+    const filterCompleted = filterTerm
+
+    if (filterCompleted.length > 0) {
+        return filterCompleted 
     } else {
         return [cbtExam]
     }

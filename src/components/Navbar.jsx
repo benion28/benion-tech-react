@@ -5,7 +5,6 @@ import {
     MenuOutlined,
     HomeOutlined,
     MoneyCollectOutlined,
-    BulbOutlined,
     FundOutlined,
     DesktopOutlined,
     ReadOutlined,
@@ -47,16 +46,18 @@ const Navbar = () => {
 
     return (
         <div className="nav-container">
-            <div className="logo-container">
-                <Avatar src={benionPassport} size="large" />
-                <Title level={2} className="logo">
-                    <Link to="/">Benion-Tech</Link>
-                </Title>
-                <Button className="menu-control-container" onClick={() => setActiveMenu(!activeMenu)}>
-                    <MenuOutlined />
-                </Button>
-            </div>
-            {activeMenu && (
+            {!state.startExam && (
+                <div className="logo-container">
+                    <Avatar src={benionPassport} size="large" />
+                    <Title level={2} className="logo">
+                        <Link to="/">Benion-Tech</Link>
+                    </Title>
+                    <Button className="menu-control-container" onClick={() => setActiveMenu(!activeMenu)}>
+                        <MenuOutlined />
+                    </Button>
+                </div>  
+            )}
+            {(activeMenu && !state.startExam) && (
                 <Menu theme="dark">
                     {!state.loggedIn && (
                         <Item icon={<HomeOutlined />}>
@@ -93,15 +94,6 @@ const Navbar = () => {
                     </Item>
                     <Item icon={<DatabaseOutlined />}>
                         <Link to="/benion-users/all-news"><b>All News</b></Link>
-                    </Item>
-                    <Item icon={<BulbOutlined />}>
-                        <Link to="/benion-news/activate-user"><b>Activate User</b></Link>
-                    </Item>
-                    <Item icon={<PlusCircleOutlined />}>
-                        <Link to="/benion-news/add-news"><b>Add News</b></Link>
-                    </Item>
-                    <Item icon={<DollarOutlined />}>
-                        <Link to="/benion-users/deposit-for-user"><b>Deposit For User</b></Link>
                     </Item>
                 </Menu>
             )}

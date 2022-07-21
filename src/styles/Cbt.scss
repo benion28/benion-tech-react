@@ -43,15 +43,19 @@ $primary-color: #ffd700;
     }
 }
 
-.form-tabs {
-    width: 40%;
-}
+// .form-tabs {
+//     width: 40%;
+// }
 
 .home-items {
     width: 30%;
 
     .home-items {
         width: 90%;
+    }
+
+    .tables {
+        background-color: #f0ebeb;
     }
 }
 
@@ -60,4 +64,34 @@ $primary-color: #ffd700;
     margin-left: 2%;
     margin-right: 2%;
     margin-top: 2%;
+}
+
+@media screen and (max-width: 1000px){
+    .home-container {
+        display: flex;
+        flex-direction: column;
+        width: 90%;
+
+        .home-items {
+            width: 90%;
+        }
+
+        .form-tabs {
+            width: 90%;
+        }
+
+        .exams {
+            width: 90%;
+        }
+    }
+}
+ 
+.toggle-container {
+    width: 100%;
+
+    .toggle-button {
+        margin-top: 5pt;
+        margin-left: 3pt;
+        margin-bottom: 3pt;
+    }
 }

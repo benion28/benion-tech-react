@@ -18,13 +18,17 @@ export const getCryptos = (details, axios, host, config, ACTIONS, dispatch) => {
             payload: null
         })
         dispatch({
-            type: ACTIONS.usersMessage,
-            payload: response.data.message
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
         })
     }).catch(error => {
         !production && (console.log("Get Cryptos Error", error))
         dispatch({
             type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
             payload: null
         })
         dispatch({
@@ -52,13 +56,17 @@ export const getCryptoHistory = (details, axios, host, config, ACTIONS, dispatch
             payload: null
         })
         dispatch({
-            type: ACTIONS.usersMessage,
-            payload: response.data.message
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
         })
     }).catch(error => {
         !production && (console.log("Get Crypto History Error", error))
         dispatch({
             type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
             payload: null
         })
         dispatch({
@@ -85,13 +93,17 @@ export const getCrypto = (id, axios, host, config, ACTIONS, dispatch) => {
             payload: null
         })
         dispatch({
-            type: ACTIONS.usersMessage,
-            payload: response.data.message
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
         })
     }).catch(error => {
         !production && (console.log("Get Crypto Error", error))
         dispatch({
             type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
             payload: null
         })
         dispatch({
@@ -119,13 +131,17 @@ export const getCryptoNews = (details, axios, host, config, ACTIONS, dispatch) =
             payload: null
         })
         dispatch({
-            type: ACTIONS.usersMessage,
-            payload: response.data.message
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
         })
     }).catch(error => {
         !production && (console.log("Get Crypto News Error", error))
         dispatch({
             type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
             payload: null
         })
         dispatch({
@@ -153,13 +169,17 @@ export const getBingNews = (details, axios, host, config, ACTIONS, dispatch) => 
             payload: null
         })
         dispatch({
-            type: ACTIONS.usersMessage,
-            payload: response.data.message
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
         })
     }).catch(error => {
         !production && (console.log("Get Bing News Error", error))
         dispatch({
             type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
             payload: null
         })
         dispatch({

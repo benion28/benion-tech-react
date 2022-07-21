@@ -96,6 +96,22 @@ $primary-color: #ffd700;
     }
 }
 
+@media screen and (max-width: 1000px){
+    .home-container {
+        display: flex;
+        flex-direction: column;
+        width: 90%;
+
+        .home-items {
+            width: 90%;
+        }
+
+        .form-tabs {
+            width: 90%;
+        }
+    }
+}
+
 .loader-active {
     display: block;
     position: absolute;

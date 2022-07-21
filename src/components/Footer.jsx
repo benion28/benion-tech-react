@@ -24,15 +24,21 @@ const Footer = () => {
                 All rights reserved <CopyrightCircleOutlined />
             </Title>
             <Space>
-                {!state.loggedIn && (
+                {(!state.loggedIn && !state.startExam) && (
                     <Link to="/"><b>Home</b></Link>
                 )}
-                {state.loggedIn && (
+                {(state.loggedIn && !state.startExam) && (
                     <Link to="/dashboard"><b>Dashboard</b></Link>
                 )}
-                <Link to="/works"><b>Works</b></Link>
-                <Link to="/contact"><b>Contact</b></Link>
-                <Link to="/about"><b>About</b></Link>
+                {!state.startExam && (
+                    <Link to="/works"><b>Works</b></Link>
+                )}
+                {!state.startExam && (
+                    <Link to="/contact"><b>Contact</b></Link>
+                )}
+                {!state.startExam && (
+                    <Link to="/about"><b>About</b></Link>
+                )}
             </Space>
             <div className="date-container">
                 <Title level={4} type="success"><ClockCircleOutlined />    <b>{date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()}</b></Title>

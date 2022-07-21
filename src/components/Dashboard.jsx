@@ -1,16 +1,20 @@
 import React, { useState, useContext } from 'react'
 import { Typography, Menu, Dropdown, Button, Tabs } from 'antd'
 import { Link } from 'react-router-dom'
-import { DownOutlined, SmileOutlined, LogoutOutlined, TableOutlined, MoneyCollectOutlined, LoginOutlined, BookOutlined } from '@ant-design/icons';
+import { DownOutlined, SmileOutlined, LogoutOutlined, TableOutlined, MoneyCollectOutlined,
+    LoginOutlined, BookOutlined, EyeInvisibleOutlined, EyeOutlined
+} from '@ant-design/icons';
 import Loader from 'react-loaders'
-import { UsersTable, CbtUsersTable, Questions, ExamsTable, ContactMessagesTable } from '../components'
+import { UsersTable, CbtUsersTable, Questions, ExamsTable, ContactMessagesTable, PasswordUpdateForm,
+    ActivateUserForm, DepositUserForm, PasswordChangeForm, CbtPasswordChangeForm 
+} from '../components'
 import '../styles/Dashboard.scss'
 import { GlobalContext } from '../app/GlobalState'
 import { formatAmountManually } from '../services/userHelper'
 
 
-const { Title } = Typography;
-const { TabPane } = Tabs;
+const { Title } = Typography
+const { TabPane } = Tabs
 
 const Dashboard = () => {
     const [showTable, setShowTable] = useState(false)
@@ -107,7 +111,43 @@ const Dashboard = () => {
                     </Dropdown>
                 </div>
             </div>
-            { showTable && (
+            { (state.loggedIn || state.cbtLoggedIn) && (
+                <div className="admin-tools">
+                    { state.user.role === "admin" && (
+                        <div className="admin-tool">
+                            <ActivateUserForm />
+                        </div>
+                    )}
+                    { state.user.role === "admin" && (
+                        <div className="admin-tool">
+                            <DepositUserForm />
+                        </div>
+                    )}
+                    { state.user.role === "admin" && (
+                        <div className="admin-tool">
+                            <PasswordChangeForm />
+                        </div>
+                    )}
+                    { (state.cbtUser.role === "admin" || state.user.role === "admin") && (
+                        <div className="admin-tool">
+                            <CbtPasswordChangeForm />
+                        </div>
+                    )}
+                    { state.user.role === "admin" && (
+                        <div className="admin-tool">
+                            <PasswordUpdateForm />
+                        </div>
+                    )}
+                </div>
+            )}
+            { (state.loggedIn || state.cbtLoggedIn) && (
+                <div className="toggle-container">
+                    <Button className='toggle-button' onClick={ () => setShowTable(!showTable) }>
+                        {showTable ? <EyeInvisibleOutlined  /> : <EyeOutlined  />} {showTable ? "Hide" : "Show"} Tables
+                    </Button>
+                </div>
+            )}
+            { (showTable && state.loggedIn && state.user.role === "admin") && (
                 <div className="tables">
                     <Tabs defaultActiveKey="1" className="tabs-form" type="card">
                         <TabPane className="tabs-panel" tab={ <span> <Title level={4}>Users</Title> </span> } key="1">
