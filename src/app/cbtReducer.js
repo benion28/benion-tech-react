@@ -17,6 +17,13 @@ export const getCbtExams = (state, action) => {
     }
 }
 
+export const findCbtUser = (state, action) => {
+    return {
+        ...state,
+        foundUser: lodash.extend(state.foundUser, action.payload)
+    }
+}
+
 export const getCbtQuestions = (state, action) => {
     return {
         ...state,
@@ -85,7 +92,12 @@ export const cbtUserLogIn = (state, action) => {
         cbtExam: lodash.extend(state.cbtExam, exam),
         cbtExamCompleted: exam.completed,
         cbtTimeSpent: exam.examTime,
-        cbtLoggedIn: true
+        cbtLoggedIn: true,
+        tempCategory: payload.className[0] === 'j' ? state.juniorExamCategory : state.seniorExamCategory,
+        tempClassName: payload.className === 'graduated' ? 'sss-3' : payload.className,
+        tempCbtRole: payload.role,
+        tempCbtFirstname: payload.firstname,
+        tempCbtLastname: payload.lastname,
     }
 }
 

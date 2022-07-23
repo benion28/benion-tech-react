@@ -7,6 +7,7 @@ import {
     About, 
     Dashboard, 
     Cbt, 
+    PageNotFound,
     News, 
     Donate, 
     Contact, 
@@ -25,9 +26,9 @@ const Main = () => {
     const { state, getCryptos, getCryptoNews, getBingNews } = useContext(GlobalContext)
 
     useEffect(() => {
-        getCryptos({ count: 10 })
-        getCryptoNews({ count: 200, newsCategory: "crypto" })
-        getBingNews({ count: 200 })
+        // getCryptos({ count: 100 })
+        // getCryptoNews({ count: 200, newsCategory: "crypto" })
+        // getBingNews({ count: 200 })
         if (!production || state.showAlert) {
             console.log("Current State: ", state)
         }
@@ -57,6 +58,7 @@ const Main = () => {
                        <Route exact path="/cryptos" element={<Cryptos />} />
                        <Route exact path="/crypto/:id" element={<Crypto />} />
                        <Route exact path="/test-area" element={<TestArea />} />
+                       <Route exact path="*" element={<PageNotFound />} />
                    </Routes>
                </div>
            </Layout>

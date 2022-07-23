@@ -83,7 +83,7 @@ const Cbt = () => {
                         <Tabs defaultActiveKey="1" className="tabs-form" type="card">
                             <TabPane className="tabs-panel" tab={ <span> <Title level={4}>CBT Exam In Progress</Title> </span> } key="1">
                                 <div className="continue-exam-container">
-                                    <Alert className="information-alert" message="You currently have an examination in progress !!" description={`Finish your exams in order to start a new one, you have spent ${state.cbtTimeSpent} minute${state.cbtTimeSpent > 1 ? 's' : ''} already and answered  ${state.cbtAnswered.split(",").length} question${state.cbtAnswered.split(",").length > 1 ? 's' : ''} only.`} type="info" showIcon />
+                                    <Alert className="information-alert" message={`Welcome ${state.tempCbtFirstname.toUpperCase()} ${state.tempCbtLastname.toUpperCase()}, you currently have an examination in progress !!`} description={`Finish your exams in order to start a new one, you have spent ${state.cbtTimeSpent} minute${state.cbtTimeSpent > 1 ? 's' : ''} already and answered  ${state.cbtAnswered.split(",").length} question${state.cbtAnswered.split(",").length > 1 ? 's' : ''} only.`} type="info" showIcon />
                                     <Button type="primary" onClick={ () => handleContinueExams() } className="login-form-button">
                                         Continue Exams <BookOutlined />
                                     </Button>
@@ -98,14 +98,14 @@ const Cbt = () => {
                     </div>
                 )}
                 {(state.completeExam.completed && state.cbtLoggedIn && !state.startExam) && (
-                    <div className="exams-container">
+                    <div className="exams">
                         <Tabs defaultActiveKey="1" className="tabs-form" type="card">
                             <TabPane className="tabs-panel" tab={ <span> <Title level={4}>CBT Exam Completed</Title> </span> } key="1">
                                 <Alert 
                                     className="information-alert-form" 
                                     message="Exam Already Accessed  !!!" 
-                                    description={ `DEAR ${state.cbtUser.firstname} ${state.cbtUser.lastname} !!! You have already written this exam, answered ${state.completeExam.answered.length} question${state.completeExam.answered.length > 1 ? 's' : ''} and scored ${state.completeExam.score} in ${state.completeExam.examTime} minute${state.completeExam.examTime > 1 ? 's' : ''}` } 
-                                    type="info" 
+                                    description={ `DEAR ${state.cbtUser.firstname} ${state.cbtUser.lastname} !!! You have already written this exam, answered ${state.completeExam.answers.split(",").length} question${state.completeExam.answers.split(",").length > 1 ? 's' : ''} and scored ${state.completeExam.score} in ${state.completeExam.examTime} minute${state.completeExam.examTime > 1 ? 's' : ''}` } 
+                                    type="warning" 
                                     showIcon 
                                 />
                                 <h3 className="alert-link">
@@ -115,7 +115,7 @@ const Cbt = () => {
                         </Tabs>
                     </div>
                 )}
-                { (state.loggedIn || state.cbtLoggedIn) && (
+                { (state.cbtLoggedIn && state.tempCbtRole !== "student") && (
                     <div className="toggle-container">
                         <Button className='toggle-button' onClick={ () => setShowTable(!showTable) }>
                             {showTable ? <EyeInvisibleOutlined  /> : <EyeOutlined  />} {showTable ? "Hide" : "Show"} Tables
@@ -148,7 +148,7 @@ const Cbt = () => {
                         </Tabs>
                     </div>
                 )}
-                { (!showTable && state.cbtLoggedIn && state.cbtUser.role !== "student") && (
+                { (!showTable && state.cbtLoggedIn && state.tempCbtRole !== "student") && (
                     <div className="questions">
                         <div className="list">
                             <Questions />

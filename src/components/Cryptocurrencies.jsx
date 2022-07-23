@@ -1,22 +1,23 @@
 import React, { useContext, useState, useEffect } from 'react'
 import millify from "millify";
 import { Link } from "react-router-dom";
-import { Card, Row, Col, Input, Select, Typography } from "antd";
+import { Card, Row, Col, Input, Select, Typography, Button } from "antd";
 import { GlobalContext } from '../app/GlobalState'
+import { ReloadOutlined } from '@ant-design/icons';
 
 const { Fragment } = React
 const { Title, Text } = Typography
 const { Option } = Select
 
 const Cryptocurrencies = () => {
-    const { state } = useContext(GlobalContext)
+    const { state, getCryptos } = useContext(GlobalContext)
     const [cryptos, setCryptos] = useState([])
     const [count, setCount] = useState(100)
-    const [searchTerm, setSearchTerm ] = useState("");
+    const [searchTerm, setSearchTerm ] = useState("")
 
     useEffect(() => {
         const filteredData = state?.cryptos?.coins.filter((coin) => coin.name.toLowerCase().includes(searchTerm.toLowerCase()))
-        let countedData = []
+        const countedData = []
         for (let index = 0; index < count; index++) {
             countedData.push(filteredData[index])
         }
@@ -25,6 +26,14 @@ const Cryptocurrencies = () => {
 
     return (
         <Fragment>
+            { state.loggedIn && (
+                <div className="button-container">
+                    <Button className='get-button' onClick={ () => getCryptos({ count }) }>
+                        <ReloadOutlined  /> Get Cryotocurrencies
+                    </Button>
+                </div>
+            )}
+                        
             { state.cryptos.coins.length !== 0 && (
                 <Title level={2} className="home-title">
                     Top { count } Cryptocurrencies in the world

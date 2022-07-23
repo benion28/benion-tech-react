@@ -16,7 +16,7 @@ const AddQuestionForm = () => {
     const [formError, setFormError] = useState('')
     const { addQuestion, state, production } = useContext(GlobalContext)
 
-    const onFinish = async (values) => {
+    const onFinish = (values) => {
         !production && (console.log('Cbt Registeration data accepted !!', values))
         setFormError('')
         setFormMessage('Cbt Registeration data accepted !!')
@@ -29,7 +29,7 @@ const AddQuestionForm = () => {
         // Add Exam Question
         addQuestion(object)
 
-        form.resetFields()
+        // form.resetFields()
     }
 
     const onFinishFailed = (errorInfo) => {

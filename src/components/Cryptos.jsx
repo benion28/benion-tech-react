@@ -14,8 +14,8 @@ const Crypto = () => {
     const { totalCoins, totalExchanges, totalMarketCap, total24hVolume, totalMarkets } = state?.cryptos?.stats
 
     useEffect(() => {
-        getCryptos({ count: 10 })
-        getCryptoNews({ count: 200, newsCategory: "crypto" })
+        // getCryptos({ count: 10 })
+        // getCryptoNews({ count: 200, newsCategory: "crypto" })
     })
 
     return (

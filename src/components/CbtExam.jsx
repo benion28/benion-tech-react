@@ -111,13 +111,15 @@ const CbtExam = () => {
                     category: state.examCategory
                 }
 
-                if (updated) {
-                    // Update
-                    updateExam(state.cbtExamKey, data)
-                } else {
-                    // Save
-                    createExam(data)
-                }
+                // if (updated) {
+                //     // Update
+                //     updateExam(state.cbtExamKey, data)
+                // } else {
+                //     // Save
+                //     createExam(data)
+                // }
+
+                createExam(data)
                 
                 userContact({
                     fullname: `${state.cbtUser.firstname} ${state.cbtUser.lastname}`,
@@ -144,11 +146,11 @@ const CbtExam = () => {
                 
                 if (updated) {
                     // Update
-                    updateExam(state.cbtExamKey, data)
+                    // updateExam(state.cbtExamKey, data)
                 } else {
                     // Save
                     setUpdated(true)
-                    createExam({...data,  score: 404404})
+                    // createExam({...data,  score: 404404})
                 }
             }
         }
@@ -159,6 +161,12 @@ const CbtExam = () => {
         state.cbtUser.username, state.cbtUser.lastname, state.cbtExam, state.cbtLoggedIn, state.examTimeLimit, state.cbtTimeSpent,
         state.totalQuestions, submitted, time, updateExam, userContact, updated, state.cbtAnswers, state.cbtExamKey
     ])
+
+    // const initialOption = {
+    //     option: answers[serialNo - 1] !== null ? answers[serialNo - 1] : ''
+    // }
+
+    // form.setFields(initialOption)
     
     const setValues = (value) => {
         setAnswer(value)
@@ -195,8 +203,10 @@ const CbtExam = () => {
         answeredArray[serialNo - 1] = key
         setAnswered(answeredArray)
 
-        form.resetFields()
         setSerialNo(serialNo + 1)
+        // form.setFields({
+        //     option: answers[serialNo - 1] !== null ? answers[serialNo - 1] : ''
+        // })
     }
 
     const onPrevious = () => {
@@ -208,8 +218,10 @@ const CbtExam = () => {
         answeredArray[serialNo - 1] = key
         setAnswered(answeredArray)
 
-        form.resetFields()
         setSerialNo(serialNo - 1)
+        // form.setFields({
+        //     option: answers[serialNo - 1] !== null ? answers[serialNo - 1] : ''
+        // })
     }
 
     const examScore = () => {
@@ -252,13 +264,15 @@ const CbtExam = () => {
             category: state.examCategory
         }
 
-        if (updated) {
-            // Update
-            updateExam(state.cbtExamKey, data)
-        } else {
-            // Save
-            createExam(data)
-        }
+        // if (updated) {
+        //     // Update
+        //     updateExam(state.cbtExamKey, data)
+        // } else {
+        //     // Save
+        //     createExam(data)
+        // }
+
+        createExam(data)
         
         userContact({
             fullname: `${state.cbtUser.firstname} ${state.cbtUser.lastname}`,
@@ -273,7 +287,7 @@ const CbtExam = () => {
                 {(state.cbtLoggedIn && !state.cbtExam.completed && !submitted) && (
                     <Col className="exams-container">
                         <Tabs defaultActiveKey="1" className="tabs-form" type="card">
-                            <TabPane className="tabs-panel" tab={ <span> <Title level={5}><b>Welcome {!state.cbtExam.completed ? "Back" : ""} ({ state.cbtLoggedIn ? `${state.cbtUser.firstname} ${state.cbtUser.lastname}` : 'Guest User' }) - CBT Exam In Progress</b></Title> </span> } key="1">
+                            <TabPane className="tabs-panel" tab={ <span> <Title level={5}><b>Welcome {!state.cbtExam.completed ? "Back" : ""} ({ state.cbtLoggedIn ? `${state.tempCbtFirstname} ${state.tempCbtLastname}` : 'Guest User' }) - CBT Exam In Progress</b></Title> </span> } key="1">
                                 <div className="time-container">
                                     <Title className="time-left" level={3}>
                                         Time Left:
@@ -294,7 +308,7 @@ const CbtExam = () => {
                                         )}
                                     </div>
                                 )}
-                                <Form name="basic" form={ form } onFinish={ onFinish } onFinishFailed={ onFinishFailed } initialValues={{option: answers[serialNo - 1] !== null ? answers[serialNo - 1] : ''}} autoComplete="off">
+                                <Form name="basic" form={ form } onFinish={ onFinish } onFinishFailed={ onFinishFailed } autoComplete="off">
                                     <div className="form-controller">
                                         <Item className='form-item' name='question'>
                                             <h1>
@@ -304,7 +318,7 @@ const CbtExam = () => {
                                     </div>
                                     <div className="form-controller">
                                         <Item className='form-item' name="option">
-                                            <Group initialValue={answers[serialNo - 1] !== null ? answers[serialNo - 1] : ''} onChange={(value) => setValues(value.target.value)}>
+                                            <Group onChange={(value) => setValues(value.target.value)}>
                                                 <Radio className='radio-option' value={examData.optionA}><h3> <b>(a).</b> {examData.optionA} </h3></Radio>
                                                 <Radio className='radio-option' value={examData.optionB}><h3> <b>(b).</b> {examData.optionB} </h3></Radio>
                                                 <Radio className='radio-option' value={examData.optionC}><h3> <b>(c).</b> {examData.optionC} </h3></Radio>

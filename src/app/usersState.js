@@ -36,7 +36,7 @@ export const getUsers = (axios, host, ACTIONS, dispatch) => {
     })
 }
 
-export const userLogin = (user, axios, host, config, ACTIONS, dispatch, getUsers, getCbtUsers, getCbtExams, getCbtQuestions, getContactMessages) => {
+export const userLogin = (user, axios, host, config, ACTIONS, dispatch, getUsers, getCbtUsers, getCbtExams, getCbtQuestions, getContactMessages, getCryptos, getCryptoNews, getBingNews) => {
     axios({
         url: '/benion-users/api/login',
         method: 'post',
@@ -45,6 +45,9 @@ export const userLogin = (user, axios, host, config, ACTIONS, dispatch, getUsers
         data: user
     }).then(response => {
         !production && (console.log("Users Login Response", response))
+        getCryptos({ count: 100 })
+        getCryptoNews({ count: 200, newsCategory: "crypto" })
+        getBingNews({ count: 200 })
         dispatch({
             type: ACTIONS.userLogIn,
             payload: response.data.data
@@ -56,6 +59,10 @@ export const userLogin = (user, axios, host, config, ACTIONS, dispatch, getUsers
         dispatch({
             type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
             payload: response.data.success ? response.data.message : response.data.error
+        })
+        dispatch({
+            type: ACTIONS.usersFormError,
+            payload: !response.data.success ? response.data.error : ''
         })
         if (response.data.data.role === "admin") {
             getUsers()
@@ -93,6 +100,10 @@ export const userLogin = (user, axios, host, config, ACTIONS, dispatch, getUsers
         })
         dispatch({
             type: ACTIONS.usersError,
+            payload: `User Login Error (${error.message})`
+        })
+        dispatch({
+            type: ACTIONS.usersFormError,
             payload: `User Login Error (${error.message})`
         })
     })
@@ -435,16 +446,16 @@ export const getContactMessages = (axios, host, ACTIONS, dispatch) => {
     }).then(response => {
         !production && (console.log("Get Contact Messages Response", response))
         dispatch({
-            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
-            payload: response.data.success ? response.data.message : response.data.error
+            type: ACTIONS.getContactMessages,
+            payload: response.data.data
         })
         dispatch({
             type: ACTIONS.usersError,
             payload: null
         })
         dispatch({
-            type: ACTIONS.usersMessage,
-            payload: response.data.message
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
         })
     }).catch(error => {
         !production && (console.log("Get Contact Messages Error", error))

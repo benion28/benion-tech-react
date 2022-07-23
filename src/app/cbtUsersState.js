@@ -128,6 +128,10 @@ export const cbtUserLogin = (user, axios, host, config, ACTIONS, dispatch, getCb
             type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
             payload: response.data.success ? response.data.message : response.data.error
         })
+        dispatch({
+            type: ACTIONS.usersFormError,
+            payload: !response.data.success ? response.data.error : ''
+        })
         if (response.data.data.role === "admin") {
             getCbtUsers()
         } else {
@@ -151,6 +155,56 @@ export const cbtUserLogin = (user, axios, host, config, ACTIONS, dispatch, getCb
         dispatch({
             type: ACTIONS.usersError,
             payload: `Cbt-User Login Error (${error.message})`
+        })
+        dispatch({
+            type: ACTIONS.usersFormError,
+            payload: `Cbt-User Login Error (${error.message})`
+        })
+    })
+}
+
+export const findCbtUser = (user, axios, host, config, ACTIONS, dispatch) => {
+    axios({
+        url: '/benion-cbt/api/find-username',
+        method: 'get',
+        baseURL: host,
+        headers: config.headers,
+        data: user
+    }).then(response => {
+        !production && (console.log("Find Cbt User Response", response))
+        dispatch({
+            type: ACTIONS.findCbtUser,
+            payload: response.data.data
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: null
+        })
+        dispatch({
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
+        })
+        dispatch({
+            type: ACTIONS.usersFormError,
+            payload: !response.data.success ? response.data.error : ''
+        })
+    }).catch(error => {
+        !production && (console.log("Find Cbt User Error", error))
+        dispatch({
+            type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: `Find Cbt User Error (${error.message})`
+        })
+        dispatch({
+            type: ACTIONS.usersFormError,
+            payload: `Find Cbt User Error (${error.message})`
         })
     })
 }
@@ -265,7 +319,7 @@ export const cbtUserLogout = (axios, host, ACTIONS, dispatch) => {
     })
 }
 
-export const updateCbtUser = (user, axios, host, adminConfig, ACTIONS, dispatch, getCbtUsers, getCbtExams) => {
+export const updateCbtUser = (user, axios, host, adminConfig, ACTIONS, dispatch, getCbtUsers) => {
     const id = user._id
     axios({
         url: `/benion-cbt/api/edit-user/${id}`,

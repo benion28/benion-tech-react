@@ -53,6 +53,11 @@ const LogInForm = () => {
                         )}
                     </div>
                 )}
+                <div className="form-alert">
+                    { state.formError !== '' && (
+                        <Alert message={state.formError} type="error" showIcon closable />
+                    )}
+                </div>
                 { !state.loggedIn && (
                     <Form name="normal_login" form={ form } className="login-form" onFinishFailed={ onFinishFailed } validateMessages={ validateMessages } initialValues={{ remember: true }} onFinish={ onFinish }>
                         <Alert className="information-alert" message="You can also log in as Guest User  !!!" description="you can use 'username as guest';     and 'password as guest123'  !!!" type="info" showIcon />

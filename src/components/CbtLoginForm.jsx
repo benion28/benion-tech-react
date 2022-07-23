@@ -47,6 +47,11 @@ const CbtLoginForm = () => {
                         )}
                     </div>
                 )}
+                <div className="form-alert">
+                    { state.formError !== '' && (
+                        <Alert message={state.formError} type="error" showIcon closable />
+                    )}
+                </div>
                 { !state.cbtLoggedIn && (
                     <Form name="normal_login" form={ form } className="login-form" onFinishFailed={ onFinishFailed } validateMessages={ validateMessages } initialValues={{ remember: true }} onFinish={ onFinish }>
                         <Item label="Username" name="username" rules={[ { required: true} ]}>

@@ -38,6 +38,13 @@ export const usersWarning = (state, action) => {
     }
 }
 
+export const usersFormError = (state, action) => {
+    return {
+        ...state,
+        formError: action.payload
+    }
+}
+
 export const deleteUser = (state, action) => {
     return {
         ...state,

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { DeleteOutlined, QuestionCircleOutlined } from '@ant-design/icons'
+import { DeleteOutlined, QuestionCircleOutlined, ReloadOutlined } from '@ant-design/icons'
 import { Table, Space, Button, Popconfirm, Typography, Badge } from 'antd'
 import { GlobalContext } from '../app/GlobalState'
 import '../styles/ExamsTable.scss'
@@ -7,7 +7,7 @@ import '../styles/ExamsTable.scss'
 const { Text } = Typography;
 
 const ExamsTable = () => {
-    const { state, deleteExam } = useContext(GlobalContext)
+    const { state, deleteExam, getCbtExams } = useContext(GlobalContext)
 
     const deleteConfirm = (key) => {
         deleteExam(key)
@@ -87,6 +87,11 @@ const ExamsTable = () => {
 
     return (
         <React.Fragment>
+            <div className="button-container">
+                <Button className='get-button' onClick={ () => getCbtExams() }>
+                    <ReloadOutlined  /> Reload
+                </Button>
+            </div>
             <div className="table-container">
                 <Table rowKey={ (record) => record.$key } className='table' columns={columns} dataSource={state.cbtExams[3]} />
             </div>

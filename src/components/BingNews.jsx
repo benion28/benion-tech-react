@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Typography, Row, Col, Avatar, Card } from "antd";
+import { Typography, Row, Col, Avatar, Card, Button } from "antd";
 import moment from "moment";
 import { GlobalContext } from '../app/GlobalState';
+import { ReloadOutlined } from '@ant-design/icons';
 
 const { Text, Title } = Typography
 
@@ -9,15 +10,25 @@ const demoImageUrl = "https://www.bing.com/th?id=OVFT.mpzuVZnv8dwIMRfQGPbOPC&pid
 
 const BingNews = () => {
     const { state, getBingNews } = useContext(GlobalContext)
-    const [ bingNews, setBingNews ] = useState([])
+    // const [ bingNews, setBingNews ] = useState([])
+
+    const bingNews = state.news.bingNews.value
 
     useEffect(() => {
-        getBingNews({ count: 200 })
-        setBingNews(state.news.bingNews.value)
+        // getBingNews({ count: 200 })
+        // setBingNews(state.news.bingNews.value)
     }, [state.news.bingNews.value, getBingNews])
 
     return (
     <div>
+        <div className="button-container">
+            { state.loggedIn && (
+                <Button className='get-button' onClick={ () => getBingNews({ count: 200 }) }>
+                    <ReloadOutlined  /> Get Bing News
+                </Button>
+            )}
+        </div>
+
         {state.news.bingNews.value.length === 0 && (
             <Text strong level={1}>
                 Currently there are no Bing News available at the moment...

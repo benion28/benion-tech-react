@@ -140,7 +140,7 @@ const Dashboard = () => {
                     )}
                 </div>
             )}
-            { (state.loggedIn || state.cbtLoggedIn) && (
+            { (state.loggedIn && state.user.role === "admin") && (
                 <div className="toggle-container">
                     <Button className='toggle-button' onClick={ () => setShowTable(!showTable) }>
                         {showTable ? <EyeInvisibleOutlined  /> : <EyeOutlined  />} {showTable ? "Hide" : "Show"} Tables

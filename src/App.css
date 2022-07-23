@@ -447,3 +447,8 @@ width: 70%;
 .button-controller .submit-button {
     margin-left: 7pt;
 }
+
+.button-container {
+    margin-top: 3pt;
+    margin-bottom: 10pt;
+}

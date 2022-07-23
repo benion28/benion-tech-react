@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { EditOutlined, DeleteOutlined, UsergroupAddOutlined, QuestionCircleOutlined, CloseOutlined } from '@ant-design/icons'
+import { EditOutlined, DeleteOutlined, UsergroupAddOutlined, QuestionCircleOutlined, CloseOutlined, ReloadOutlined } from '@ant-design/icons'
 import { Table, Space, Button, Popconfirm, Typography, Popover } from 'antd'
 import { CbtAddForm, CbtEditUserForm } from '../components'
 import { GlobalContext } from '../app/GlobalState'
@@ -9,7 +9,7 @@ import { cbtCategories, cbtClasses, cbtRoles, cbtSchools, genders } from '../ser
 const { Text, Title } = Typography;
 
 const CbtUsersTable = () => {
-    const { state, deleteCbtUser } = useContext(GlobalContext)
+    const { state, deleteCbtUser, getCbtUsers } = useContext(GlobalContext)
     const [ newUserPopover, setNewUserPopover ] = useState(false)
     const [ editUserPopover, setEditUserPopover ] = useState(false)
     const [ details, setDetails ] = useState({ _id: 'gfsgdfgdew4rrewtr5e' })
@@ -166,6 +166,13 @@ const CbtUsersTable = () => {
                                 <UsergroupAddOutlined  />  Add Cbt User
                             </Button>
                         </Popover>
+                    </div>
+                )}
+                { (state.cbtLoggedIn && state.cbtUser.role !== "student") && (
+                    <div className="button-container">
+                        <Button className='get-button' onClick={ () => getCbtUsers() }>
+                            <ReloadOutlined  /> Reload
+                        </Button>
                     </div>
                 )}
             </div>

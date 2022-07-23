@@ -13,13 +13,13 @@ const { Title } = Typography
 const Homepage = () => {
     const { state } = useContext(GlobalContext)
     const [ letterClass, setLetterClass ] = useState('text-animate');
-    const nameArray = ['B', 'e', 'r', 'n', 'a', 'r', 'd', ' ', 'I', 'o', 'r', 'v', 'e', 'r', ' ', '(', 'B', 'e', 'n', 'i', 'o', 'n', ')'];
-    const techArray = ['B', 'e', 'n', 'i', 'o', 'n', '-', 'T', 'e', 'c', 'h'];
-    const greeting1 = ['H', 'e', 'l', 'l', 'o', ','];
-    const greeting2 = ['W', 'e', 'l', 'c', 'o', 'm', 'e', ' ', 't', 'o'];
-    const jobArray1 = ['W', 'e', 'b', ' ', 'D', 'e', 's', 'i', 'g', 'n', 'e', 'r'];
-    const jobArray2 = ['S', 'o', 'f', 't', 'w', 'a', 'r', 'e', ' ', 'D', 'e', 'v', 'e', 'l', 'o', 'p', 'e', 'r'];
-    const jobArray3 = ['D', 'a', 't', 'a', ' ', 'S', 'c', 'i', 'e', 'n', 't', 'i', 's', 't'];
+    const nameArray = ['B', 'e', 'r', 'n', 'a', 'r', 'd', ' ', 'I', 'o', 'r', 'v', 'e', 'r']
+    const techArray = ['B', 'e', 'n', 'i', 'o', 'n', '-', 'T', 'e', 'c', 'h']
+    const greeting1 = ['H', 'e', 'l', 'l', 'o', ',']
+    const greeting2 = ['W', 'e', 'l', 'c', 'o', 'm', 'e', ' ', 't', 'o']
+    const jobArray1 = ['W', 'e', 'b', ' ', 'D', 'e', 's', 'i', 'g', 'n', 'e', 'r']
+    const jobArray2 = ['S', 'o', 'f', 't', 'w', 'a', 'r', 'e', ' ', 'D', 'e', 'v', 'e', 'l', 'o', 'p', 'e', 'r']
+    const jobArray3 = ['D', 'a', 't', 'a', ' ', 'S', 'c', 'i', 'e', 'n', 't', 'i', 's', 't']
 
     useEffect(() => {
         setTimeout(() => {

@@ -13,14 +13,12 @@ const CbtSelectExamForm = () => {
     const [formMessage, setFormMessage] = useState('')
     const [formError, setFormError] = useState('')
     const { state, examCategory  } = useContext(GlobalContext)
-    const tempCategory = state.cbtUser.className[0] === 'j' ? state.juniorExamCategory : state.seniorExamCategory
-    const tempClassName = state.cbtUser.className === 'graduated' ? 'sss-3' : state.cbtUser.className
 
     const formInitials = {
         examTerm: state.cbtExamTerm,
-        examCategory: tempCategory,
+        examCategory: state.tempCategory,
         examSubject: state.cbtExamSubject,
-        examClass: tempClassName
+        examClass: state.tempClassName
     }
 
     form.setFieldsValue(formInitials)
@@ -56,26 +54,26 @@ const CbtSelectExamForm = () => {
                     </div>
                 )}
                 <Form name="normal_login" form={ form } className="login-form" onFinishFailed={ onFinishFailed } validateMessages={ validateMessages } initialValues={formInitials} onFinish={ onFinish }>
-                    <Alert className="information-alert" message="Exam Instructions" description={`You are required to answer ${state.totalQuestions} questions in ${state.examTimeLimit} minutes. Make sure you submit on completion of all the questions`} type="info" showIcon />
+                    <Alert className="information-alert" message="Exam Instructions" description={`${state.tempCbtFirstname.toUpperCase()} ${state.tempCbtLastname.toUpperCase()}, you are required to answer ${state.totalQuestions} questions in ${state.examTimeLimit} minutes. Select the term, class, subject and category respectively . Make sure you submit on completion of all the questions`} type="info" showIcon />
                     <Item className='form-item' name="examTerm" rules={[ { required: true } ]}>
                         <Select placeholder="Select an Exam Term" allowClear>
                             {state.cbtLoggedIn && (
                                 <Option value={state.cbtExamTerm}>{getTermName(state.cbtExamTerm)} - Current</Option>
                             )}
-                            {(state.cbtUser.role !== 'student' && state.cbtLoggedIn) && terms.filter(item => item.value !== state.cbtExamTerm).map(item => (
+                            {(state.tempCbtRole !== 'student' && state.cbtLoggedIn) && terms.filter(item => item.value !== state.cbtExamTerm).map(item => (
                                 <Option key={item.value} value={item.value}>{item.name}</Option>
                             ))}
                         </Select>
                     </Item>
                     <Item className='form-item' name="examClass" rules={[ { required: true } ]}>
                         <Select placeholder="Select an Exam Class" allowClear>
-                            {(state.cbtLoggedIn && state.cbtUser.role === 'student') && (
-                                <Option value={state.cbtUser.className}>{getClassName(state.cbtUser.className)}  - Current</Option>
+                            {(state.cbtLoggedIn && state.tempCbtRole === 'student') && (
+                                <Option value={state.tempClassName}>{getClassName(state.tempClassName)}  - Current</Option>
                             )}    
-                            {(state.cbtLoggedIn && state.cbtUser.role !== 'student' && state.cbtUser.className === 'graduated') && (
-                                <Option value={tempClassName}>{getClassName(tempClassName)}  - Current</Option>
+                            {(state.cbtLoggedIn && state.tempCbtRole !== 'student' && state.tempClassName === 'graduated') && (
+                                <Option value={state.tempClassName}>{getClassName(state.tempClassName)}  - Current</Option>
                             )}  
-                            {(state.cbtUser.role !== 'student' && state.cbtLoggedIn) && cbtClasses.filter(item => item.value !== tempClassName).map(item => (
+                            {(state.tempCbtRole !== 'student' && state.cbtLoggedIn) && cbtClasses.filter(item => item.value !== state.tempClassName).map(item => (
                                 <Option key={item.value} value={item.value}>{item.name}</Option>
                             ))}
                         </Select>
@@ -85,7 +83,7 @@ const CbtSelectExamForm = () => {
                             {state.cbtLoggedIn && (
                                 <Option value={state.cbtExamSubject}>{getSubjectName(state.cbtExamSubject)}  - Current</Option>
                             )}         
-                            {(state.cbtUser.role !== 'student' && state.cbtLoggedIn) && subjects.filter(item => item.value !== state.cbtExamSubject).map(item => (
+                            {(state.tempCbtRole !== 'student' && state.cbtLoggedIn) && subjects.filter(item => item.value !== state.cbtExamSubject).map(item => (
                                 <Option key={item.value} value={item.value}>{item.name}</Option>
                             ))}
                         </Select>
@@ -93,15 +91,15 @@ const CbtSelectExamForm = () => {
                     <Item className='form-item' name="examCategory" rules={[ { required: true } ]}>
                         <Select placeholder="Select an Exam Category" allowClear>
                             {state.cbtLoggedIn && (
-                                <Option value={tempCategory}>{getCategoryName(tempCategory)} - Selected</Option>
+                                <Option value={state.tempCategory}>{getCategoryName(state.tempCategory)} - Selected</Option>
                             )}
-                            {(state.cbtUser.role !== 'student' && state.cbtLoggedIn) && cbtCategories.filter(item => item.value !== tempCategory).map(item => (
+                            {(state.tempCbtRole !== 'student' && state.cbtLoggedIn) && cbtCategories.filter(item => item.value !== state.tempCategory).map(item => (
                                 <Option key={item.value} value={item.value}>{item.name}</Option>
                             ))}
-                            {(state.cbtLoggedIn && ((state.advanceExam && state.cbtUser.className[0] === 'j') || state.cbtUser.role !== 'student')) && (
+                            {(state.cbtLoggedIn && ((state.advanceExam && state.tempClassName[0] === 'j') || state.tempCbtRole !== 'student')) && (
                                 <Option value="jse">JSE</Option>
                             )}
-                            {(state.cbtLoggedIn && ((state.advanceExam && state.cbtUser.className[0] === 's') || state.cbtUser.role !== 'student')) && (
+                            {(state.cbtLoggedIn && ((state.advanceExam && state.tempClassName[0] === 's') || state.tempCbtRole !== 'student')) && (
                                 <Option value="sse">SSE</Option>
                             )}
                         </Select>

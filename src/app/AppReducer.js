@@ -12,6 +12,8 @@ const AppReducer = (state, action) => {
             return USERS_REDUCER.getUser(state, action)
         case ACTIONS.usersError:
             return USERS_REDUCER.usersError(state, action)
+        case ACTIONS.usersFormError:
+            return USERS_REDUCER.usersFormError(state, action)
         case ACTIONS.usersMessage:
             return USERS_REDUCER.usersMessage(state, action)
         case ACTIONS.usersWarning:
@@ -39,6 +41,8 @@ const AppReducer = (state, action) => {
             return CBT_REDUCER.cbtUserLogOut(state, action)
         case ACTIONS.getCbtUser:
             return CBT_REDUCER.getCbtUser(state, action)
+        case ACTIONS.findCbtUser:
+            return CBT_REDUCER.findCbtUser(state, action)
         case ACTIONS.deleteCbtUser:
             return CBT_REDUCER.deleteCbtUser(state, action)
         case ACTIONS.deleteAllCbtUsers:

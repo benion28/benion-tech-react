@@ -28,7 +28,7 @@ export const cbtUser = {
     lastname: null,
     username: null,
     category: null,
-    className: null,
+    className: 'jss-sss',
     role: null,
     token: null,
     creator: null,
@@ -58,6 +58,15 @@ export const completeExam = {
     answers: '',
     completed: false,
     score: 0
+}
+
+export const foundUser = {
+    username: null,
+    role: null,
+    className: null,
+    school: null,
+    firstname: null,
+    lastname: null
 }
 
 export const initialState = {
@@ -119,17 +128,23 @@ export const initialState = {
     cryptoHistory: [],
     user,
     cbtUser,
+    foundUser,
     cbtExam,
     completeExam,
     totalQuestions: 19,
     examTimeLimit: 30,
     cbtTimeSpent: 0,
-    cbtExamTerm: 'second-term',
+    cbtExamTerm: 'third-term',
     cbtExamSubject: 'maths',
     cbtExamClass: '',
     examCategory: '',
     seniorExamCategory: 'general',
     juniorExamCategory: 'junior',
+    tempCategory: 'jse',
+    tempClassName: 'jss-1',
+    tempCbtRole: 'student',
+    tempCbtFirstname: 'Cbt',
+    tempCbtLastname: 'User',
     cbtExamCompleted: true,
     advanceExam: false,
     cbtAnswers: '',
@@ -138,6 +153,7 @@ export const initialState = {
     error: null,
     message: null,
     warning: null,
+    formError: '',
     loading: true,
     startExam: false,
     loggedIn: false,

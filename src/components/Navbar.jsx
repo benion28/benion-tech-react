@@ -72,9 +72,11 @@ const Navbar = () => {
                     <Item icon={<FundOutlined />}>
                         <Link to="/works"><b>Works</b></Link>
                     </Item>
-                    <Item icon={<DollarCircleOutlined />}>
-                        <Link to="/cryptos"><b>Cryptos</b></Link>
-                    </Item>
+                    { state.loggedIn && (
+                        <Item icon={<DollarCircleOutlined />}>
+                            <Link to="/cryptos"><b>Cryptos</b></Link>
+                        </Item>
+                    )}
                     <Item icon={<GlobalOutlined />}>
                         <Link to="/benion-news"><b>News</b></Link>
                     </Item>

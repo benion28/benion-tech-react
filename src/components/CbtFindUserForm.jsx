@@ -13,7 +13,7 @@ const CbtFindUserForm = () => {
     const [formMessage, setFormMessage] = useState('')
     const [foundUser, setFoundUser] = useState(null)
     const [formError, setFormError] = useState('')
-    const { cbtUserFind, state  } = useContext(GlobalContext)
+    const { cbtUserFind, state, findCbtUser  } = useContext(GlobalContext)
 
     const onFinish = (values) => {
         !production && (console.log("Cbt Find User data accepted", values))
@@ -21,6 +21,7 @@ const CbtFindUserForm = () => {
         setFormMessage("Cbt Find User data accepted")
 
         // Find Username
+        findCbtUser(values)
         const user = cbtUserFind(values)
         if (user.success) {
             setFoundUser(user.data)
@@ -51,10 +52,15 @@ const CbtFindUserForm = () => {
                         )}
                     </div>
                 )}
+                <div className="form-alert">
+                    { state.formError !== '' && (
+                        <Alert message={state.formError} type="error" showIcon closable />
+                    )}
+                </div>
                 { !state.cbtLoggedIn && (
                     <Form name="normal_login" form={ form } className="login-form" onFinishFailed={ onFinishFailed } validateMessages={ validateMessages } initialValues={{ remember: true }} onFinish={ onFinish }>
-                        {foundUser !== null && (
-                            <Alert className="information-alert" message={foundUser.username} description="The above is the username found with the provided details" type="info" showIcon />
+                        {state.foundUser.username !== null && (
+                            <Alert className="information-alert" message={state.foundUser.username} description="The above is the username found with the provided details" type="info" showIcon />
                         )}
                         <Item label="First Name" name="firstname" rules={[ { required: true} ]}>
                             <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="First Name" allowClear />
@@ -92,6 +98,9 @@ const CbtFindUserForm = () => {
                             </Item>
                         )}
                     </Form>
+                )}
+                {foundUser !== null && (
+                    <Alert className="information-alert" message={foundUser.username} description="Above is the username found with the provided details" type="info" showIcon />
                 )}
             </div>
         </React.Fragment>

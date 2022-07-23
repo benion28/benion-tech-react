@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useState } from 'react'
-import { DeleteOutlined, QuestionCircleOutlined, SearchOutlined } from '@ant-design/icons'
+import { DeleteOutlined, QuestionCircleOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons'
 import { Table, Space, Button, Popconfirm, Typography, Input } from 'antd'
 import Highlighter from 'react-highlight-words'
 import { GlobalContext } from '../app/GlobalState'
@@ -8,7 +8,7 @@ import '../styles/ContactMessagesTable.scss'
 const { Text } = Typography;
 
 const ContactMessagesTable = () => {
-    const { state, deleteContactMessage } = useContext(GlobalContext)
+    const { state, deleteContactMessage, getContactMessages } = useContext(GlobalContext)
     const [searchText, setSearchText] = useState('')
     const [searchedColumn, setSearchedColumn] = useState('')
     const searchInput = useRef(null)
@@ -171,6 +171,11 @@ const ContactMessagesTable = () => {
 
     return (
         <React.Fragment>
+            <div className="button-container">
+                <Button className='get-button' onClick={ () => getContactMessages() }>
+                    <ReloadOutlined  /> Reload
+                </Button>
+            </div>
             <div className="table-container">
                 <Table rowKey={ (record) => record.$key } className='table' columns={columns} dataSource={state.contactMessages[3]} />
             </div>

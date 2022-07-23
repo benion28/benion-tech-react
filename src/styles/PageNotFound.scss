@@ -1,0 +1,96 @@
+@import 'animate.css';
+@import '~loaders.css/src/animations/pacman.scss';
+
+$primary-color: #ffd700;
+
+.text-container {
+    background-color: #001529;
+    width: 100%;
+    will-change: contents;
+    height: 90%;
+    min-height: 566px;
+
+    .small-container {
+        display: flex;
+        flex-direction: column;
+        transform-style: preserve-3d;
+        animation: fadeIn 1s forwards;
+        animation-delay: 1s;
+        margin-left: 5%;
+        margin-top: 2%;
+        align-items: center;
+
+        .text-title {
+            color: #e3e9f0;
+            font-family: 'Helvetica Neue';
+
+            &::before {
+                content: '<h1>  ';
+                color: $primary-color;
+                font-family: 'La Belle Aurore';
+                font-style: italic;
+                font-size: 18px;
+                opacity: 0.6;
+            }
+
+            &::after {
+                content: '  </h1>';
+                color: $primary-color;
+                font-family: 'La Belle Aurore';
+                font-size: 18px;
+                animation: fadeIn 1s 1.7s backwards;
+                opacity: 0.6;
+            }
+        }
+
+        .text-title-4 {
+            color: #e3e9f0;
+            font-family: sans-serif;
+            font-weight: 400;
+            font-size: 11px;
+            letter-spacing: 3px;
+            animation: fadeIn 1s 1.8s backwards;
+        }
+    }
+
+    .large-container {
+        display: flex;
+        flex-direction: column;
+        transform-style: preserve-3d;
+        animation: fadeIn 1s forwards;
+        animation-delay: 1s;
+        margin-left: 5%;
+        margin-top: 2%;
+        align-items: center;
+
+        .image-title {
+            width: 200px;
+            animation: rotate 1s linear both;
+            animation-delay: 1.4s;
+        }
+
+        .text-title {
+            color: #e01c1c;
+            font-family: 'Helvetica Neue';
+            font-size: 100pt;
+
+            &::before {
+                content: '<h1>  ';
+                color: $primary-color;
+                font-family: 'La Belle Aurore';
+                font-style: italic;
+                font-size: 18px;
+                opacity: 0.6;
+            }
+
+            &::after {
+                content: '  </h1>';
+                color: $primary-color;
+                font-family: 'La Belle Aurore';
+                font-size: 18px;
+                animation: fadeIn 1s 1.7s backwards;
+                opacity: 0.6;
+            }
+        }
+    }
+}

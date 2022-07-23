@@ -38,7 +38,7 @@ export const GlobalStore = ({ children }) => {
 
     // User Login
     const userLogin = (user) => {
-        USERS_STATE.userLogin(user, axios, host, config, ACTIONS, dispatch, getUsers, getCbtUsers, getCbtExams, getCbtQuestions, getContactMessages)
+        USERS_STATE.userLogin(user, axios, host, config, ACTIONS, dispatch, getUsers, getCbtUsers, getCbtExams, getCbtQuestions, getContactMessages, getCryptos, getCryptoNews, getBingNews)
     }
 
     // Delete User
@@ -156,9 +156,15 @@ export const GlobalStore = ({ children }) => {
     }
 
     // Find Cbt User
+    const findCbtUser = (user, state) => {
+        CBT_USERS_STATE.findCbtUser(user, axios, host, host, ACTIONS, dispatch)
+    }
+
+    // Cbt Find User
     const cbtUserFind = (user, state) => {
         CBT_USERS_STATE.cbtUserFind(user, state, ACTIONS, dispatch)
     }
+
     // Cbt User Logout
     const cbtUserLogout = () => {
         CBT_USERS_STATE.cbtUserLogout(axios, host, ACTIONS, dispatch)
@@ -229,27 +235,27 @@ export const GlobalStore = ({ children }) => {
 
      // Get News
     const getCryptos = (details) => {
-        // NEWS_STATE.getCryptos(details, axios, host, config, ACTIONS, dispatch)
+        NEWS_STATE.getCryptos(details, axios, host, config, ACTIONS, dispatch)
     }
 
      // Get Crypto News
     const getCryptoNews = (details) => {
-        // NEWS_STATE.getCryptoNews(details, axios, host, config, ACTIONS, dispatch)
+        NEWS_STATE.getCryptoNews(details, axios, host, config, ACTIONS, dispatch)
     }
 
     // Get Bing News
     const getBingNews = (details) => {
-        // NEWS_STATE.getBingNews(details, axios, host, config, ACTIONS, dispatch)
+        NEWS_STATE.getBingNews(details, axios, host, config, ACTIONS, dispatch)
     }
 
     // Get Crypto
     const getCrypto = (id) => {
-        // NEWS_STATE.getCrypto(id, axios, host, config, ACTIONS, dispatch)
+        NEWS_STATE.getCrypto(id, axios, host, config, ACTIONS, dispatch)
     }
 
     // Get News
     const getCryptoHistory = (details) => {
-        // NEWS_STATE.getCryptoHistory(details, axios, host, config, ACTIONS, dispatch)
+        NEWS_STATE.getCryptoHistory(details, axios, host, config, ACTIONS, dispatch)
     }
 
     return (
@@ -282,6 +288,7 @@ export const GlobalStore = ({ children }) => {
             deleteContactMessage,
             cbtUserLogout,
             cbtUserFind,
+            findCbtUser,
             updateExam,
             createExam,
             deleteExam,

@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Select, Typography, Row, Col, Avatar, Card, Input } from "antd"
+import { Select, Typography, Row, Col, Avatar, Card, Input, Button } from "antd"
 import moment from "moment"
 import { GlobalContext } from '../app/GlobalState'
+import { ReloadOutlined } from '@ant-design/icons'
 
 const { Text, Title } = Typography
 const { Option } = Select
@@ -11,15 +12,25 @@ const demoImageUrl = "https://www.bing.com/th?id=OVFT.mpzuVZnv8dwIMRfQGPbOPC&pid
 const CryptoNews = () => {
     const { state, getCryptoNews } = useContext(GlobalContext)
     const [ newsCategory, setNewsCategory ] = useState("crypto")
-    const [ cryptoNews, setCryptoNews ] = useState([])
+    // const [ cryptoNews, setCryptoNews ] = useState(state.news.cryptoNews.value)
+
+    const cryptoNews = state.news.cryptoNews.value
 
     useEffect(() => {
-        getCryptoNews({ count: 200, newsCategory })
-        setCryptoNews(state.news.cryptoNews.value)
+        // getCryptoNews({ count: 200, newsCategory })
+        // setCryptoNews(state.news.cryptoNews.value)
     }, [state.news.cryptoNews.value, newsCategory, getCryptoNews])
 
     return (
     <div>
+        { state.loggedIn && (
+            <div className="button-container">
+                <Button className='get-button' onClick={ () => getCryptoNews({ count: 200, newsCategory }) }>
+                    <ReloadOutlined  /> Get Cryoto News
+                </Button>
+            </div>
+        )}
+        
         {state.news.cryptoNews.value.length === 0 && (
             <Text strong level={1}>
                 Currently there are no Crypto News available at the moment...

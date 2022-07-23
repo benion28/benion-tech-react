@@ -95,3 +95,14 @@ $primary-color: #ffd700;
         margin-bottom: 3pt;
     }
 }
+
+.tabs-panel {
+    background-color: #852121(168, 50, 50);
+
+    .alert-link {
+        color: #f0ebeb;
+        font-weight: bolder;
+        font-size: larger;
+        text-align: center;
+    }
+}

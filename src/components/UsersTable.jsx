@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { EditOutlined, DeleteOutlined, UserAddOutlined, QuestionCircleOutlined, CloseOutlined } from '@ant-design/icons'
+import { EditOutlined, DeleteOutlined, UserAddOutlined, QuestionCircleOutlined, CloseOutlined, ReloadOutlined } from '@ant-design/icons'
 import { Table, Space, Button, Popconfirm, Typography, Popover } from 'antd'
 import { AddUserForm, EditUserForm } from '../components'
 import { GlobalContext } from '../app/GlobalState'
@@ -9,7 +9,7 @@ import { genders, userRoles } from '../services/userHelper'
 const { Text, Title } = Typography;
 
 const UsersTable = () => {
-    const { state, deleteUser } = useContext(GlobalContext)
+    const { state, deleteUser, getUsers } = useContext(GlobalContext)
     const [ newUserPopover, setNewUserPopover ] = useState(false)
     const [ editUserPopover, setEditUserPopover ] = useState(false)
     const [ details, setDetails ] = useState({ _id: 'gfsgdfgdew4rrewtr5e' })
@@ -137,7 +137,11 @@ const UsersTable = () => {
                         </Button>
                     </Popover>
                 </div>
-                
+                <div className="button-container">
+                    <Button className='get-button' onClick={ () => getUsers() }>
+                        <ReloadOutlined  /> Reload
+                    </Button>
+                </div>
             </div>
             <div className="table-container">
                 <Table rowKey={ (record) => record._id } className='table' columns={columns} dataSource={state.users} />
