@@ -2,8 +2,8 @@ import React, { useContext, useState, useEffect } from 'react'
 import { Card, Row, Col, Select, Typography, Button, Popover, Popconfirm } from "antd"
 import { AddQuestionForm, EditQuestionForm } from '../components'
 import { GlobalContext } from '../app/GlobalState'
-import { cbtCategories, cbtClasses, subjects, terms, getClassName } from '../services/userHelper';
-import { CloseOutlined, DeleteOutlined, EditOutlined, PlusOutlined, QuestionCircleOutlined } from '@ant-design/icons';
+import { cbtCategories, cbtClasses, subjects, terms, getClassName, getTermName } from '../services/userHelper';
+import { CloseOutlined, DeleteOutlined, EditOutlined, PlusOutlined, QuestionCircleOutlined, ReloadOutlined } from '@ant-design/icons';
 import '../styles/Questions.scss'
 
 const { Fragment } = React
@@ -11,7 +11,7 @@ const { Title, Text } = Typography
 const { Option } = Select
 
 const Questions = () => {
-    const { state, deleteQuestion } = useContext(GlobalContext)
+    const { state, deleteQuestion, getCbtQuestions } = useContext(GlobalContext)
     const [newQuestionPopover, setNewQuestionPopover] = useState(false)
     const [editQuestionPopover, setEditQuestionPopover] = useState(false)
     const [questions, setQestions] = useState([])
@@ -73,6 +73,15 @@ const Questions = () => {
         }
     }
 
+    const handleCreator = (value) => {
+        if (value === 'all') {
+            setQestions(state?.cbtQuestions[3])
+        } else {
+            const filteredData = state?.cbtQuestions[3].filter((question) => question.creator === value)
+            setQestions(filteredData)
+        }
+    }
+
     return (
         <Fragment>
             { questions.length !== 0 && (
@@ -98,7 +107,21 @@ const Questions = () => {
                         </Popover>
                     </div>
                 )}
-                
+                {state.cbtUser.role !== "student" && (
+                    <div className="option-item">
+                        <Button className='get-button' onClick={ () => getCbtQuestions() }>
+                            <ReloadOutlined  /> Reload
+                        </Button>
+                    </div>
+                )}
+                {(state?.cbtQuestions[3].length > 0 && state.cbtUser.role !== "student") && (
+                    <div className="option-item">
+                        <Select placeholder="Based on Creator" optionFilterProp="children" onChange={(value) => handleCreator(value)} allowClear>
+                            <Option value="all">All Questions</Option>
+                            <Option value={state.cbtUser.accessCode}>My Questions</Option>
+                        </Select>
+                    </div>
+                )}
                 {(state?.cbtQuestions[3].length > 0 && state.cbtUser.role !== "student") && (
                     <div className="option-item">
                         <Select placeholder="Select a Subject" optionFilterProp="children" onChange={(value) => handleSubject(value)} allowClear>
@@ -166,7 +189,7 @@ const Questions = () => {
                     <Col xs={24} sm={12} lg={6} className="crypto-card" key={ item.$key  }>
                             <Card title={`${item.subject.toUpperCase() } - (${getClassName(item.className)}) - ${item.category.toUpperCase()}`} hoverable>
                                 <p>
-                                    <b>Question {questions.indexOf(item) + 1}:</b> {item.question}
+                                    <b>Question {questions.indexOf(item) + 1}:</b> {item.question} <b><i>({getTermName(item.term)})</i></b>
                                 </p>
                                 <p>
                                     <b>A:</b> {item.optionA}

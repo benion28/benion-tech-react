@@ -9,9 +9,7 @@ import {
     DesktopOutlined,
     ReadOutlined,
     DollarCircleOutlined,
-    DollarOutlined,
     DatabaseOutlined,
-    PlusCircleOutlined,
     GlobalOutlined,
     HomeFilled,
     PoweroffOutlined
@@ -70,7 +68,7 @@ const Navbar = () => {
                         </Item>
                     )}
                     <Item icon={<FundOutlined />}>
-                        <Link to="/works"><b>Works</b></Link>
+                        <Link to="/gallery"><b>Gallery</b></Link>
                     </Item>
                     { state.loggedIn && (
                         <Item icon={<DollarCircleOutlined />}>

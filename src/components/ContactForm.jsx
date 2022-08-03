@@ -49,6 +49,11 @@ const ContactForm = () => {
                     )}
                 </div>
             )}
+            <div className="form-alert">
+                { state.formError !== '' && (
+                    <Alert message={state.formError} type="warning" showIcon closable />
+                )}
+            </div>
             <Form name="normal_login" form={ form } className="contact-form" onFinishFailed={ onFinishFailed } validateMessages={ validateMessages } initialValues={{ remember: true }} onFinish={ onFinish }>
                 <Alert className="information-alert" message="Informational Notes  !!!" description="Send us email about complaints and recommendations, directly to our inbox" type="info" showIcon />
                 <Item label="Full Name" name="fullname" rules={[ { required: true } ]}>

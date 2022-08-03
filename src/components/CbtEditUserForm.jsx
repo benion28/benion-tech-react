@@ -66,10 +66,6 @@ const CbtEditUserForm = ({ user }) => {
         }
     }
 
-    const onReset = () => {
-        form.resetFields()
-    }
-
     const handleCategory = (value) => {
         if (value[0] === "s") {
             setSenior(true)
@@ -93,6 +89,11 @@ const CbtEditUserForm = ({ user }) => {
                     )}
                 </div>
             )}
+            <div className="form-alert">
+                { state.formError !== '' && (
+                    <Alert message={state.formError} type="warning" showIcon closable />
+                )}
+            </div>
             <Form name="basic" form={ form } validateMessages={ validateMessages } initialValues={{ remember: true }} onFinish={ onFinish } onFinishFailed={ onFinishFailed } autoComplete="off">
                 <div className="form-controller">
                     <Item className='form-item' label="First Name" name="firstname" rules={[ { required: true } ]}>
@@ -153,12 +154,7 @@ const CbtEditUserForm = ({ user }) => {
                 <div className="button-controller">
                     <Item>
                         <Button className="submit-button" type="primary" htmlType="submit">
-                            Submit
-                        </Button>
-                    </Item>
-                    <Item>
-                        <Button className="reset-button" type="danger" onClick={ onReset }>
-                            Reset
+                            Update
                         </Button>
                     </Item>
                 </div>

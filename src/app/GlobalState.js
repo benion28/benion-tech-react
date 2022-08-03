@@ -38,7 +38,7 @@ export const GlobalStore = ({ children }) => {
 
     // User Login
     const userLogin = (user) => {
-        USERS_STATE.userLogin(user, axios, host, config, ACTIONS, dispatch, getUsers, getCbtUsers, getCbtExams, getCbtQuestions, getContactMessages, getCryptos, getCryptoNews, getBingNews)
+        USERS_STATE.userLogin(user, axios, host, config, ACTIONS, dispatch, getUsers, getCbtUsers, getCbtExams, getCbtQuestions, getContactMessages, getCryptos, getCryptoNews, getBingNews, getScores)
     }
 
     // Delete User
@@ -142,7 +142,7 @@ export const GlobalStore = ({ children }) => {
 
     // Cbt User Login
     const cbtUserLogin = (user) => {
-        CBT_USERS_STATE.cbtUserLogin(user, axios, host, config, ACTIONS, dispatch, getCbtUsers, getCbtExams, getCbtQuestions)
+        CBT_USERS_STATE.cbtUserLogin(user, axios, host, config, ACTIONS, dispatch, getCbtUsers, getCbtExams, getCbtQuestions, getScores)
     }
 
     // Delete User
@@ -195,7 +195,7 @@ export const GlobalStore = ({ children }) => {
         CBT_USERS_STATE.getCbtExams(axios, host, ACTIONS, dispatch)
     }
 
-    // Get Cbt Exams
+    // Get Cbt Questions
     const getCbtQuestions = () => {
         CBT_USERS_STATE.getCbtQuestions(axios, host, ACTIONS, dispatch)
     }
@@ -223,6 +223,26 @@ export const GlobalStore = ({ children }) => {
     // Delete Question
     const deleteQuestion = (key) => {
         CBT_USERS_STATE.deleteQuestion(key, axios, host, adminConfig, ACTIONS, dispatch, getCbtQuestions)
+    }
+
+    // Get Scores
+    const getScores = () => {
+        CBT_USERS_STATE.getScores(axios, host, ACTIONS, dispatch)
+    }
+
+    // Add Score
+    const addScore = (object) => {
+        CBT_USERS_STATE.addScore(object, axios, host, adminConfig, ACTIONS, dispatch, getScores)
+    }
+
+    // Edit Score
+    const editScore = (object, key) => {
+        CBT_USERS_STATE.editScore(object, key, axios, host, adminConfig, ACTIONS, dispatch, getScores)
+    }
+
+    // Delete Score
+    const deleteScore = (key) => {
+        CBT_USERS_STATE.deleteScore(key, axios, host, adminConfig, ACTIONS, dispatch, getScores)
     }
 
     // Change Cbt User Password
@@ -300,6 +320,10 @@ export const GlobalStore = ({ children }) => {
             addQuestion,
             editQuestion,
             deleteQuestion,
+            addScore,
+            getScores,
+            deleteScore,
+            editScore,
             getCryptos,
             getCryptoNews,
             getBingNews,

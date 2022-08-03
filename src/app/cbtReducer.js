@@ -98,6 +98,7 @@ export const cbtUserLogIn = (state, action) => {
         tempCbtRole: payload.role,
         tempCbtFirstname: payload.firstname,
         tempCbtLastname: payload.lastname,
+        tempCbtUsername: payload.username
     }
 }
 
@@ -139,5 +140,13 @@ export const addQuestion = (state, action) => {
             ...state.cbtQuestions,
             action.payload
         ]
+    }
+}
+
+export const getScores = (state, action) => {
+    return {
+        ...state,
+        scores: action.payload,
+        loading: false
     }
 }

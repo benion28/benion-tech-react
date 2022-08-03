@@ -26,9 +26,6 @@ const Main = () => {
     const { state, getCryptos, getCryptoNews, getBingNews } = useContext(GlobalContext)
 
     useEffect(() => {
-        // getCryptos({ count: 100 })
-        // getCryptoNews({ count: 200, newsCategory: "crypto" })
-        // getBingNews({ count: 200 })
         if (!production || state.showAlert) {
             console.log("Current State: ", state)
         }
@@ -45,7 +42,7 @@ const Main = () => {
                    )}
                    <Routes>
                        <Route exact path="/" element={<Homepage />} />
-                       <Route exact path="/works" element={<Works />} />
+                       <Route exact path="/gallery" element={<Works />} />
                        <Route exact path="/about" element={<About />} />
                        <Route exact path="/contact" element={<Contact />} />
                        <Route exact path="/dashboard" element={<Dashboard />} />

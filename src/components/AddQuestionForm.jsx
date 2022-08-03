@@ -4,7 +4,7 @@ import { Form, Input, Button, Select, Alert  } from 'antd'
 import { SolutionOutlined } from '@ant-design/icons'
 import '../styles/AddQuestionForm.scss'
 import { GlobalContext } from '../app/GlobalState'
-import { cbtCategories, cbtClasses, terms, subjects, createPassword } from '../services/userHelper'
+import { cbtCategories, cbtClasses, terms, subjects } from '../services/userHelper'
 
 const { Option } = Select
 const { Item } = Form
@@ -62,6 +62,11 @@ const AddQuestionForm = () => {
                     )}
                 </div>
             )}
+            <div className="form-alert">
+                { state.formError !== '' && (
+                    <Alert message={state.formError} type="warning" showIcon closable />
+                )}
+            </div>
             <Form name="basic" form={ form } validateMessages={ validateMessages } initialValues={{ remember: true }} onFinish={ onFinish } onFinishFailed={ onFinishFailed } autoComplete="off">
                 <div className="form-controller">
                     <Item className='form-item' label="Question" name="question" rules={[ { required: true } ]} hasFeedback>

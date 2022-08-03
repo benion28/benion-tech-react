@@ -3,14 +3,54 @@ import { Typography, Row, Col, Alert, Tabs, Radio, Button, Form  } from 'antd'
 import Loader from 'react-loaders'
 import { GlobalContext } from '../app/GlobalState'
 import { createPassword, getCategoryName, getClassName, getSubjectName, production } from '../services/userHelper'
+import { Works, AddScoreForm, ScoresTable, EditScoreForm, Scores } from '../components'
 import '../styles/ContactMessagesTable.scss'
 import '../styles/CbtExam.scss'
+import '../styles/Scores.scss'
 
 const { Text } = Typography;
 const { Title } = Typography
 const { Item } = Form
 const { Group } = Radio
 const { TabPane } = Tabs
+
+const items = [
+    {}, [], [],
+    [
+        {
+            $key: 'jghf56iop',
+            name: 'Bernard Iorver',
+            session: '2021/2022',
+            className: 'sss-1',
+            username: '2022/ADM/7345',
+            subject: 'maths',
+            term: 'third-term',
+            exam: 50,
+            total: 73,
+            grade: 'A',
+            comment: 'Very Good',
+            firstCA: 12,
+            secondCA: 11
+        },
+        {
+            $key: 'jghf56fjytft6iop',
+            name: 'Bemshima Iorver',
+            session: '2021/2022',
+            className: 'sss-2',
+            username: '2022/ADM/62345',
+            subject: 'maths',
+            term: 'third-term',
+            exam: 40,
+            total: 63,
+            grade: 'B',
+            comment: 'Good',
+            firstCA: 12,
+            secondCA: 11
+        }
+    ]
+]
+
+const cbtUserUsername = '2022/ADM/62345'
 
  const examQuestions = [
     {
@@ -100,9 +140,15 @@ const TestArea = () => {
     const [submitted, setSubmitted] = useState(false)
     const [updated, setUpdated] = useState(false)
 
-    setInterval(() => {
-        setTime(time + 1)
-    }, 60000)
+    const dateTime = new Date().getTime()
+
+    // setInterval(() => {
+    //     const newTime = new Date().getTime()
+    //     console.log("Old Time", dateTime)
+    //     console.log("New Time", newTime)
+    //     const calculatedTime = Math.floor((newTime - dateTime)/10000)
+    //     setTime(calculatedTime)
+    // }, 60000)
 
     useEffect(() => {
         const subjectFilter = cbtExamQuestions.filter(exam => exam.subject === state.cbtExamSubject)
@@ -450,6 +496,11 @@ const TestArea = () => {
                     </Col>
                 )}
             </Row>
+            {/* <Works /> */}
+            {/* <ScoresTable /> */}
+            {/* <AddScoreForm /> */}
+            {/* <EditScoreForm /> */}
+            <Scores />
             <Loader type="pacman" />
         </React.Fragment>
     )

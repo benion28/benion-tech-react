@@ -32,7 +32,7 @@ const EditUserForm = ({ user }) => {
         setFormError('')
         setFormMessage('Edit User data accepted !!')
 
-        // Add User
+        // Edit User
         const data = {
             ...user,
             ...values
@@ -54,10 +54,6 @@ const EditUserForm = ({ user }) => {
         }
     }
 
-    const onReset = () => {
-        form.resetFields()
-    }
-
     return (
         <div className="form-group">
             { (!production || (state.user.role === 'admin' && state.showAlert)) && (
@@ -70,6 +66,11 @@ const EditUserForm = ({ user }) => {
                     )}
                 </div>
             )}
+            <div className="form-alert">
+                { state.formError !== '' && (
+                    <Alert message={state.formError} type="warning" showIcon closable />
+                )}
+            </div>
             <Form name="basic" form={ form } validateMessages={ validateMessages } initialValues={{ remember: true }} onFinish={ onFinish } onFinishFailed={ onFinishFailed } autoComplete="off">
                 <div className="form-controller">
                     <Item hidden className='form-item' label="First Name" name="firstname" rules={[ { required: true } ]}>
@@ -125,11 +126,6 @@ const EditUserForm = ({ user }) => {
                     <Item>
                         <Button className="submit-button" type="primary" htmlType="submit">
                             Update
-                        </Button>
-                    </Item>
-                    <Item>
-                        <Button className="reset-button" type="danger" onClick={ onReset }>
-                            Reset
                         </Button>
                     </Item>
                 </div>

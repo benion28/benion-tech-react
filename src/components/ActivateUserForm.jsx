@@ -48,6 +48,11 @@ const ActivateUserForm = () => {
                         )}
                     </div>
                 )}
+                <div className="form-alert">
+                    { state.formError !== '' && (
+                        <Alert message={state.formError} type="warning" showIcon closable />
+                    )}
+                </div>
                 <Form name="normal_login" form={ form } className="login-form" onFinishFailed={ onFinishFailed } initialValues={{ remember: true }} validateMessages={ validateMessages } onFinish={ onFinish }>
                     <Title level={4} className="text">Activate A User</Title>
                     <Item label="Token" name="token" rules={[ { required: true } ]} hasFeedback>

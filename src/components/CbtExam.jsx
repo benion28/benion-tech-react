@@ -89,7 +89,7 @@ const CbtExam = () => {
                 let mark = 0
                  for (let index = 0; index < answered.length; index++) {
                     const question = cbtExamQuestions.filter(item => item.$key === answered[index])
-                    if(answers[index] === question[0].answer) {
+                    if(answers[index].trim() === question[0].answer.trim()) {
                         mark = mark + 1
                     }
                 }
@@ -120,10 +120,10 @@ const CbtExam = () => {
                 // }
 
                 createExam(data)
-                
+
                 userContact({
-                    fullname: `${state.cbtUser.firstname} ${state.cbtUser.lastname}`,
-                    email: `${state.cbtUser.firstname.toLowerCase()}-${state.cbtUser.lastname.toLowerCase()}-cbt@exams.com`,
+                    fullname: `${state.tempCbtFirstname} ${state.tempCbtLastname}`,
+                    email: `${state.tempCbtFirstname.trim().toLowerCase()}-${state.tempCbtLastname.trim().toLowerCase()}-cbt@exams.com`,
                     message: `I just concluded the ${getSubjectName(state.cbtExamSubject)} exams for ${getClassName(state.cbtExamClass)} of ${getCategoryName(state.examCategory)} category, i answered ${answered.length} questions and scored ${mark} (${Math.floor((mark/state.totalQuestions) * 100)}%)`
                 })
             }
@@ -133,7 +133,7 @@ const CbtExam = () => {
                     ...state.cbtExam,
                     id: state.cbtExam.id !== null ? state.cbtExam.id : createPassword(10, true, true, false),
                     examTime: time,
-                    username: state.cbtUser.username,
+                    username: state.tempCbtUsername,
                     answered: answered.toString(),
                     answers: answers.toString(),
                     completed: submitted ? true : false,
@@ -155,11 +155,11 @@ const CbtExam = () => {
             }
         }
     }, [
-        setCbtExamQuestions, setSerialNo, serialNo, state.cbtExam.category, answered, setAnswered, answer, score,
-        cbtExamQuestions, state.cbtExam.answered, examData.answer, form, state.cbtAnswered, answers, key, createExam,
+        setCbtExamQuestions, setSerialNo, serialNo, state.cbtExam.category, answered, setAnswered, answer, score, state.tempCbtLastname,
+        cbtExamQuestions, state.cbtExam.answered, examData.answer, form, state.cbtAnswered, answers, key, createExam, state.tempCbtUsername,
         state.cbtExamSubject, state.cbtExamTerm, state.examCategory, state.cbtExamClass, state.cbtUser.firstname, cbtUserLogout,
         state.cbtUser.username, state.cbtUser.lastname, state.cbtExam, state.cbtLoggedIn, state.examTimeLimit, state.cbtTimeSpent,
-        state.totalQuestions, submitted, time, updateExam, userContact, updated, state.cbtAnswers, state.cbtExamKey
+        state.totalQuestions, submitted, time, updateExam, userContact, updated, state.cbtAnswers, state.cbtExamKey, state.tempCbtFirstname
     ])
 
     // const initialOption = {
@@ -204,6 +204,7 @@ const CbtExam = () => {
         setAnswered(answeredArray)
 
         setSerialNo(serialNo + 1)
+        form.resetFields()
         // form.setFields({
         //     option: answers[serialNo - 1] !== null ? answers[serialNo - 1] : ''
         // })
@@ -219,6 +220,7 @@ const CbtExam = () => {
         setAnswered(answeredArray)
 
         setSerialNo(serialNo - 1)
+        form.resetFields()
         // form.setFields({
         //     option: answers[serialNo - 1] !== null ? answers[serialNo - 1] : ''
         // })
@@ -228,7 +230,7 @@ const CbtExam = () => {
         let mark = 0
         for (let index = 0; index < answered.length; index++) {
             const question = cbtExamQuestions.filter(item => item.$key === answered[index])
-            if(answers[index] === question[0].answer) {
+            if(answers[index].trim() === question[0].answer.trim()) {
                 mark = mark + 1
             }
         }
@@ -252,7 +254,7 @@ const CbtExam = () => {
             ...state.cbtExam,
             id: state.cbtExam.id !== null ? state.cbtExam.id : createPassword(10, true, true, false),
             examTime: time,
-            username: state.cbtUser.username,
+            username: state.tempCbtUsername,
             answered: answered.toString(),
             answers: answers.toString(),
             completed: true,
@@ -273,10 +275,10 @@ const CbtExam = () => {
         // }
 
         createExam(data)
-        
+
         userContact({
-            fullname: `${state.cbtUser.firstname} ${state.cbtUser.lastname}`,
-            email: `${state.cbtUser.firstname.toLowerCase()}-${state.cbtUser.lastname.toLowerCase()}-cbt@exams.com`,
+            fullname: `${state.tempCbtFirstname} ${state.tempCbtLastname}`,
+            email: `${state.tempCbtFirstname.trim().toLowerCase()}-${state.tempCbtLastname.trim().toLowerCase()}-cbt@exams.com`,
             message: `I just concluded the ${getSubjectName(state.cbtExamSubject)} exams for ${getClassName(state.cbtExamClass)} of ${getCategoryName(state.examCategory)} category, i answered ${answered.length} questions and scored ${examScore()} (${Math.floor((examScore()/state.totalQuestions) * 100)}%)`
         })
     }
@@ -355,7 +357,7 @@ const CbtExam = () => {
                                 <Alert 
                                     className="information-alert-form" 
                                     message="Exam Submitted Successfully  !!!" 
-                                    description={ `CONGRATULATIONS ${state.cbtUser.firstname} ${state.cbtUser.lastname} !!! You answered ${answered.length} questions and scored ${score} (${Math.floor((score/state.totalQuestions) * 100)}%) in ${time} minutes` } 
+                                    description={ `CONGRATULATIONS ${state.tempCbtFirstname.toUpperCase()} ${state.tempCbtLastname.toUpperCase()} !!! You answered ${answered.length} questions and scored ${score} (${Math.floor((score/state.totalQuestions) * 100)}%) in ${time} minutes` } 
                                     type="info" 
                                     showIcon 
                                 />

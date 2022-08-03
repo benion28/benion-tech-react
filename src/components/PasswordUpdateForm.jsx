@@ -58,6 +58,11 @@ const PasswordUpdateForm = () => {
                         )}
                     </div>
                 )}
+                <div className="form-alert">
+                    { state.formError !== '' && (
+                        <Alert message={state.formError} type="warning" showIcon closable />
+                    )}
+                </div>
                 <Form name="normal_login" form={ form } className="login-form" onFinishFailed={ onFinishFailed } initialValues={{ remember: true }} validateMessages={ validateMessages } onFinish={ onFinish }>
                     <Title level={4} className="text">Update A User's Password</Title>
                     <Item className='form-item' label="Username" name="username" hasFeedback rules={[ { required: true } ]}>

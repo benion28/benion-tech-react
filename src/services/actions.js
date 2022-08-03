@@ -31,6 +31,7 @@ export const examAnswered = 'exam-answered'
 export const addQuestion = 'add-question'
 export const editQuestion = 'edit-question'
 export const getCbtQuestions = 'get-cbt-question' 
+export const getScores = 'get-scores' 
 
 // News
 export const getCryptos = 'get-cryptos'

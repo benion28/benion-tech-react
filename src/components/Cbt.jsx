@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { 
-    CbtLoginForm, AnimateText, CbtRegisterForm, CbtFindUserForm, ExamsTable,
-    CbtSelectExamForm, Questions, CbtExam, UsersTable, CbtUsersTable, ContactMessagesTable
+    CbtLoginForm, AnimateText, CbtRegisterForm, CbtFindUserForm, ExamsTable, ScoresTable,
+    CbtSelectExamForm, Questions, CbtExam, UsersTable, CbtUsersTable, ContactMessagesTable, Scores
 } from '../components'
 import { BookOutlined, EyeInvisibleOutlined, EyeOutlined  } from '@ant-design/icons'
 import { Tabs, Typography, Row, Col, Image, Button, Alert  } from 'antd'
@@ -145,9 +145,23 @@ const Cbt = () => {
                                     <ContactMessagesTable />
                                 </TabPane>
                             )}
+                            { (state.cbtUser.role !== "student" || state.user.role === "admin") && (
+                                <TabPane className="tabs-panel" tab={ <span> <Title level={4}>Student's Scores</Title> </span> } key="5">
+                                    <ScoresTable />
+                                </TabPane>
+                            )}
                         </Tabs>
                     </div>
                 )}
+                
+                {state.cbtLoggedIn && (
+                    <div className="questions">
+                        <div className="list">
+                            <Scores />
+                        </div>
+                    </div>
+                )}
+
                 { (!showTable && state.cbtLoggedIn && state.tempCbtRole !== "student") && (
                     <div className="questions">
                         <div className="list">

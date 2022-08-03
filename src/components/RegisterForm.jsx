@@ -73,6 +73,11 @@ const RegisterForm = () => {
                     )}
                 </div>
             )}
+            <div className="form-alert">
+                { state.formError !== '' && (
+                    <Alert message={state.formError} type="warning" showIcon closable />
+                )}
+            </div>
             { !state.loggedIn && (
                 <Form name="basic" form={ form } validateMessages={ validateMessages } initialValues={{ remember: true }} onFinish={ onFinish } onFinishFailed={ onFinishFailed } autoComplete="off">
                     <div className="form-controller">

@@ -6,7 +6,7 @@ import { DownOutlined, SmileOutlined, LogoutOutlined, TableOutlined, MoneyCollec
 } from '@ant-design/icons';
 import Loader from 'react-loaders'
 import { UsersTable, CbtUsersTable, Questions, ExamsTable, ContactMessagesTable, PasswordUpdateForm,
-    ActivateUserForm, DepositUserForm, PasswordChangeForm, CbtPasswordChangeForm 
+    ActivateUserForm, DepositUserForm, PasswordChangeForm, CbtPasswordChangeForm, ScoresTable
 } from '../components'
 import '../styles/Dashboard.scss'
 import { GlobalContext } from '../app/GlobalState'
@@ -161,6 +161,9 @@ const Dashboard = () => {
                         </TabPane>
                         <TabPane className="tabs-panel" tab={ <span> <Title level={4}>Contact Messages</Title> </span> } key="4">
                             <ContactMessagesTable />
+                        </TabPane>
+                        <TabPane className="tabs-panel" tab={ <span> <Title level={4}>Student's Scores</Title> </span> } key="5">
+                            <ScoresTable />
                         </TabPane>
                     </Tabs>
                 </div>

@@ -51,6 +51,8 @@ const AppReducer = (state, action) => {
             return CBT_REDUCER.getCbtExams(state, action)
         case ACTIONS.getCbtQuestions:
             return CBT_REDUCER.getCbtQuestions(state, action)
+        case ACTIONS.getScores:
+            return CBT_REDUCER.getScores(state, action)
         case ACTIONS.createExam:
             return CBT_REDUCER.createExam(state, action)
         case ACTIONS.updateExam:

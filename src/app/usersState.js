@@ -31,12 +31,12 @@ export const getUsers = (axios, host, ACTIONS, dispatch) => {
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Get Users Error (${error.message})`
+            payload: `Get Users Error - ${error.message} (${error?.response?.data?.error?.message})` 
         })
     })
 }
 
-export const userLogin = (user, axios, host, config, ACTIONS, dispatch, getUsers, getCbtUsers, getCbtExams, getCbtQuestions, getContactMessages, getCryptos, getCryptoNews, getBingNews) => {
+export const userLogin = (user, axios, host, config, ACTIONS, dispatch, getUsers, getCbtUsers, getCbtExams, getCbtQuestions, getContactMessages, getCryptos, getCryptoNews, getBingNews, getScores) => {
     axios({
         url: '/benion-users/api/login',
         method: 'post',
@@ -45,47 +45,59 @@ export const userLogin = (user, axios, host, config, ACTIONS, dispatch, getUsers
         data: user
     }).then(response => {
         !production && (console.log("Users Login Response", response))
-        getCryptos({ count: 100 })
-        getCryptoNews({ count: 200, newsCategory: "crypto" })
-        getBingNews({ count: 200 })
-        dispatch({
-            type: ACTIONS.userLogIn,
-            payload: response.data.data
-        })
         dispatch({
             type: ACTIONS.usersError,
             payload: null
         })
-        dispatch({
-            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
-            payload: response.data.success ? response.data.message : response.data.error
-        })
-        dispatch({
-            type: ACTIONS.usersFormError,
-            payload: !response.data.success ? response.data.error : ''
-        })
-        if (response.data.data.role === "admin") {
-            getUsers()
-            getCbtUsers()
-            getCbtExams()
-            getCbtQuestions()
-            getContactMessages()
+        if (response.data.success) {
+            getCryptos({ count: 100 })
+            getCryptoNews({ count: 200, newsCategory: "crypto" })
+            getBingNews({ count: 200 })
+            dispatch({
+                type: ACTIONS.userLogIn,
+                payload: response.data.data
+            })
+            dispatch({
+                type: ACTIONS.usersMessage,
+                payload: response.data.message
+            })
+            dispatch({
+                type: ACTIONS.usersFormError,
+                payload: ''
+            })
+            if (response.data.data.role === "admin") {
+                getUsers()
+                getCbtUsers()
+                getCbtExams()
+                getCbtQuestions()
+                getContactMessages()
+                getScores()
+            } else {
+                dispatch({
+                    type: ACTIONS.getUsers,
+                    payload: []
+                })
+                dispatch({
+                    type: ACTIONS.getCbtUser,
+                    payload: []
+                })
+                dispatch({
+                    type: ACTIONS.getCbtQuestions,
+                    payload: [[], [], []]
+                })
+                dispatch({
+                    type: ACTIONS.getCbtExams,
+                    payload: [[[], [], []]]
+                })
+            }
         } else {
             dispatch({
-                type: ACTIONS.getUsers,
-                payload: []
+                type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+                payload: response.data.success ? response.data.message : response.data.error
             })
             dispatch({
-                type: ACTIONS.getCbtUser,
-                payload: []
-            })
-            dispatch({
-                type: ACTIONS.getCbtQuestions,
-                payload: []
-            })
-            dispatch({
-                type: ACTIONS.getCbtExams,
-                payload: []
+                type: ACTIONS.usersMessage,
+                payload: null
             })
         }
     }).catch(error => {
@@ -100,11 +112,11 @@ export const userLogin = (user, axios, host, config, ACTIONS, dispatch, getUsers
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `User Login Error (${error.message})`
+            payload: `User Login Error - ${error.message} (${error?.response?.data?.error?.message})` 
         })
         dispatch({
             type: ACTIONS.usersFormError,
-            payload: `User Login Error (${error.message})`
+            payload: `${error?.response?.data?.error?.message} (${error.message})`
         })
     })
 }
@@ -141,7 +153,7 @@ export const deleteUser = (id, axios, host, adminConfig, ACTIONS, dispatch) => {
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Delete User Error (${error.message})`
+            payload: `Delete User Error - ${error.message} (${error?.response?.data?.error?.message})` 
         })
     })
 }
@@ -178,7 +190,7 @@ export const deleteAllUsers = (axios, host, adminConfig, ACTIONS, dispatch) => {
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Delete Users Error (${error.message})`
+            payload: `Delete Users Error - ${error.message} (${error?.response?.data?.error?.message})` 
         })
     })
 }
@@ -211,7 +223,11 @@ export const googleSignIn = (axios, host, config, ACTIONS, dispatch) => {
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Google Auth Error (${error.message})`
+            payload: `Google Auth Error - ${error.message} (${error?.response?.data?.error?.message})` 
+        })
+        dispatch({
+            type: ACTIONS.usersFormError,
+            payload: `${error?.response?.data?.error?.message} (${error.message})`
         })
     })
 }
@@ -246,7 +262,11 @@ export const registerUser = (user, axios, host, config, ACTIONS, dispatch, getCo
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Register User Error (${error.message})`
+            payload: `Register User Error - ${error.message} (${error?.response?.data?.error?.message})` 
+        })
+        dispatch({
+            type: ACTIONS.usersFormError,
+            payload: `${error?.response?.data?.error?.message} (${error.message})`
         })
     })
 }
@@ -280,7 +300,11 @@ export const userForget = (user, axios, host, config, ACTIONS, dispatch) => {
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Forget User Error (${error.message})`
+            payload: `Forget User Error - ${error.message} (${error?.response?.data?.error?.message})` 
+        })
+        dispatch({
+            type: ACTIONS.usersFormError,
+            payload: `${error?.response?.data?.error?.message} (${error.message})`
         })
     })
 }
@@ -315,7 +339,7 @@ export const userLogout = (axios, host, ACTIONS, dispatch) => {
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `User Logout Error (${error.message})`
+            payload: `User Logout Error - ${error.message} (${error?.response?.data?.error?.message})` 
         })
     })
 }
@@ -349,7 +373,11 @@ export const userContact = (user, axios, host, config, ACTIONS, dispatch) => {
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `User Contact Error (${error.message})`
+            payload: `User Contact Error - ${error.message} (${error?.response?.data?.error?.message})` 
+        })
+        dispatch({
+            type: ACTIONS.usersFormError,
+            payload: `${error?.response?.data?.error?.message} (${error.message})`
         })
     })
 }
@@ -385,7 +413,11 @@ export const updateUser = (user, axios, host, adminConfig, ACTIONS, dispatch, ge
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Update User Error (${error.message})`
+            payload: `Update User Error - ${error.message} (${error?.response?.data?.error?.message})` 
+        })
+        dispatch({
+            type: ACTIONS.usersFormError,
+            payload: `${error?.response?.data?.error?.message} (${error.message})`
         })
     })
 }
@@ -425,7 +457,11 @@ export const addUser = (user, axios, host, config, ACTIONS, dispatch, getUsers, 
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Add User Error (${error.message})`
+            payload: `Add User Error - ${error.message} (${error?.response?.data?.error?.message})` 
+        })
+        dispatch({
+            type: ACTIONS.usersFormError,
+            payload: `${error?.response?.data?.error?.message} (${error.message})`
         })
     })
 }
@@ -469,7 +505,7 @@ export const getContactMessages = (axios, host, ACTIONS, dispatch) => {
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Get Contact Messages Error (${error.message})`
+            payload: `Get Contact Messages Error - ${error.message} (${error?.response?.data?.error?.message})` 
         })
     })
 }
@@ -507,7 +543,7 @@ export const deleteContactMessage = (key, axios, host, adminConfig, ACTIONS, dis
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Delete Contact Message Error (${error.message})`
+            payload: `Delete Contact Message Error - ${error.message} (${error?.response?.data?.error?.message})` 
         })
     })
 }
@@ -541,7 +577,11 @@ export const activateUser = (user, axios, host, adminConfig, ACTIONS, dispatch) 
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Activate User Error (${error.message})`
+            payload: `Activate User Error - ${error.message} (${error?.response?.data?.error?.message})` 
+        })
+        dispatch({
+            type: ACTIONS.usersFormError,
+            payload: `${error?.response?.data?.error?.message} (${error.message})`
         })
     })
 }
@@ -575,7 +615,11 @@ export const depositForUser = (user, axios, host, adminConfig, ACTIONS, dispatch
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Deposit For User Error (${error.message})`
+            payload: `Deposit For User Error - ${error.message} (${error?.response?.data?.error?.message})` 
+        })
+        dispatch({
+            type: ACTIONS.usersFormError,
+            payload: `${error?.response?.data?.error?.message} (${error.message})`
         })
     })
 }
@@ -609,7 +653,11 @@ export const changeUserPassword = (token, user, axios, host, adminConfig, ACTION
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Change User Password Error (${error.message})`
+            payload: `Change User Password Error - ${error.message} (${error?.response?.data?.error?.message})` 
+        })
+        dispatch({
+            type: ACTIONS.usersFormError,
+            payload: `${error?.response?.data?.error?.message} (${error.message})`
         })
     })
 }
@@ -643,7 +691,11 @@ export const updateUserPassword = (user, axios, host, adminConfig, ACTIONS, disp
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Update User Password Error (${error.message})`
+            payload: `Update User Password Error - ${error.message} (${error?.response?.data?.error?.message})` 
+        })
+        dispatch({
+            type: ACTIONS.usersFormError,
+            payload: `${error?.response?.data?.error?.message} (${error.message})`
         })
     })
 }

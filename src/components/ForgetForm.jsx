@@ -59,6 +59,11 @@ const ForgetForm = () => {
                     )}
                 </div>
             )}
+            <div className="form-alert">
+                { state.formError !== '' && (
+                    <Alert message={state.formError} type="warning" showIcon closable />
+                )}
+            </div>
             { !state.loggedIn && (
                 <Form name="normal_login" form={ form } className="forget-form" onFinishFailed={ onFinishFailed } validateMessages={ validateMessages } initialValues={{ remember: true }} onFinish={ onFinish }>
                     <Item className='form-item' label="Email" name="email" rules={[ { type:'email', required: true } ]}>

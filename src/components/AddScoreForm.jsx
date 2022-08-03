@@ -1,0 +1,208 @@
+
+import React, { useState, useEffect, useContext } from 'react'
+import { Form, Input, Button, Select, Alert, InputNumber  } from 'antd'
+import { SolutionOutlined, UserOutlined, BookOutlined, NumberOutlined, FieldNumberOutlined } from '@ant-design/icons'
+import '../styles/AddScoreForm.scss'
+import { GlobalContext } from '../app/GlobalState'
+import { sessions, terms, subjects, cbtClasses } from '../services/userHelper'
+
+const { Option } = Select
+const { Item } = Form
+
+const  AddScoreForm = () => {
+    const [form] = Form.useForm()
+    const [formMessage, setFormMessage] = useState('')
+    const [formError, setFormError] = useState('')
+    const [students, setStudents] = useState([])
+    const [firstCA, setFirstCA] = useState(0)
+    const [secondCA, setSecondCA] = useState(0)
+    const [exam, setExam] = useState(0)
+    const { addScore, state, production } = useContext(GlobalContext)
+
+    useEffect(() => {
+        if (state?.cbtUsers.length > 0) {
+            const modifiedStudents = []
+            state?.cbtUsers.forEach(item => {
+                const object = {
+                    name: `${item.firstname.trim()} ${item.lastname.trim()}`,
+                    username: item.username
+                }
+                modifiedStudents.push(object)
+            })
+            setStudents(modifiedStudents)
+        }
+
+        const total = firstCA + secondCA + exam
+        let comment = 'Fail'
+        let grade = 'F'
+        
+        if (total > 79) {
+            comment = 'Excellent'
+            grade = 'A*'
+        } else if (total >= 70 && total <= 79) {
+            comment = 'Very Good'
+            grade = 'A'
+        } else if (total >= 60 && total <= 69) {
+            comment = 'Good'
+            grade = 'B'
+        } else if (total >= 50 && total <= 59) {
+            comment = 'Fairly Good'
+            grade = 'C'
+        } else if (total >= 45 && total <= 49) {
+            comment = 'Pass'
+            grade = 'D'
+        } else if (total >= 40 && total <= 44) {
+            comment = 'Weak'
+            grade = 'E'
+        }
+
+        form.setFieldsValue({total, comment, grade})
+    }, [setStudents, exam, firstCA, secondCA, form, state.cbtUsers])
+
+    const onNameChange = (value) => {
+        if (students.length > 0) {
+            const nameFilter = students.filter(item => item.name === value)
+            if (nameFilter.length > 0) {
+                form.setFieldsValue({username: nameFilter[0].username})
+            }
+        }
+    }
+
+    const onFinish = (values) => {
+        !production && (console.log('Student Score data accepted !!', values))
+        setFormError('')
+        setFormMessage('Student Score data accepted !!')
+
+        const object = {
+            ...values,
+            examiner: state.cbtUser.accessCode
+        }
+
+        // Add Exam Question
+        addScore(object)
+
+        form.resetFields()
+    }
+
+    const onFinishFailed = (errorInfo) => {
+        !production && (console.log('Student Score data rejected !!', errorInfo))
+        setFormMessage('')
+        setFormError('Student Score data rejected, check fields for errors !!')
+    }
+
+    const validateMessages = {
+        required: '${label} is required!',
+        types: {
+            email: 'This is not a valid email!',
+            number: 'This is not a valid number!',
+        }
+    }
+
+    const onReset = () => {
+        form.resetFields();
+    }
+
+    return (
+        <div className="form-group">
+            { (!production || (state.user.role === 'admin' && state.showAlert)) && (
+                <div className="form-alert">
+                    { formMessage !== '' && (
+                        <Alert message={formMessage} type="success" showIcon closable />
+                    )}
+                    { formError !== '' && (
+                        <Alert message={formError} type="error" showIcon closable />
+                    )}
+                </div>
+            )}
+            <div className="form-alert">
+                { state.formError !== '' && (
+                    <Alert message={state.formError} type="warning" showIcon closable />
+                )}
+            </div>
+            <Form name="basic" form={ form } validateMessages={ validateMessages } initialValues={{ remember: true }} onFinish={ onFinish } onFinishFailed={ onFinishFailed } autoComplete="off">
+                <div className="form-controller">
+                    <Item className='form-item' hasFeedback label="Full Name" name="fullname" rules={[ { required: true } ]}>
+                        <Select showSearch onChange={(value) => onNameChange(value)} optionFilterProp="children" placeholder="Select a Student"  allowClear>
+                            {students?.map(item => (
+                                <Option key={item._id} value={item.name}>{item.name}</Option>
+                            ))}
+                        </Select>
+                    </Item>
+                    <Item className='form-item' hasFeedback name="term" label="Term" rules={[ { required: true } ]}>
+                        <Select placeholder="Select a Term"  allowClear>
+                            {terms.map(item => (
+                                <Option key={item.value} value={item.value}>{item.name}</Option>
+                            ))}
+                        </Select>
+                    </Item>
+                </div>
+                <div className="form-controller">
+                    <Item className='form-item' label="Session" hasFeedback name="session" rules={[ { required: true } ]}>
+                        <Select placeholder="Select a Session"  allowClear>
+                            {sessions.map(item => (
+                                <Option key={item.value} value={item.value}>{item.name}</Option>
+                            ))}
+                        </Select>
+                    </Item>
+                    <Item className='form-item' hasFeedback label="Subject" name="subject" rules={[ { required: true } ]}>
+                        <Select placeholder="Select a Subject"  allowClear>
+                            {subjects.map(item => (
+                                <Option key={item.value} value={item.value}>{item.name}</Option>
+                            ))}
+                        </Select>
+                    </Item>
+                </div>
+                <div className="form-controller">
+                    <Item className='form-item' hasFeedback name="className" label="Class" rules={[ { required: true } ]}>
+                        <Select placeholder="Select a Class"  allowClear>
+                            {cbtClasses.map(item => (
+                                <Option key={item.value} value={item.value}>{item.name}</Option>
+                            ))}
+                        </Select>
+                    </Item>
+                    <Item className='form-item' label="Username" hasFeedback name="username" rules={[ { required: true } ]}>
+                        <Input prefix={<UserOutlined />} placeholder="Enter a Username" allowClear disabled />
+                    </Item>
+                </div>
+                <div className="form-controller">
+                    <Item className='form-item' label="1st CA" name="firstCA" hasFeedback rules={[ { type:'number', required: true } ]}>
+                        <InputNumber onChange={(value) => setFirstCA(value)} prefix={<FieldNumberOutlined />} placeholder="Enter 1st CA Test Score" />
+                    </Item>
+                    <Item className='form-item' label="Total" name="total" hasFeedback rules={[ { type:'number', required: true } ]}>
+                        <InputNumber prefix={<NumberOutlined />} placeholder="Enter Total Score" disabled />
+                    </Item>
+                </div>
+                <div className="form-controller">
+                    <Item className='form-item' label="2nd CA" name="secondCA" hasFeedback rules={[ { type:'number', required: true } ]}>
+                        <InputNumber onChange={(value) => setSecondCA(value)} prefix={<FieldNumberOutlined />} placeholder="Enter 2nd CA Test Score" />
+                    </Item>
+                    <Item className='form-item' hasFeedback label="Grade" name="grade" rules={[ { required: true } ]}>
+                        <Input prefix={<SolutionOutlined />} placeholder="Enter a Grade" allowClear disabled />
+                    </Item>
+                </div>
+                <div className="form-controller">
+                    <Item className='form-item' label="Exam" name="exam" hasFeedback rules={[ { type:'number', required: true } ]}>
+                        <InputNumber onChange={(value) => setExam(value)} prefix={<FieldNumberOutlined />} placeholder="Enter Exam Score" />
+                    </Item>
+                    <Item className='form-item' hasFeedback label="Comment" name="comment" rules={[ { required: true } ]}>
+                        <Input prefix={<BookOutlined />} placeholder="Enter a Comment" allowClear disabled />
+                    </Item>
+                </div>
+                <div className="button-controller">
+                    <Item>
+                        <Button className="submit-button" type="primary" htmlType="submit">
+                            Submit
+                        </Button>
+                    </Item>
+                    <Item>
+                        <Button className="reset-button" type="danger" onClick={ onReset }>
+                            Reset
+                        </Button>
+                    </Item>
+                </div>
+            </Form>
+        </div>
+    )
+}
+
+export default AddScoreForm

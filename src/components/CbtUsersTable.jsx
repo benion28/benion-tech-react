@@ -4,7 +4,7 @@ import { Table, Space, Button, Popconfirm, Typography, Popover } from 'antd'
 import { CbtAddForm, CbtEditUserForm } from '../components'
 import { GlobalContext } from '../app/GlobalState'
 import '../styles/CbtUsersTable.scss'
-import { cbtCategories, cbtClasses, cbtRoles, cbtSchools, genders } from '../services/userHelper'
+import { cbtCategories, cbtClasses, cbtRoles, cbtSchools, genders, getClassName, getSchoolName } from '../services/userHelper'
 
 const { Text, Title } = Typography;
 
@@ -23,20 +23,24 @@ const CbtUsersTable = () => {
         setDetails(user)
     }
 
+    const scroll = {
+        x: 'calc(500px + 50%)',
+        y: 240
+    }
+
+    const getFullName = (username) => {
+        const cbtUser = state.cbtUsers.filter(user => user.username === username)
+        return `${cbtUser[0].firstname} ${cbtUser[0].lastname}`
+    }
+
     const columns = [
     {
-        title: () => (<b>First Name</b>),
-        dataIndex: 'firstname',
+        title: () => (<b>Full Name</b>),
+        dataIndex: 'username',
         defaultSortOrder: 'descend',
-        sorter: (a, b) => a.firstname.length - b.firstname.length,
-        key: 'firstname'
-    },
-    {
-        title: () => (<b>Last Name</b>),
-        dataIndex: 'lastname',
-        defaultSortOrder: 'descend',
-        sorter: (a, b) => a.lastname.length - b.lastname.length,
-        key: 'lastname'
+        sorter: (a, b) => getFullName(a.username).length - getFullName(b.username).length,
+        key: 'fullname',
+        render: (username) => getFullName(username)
     },
     {
         title: () => (<b>Username</b>),
@@ -70,18 +74,6 @@ const CbtUsersTable = () => {
         onFilter: (value, record) => record.gender.indexOf(value) === 0
     },
     {
-        title: () => (<b>Category</b>),
-        dataIndex: 'category',
-        key: 'category',
-        filters: cbtCategories.map(category => (
-            {
-                text: category.name,
-                value: category.value
-            }
-        )),
-        onFilter: (value, record) => record.category.indexOf(value) === 0
-    },
-    {
         title: () => (<b>Access Code</b>),
         dataIndex: 'accessCode',
         defaultSortOrder: 'descend',
@@ -105,7 +97,8 @@ const CbtUsersTable = () => {
                 value: className.value
             }
         )),
-        onFilter: (value, record) => record.className.indexOf(value) === 0
+        onFilter: (value, record) => record.className.indexOf(value) === 0,
+        render: (className) => getClassName(className)
     },
     {
         title: () => (<b>School</b>),
@@ -117,7 +110,8 @@ const CbtUsersTable = () => {
                 value: school.value
             }
         )),
-        onFilter: (value, record) => record.school.indexOf(value) === 0
+        onFilter: (value, record) => record.school.indexOf(value) === 0,
+        render: (school) => getSchoolName(school)
     },
     {
         title: () => (<b>Actions</b>),
@@ -177,7 +171,7 @@ const CbtUsersTable = () => {
                 )}
             </div>
             <div className="table-container">
-                <Table rowKey={ (record) => record._id } className='table' columns={columns} dataSource={state.cbtUsers} />
+                <Table rowKey={ (record) => record._id } scroll={scroll} className='table' columns={columns} dataSource={state.cbtUsers} />
             </div>
             <div className="footer">
                 { state.cbtUsers.length > 0 && (

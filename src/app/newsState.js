@@ -33,7 +33,7 @@ export const getCryptos = (details, axios, host, config, ACTIONS, dispatch) => {
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Get Cryptos Error (${error.message})`
+            payload: `Get Cryptos Error - ${error.message} (${error?.response?.data?.error?.message})` 
         })
     })
 }
@@ -71,7 +71,7 @@ export const getCryptoHistory = (details, axios, host, config, ACTIONS, dispatch
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Get Crypto History Error (${error.message})`
+            payload: `Get Crypto History Error - ${error.message} (${error?.response?.data?.error?.message})` 
         })
     })
 }
@@ -108,7 +108,7 @@ export const getCrypto = (id, axios, host, config, ACTIONS, dispatch) => {
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Get Crypto Error (${error.message})`
+            payload: `Get Crypto Error - ${error.message} (${error?.response?.data?.error?.message})` 
         })
     })
 }
@@ -146,7 +146,7 @@ export const getCryptoNews = (details, axios, host, config, ACTIONS, dispatch) =
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Get Crypto News Error (${error.message})`
+            payload: `Get Crypto News Error - ${error.message} (${error?.response?.data?.error?.message})` 
         })
     })
 }
@@ -184,7 +184,7 @@ export const getBingNews = (details, axios, host, config, ACTIONS, dispatch) => 
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Get Bing News Error (${error.message})`
+            payload: `Get Bing News Error - ${error.message} (${error?.response?.data?.error?.message})` 
         })
     })
 }

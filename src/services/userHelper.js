@@ -90,6 +90,12 @@ export const initialState = {
         {},
         []
     ],
+    scores: [
+        [],
+        [],
+        {},
+        []
+    ],
     cryptos: { 
         stats: {
             totalCoins: null, 
@@ -145,6 +151,7 @@ export const initialState = {
     tempCbtRole: 'student',
     tempCbtFirstname: 'Cbt',
     tempCbtLastname: 'User',
+    tempCbtUsername: 'cbt-user',
     cbtExamCompleted: true,
     advanceExam: false,
     cbtAnswers: '',
@@ -164,14 +171,21 @@ export const initialState = {
 export const host = production ? 'https://benion-tech-server.herokuapp.com' : 'http://localhost:8828'
 
 export const formatAmountMillify = (value) => {
-    const dollarRate = 512
+    const dollarRate = 605
     const inDollar = (Math.floor(value/dollarRate))
 
     return `${millify(inDollar)} (N${millify(value)})`
 }
 
 export const formatAmountManually = (value) => {
-    const dollarRate = 512
+    const dollarRate = 605
+    const inDollar = (Math.floor(value/dollarRate))
+
+    return `${inDollar.toLocaleString()} (N${value.toLocaleString()})`
+}
+
+export const formatAmountManuallyOld = (value) => {
+    const dollarRate = 605
     let amount = value.toString()
     let inDollar = (Math.floor(value/dollarRate)).toString()
 
@@ -233,6 +247,7 @@ export const cbtSchools = [
     { name: 'Midland Rock Dynamic School', value: 'mrds' },
     { name: 'Great Bethel International School', value: 'gbis' },
     { name: 'Key Hope Comprehensive School', value: 'khcs' },
+    { name: 'Government Secondary School TV', value: 'gsst' },
     { name: 'Others', value: 'others' }
 ]
 
@@ -267,12 +282,17 @@ export const terms = [
     { name: '3rd Term', value: 'third-term' }
 ]
 
+export const sessions = [
+    { name: '2021/2022 Academic Year', value: '2021/2022' },
+    { name: '2022/2023 Academic Year', value: '2022/2023' }
+]
+
 export const subjects = [
     { name: 'Mathematics', value: 'maths' },
     { name: 'English Language', value: 'english' },
     { name: 'Chemistry', value: 'chemistry' },
     { name: 'Physics', value: 'physics' },
-    { name: 'Basic Science', value: 'b-science' },
+    { name: 'Basic Science', value: 'basic-science' },
     { name: 'Government', value: 'government' },
     { name: 'Economics', value: 'economics' }
 ]
@@ -298,6 +318,11 @@ export const getTermName = (term) => {
 
 export const getSubjectName = (subject) => {
     const filteredData = subjects.filter(data => data.value === subject)
+    return filteredData[0].name
+}
+
+export const getSchoolName = (school) => {
+    const filteredData = cbtSchools.filter(data => data.value === school)
     return filteredData[0].name
 }
 

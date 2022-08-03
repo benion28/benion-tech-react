@@ -23,6 +23,11 @@ const UsersTable = () => {
         setDetails(user)
     }
 
+    const scroll = {
+        x: 'calc(500px + 50%)',
+        y: 240
+    }
+
     const columns = [
     {
         title: () => (<b>First Name</b>),
@@ -144,7 +149,7 @@ const UsersTable = () => {
                 </div>
             </div>
             <div className="table-container">
-                <Table rowKey={ (record) => record._id } className='table' columns={columns} dataSource={state.users} />
+                <Table rowKey={ (record) => record._id } scroll={scroll} className='table' columns={columns} dataSource={state.users} />
             </div>
             <div className="footer">
                 { state.users.length > 0 && (

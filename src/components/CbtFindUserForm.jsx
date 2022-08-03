@@ -54,7 +54,7 @@ const CbtFindUserForm = () => {
                 )}
                 <div className="form-alert">
                     { state.formError !== '' && (
-                        <Alert message={state.formError} type="error" showIcon closable />
+                        <Alert message={state.formError} type="warning" showIcon closable />
                     )}
                 </div>
                 { !state.cbtLoggedIn && (

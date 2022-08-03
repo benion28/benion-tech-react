@@ -24,6 +24,11 @@ const ContactMessagesTable = () => {
         setSearchText('')
     }
 
+    const scroll = {
+        x: 'calc(500px + 50%)',
+        y: 240
+    }
+
     const getColumnSearchProps = (dataIndex) => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
         <div
@@ -177,7 +182,7 @@ const ContactMessagesTable = () => {
                 </Button>
             </div>
             <div className="table-container">
-                <Table rowKey={ (record) => record.$key } className='table' columns={columns} dataSource={state.contactMessages[3]} />
+                <Table rowKey={ (record) => record.$key } scroll={scroll} className='table' columns={columns} dataSource={state.contactMessages[3]} />
             </div>
             <div className="footer">
                 { state.contactMessages[3].length > 0 && (

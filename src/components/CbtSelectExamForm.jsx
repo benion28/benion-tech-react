@@ -67,10 +67,7 @@ const CbtSelectExamForm = () => {
                     </Item>
                     <Item className='form-item' name="examClass" rules={[ { required: true } ]}>
                         <Select placeholder="Select an Exam Class" allowClear>
-                            {(state.cbtLoggedIn && state.tempCbtRole === 'student') && (
-                                <Option value={state.tempClassName}>{getClassName(state.tempClassName)}  - Current</Option>
-                            )}    
-                            {(state.cbtLoggedIn && state.tempCbtRole !== 'student' && state.tempClassName === 'graduated') && (
+                            {state.cbtLoggedIn && (
                                 <Option value={state.tempClassName}>{getClassName(state.tempClassName)}  - Current</Option>
                             )}  
                             {(state.tempCbtRole !== 'student' && state.cbtLoggedIn) && cbtClasses.filter(item => item.value !== state.tempClassName).map(item => (

@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react'
-import { Form, Input, Button, Alert, Typography } from 'antd'
+import { Form, Input, Button, Alert, Typography, InputNumber } from 'antd'
 import { MoneyCollectOutlined, DollarOutlined, UserOutlined } from '@ant-design/icons'
 import '../styles/DepositUserForm.scss'
 import { production } from '../services/userHelper'
@@ -50,13 +50,18 @@ const DepositUserForm = () => {
                         )}
                     </div>
                 )}
+                <div className="form-alert">
+                    { state.formError !== '' && (
+                        <Alert message={state.formError} type="warning" showIcon closable />
+                    )}
+                </div>
                 <Form name="normal_login" form={ form } className="login-form" onFinishFailed={ onFinishFailed } initialValues={{ remember: true }} validateMessages={ validateMessages } onFinish={ onFinish }>
                     <Title level={4} className="text">Deposit For A User</Title>
                     <Item className='form-item' label="Username" name="username" hasFeedback rules={[ { required: true } ]}>
                         <Input prefix={<UserOutlined />}  placeholder="Username" allowClear />
                     </Item>
                     <Item className='form-item' label="Amount" name="amount" hasFeedback rules={[ { type:'number', required: true } ]}>
-                        <Input prefix={<MoneyCollectOutlined />} placeholder="Enter Amount" allowClear />
+                        <InputNumber prefix={<MoneyCollectOutlined />} placeholder="Enter Amount" />
                     </Item>
                     <Item>
                         <Button type="primary" htmlType="submit" className="login-form-button">
