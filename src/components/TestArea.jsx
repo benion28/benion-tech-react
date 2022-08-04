@@ -3,7 +3,7 @@ import { Typography, Row, Col, Alert, Tabs, Radio, Button, Form  } from 'antd'
 import Loader from 'react-loaders'
 import { GlobalContext } from '../app/GlobalState'
 import { createPassword, getCategoryName, getClassName, getSubjectName, production } from '../services/userHelper'
-import { Works, AddScoreForm, ScoresTable, EditScoreForm, Scores } from '../components'
+import { Works, AddScoreForm, ScoresTable, EditScoreForm, Scores, GenerateCodeForm } from '../components'
 import '../styles/ContactMessagesTable.scss'
 import '../styles/CbtExam.scss'
 import '../styles/Scores.scss'
@@ -500,7 +500,8 @@ const TestArea = () => {
             {/* <ScoresTable /> */}
             {/* <AddScoreForm /> */}
             {/* <EditScoreForm /> */}
-            <Scores />
+            {/* <Scores /> */}
+            <GenerateCodeForm />
             <Loader type="pacman" />
         </React.Fragment>
     )

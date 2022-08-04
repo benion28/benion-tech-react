@@ -22,3 +22,24 @@ $secondary-color: #001529;
 .footer-text {
     color: #f8f6f4;
 }
+
+.expandable-paragraph-one {
+    margin-bottom: 2;
+}
+
+.expandable-paragraph-two {
+     margin-top: 2;
+}
+
+.items-container {
+    .item-one {
+        margin-right: 190; 
+        margin-left: 190
+    }
+
+    .item-two {
+        margin-right: 200; 
+        margin-left: 200
+    }
+}
+

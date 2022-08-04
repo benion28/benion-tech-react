@@ -294,7 +294,8 @@ export const subjects = [
     { name: 'Physics', value: 'physics' },
     { name: 'Basic Science', value: 'basic-science' },
     { name: 'Government', value: 'government' },
-    { name: 'Economics', value: 'economics' }
+    { name: 'Economics', value: 'economics' },
+    { name: 'Geography', value: 'geography' }
 ]
 
 export const getClassName = (className) => {

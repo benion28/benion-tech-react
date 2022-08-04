@@ -6,7 +6,7 @@ import { DownOutlined, SmileOutlined, LogoutOutlined, TableOutlined, MoneyCollec
 } from '@ant-design/icons';
 import Loader from 'react-loaders'
 import { UsersTable, CbtUsersTable, Questions, ExamsTable, ContactMessagesTable, PasswordUpdateForm,
-    ActivateUserForm, DepositUserForm, PasswordChangeForm, CbtPasswordChangeForm, ScoresTable
+    ActivateUserForm, DepositUserForm, PasswordChangeForm, CbtPasswordChangeForm, ScoresTable, GenerateCodeForm
 } from '../components'
 import '../styles/Dashboard.scss'
 import { GlobalContext } from '../app/GlobalState'
@@ -136,6 +136,11 @@ const Dashboard = () => {
                     { state.user.role === "admin" && (
                         <div className="admin-tool">
                             <PasswordUpdateForm />
+                        </div>
+                    )}
+                    { state.user.role === "admin" && (
+                        <div className="admin-tool">
+                            <GenerateCodeForm />
                         </div>
                     )}
                 </div>

@@ -147,24 +147,28 @@ const ScoresTable = () => {
     return (
         <React.Fragment>
             <div className="tools-container">
-                <div className="add-user">
-                    <Popover
-                        placement='bottomRight'
-                        content={ <AddScoreForm />}
-                        title= {() => (<Title level={2} className='add-user-title'><b>Add New Student's Score</b> <Button onClick={ () => setNewScorePopover(false) } className='add-user-button'><CloseOutlined /></Button></Title>)}
-                        trigger='click'
-                        visible={ newScorePopover }
-                    >
-                        <Button className='add-button' onClick={ () => setNewScorePopover(true) }>
-                            <UserAddOutlined  />  Add Score
+                { (state.cbtLoggedIn && state.cbtUser.role !== "student") && (
+                    <div className="add-user">
+                        <Popover
+                            placement='bottomRight'
+                            content={ <AddScoreForm />}
+                            title= {() => (<Title level={2} className='add-user-title'><b>Add New Student's Score</b> <Button onClick={ () => setNewScorePopover(false) } className='add-user-button'><CloseOutlined /></Button></Title>)}
+                            trigger='click'
+                            visible={ newScorePopover }
+                        >
+                            <Button className='add-button' onClick={ () => setNewScorePopover(true) }>
+                                <UserAddOutlined  />  Add Score
+                            </Button>
+                        </Popover>
+                    </div>
+                )}
+                { (state.cbtLoggedIn && state.cbtUser.role !== "student") && (
+                    <div className="button-container">
+                        <Button className='get-button' onClick={ () => getScores() }>
+                            <ReloadOutlined  /> Reload
                         </Button>
-                    </Popover>
-                </div>
-                <div className="button-container">
-                    <Button className='get-button' onClick={ () => getScores() }>
-                        <ReloadOutlined  /> Reload
-                    </Button>
-                </div>
+                    </div>
+                )}
             </div>
             <div className="table-container">
                 <Table rowKey={ (record) => record.$key } scroll={scroll} className='table' expandable={expandable} columns={columns} dataSource={state.scores[3]} />
