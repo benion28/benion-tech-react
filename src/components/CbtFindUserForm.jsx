@@ -3,7 +3,7 @@ import { Form, Input, Button, Select, Alert } from 'antd'
 import { UserOutlined, SearchOutlined } from '@ant-design/icons'
 import '../styles/CbtFindUserForm.scss'
 import { GlobalContext } from '../app/GlobalState'
-import { cbtClasses, cbtSchools, production } from '../services/userHelper'
+import { cbtClasses, cbtSchools, production, cbtUserFind } from '../services/userHelper'
 
 const { Item } = Form
 const { Option } = Select
@@ -13,7 +13,7 @@ const CbtFindUserForm = () => {
     const [formMessage, setFormMessage] = useState('')
     const [foundUser, setFoundUser] = useState(null)
     const [formError, setFormError] = useState('')
-    const { cbtUserFind, state, findCbtUser  } = useContext(GlobalContext)
+    const { state, findCbtUser  } = useContext(GlobalContext)
 
     const onFinish = (values) => {
         !production && (console.log("Cbt Find User data accepted", values))
@@ -22,10 +22,16 @@ const CbtFindUserForm = () => {
 
         // Find Username
         findCbtUser(values)
-        const user = cbtUserFind(values)
+        const user = cbtUserFind(values, state)
         if (user.success) {
             setFoundUser(user.data)
+            setFormError('')
+            setFormMessage("Cbt User Found")
             form.resetFields()
+        } else {
+            setFoundUser(null)
+            setFormMessage('')
+            setFormError("Cbt User Not Found")
         }
     }
 

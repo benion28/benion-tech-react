@@ -3,7 +3,7 @@ import { production } from '../services/userHelper'
 export const getCryptos = (details, axios, host, config, ACTIONS, dispatch) => {
     axios({
         url: '/benion-news/api/all-cryptos',
-        method: 'get',
+        method: 'post',
         baseURL: host,
         headers: config.headers,
         data: details
@@ -41,7 +41,7 @@ export const getCryptos = (details, axios, host, config, ACTIONS, dispatch) => {
 export const getCryptoHistory = (details, axios, host, config, ACTIONS, dispatch) => {
     axios({
         url: '/benion-news/api/crypto-history',
-        method: 'get',
+        method: 'post',
         baseURL: host,
         headers: config.headers,
         data: details
@@ -79,7 +79,7 @@ export const getCryptoHistory = (details, axios, host, config, ACTIONS, dispatch
 export const getCrypto = (id, axios, host, config, ACTIONS, dispatch) => {
     axios({
         url: `/benion-news/api/crypto/${id}`,
-        method: 'get',
+        method: 'post',
         baseURL: host,
         headers: config.headers
     }).then(response => {
@@ -116,7 +116,7 @@ export const getCrypto = (id, axios, host, config, ACTIONS, dispatch) => {
 export const getCryptoNews = (details, axios, host, config, ACTIONS, dispatch) => {
     axios({
         url: '/benion-news/api/crypto-news',
-        method: 'get',
+        method: 'post',
         baseURL: host,
         headers: config.headers,
         data: details
@@ -154,7 +154,7 @@ export const getCryptoNews = (details, axios, host, config, ACTIONS, dispatch) =
 export const getBingNews = (details, axios, host, config, ACTIONS, dispatch) => {
     axios({
         url: '/benion-news/api/bing-news',
-        method: 'get',
+        method: 'post',
         baseURL: host,
         headers: config.headers,
         data: details

@@ -104,7 +104,7 @@ const Cbt = () => {
                                 <Alert 
                                     className="information-alert-form" 
                                     message="Exam Already Accessed  !!!" 
-                                    description={ `DEAR ${state.cbtUser.firstname} ${state.cbtUser.lastname} !!! You have already written this exam, answered ${state.completeExam.answers.split(",").length} question${state.completeExam.answers.split(",").length > 1 ? 's' : ''} and scored ${state.completeExam.score} in ${state.completeExam.examTime} minute${state.completeExam.examTime > 1 ? 's' : ''}` } 
+                                    description={ `DEAR ${state.tempCbtFirstname} ${state.tempCbtLastname} !!! You have already written this exam, answered ${state.completeExam.answers.split(",").length} question${state.completeExam.answers.split(",").length > 1 ? 's' : ''} and scored ${state.completeExam.score} in ${state.completeExam.examTime} minute${state.completeExam.examTime > 1 ? 's' : ''}` } 
                                     type="warning" 
                                     showIcon 
                                 />
@@ -130,12 +130,12 @@ const Cbt = () => {
                                     <UsersTable />
                                 </TabPane>
                             )}
-                            { (state.cbtUser.role !== "student" || state.user.role === "admin") && (
+                            { (state.tempCbtRole !== "student" || state.user.role === "admin") && (
                                 <TabPane className="tabs-panel" tab={ <span> <Title level={4}>Students</Title> </span> } key="2">
                                     <CbtUsersTable />
                                 </TabPane>
                             )}
-                            { (state.cbtUser.role !== "student" || state.user.role === "admin") && (
+                            { (state.tempCbtRole !== "student" || state.user.role === "admin") && (
                                 <TabPane className="tabs-panel" tab={ <span> <Title level={4}>Exam Data</Title> </span> } key="3">
                                     <ExamsTable />
                                 </TabPane>
@@ -145,7 +145,7 @@ const Cbt = () => {
                                     <ContactMessagesTable />
                                 </TabPane>
                             )}
-                            { (state.cbtUser.role !== "student" || state.user.role === "admin") && (
+                            { (state.tempCbtRole !== "student" || state.user.role === "admin") && (
                                 <TabPane className="tabs-panel" tab={ <span> <Title level={4}>Student's Scores</Title> </span> } key="5">
                                     <ScoresTable />
                                 </TabPane>

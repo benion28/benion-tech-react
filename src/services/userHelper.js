@@ -351,3 +351,27 @@ export const anCompletedExam = (state, payload, username) => {
         return [cbtExam]
     }
 }
+
+export const cbtUserFind = (user, state) => {
+    const roleFilter = state.cbtUsers.filter(data => data.role === user.role)
+    const schoolFilter = roleFilter.filter(data => data.school === user.school)
+    const classFilter = schoolFilter.filter(data => data.class === user.class)
+    const lastNameFilter = classFilter.filter(data => data.lastname.toLowerCase() === user.lastname.toLowerCase())
+    const firstNameFilter = lastNameFilter.filter(data => data.firstname.toLowerCase() === user.firstname.toLowerCase())
+    const filteredUser = firstNameFilter
+    let data = {}
+
+    if (filteredUser.length > 0) {
+        data = {
+            success: true,
+            data: filteredUser[0]
+        }
+    } else {
+        data = {
+            success: false,
+            data: {}
+        }
+    }
+
+    return data
+}

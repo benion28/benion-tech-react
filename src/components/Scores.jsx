@@ -13,12 +13,12 @@ const Scores = () => {
 
     useEffect(() => {
         if (state?.scores[3].length > 0) {
-            const filteredData = state?.scores[3].filter(item => item.username === state.cbtUser.username)
+            const filteredData = state?.scores[3].filter(item => item.username === state.tempCbtUsername)
             if (filteredData.length > 0) {
                 setResults(filteredData)
             }
         }
-    }, [state.scores, state.cbtUser.username])
+    }, [state.scores, state.tempCbtUsername])
 
     return (
         <Fragment>
@@ -35,9 +35,9 @@ const Scores = () => {
             )}
 
             {results.length > 0  && (
-                <Row gutter={[32, 32]} className="crypto-card-container">
+                <Row gutter={[32, 32]} className="score-card-container">
                     {results?.map((item) => (
-                    <Col xs={24} sm={12} lg={6} className="crypto-card" key={ item.$key  }>
+                    <Col xs={24} sm={12} lg={6} className="score-card" key={ item.$key  }>
                             <Card title={`${ getClassName(item.className) } (${ getTermName(item.term)})`} hoverable>
                                 <p>
                                     <b>Subject:</b> { getSubjectName(item.subject).toUpperCase() }

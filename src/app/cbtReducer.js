@@ -52,7 +52,7 @@ export const updateExam = (state, action) => {
 }
 
 export const examCategory = (state, action) => {
-    const exams = anCompletedExam(state, action.payload, state.cbtUser.username)
+    const exams = anCompletedExam(state, action.payload, state.tempCbtUsername)
     const exam = exams[0]
     const completedExam = {
         examTime: exam.examTime,
@@ -85,10 +85,11 @@ export const cbtUserLogIn = (state, action) => {
     const exams = anExam(state, action.payload)
     const exam = exams[0]
     const payload = action.payload
-    
+    const loggedUser = lodash.extend(state.cbtUser, payload)
+
     return {
         ...state,
-        cbtUser: lodash.extend(state.cbtUser, payload),
+        cbtUser: loggedUser,
         cbtExam: lodash.extend(state.cbtExam, exam),
         cbtExamCompleted: exam.completed,
         cbtTimeSpent: exam.examTime,

@@ -1,13 +1,33 @@
-.exam-question-sorter {
+.score-card-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-gap: 3px;
+
+    .score-card {
+        min-width: 250px;
+    }
+}
+
+@media screen and (max-width: 1500px){
+    .score-card-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 3px;
+    }
 }
 
 @media screen and (max-width: 1000px){
-    .exam-question-sorter {
+    .score-card-container {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
+        grid-gap: 3px;
+    }
+}
+
+@media screen and (max-width: 500px){
+    .score-card-container {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
         grid-gap: 3px;
     }
 }

@@ -128,7 +128,7 @@ const Dashboard = () => {
                             <PasswordChangeForm />
                         </div>
                     )}
-                    { (state.cbtUser.role === "admin" || state.user.role === "admin") && (
+                    { (state.tempCbtRole === "admin" || state.user.role === "admin") && (
                         <div className="admin-tool">
                             <CbtPasswordChangeForm />
                         </div>
@@ -173,7 +173,7 @@ const Dashboard = () => {
                     </Tabs>
                 </div>
             )}
-            { (!showTable && state.cbtLoggedIn && state.cbtUser.role !== "student") && (
+            { (!showTable && state.cbtLoggedIn && state.tempCbtRole !== "student") && (
                 <div className="questions">
                     <div className="list">
                         <Questions />

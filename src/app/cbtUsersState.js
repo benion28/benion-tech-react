@@ -186,7 +186,7 @@ export const cbtUserLogin = (user, axios, host, config, ACTIONS, dispatch, getCb
 export const findCbtUser = (user, axios, host, config, ACTIONS, dispatch) => {
     axios({
         url: '/benion-cbt/api/find-username',
-        method: 'get',
+        method: 'post',
         baseURL: host,
         headers: config.headers,
         data: user
@@ -377,49 +377,6 @@ export const updateCbtUser = (user, axios, host, adminConfig, ACTIONS, dispatch,
             payload: `${error?.response?.data?.error?.message} (${error.message})`
         })
     })
-}
-
-export const cbtUserFind = (user, state, ACTIONS, dispatch) => {
-    const roleFilter = state.cbtUsers.filter(data => data.role === user.role)
-    const schoolFilter = roleFilter.filter(data => data.school === user.school)
-    const classFilter = schoolFilter.filter(data => data.class === user.class)
-    const lastNameFilter = classFilter.filter(data => data.lastname.toLowerCase() === user.lastname.toLowerCase())
-    const firstNameFilter = lastNameFilter.filter(data => data.firstname.toLowerCase() === user.firstname.toLowerCase())
-    const filteredUser = firstNameFilter
-
-    if (filteredUser.length > 0) {
-        dispatch({
-            type: ACTIONS.usersError,
-            payload: null
-        })
-        dispatch({
-            type: ACTIONS.usersMessage,
-            payload: `User with username (${filteredUser[0].username}) found!!`
-        })
-
-        return {
-            success: true,
-            data: filteredUser[0]
-        }
-    } else {
-        dispatch({
-            type: ACTIONS.usersMessage,
-            payload: null
-        })
-        dispatch({
-            type: ACTIONS.usersWarning,
-            payload: null
-        })
-        dispatch({
-            type: ACTIONS.usersError,
-            payload: 'Cbt Find Username Error'
-        })
-
-        return {
-            success: false,
-            data: {}
-        }
-    }
 }
 
 export const deleteCbtExam = (key, axios, host, adminConfig, ACTIONS, dispatch, getCbtExams) => {

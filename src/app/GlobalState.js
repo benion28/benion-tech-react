@@ -156,13 +156,8 @@ export const GlobalStore = ({ children }) => {
     }
 
     // Find Cbt User
-    const findCbtUser = (user, state) => {
+    const findCbtUser = (user) => {
         CBT_USERS_STATE.findCbtUser(user, axios, host, host, ACTIONS, dispatch)
-    }
-
-    // Cbt Find User
-    const cbtUserFind = (user, state) => {
-        CBT_USERS_STATE.cbtUserFind(user, state, ACTIONS, dispatch)
     }
 
     // Cbt User Logout
@@ -307,7 +302,6 @@ export const GlobalStore = ({ children }) => {
             getContactMessages,
             deleteContactMessage,
             cbtUserLogout,
-            cbtUserFind,
             findCbtUser,
             updateExam,
             createExam,
