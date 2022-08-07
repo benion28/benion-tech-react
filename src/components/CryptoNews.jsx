@@ -27,6 +27,7 @@ const CryptoNews = () => {
             <div className="button-container">
                 <Button className='get-button' onClick={ () => getCryptoNews({ count: 200, newsCategory }) }>
                     <ReloadOutlined  /> Get Cryoto News
+                    
                 </Button>
             </div>
         )}

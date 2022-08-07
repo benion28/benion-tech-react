@@ -3,6 +3,7 @@ import { DeleteOutlined, QuestionCircleOutlined, ReloadOutlined } from '@ant-des
 import { Table, Space, Button, Popconfirm, Typography, Badge } from 'antd'
 import { GlobalContext } from '../app/GlobalState'
 import '../styles/ExamsTable.scss'
+import { getCategoryName, getClassName, getSubjectName, getTermName } from '../services/userHelper'
 
 const { Text } = Typography;
 
@@ -16,6 +17,19 @@ const ExamsTable = () => {
     const expandable = {
         expandedRowRender: (record) => (
             <div style={ { margin: 0} }>
+                <p style={ { marginBottom: 1} }>
+                    <b>Subject:</b> {getSubjectName(record.subject)}
+                </p>
+                <p style={ { marginBottom: 1} }>
+                    <b>Term:</b> {getTermName(record.term)}
+                </p>
+                <p style={ { marginBottom: 1} }>
+                    <b>Class:</b> {getClassName(record.className)}
+                </p>
+                <p style={ { marginBottom: 1} }>
+                    <b>Category:</b> {getCategoryName(record.category)}
+                </p>
+                <hr></hr>
                 <p style={ { marginBottom: 1} }>
                     <b>Answered Questions:</b> <i>{record.answered}</i> ({record.answered.split(",").length} questions) 
                 </p>
