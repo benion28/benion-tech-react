@@ -188,3 +188,151 @@ export const getBingNews = (details, axios, host, config, ACTIONS, dispatch) => 
         })
     })
 }
+
+export const addPost = (data, axios, host, adminConfig, ACTIONS, dispatch, getPosts) => {
+    axios({
+        url: '/benion-news/api/add-post',
+        method: 'post',
+        baseURL: host,
+        headers: adminConfig.headers,
+        data
+    }).then(response => {
+        !production && (console.log("Add Post Response", response))
+        getPosts()
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: null
+        })
+        dispatch({
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
+        })
+    }).catch(error => {
+        !production && (console.log("Add Post Error", error))
+        dispatch({
+            type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: `Add Post Error - ${error.message} (${error?.response?.data?.error?.message})` 
+        })
+        dispatch({
+            type: ACTIONS.usersFormError,
+            payload: `${error?.response?.data?.error?.message} (${error.message})`
+        })
+    })
+}
+
+export const getPosts = (axios, host, ACTIONS, dispatch) => {
+    axios({
+        url: '/benion-news/api/all-posts',
+        method: 'get',
+        baseURL: host
+    }).then(response => {
+        !production && (console.log("Get Posts Response", response))
+        dispatch({
+            type: ACTIONS.getPosts,
+            payload: response.data.data
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: null
+        })
+        dispatch({
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
+        })
+    }).catch(error => {
+        !production && (console.log("Get Posts Error", error))
+        dispatch({
+            type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: `Get Posts Error - ${error.message} (${error?.response?.data?.error?.message})`
+        })
+    })
+}
+
+export const updatePost = (data, axios, host, adminConfig, ACTIONS, dispatch, getPosts) => {
+    axios({
+        url: `/benion-news/api/edit-post/${data.$key}`,
+        method: 'put',
+        baseURL: host,
+        headers: adminConfig.headers,
+        data
+    }).then(response => {
+        !production && (console.log("Update Post Response", response))
+        getPosts()
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: null
+        })
+        dispatch({
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
+        })
+    }).catch(error => {
+        !production && (console.log("Update Post Error", error))
+        dispatch({
+            type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: `Update Post Error - ${error.message} (${error?.response?.data?.error?.message})` 
+        })
+        dispatch({
+            type: ACTIONS.usersFormError,
+            payload: `${error?.response?.data?.error?.message} (${error.message})`
+        })
+    })
+}
+
+export const deletePost = (key, axios, host, adminConfig, ACTIONS, dispatch, getPosts) => {
+    axios({
+        url: `/benion-news/api/delete-post/${ key }`,
+        method: 'delete',
+        baseURL: host,
+        headers: adminConfig.headers
+    }).then(response => {
+        !production && (console.log("Delete Post Response", response))
+        getPosts()
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: null
+        })
+        dispatch({
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
+        })
+    }).catch(error => {
+        !production && (console.log("Delete Post Error", error))
+        dispatch({
+            type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: `Delete Post Error - ${error.message} (${error?.response?.data?.error?.message})` 
+        })
+    })
+}

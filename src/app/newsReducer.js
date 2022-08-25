@@ -43,3 +43,11 @@ export const getBingNews = (state, action) => {
         loading: false
     }
 }
+
+export const getPosts = (state, action) => {
+    return {
+        ...state,
+        posts: action.payload,
+        loading: false
+    }
+}

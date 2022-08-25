@@ -32,6 +32,8 @@ const AppReducer = (state, action) => {
             return USERS_REDUCER.getContactMessages(state, action)
         case ACTIONS.deleteContactMessage:
             return USERS_REDUCER.deleteContactMessage(state, action)
+        case ACTIONS.getImages:
+            return USERS_REDUCER.getImages(state, action)
         // Cbt
         case ACTIONS.getCbtUsers:
             return CBT_REDUCER.getCbtUsers(state, action)
@@ -70,6 +72,8 @@ const AppReducer = (state, action) => {
             return NEWS_REDUCER.getCrypto(state, action)
         case ACTIONS.getCryptoHistory:
             return NEWS_REDUCER.getCryptoHistory(state, action)
+        case ACTIONS.getPosts:
+            return NEWS_REDUCER.getPosts(state, action)
         default:
             return state
     }

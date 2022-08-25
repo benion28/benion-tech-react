@@ -96,6 +96,18 @@ export const initialState = {
         {},
         []
     ],
+    galleryImages: [
+        [],
+        [],
+        {},
+        []
+    ],
+    posts: [
+        [],
+        [],
+        {},
+        []
+    ],
     cryptos: { 
         stats: {
             totalCoins: null, 

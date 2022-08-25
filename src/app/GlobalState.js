@@ -38,7 +38,7 @@ export const GlobalStore = ({ children }) => {
 
     // User Login
     const userLogin = (user) => {
-        USERS_STATE.userLogin(user, axios, host, config, ACTIONS, dispatch, getUsers, getCbtUsers, getCbtExams, getCbtQuestions, getContactMessages, getCryptos, getCryptoNews, getBingNews, getScores)
+        USERS_STATE.userLogin(user, axios, host, config, ACTIONS, dispatch, getUsers, getCbtUsers, getCbtExams, getCbtQuestions, getContactMessages, getCryptos, getCryptoNews, getBingNews, getScores, getImages, getPosts)
     }
 
     // Delete User
@@ -119,6 +119,26 @@ export const GlobalStore = ({ children }) => {
     // Change User Password
     const updateUserPassword = (user) => {
         USERS_STATE.updateUserPassword(user, axios, host, adminConfig, ACTIONS, dispatch)
+    }
+
+    // Get Images
+    const getImages = () => {
+        USERS_STATE.getImages(axios, host, ACTIONS, dispatch)
+    }
+
+    // Add Image
+    const addImage = (data) => {
+        USERS_STATE.addImage(data, axios, host, adminConfig, ACTIONS, dispatch, getImages)
+    }
+
+    // Update Image
+    const updateImage = (data) => {
+        USERS_STATE.updateImage(data, axios, host, adminConfig, ACTIONS, dispatch, getImages)
+    }
+
+    // Delete Image
+    const deleteImage = (key) => {
+        USERS_STATE.deleteImage(key, axios, host, adminConfig, ACTIONS, dispatch, getImages)
     }
     
 
@@ -273,6 +293,26 @@ export const GlobalStore = ({ children }) => {
         NEWS_STATE.getCryptoHistory(details, axios, host, config, ACTIONS, dispatch)
     }
 
+    // Get Posts
+    const getPosts = () => {
+        NEWS_STATE.getPosts(axios, host, ACTIONS, dispatch)
+    }
+
+    // Add Post
+    const addPost = (data) => {
+        NEWS_STATE.addPost(data, axios, host, adminConfig, ACTIONS, dispatch, getPosts)
+    }
+
+    // Update Post
+    const updatePost = (data) => {
+        NEWS_STATE.updatePost(data, axios, host, adminConfig, ACTIONS, dispatch, getPosts)
+    }
+
+    // Delete Post
+    const deletePost = (key) => {
+        NEWS_STATE.deletePost(key, axios, host, adminConfig, ACTIONS, dispatch, getPosts)
+    }
+
     return (
         <Provider value={{
             state,
@@ -291,6 +331,14 @@ export const GlobalStore = ({ children }) => {
             depositForUser,
             changeUserPassword,
             updateUserPassword,
+            getImages, 
+            addImage, 
+            updateImage, 
+            deleteImage,
+            getPosts, 
+            addPost, 
+            updatePost, 
+            deletePost,
             addCbtUser,
             getCbtUsers,
             registerCbtUser,

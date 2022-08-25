@@ -13,6 +13,7 @@ export const userLogOut = 'user-log-out'
 export const showAlert = 'show-alert'
 export const getContactMessages = 'get-contact-messages'
 export const deleteContactMessage = 'delete-contact-message'
+export const getImages = 'get-gallery-images'
 
 // Cbt Users
 export const getCbtUsers = 'get-cbt-users'
@@ -39,3 +40,4 @@ export const getCrypto = 'get-crypto'
 export const getCryptoNews = 'get-crypto-news'
 export const getBingNews = 'get-bing-news'
 export const getCryptoHistory = 'get-crypto-history'
+export const getPosts = 'get-posts'

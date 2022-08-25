@@ -47,9 +47,6 @@ const Works = () => {
     return (
         <Fragment>
             <div className="gallery-container">
-                <div className="form">
-                    <ImageGallaryForm />
-                </div>
                 <div className="slider-container">
                     <Carousel effect="fade" autoplay>
                         {images.map(item => (

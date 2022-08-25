@@ -36,7 +36,7 @@ export const getUsers = (axios, host, ACTIONS, dispatch) => {
     })
 }
 
-export const userLogin = (user, axios, host, config, ACTIONS, dispatch, getUsers, getCbtUsers, getCbtExams, getCbtQuestions, getContactMessages, getCryptos, getCryptoNews, getBingNews, getScores) => {
+export const userLogin = (user, axios, host, config, ACTIONS, dispatch, getUsers, getCbtUsers, getCbtExams, getCbtQuestions, getContactMessages, getCryptos, getCryptoNews, getBingNews, getScores, getImages, getPosts) => {
     axios({
         url: '/benion-users/api/login',
         method: 'post',
@@ -53,6 +53,8 @@ export const userLogin = (user, axios, host, config, ACTIONS, dispatch, getUsers
             getCryptos({ count: 100 })
             getCryptoNews({ count: 200, newsCategory: "crypto" })
             getBingNews({ count: 200 })
+            getImages()
+            getPosts()
             dispatch({
                 type: ACTIONS.userLogIn,
                 payload: response.data.data
@@ -699,3 +701,152 @@ export const updateUserPassword = (user, axios, host, adminConfig, ACTIONS, disp
         })
     })
 }
+
+export const addImage = (data, axios, host, adminConfig, ACTIONS, dispatch, getImages) => {
+    axios({
+        url: '/benion-users/api/add-image',
+        method: 'post',
+        baseURL: host,
+        headers: adminConfig.headers,
+        data
+    }).then(response => {
+        !production && (console.log("Add Image Response", response))
+        getImages()
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: null
+        })
+        dispatch({
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
+        })
+    }).catch(error => {
+        !production && (console.log("Add Image Error", error))
+        dispatch({
+            type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: `Add Image Error - ${error.message} (${error?.response?.data?.error?.message})` 
+        })
+        dispatch({
+            type: ACTIONS.usersFormError,
+            payload: `${error?.response?.data?.error?.message} (${error.message})`
+        })
+    })
+}
+
+export const getImages = (axios, host, ACTIONS, dispatch) => {
+    axios({
+        url: '/benion-users/api/all-images',
+        method: 'get',
+        baseURL: host
+    }).then(response => {
+        !production && (console.log("Get Gallery Images Response", response))
+        dispatch({
+            type: ACTIONS.getImages,
+            payload: response.data.data
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: null
+        })
+        dispatch({
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
+        })
+    }).catch(error => {
+        !production && (console.log("Get Gallery Images Error", error))
+        dispatch({
+            type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: `Get Gallery Images Error - ${error.message} (${error?.response?.data?.error?.message})`
+        })
+    })
+}
+
+export const updateImage = (data, axios, host, adminConfig, ACTIONS, dispatch, getImages) => {
+    axios({
+        url: `/benion-users/api/edit-image/${data.$key}`,
+        method: 'put',
+        baseURL: host,
+        headers: adminConfig.headers,
+        data
+    }).then(response => {
+        !production && (console.log("Update Image Response", response))
+        getImages()
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: null
+        })
+        dispatch({
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
+        })
+    }).catch(error => {
+        !production && (console.log("Update Image Error", error))
+        dispatch({
+            type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: `Update Image Error - ${error.message} (${error?.response?.data?.error?.message})` 
+        })
+        dispatch({
+            type: ACTIONS.usersFormError,
+            payload: `${error?.response?.data?.error?.message} (${error.message})`
+        })
+    })
+}
+
+export const deleteImage = (key, axios, host, adminConfig, ACTIONS, dispatch, getImages) => {
+    axios({
+        url: `/benion-users/api/delete-image/${ key }`,
+        method: 'delete',
+        baseURL: host,
+        headers: adminConfig.headers
+    }).then(response => {
+        !production && (console.log("Delete Image Response", response))
+        getImages()
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: null
+        })
+        dispatch({
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
+        })
+    }).catch(error => {
+        !production && (console.log("Delete Image Error", error))
+        dispatch({
+            type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: `Delete Image Error - ${error.message} (${error?.response?.data?.error?.message})` 
+        })
+    })
+}
+

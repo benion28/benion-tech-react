@@ -103,3 +103,12 @@ export const deleteContactMessage = (state, action) => {
         ...state
     }
 }
+
+export const getImages = (state, action) => {
+    return {
+        ...state,
+        galleryImages: action.payload,
+        loading: false
+    }
+}
+
