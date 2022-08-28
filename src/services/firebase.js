@@ -12,7 +12,8 @@ const config = {
     appId: process.env.appId,
     measurementId: process.env.measurementId
 }
-const app = initializeApp()
+const app = initializeApp({
+})
 
 // Firebase Storage Reference
 console.log("Firebase Config", config)

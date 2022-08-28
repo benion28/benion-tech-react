@@ -6,6 +6,7 @@ const symbols = "!@#$%^&*_-)(=+{}[];:><,./?~'`"
 
 export const production = true
 
+
 const generatePassword = (length, chars) => {
     let password = ""
     for (let i = 0; i < length; i++) {
@@ -308,6 +309,21 @@ export const subjects = [
     { name: 'Government', value: 'government' },
     { name: 'Economics', value: 'economics' },
     { name: 'Geography', value: 'geography' }
+]
+
+export const postTags = [
+    { name: 'Entertainment', value: 'entertainment' }, 
+    { name: 'Business', value: 'business' },
+    { name: 'Culture', value: 'culture' },
+    { name: 'Sport', value: 'sport' },
+    { name: 'Food', value: 'food' },
+    { name: 'Politics', value: 'politics' },
+    { name: 'Technology', value: 'technology' },
+    { name: 'Celebrity', value: 'celebrity' },
+    { name: 'Travel', value: 'travel' },
+    { name: 'Wildlife', value: 'wildlife' },
+    { name: 'Programming', value: 'programming'},
+    { name: 'Lifestyle', value: 'lifestyle' },
 ]
 
 export const getClassName = (className) => {

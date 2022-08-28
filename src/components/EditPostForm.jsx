@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react'
 import { Form, Input, Button, Alert, Typography, Select } from 'antd'
 import { GlobalOutlined, BookOutlined, BulbOutlined, SolutionOutlined } from '@ant-design/icons'
 import '../styles/PostForm.scss'
-import { production } from '../services/userHelper'
+import { production, postTags } from '../services/userHelper'
 import { GlobalContext } from '../app/GlobalState'
 
 const { Item } = Form
@@ -20,6 +20,7 @@ const EditPostForm = ({ post }) => {
         title: post.title,
         content: post.content,
         image: post.image,
+        caption: post.caption,
         category: post.category,
         tag: post.tag
     })
@@ -77,6 +78,9 @@ const EditPostForm = ({ post }) => {
                     <Item className='form-item' label="Image" name="image" hasFeedback>
                         <Input prefix={<GlobalOutlined />}  placeholder="Add an Image Link" allowClear />
                     </Item>
+                    <Item className='form-item' label="Caption" name="caption" hasFeedback rules={[ { required: true } ]}>
+                        <Input prefix={<BookOutlined />}  placeholder="Image Caption" allowClear />
+                    </Item>
                     <Item className='form-item' name="category" label="Category" rules={[ { required: true } ]}>
                         <Select placeholder="Select a Category"  allowClear>
                             <Option value="news">News</Option>
@@ -86,11 +90,9 @@ const EditPostForm = ({ post }) => {
                     </Item>
                     <Item className='form-item' name="tag" label="Tag" rules={[ { required: true } ]}>
                         <Select placeholder="Select a Tag"  allowClear>
-                            <Option value="technology">Technology</Option>
-                            <Option value="sport">Sport</Option>
-                            <Option value="entertainment">Entertainment</Option>
-                            <Option value="politics">Politics</Option>
-                            <Option value="programming">Programming</Option>
+                            {postTags.map(item => (
+                                <Option key={item.value} value={item.value}>{item.name}</Option>
+                            ))}
                             <Option value="others">Others</Option>
                         </Select>
                     </Item>
