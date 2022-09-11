@@ -266,9 +266,24 @@ a:hover{
     flex: 0.5;
 }
 
+.post-desc {
+    width: 60%;
+    height: 50%;
+}
+
+.post-desc img {
+    width: 550px;
+    height: 300px;
+}
+
 .coin-links{
   padding: 0px 20px;
     flex: 0.5;
+}
+
+.post-links{
+    padding: 0px 20px;
+    width: 40%;
 }
 
 .coin-link{
@@ -288,6 +303,11 @@ a:hover{
     color: #6414a7;
     font-weight: 700;
     font-size: 1rem;
+}
+
+.coin-link img {
+    width: 90px;
+    margin-right: 3pt;
 }
 
 .coin-link:hover, .coin-stats:hover{
@@ -314,6 +334,17 @@ a:hover{
         margin: 0;
     }
 }
+
+@media screen and (max-width: 1000px){
+    .post-desc {
+        width: 95%;
+    }
+    .post-links{
+        padding: 0px 20px;
+        width: 95%;
+    }
+}
+
 @media screen and (max-width: 500px){
     .heading{
         margin-top: 20px;
@@ -388,15 +419,22 @@ width: 70%;
     margin: 20px auto 30px auto;
     width: 250px;
 }
+
 .crypto-card-container{
     min-height: 65vh !important;
 }
 .crypto-card{
     min-width: 250px;
 }
-.crypto-card .crypto-image{
+
+.crypto-card .crypto-image {
     width:35px;
 }
+
+.crypto-card .post-image{
+    width:270px;
+}
+
 .select-timeperiod{
     width: 200px !important;
     margin-top: 20px !important;

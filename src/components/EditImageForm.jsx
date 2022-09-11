@@ -1,33 +1,39 @@
 import React, { useState, useContext } from 'react'
 import { Form, Input, Button, Alert, Typography, Select } from 'antd'
-import { GlobalOutlined, BookOutlined, BulbOutlined, SolutionOutlined } from '@ant-design/icons'
-import '../styles/PostForm.scss'
-import { production, postTags, postCategories } from '../services/userHelper'
+import { GlobalOutlined, BookOutlined, BulbOutlined } from '@ant-design/icons'
+import '../styles/ImageGallaryForm.scss'
+import { production } from '../services/userHelper'
 import { GlobalContext } from '../app/GlobalState'
 
 const { Item } = Form
-const { TextArea } = Input
 const { Option } = Select
 const { Title } = Typography
 
-const AddPostForm = () => {
+const EditImageForm = ({ image }) => {
     const [form] = Form.useForm()
     const [formMessage, setFormMessage] = useState('')
     const [formError, setFormError] = useState('')
-    const { addPost, state  } = useContext(GlobalContext)
+    const { state, updateImage  } = useContext(GlobalContext)
+
+    form.setFieldsValue({
+        caption: image.caption,
+        link: image.link,
+        image: image.image,
+        category: image.category,
+        tag: image.tag
+    })
 
     const onFinish = (values) => {
-        const data = {
-            ...values,
-            creator: state.user.username,
-            date: new Date().toGMTString() 
-        }
-        !production && (console.log("Input data accepted !!", data))
+        !production && (console.log("Input data accepted !!", values))
         setFormError('')
         setFormMessage('Input data accepted !!')
 
-        addPost(data)
-        form.resetFields()
+        const data = {
+            ...image,
+            ...values
+        }
+
+        updateImage(data)
     }
 
     const onFinishFailed = (errorInfo) => {
@@ -59,38 +65,36 @@ const AddPostForm = () => {
                     )}
                 </div>
                 <Form name="normal_login" form={ form } className="login-form" onFinishFailed={ onFinishFailed } initialValues={{ remember: true }} validateMessages={ validateMessages } onFinish={ onFinish }>
-                    <Title level={4} className="text">ADD POST</Title>
-                    <Item className='form-item' label="Title" name="title" hasFeedback rules={[ { required: true } ]}>
-                        <Input prefix={<BookOutlined />}  placeholder="Post Title" allowClear />
+                    <Title level={4} className="text">UPDATE IMAGE</Title>
+                    <div className="image">
+                        <img src={ image.image } alt="Display Target" />
+                        <p>{ image.caption }</p>
+                    </div>
+                    <Item className='form-item' label="Title" name="caption" hasFeedback rules={[ { required: true } ]}>
+                        <Input prefix={<BookOutlined />}  placeholder="Image Title" allowClear />
                     </Item>
-                    <Item label="Content" name="content" rules={[ { required: true } ]} hasFeedback>
-                        <TextArea prefix={<SolutionOutlined className="site-form-item-icon" />} placeholder="Post Content" allowClear />
-                    </Item>
-                    <Item className='form-item' label="Image" name="image" hasFeedback>
-                        <Input prefix={<GlobalOutlined />}  placeholder="Add an Image Link" allowClear />
-                    </Item>
-                    <Item className='form-item' label="Caption" name="caption" hasFeedback rules={[ { required: true } ]}>
-                        <Input prefix={<BookOutlined />}  placeholder="Image Caption" allowClear />
+                    <Item className='form-item' label="Link" name="link" hasFeedback>
+                        <Input prefix={<GlobalOutlined />}  placeholder="Add a Web Link" allowClear />
                     </Item>
                     <Item className='form-item' name="category" label="Category" rules={[ { required: true } ]}>
                         <Select placeholder="Select a Category"  allowClear>
-                            {postCategories.map(item => (
-                                <Option key={item.value} value={item.value}>{item.name}</Option>
-                            ))}
+                            <Option value="Work">Work</Option>
                             <Option value="others">Others</Option>
                         </Select>
                     </Item>
                     <Item className='form-item' name="tag" label="Tag" rules={[ { required: true } ]}>
                         <Select placeholder="Select a Tag"  allowClear>
-                            {postTags.map(item => (
-                                <Option key={item.value} value={item.value}>{item.name}</Option>
-                            ))}
+                            <Option value="angular">Angular</Option>
+                            <Option value="react">React</Option>
+                            <Option value="vanilla">Vanilla</Option>
+                            <Option value="python">Python</Option>
+                            <Option value="express">Express</Option>
                             <Option value="others">Others</Option>
                         </Select>
                     </Item>
                     <Item>
                         <Button type="primary" htmlType="submit" className="login-form-button">
-                            Save <BulbOutlined />
+                            Update <BulbOutlined />
                         </Button>
                     </Item>
                 </Form>
@@ -99,4 +103,4 @@ const AddPostForm = () => {
     )
 }
 
-export default AddPostForm
+export default EditImageForm

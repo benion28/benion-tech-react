@@ -323,7 +323,12 @@ export const postTags = [
     { name: 'Travel', value: 'travel' },
     { name: 'Wildlife', value: 'wildlife' },
     { name: 'Programming', value: 'programming'},
-    { name: 'Lifestyle', value: 'lifestyle' },
+    { name: 'Lifestyle', value: 'lifestyle' }
+]
+
+export const postCategories = [
+    { name: 'News', value: 'news' }, 
+    { name: 'Blog', value: 'blog' }
 ]
 
 export const getClassName = (className) => {
@@ -402,4 +407,22 @@ export const cbtUserFind = (user, state) => {
     }
 
     return data
+}
+
+export const truncatePost = (post, total) => {
+    const text = post.slice(0, total) + '...'
+    return text
+}
+
+export const limitPosts = (posts, total) => {
+    let items = []
+    if (posts.length > total) {
+        for (let index = 0; index < total; index++) {
+            const element = posts[index]
+            items.push(element)
+        }
+    } else {
+        items = posts
+    }
+    return items
 }

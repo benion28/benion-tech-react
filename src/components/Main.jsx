@@ -8,7 +8,10 @@ import {
     Dashboard, 
     Cbt, 
     PageNotFound,
-    News, 
+    Posts, 
+    Post,
+    AllPosts,
+    Questions,
     Donate, 
     Contact, 
     Register, 
@@ -47,13 +50,16 @@ const Main = () => {
                        <Route exact path="/contact" element={<Contact />} />
                        <Route exact path="/dashboard" element={<Dashboard />} />
                        <Route exact path="/benion-cbt" element={<Cbt />} />
-                       <Route exact path="/benion-news" element={<News />} />
+                       <Route exact path="/benion-users/all-posts" element={<AllPosts />} />
+                       <Route exact path="/posts" element={<Posts />} />
+                       <Route exact path="/benion-cbt-users/all-questions" element={<Questions />} />
                        <Route exact path="/benion-donate" element={<Donate />} />
                        <Route exact path="/register" element={<Register />} />
                        <Route exact path="/login" element={<LogIn />} />
                        <Route exact path="/forget-password" element={<Forget />} />
                        <Route exact path="/cryptos" element={<Cryptos />} />
                        <Route exact path="/crypto/:id" element={<Crypto />} />
+                       <Route exact path="/posts/:key" element={<Post />} />
                        <Route exact path="/test-area" element={<TestArea />} />
                        <Route exact path="*" element={<PageNotFound />} />
                    </Routes>

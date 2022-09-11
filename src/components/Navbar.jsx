@@ -75,9 +75,11 @@ const Navbar = () => {
                             <Link to="/cryptos"><b>Cryptos</b></Link>
                         </Item>
                     )}
-                    <Item icon={<GlobalOutlined />}>
-                        <Link to="/benion-news"><b>News</b></Link>
-                    </Item>
+                    { (!state.loggedIn || (state.user.role !== 'admin' && state.loggedIn)) && (
+                        <Item icon={<GlobalOutlined />}>
+                            <Link to="/posts"><b>Posts</b></Link>
+                        </Item>
+                    )}
                     <Item icon={<DesktopOutlined />}>
                         <Link to="/benion-cbt"><b>CBT</b></Link>
                     </Item>
@@ -89,12 +91,16 @@ const Navbar = () => {
                     <Item icon={<MoneyCollectOutlined />}>
                         <Link to="/benion-donate"><b>Donate</b></Link>
                     </Item>
-                    <Item icon={<ReadOutlined />}>
-                        <Link to="/benion-users/all-users"><b>All Questions</b></Link>
-                    </Item>
-                    <Item icon={<DatabaseOutlined />}>
-                        <Link to="/benion-users/all-news"><b>All News</b></Link>
-                    </Item>
+                    { (state.cbtLoggedIn && state.tempCbtRole !== "student") && (
+                        <Item icon={<ReadOutlined />}>
+                            <Link to="/benion-cbt-users/all-questions"><b>All Questions</b></Link>
+                        </Item>
+                    )}
+                    { (state.user.role === 'admin' && state.loggedIn) && (
+                        <Item icon={<DatabaseOutlined />}>
+                            <Link to="/benion-users/all-posts"><b>All Posts</b></Link>
+                        </Item>
+                    )}
                 </Menu>
             )}
         </div>
