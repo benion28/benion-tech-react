@@ -119,13 +119,13 @@ const CbtExam = () => {
                 //     createExam(data)
                 // }
 
-                createExam(data)
+                // createExam(data)
 
-                userContact({
-                    fullname: `${state.tempCbtFirstname} ${state.tempCbtLastname}`,
-                    email: `${state.tempCbtFirstname.trim().toLowerCase()}-${state.tempCbtLastname.trim().toLowerCase()}-cbt@exams.com`,
-                    message: `I just concluded the ${getSubjectName(state.cbtExamSubject)} exams for ${getClassName(state.cbtExamClass)} of ${getCategoryName(state.examCategory)} category, i answered ${answered.length} questions and scored ${mark} (${Math.floor((mark/state.totalQuestions) * 100)}%)`
-                })
+                // userContact({
+                //     fullname: `${state.tempCbtFirstname} ${state.tempCbtLastname}`,
+                //     email: `${state.tempCbtFirstname.trim().toLowerCase()}-${state.tempCbtLastname.trim().toLowerCase()}-cbt@exams.com`,
+                //     message: `I just concluded the ${getSubjectName(state.cbtExamSubject)} exams for ${getClassName(state.cbtExamClass)} of ${getCategoryName(state.examCategory)} category, i answered ${answered.length} questions and scored ${mark} (${Math.floor((mark/state.totalQuestions) * 100)}%)`
+                // })
             }
         } else {
             if (!submitted && ((time - state.cbtTimeSpent) > 0)) {
@@ -274,13 +274,13 @@ const CbtExam = () => {
         //     createExam(data)
         // }
 
-        createExam(data)
+        // createExam(data)
 
-        userContact({
-            fullname: `${state.tempCbtFirstname} ${state.tempCbtLastname}`,
-            email: `${state.tempCbtFirstname.trim().toLowerCase()}-${state.tempCbtLastname.trim().toLowerCase()}-cbt@exams.com`,
-            message: `I just concluded the ${getSubjectName(state.cbtExamSubject)} exams for ${getClassName(state.cbtExamClass)} of ${getCategoryName(state.examCategory)} category, i answered ${answered.length} questions and scored ${examScore()} (${Math.floor((examScore()/state.totalQuestions) * 100)}%)`
-        })
+        // userContact({
+        //     fullname: `${state.tempCbtFirstname} ${state.tempCbtLastname}`,
+        //     email: `${state.tempCbtFirstname.trim().toLowerCase()}-${state.tempCbtLastname.trim().toLowerCase()}-cbt@exams.com`,
+        //     message: `I just concluded the ${getSubjectName(state.cbtExamSubject)} exams for ${getClassName(state.cbtExamClass)} of ${getCategoryName(state.examCategory)} category, i answered ${answered.length} questions and scored ${examScore()} (${Math.floor((examScore()/state.totalQuestions) * 100)}%)`
+        // })
     }
 
     return (

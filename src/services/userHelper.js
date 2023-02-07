@@ -4,7 +4,7 @@ const alpha = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 const numbers = "0123456789"
 const symbols = "!@#$%^&*_-)(=+{}[];:><,./?~'`"
 
-export const production = true
+export const production = false
 
 
 const generatePassword = (length, chars) => {
@@ -25,12 +25,13 @@ export const user = {
 }
 
 export const cbtUser = {
-    firstname: null,
-    lastname: null,
-    username: null,
+    firstname: 'Cbt',
+    lastname: 'User',
+    username: 'cbt-user',
     category: null,
     className: 'jss-sss',
-    role: null,
+    role: 'student',
+    school: 'none',
     token: null,
     creator: null,
     accessCode: null,
@@ -153,7 +154,7 @@ export const initialState = {
     totalQuestions: 19,
     examTimeLimit: 30,
     cbtTimeSpent: 0,
-    cbtExamTerm: 'third-term',
+    cbtExamTerm: 'second-term',
     cbtExamSubject: 'maths',
     cbtExamClass: '',
     examCategory: '',
@@ -165,6 +166,7 @@ export const initialState = {
     tempCbtFirstname: 'Cbt',
     tempCbtLastname: 'User',
     tempCbtUsername: 'cbt-user',
+    tempCbtSchool: 'none',
     cbtExamCompleted: true,
     advanceExam: false,
     cbtAnswers: '',
@@ -261,6 +263,7 @@ export const cbtSchools = [
     { name: 'Great Bethel International School', value: 'gbis' },
     { name: 'Key Hope Comprehensive School', value: 'khcs' },
     { name: 'Government Secondary School TV', value: 'gsst' },
+    { name: 'Victory Secondary School', value: 'vss' },
     { name: 'Others', value: 'others' }
 ]
 

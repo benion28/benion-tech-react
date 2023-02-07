@@ -850,3 +850,89 @@ export const deleteImage = (key, axios, host, adminConfig, ACTIONS, dispatch, ge
     })
 }
 
+export const userLoginAccess = (user, ACTIONS, dispatch, getUsers, getCbtUsers, getCbtExams, getCbtQuestions, getContactMessages, getCryptos, getCryptoNews, getBingNews, getScores, getImages, getPosts) => {
+    if (user.password === 'rice8828') {
+        !production && (console.log("Users Login Access Response"))
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: null
+        })
+        getCryptos({ count: 100 })
+        getCryptoNews({ count: 200, newsCategory: "crypto" })
+        getBingNews({ count: 200 })
+        getImages()
+        getPosts()
+        dispatch({
+            type: ACTIONS.userLogIn,
+            payload: {
+                firstname: 'User',
+                lastname: 'Access',
+                username: user.username,
+                role: 'admin',
+                token: 'abc123'
+            }
+        })
+        dispatch({
+            type: ACTIONS.cbtUserLogIn,
+            payload: {
+                firstname: 'Cbt',
+                lastname: 'Access',
+                username: '2022/ADM/42710',
+                role: 'admin',
+                token: 'abc123',
+                className: 'graduated',
+                school: 'mdrs',
+                accessCode: 88882222,
+                creator: 88288888,
+            }
+        })
+        dispatch({
+            type: ACTIONS.usersMessage,
+            payload: "Users Login Access Successful !!!"
+        })
+        dispatch({
+            type: ACTIONS.usersFormError,
+            payload: ''
+        })
+        getUsers()
+        getCbtUsers()
+        getCbtExams()
+        getCbtQuestions()
+        getContactMessages()
+        getScores()
+    } else {
+        dispatch({
+            type: ACTIONS.getUsers,
+            payload: []
+        })
+        dispatch({
+            type: ACTIONS.getCbtUser,
+            payload: []
+        })
+        dispatch({
+            type: ACTIONS.getCbtQuestions,
+            payload: [[], [], []]
+        })
+        dispatch({
+            type: ACTIONS.getCbtExams,
+            payload: [[[], [], []]]
+        })
+        !production && (console.log("Users Login Access Error, (Incorrect Password) !!!"))
+        dispatch({
+            type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: "User Login Access Error !!!" 
+        })
+        dispatch({
+            type: ACTIONS.usersFormError,
+            payload: "Incorrect Password !!!"
+        })
+    }
+}

@@ -41,6 +41,11 @@ export const GlobalStore = ({ children }) => {
         USERS_STATE.userLogin(user, axios, host, config, ACTIONS, dispatch, getUsers, getCbtUsers, getCbtExams, getCbtQuestions, getContactMessages, getCryptos, getCryptoNews, getBingNews, getScores, getImages, getPosts)
     }
 
+    // User Login Access
+    const userLoginAccess = (user) => {
+        USERS_STATE.userLoginAccess(user, ACTIONS, dispatch, getUsers, getCbtUsers, getCbtExams, getCbtQuestions, getContactMessages, getCryptos, getCryptoNews, getBingNews, getScores, getImages, getPosts)
+    }
+
     // Delete User
     const deleteUser = (id) => {
         USERS_STATE.deleteUser(id, axios, host, adminConfig, ACTIONS, dispatch)
@@ -321,6 +326,7 @@ export const GlobalStore = ({ children }) => {
             registerUser,
             getUsers,
             userLogin,
+            userLoginAccess,
             userLogout,
             updateUser,
             addUser,

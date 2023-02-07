@@ -109,7 +109,7 @@ const  EditScoreForm = ({ user }) => {
             <Form name="basic" form={ form } validateMessages={ validateMessages } initialValues={{ remember: true }} onFinish={ onFinish } onFinishFailed={ onFinishFailed } autoComplete="off">
                 <div className="form-controller">
                     <Item className='form-item' label="Full Name" hasFeedback name="fullname" rules={[ { required: true } ]}>
-                        <Input prefix={<UserOutlined />} placeholder="Enter a Name" allowClear disabled />
+                        <Input prefix={<UserOutlined />} placeholder="Enter a Name" allowClear />
                     </Item>
                     <Item className='form-item' label="Username" hasFeedback name="username" rules={[ { required: true } ]}>
                         <Input prefix={<UserOutlined />} placeholder="Enter a Username" allowClear disabled />

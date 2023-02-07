@@ -14,10 +14,23 @@ const CbtSelectExamForm = () => {
     const [formError, setFormError] = useState('')
     const { state, examCategory  } = useContext(GlobalContext)
 
+    let studentCategory = 'senior'
+    let studentSubject = 'maths'
+
+    if (state.tempClassName[0] === 'j') {
+        studentCategory = 'junior'
+    }
+
+    if (state.tempCbtSchool === 'vss' && studentCategory === 'senior') {
+        studentSubject = 'geography'
+    } else if (state.tempCbtSchool === 'vss' && studentCategory === 'junior') {
+        studentSubject = 'basic-science'
+    }
+
     const formInitials = {
         examTerm: state.cbtExamTerm,
         examCategory: state.tempCategory,
-        examSubject: state.cbtExamSubject,
+        examSubject: studentSubject,
         examClass: state.tempClassName
     }
 
@@ -77,10 +90,22 @@ const CbtSelectExamForm = () => {
                     </Item>
                     <Item className='form-item' name="examSubject" rules={[ { required: true } ]}>
                         <Select placeholder="Select an Exam Subject" allowClear>
-                            {state.cbtLoggedIn && (
-                                <Option value={state.cbtExamSubject}>{getSubjectName(state.cbtExamSubject)}  - Current</Option>
-                            )}         
-                            {(state.tempCbtRole !== 'student' && state.cbtLoggedIn) && subjects.filter(item => item.value !== state.cbtExamSubject).map(item => (
+                            {(state.cbtLoggedIn && state.tempCbtRole === 'student' && state.tempCbtSchool === "gbis" && studentCategory === 'junior') && (
+                                <Option value="maths">Mathematics {studentSubject === 'maths' ? '-- Current' : ''}</Option>
+                            )}
+                            {(state.cbtLoggedIn && state.tempCbtRole === 'student' && state.tempCbtSchool === "gbis" && studentCategory === 'senior') && (
+                                <Option value="maths">Mathematics {studentSubject === 'maths' ? '-- Current' : ''}</Option>
+                            )}
+                            {(state.cbtLoggedIn && state.tempCbtRole === 'student' && state.tempCbtSchool === "vss" && studentCategory === 'junior') && (
+                                <Option value="basic-science">Basic Science {studentSubject === 'basic-science' ? '-- Current' : ''}</Option>
+                            )}
+                            {(state.cbtLoggedIn && state.tempCbtRole === 'student' && state.tempCbtSchool === "vss" && studentCategory === 'senior') && (
+                                <Option value="geography">Geography {studentSubject === 'geography' ? '-- Current' : ''}</Option>
+                            )}
+                            {(state.cbtLoggedIn && state.tempCbtRole !== 'student') && (
+                                <Option value={studentSubject}>{getSubjectName(studentSubject)} -- Current</Option>
+                            )}
+                            {(state.tempCbtRole !== 'student' && state.cbtLoggedIn) && subjects.filter(item => item.value !== studentSubject).map(item => (
                                 <Option key={item.value} value={item.value}>{item.name}</Option>
                             ))}
                         </Select>

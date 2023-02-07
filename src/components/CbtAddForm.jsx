@@ -14,6 +14,7 @@ const CbtAddForm = () => {
     const [formMessage, setFormMessage] = useState('')
     const [formError, setFormError] = useState('')
     const [senior, setSenior] = useState(false)
+    const [sss1, setSss1] = useState(false)
     const [graduated, setGraduated] = useState(false)
     const { addCbtUser, state, production, userContact } = useContext(GlobalContext)
 
@@ -38,7 +39,7 @@ const CbtAddForm = () => {
             message: `A new cbt user (${user.firstname} ${user.lastname}) with password (${user.password}) and role (${user.role}) was attempted to be created by access code (${user.creator}).`
         })
 
-        form.resetFields()
+        // form.resetFields()
     }
 
     const onFinishFailed = (errorInfo) => {
@@ -60,14 +61,10 @@ const CbtAddForm = () => {
     }
 
     const handleCategory = (value) => {
-        if (value[0] === "s") {
-            setSenior(true)
-        }
-
-        if (value[0] === "g") {
-            setSenior(false)
-            setGraduated(true)
-        }
+        value[0] === "s" ? setSenior(true) : setSenior(false)
+        value[0] === "j" ? setGraduated(false) : setSenior(true)
+        value === 'sss-1' ? setSss1(true) : setSss1(false)
+        value[0] === "g" ? setGraduated(true) : setGraduated(false)
     }
 
     return (
@@ -134,6 +131,9 @@ const CbtAddForm = () => {
                             {(graduated && !senior) && cbtCategories.filter(item => item.value !== 'general').map(item => (
                                 <Option key={item.value} value={item.value}>{item.name}</Option>
                             ))}
+                            {sss1 && (
+                                <Option value={'general'}>General</Option>
+                            )}
                         </Select>
                     </Item>
                     <Item className='form-item' name="role" label="Role" rules={[ { required: true } ]}>

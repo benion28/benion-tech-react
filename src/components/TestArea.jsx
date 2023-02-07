@@ -5,7 +5,7 @@ import { GlobalContext } from '../app/GlobalState'
 import { createPassword, getCategoryName, getClassName, getSubjectName, production } from '../services/userHelper'
 import {
     Works, AddScoreForm, ScoresTable, EditScoreForm, Scores, GenerateCodeForm, 
-    ImageGallaryForm, AddPostForm 
+    ImageGallaryForm, AddPostForm, CbtAddForm
 } from '../components'
 import '../styles/ContactMessagesTable.scss'
 import '../styles/CbtExam.scss'
@@ -507,6 +507,7 @@ const TestArea = () => {
             {/* <GenerateCodeForm /> */}
             {/* <ImageGallaryForm /> */}
             <AddPostForm />
+            <CbtAddForm />
             <Loader type="pacman" />
         </React.Fragment>
     )

@@ -99,7 +99,8 @@ export const cbtUserLogIn = (state, action) => {
         tempCbtRole: payload.role,
         tempCbtFirstname: payload.firstname,
         tempCbtLastname: payload.lastname,
-        tempCbtUsername: payload.username
+        tempCbtUsername: payload.username,
+        tempCbtSchool: payload.school
     }
 }
 
