@@ -25,6 +25,7 @@ yarn-error.log*
 
 # personal
 /old
+/build-backend
 .env
 usersApi - Copy.js
 cbtReducer - Copy.js

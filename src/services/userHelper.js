@@ -4,7 +4,7 @@ const alpha = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 const numbers = "0123456789"
 const symbols = "!@#$%^&*_-)(=+{}[];:><,./?~'`"
 
-export const production = false
+export const production = true
 
 
 const generatePassword = (length, chars) => {
@@ -183,7 +183,8 @@ export const initialState = {
     cbtLoggedIn: false
 }
 
-export const host = production ? 'https://benion-tech-server.herokuapp.com' : 'http://localhost:8828'
+// export const host = production ? 'https://benion-tech-server.herokuapp.com' : 'http://localhost:8828'
+export const host = production ? 'https://benion-tech-server.up.railway.app' : 'http://localhost:8828'
 
 export const formatAmountMillify = (value) => {
     const dollarRate = 605
