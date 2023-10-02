@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/benion-tech-react/static/css/main.e9b57e04.css",
-    "main.js": "/benion-tech-react/static/js/main.95c14d10.js",
+    "main.css": "/benion-tech-react/static/css/main.d02b8f35.css",
+    "main.js": "/benion-tech-react/static/js/main.8047ea80.js",
     "static/media/benion-tech-icon.png": "/benion-tech-react/static/media/benion-tech-icon.4aa74b7a55e04e2ac6ca.png",
     "static/media/benion-tech-light.jpg": "/benion-tech-react/static/media/benion-tech-light.0a758cb194e00fb8f44a.jpg",
     "static/media/benion-passport.jpg": "/benion-tech-react/static/media/benion-passport.9d56c6e2bddbde9397f8.jpg",
@@ -11,11 +11,11 @@
     "static/media/CoolveticaRg-Regular.woff": "/benion-tech-react/static/media/CoolveticaRg-Regular.8307bfa187bccdc55f4d.woff",
     "static/media/CoolveticaRg-Regular.woff2": "/benion-tech-react/static/media/CoolveticaRg-Regular.7d1f3b1dd46ad6557a17.woff2",
     "index.html": "/benion-tech-react/index.html",
-    "main.e9b57e04.css.map": "/benion-tech-react/static/css/main.e9b57e04.css.map",
-    "main.95c14d10.js.map": "/benion-tech-react/static/js/main.95c14d10.js.map"
+    "main.d02b8f35.css.map": "/benion-tech-react/static/css/main.d02b8f35.css.map",
+    "main.8047ea80.js.map": "/benion-tech-react/static/js/main.8047ea80.js.map"
   },
   "entrypoints": [
-    "static/css/main.e9b57e04.css",
-    "static/js/main.95c14d10.js"
+    "static/css/main.d02b8f35.css",
+    "static/js/main.8047ea80.js"
   ]
 }
