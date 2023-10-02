@@ -184,7 +184,9 @@ export const initialState = {
 }
 
 // export const host = production ? 'https://benion-tech-server.herokuapp.com' : 'http://localhost:8828'
-export const host = production ? 'https://benion-tech-server.up.railway.app' : 'http://localhost:8828'
+// export const host = production ? 'https://benion-tech-server.up.railway.app' : 'http://localhost:8828'
+export const host = production ? 'https://benion-tech-server.onrender.com/' : 'http://localhost:8828'
+
 
 export const formatAmountMillify = (value) => {
     const dollarRate = 605
@@ -307,9 +309,10 @@ export const sessions = [
 export const subjects = [
     { name: 'Mathematics', value: 'maths' },
     { name: 'English Language', value: 'english' },
+    { name: 'Basic Science', value: 'basic-science' },
     { name: 'Chemistry', value: 'chemistry' },
     { name: 'Physics', value: 'physics' },
-    { name: 'Basic Science', value: 'basic-science' },
+    { name: 'Further Mathematics', value: 'further-maths' },
     { name: 'Government', value: 'government' },
     { name: 'Economics', value: 'economics' },
     { name: 'Geography', value: 'geography' }
@@ -362,6 +365,17 @@ export const getSubjectName = (subject) => {
 export const getSchoolName = (school) => {
     const filteredData = cbtSchools.filter(data => data.value === school)
     return filteredData[0].name
+}
+
+export const getFullName = (username, users) => {
+    const cbtUser = users.filter(user => user.username === username)[0]
+    const firstname = 'No'
+    const lastname = 'Name'
+    if (cbtUser === undefined | cbtUser === null) {
+        return `${firstname} ${lastname}`
+    } else {
+        return `${cbtUser.firstname} ${cbtUser.lastname}`
+    }
 }
 
 export const anExam = (state, payload) => {

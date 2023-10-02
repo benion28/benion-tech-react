@@ -4,7 +4,7 @@ import { Table, Space, Button, Popconfirm, Typography, Popover } from 'antd'
 import { CbtAddForm, CbtEditUserForm } from '../components'
 import { GlobalContext } from '../app/GlobalState'
 import '../styles/CbtUsersTable.scss'
-import { cbtCategories, cbtClasses, cbtRoles, cbtSchools, genders, getClassName, getSchoolName } from '../services/userHelper'
+import { getFullName, cbtClasses, cbtRoles, cbtSchools, genders, getClassName, getSchoolName } from '../services/userHelper'
 
 const { Text, Title } = Typography;
 
@@ -28,19 +28,14 @@ const CbtUsersTable = () => {
         y: 240
     }
 
-    const getFullName = (username) => {
-        const cbtUser = state.cbtUsers.filter(user => user.username === username)
-        return `${cbtUser[0].firstname} ${cbtUser[0].lastname}`
-    }
-
     const columns = [
     {
         title: () => (<b>Full Name</b>),
         dataIndex: 'username',
         defaultSortOrder: 'descend',
-        sorter: (a, b) => getFullName(a.username).length - getFullName(b.username).length,
+        sorter: (a, b) => getFullName(a.username, state.cbtUsers).length - getFullName(b.username, state.cbtUsers).length,
         key: 'fullname',
-        render: (username) => getFullName(username)
+        render: (username) => getFullName(username, state.cbtUsers)
     },
     {
         title: () => (<b>Username</b>),

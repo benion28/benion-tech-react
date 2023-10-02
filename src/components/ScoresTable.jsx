@@ -4,7 +4,7 @@ import { Table, Space, Button, Popconfirm, Typography, Popover } from 'antd'
 import { AddScoreForm, EditScoreForm } from '../components'
 import { GlobalContext } from '../app/GlobalState'
 import '../styles/ScoresTable.scss'
-import { sessions, terms, subjects, cbtClasses, getSubjectName, getClassName, getTermName } from '../services/userHelper'
+import { sessions, terms, subjects, cbtClasses, getSubjectName, getClassName, getTermName, getFullName } from '../services/userHelper'
 
 const { Text, Title } = Typography;
 
@@ -46,10 +46,11 @@ const ScoresTable = () => {
     const columns = [
         {
             title: () => (<b>Full Name</b>),
-            dataIndex: 'fullname',
+            dataIndex: 'username',
             defaultSortOrder: 'ascend',
-            sorter: (a, b) => a.fullname.length - b.fullname.length,
-            key: 'fullname'
+            sorter: (a, b) => getFullName(a.username, state.cbtUsers).length - getFullName(b.username, state.cbtUsers).length,
+            key: 'fullname',
+            render: (username) => getFullName(username, state.cbtUsers)
         },
         {
             title: () => (<b>Session</b>),

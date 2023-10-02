@@ -5,7 +5,7 @@ import { GlobalContext } from '../app/GlobalState'
 import { createPassword, getCategoryName, getClassName, getSubjectName, production } from '../services/userHelper'
 import {
     Works, AddScoreForm, ScoresTable, EditScoreForm, Scores, GenerateCodeForm, 
-    ImageGallaryForm, AddPostForm, CbtAddForm
+    ImageGallaryForm, AddPostForm, CbtAddForm, CbtPromoteForm
 } from '../components'
 import '../styles/ContactMessagesTable.scss'
 import '../styles/CbtExam.scss'
@@ -400,7 +400,7 @@ const TestArea = () => {
     return (
         <React.Fragment>
             <Row className="home-container">
-                {(cbtLoggedIn && !completed && !submitted) && (
+                {/* {(cbtLoggedIn && !completed && !submitted) && (
                     <Col className="exams-container">
                         <Tabs defaultActiveKey="1" className="tabs-form" type="card">
                             <TabPane className="tabs-panel" tab={ <span> <Title level={5}><b>Welcome {!state.cbtExam.completed ? "Back" : ""} ({ cbtLoggedIn ? `${state.cbtUser.firstname} ${state.cbtUser.lastname}` : 'Guest User' }) - CBT Exam In Progress</b></Title> </span> } key="1">
@@ -497,7 +497,7 @@ const TestArea = () => {
                             </TabPane>
                         </Tabs>
                     </Col>
-                )}
+                )} */}
             </Row>
             {/* <Works /> */}
             {/* <ScoresTable /> */}
@@ -506,8 +506,9 @@ const TestArea = () => {
             {/* <Scores /> */}
             {/* <GenerateCodeForm /> */}
             {/* <ImageGallaryForm /> */}
-            <AddPostForm />
-            <CbtAddForm />
+            {/* <AddPostForm />
+            <CbtAddForm /> */}
+            {/* <CbtPromoteForm /> */}
             <Loader type="pacman" />
         </React.Fragment>
     )

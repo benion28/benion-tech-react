@@ -7,7 +7,7 @@ import { DownOutlined, SmileOutlined, LogoutOutlined, TableOutlined, MoneyCollec
 import Loader from 'react-loaders'
 import { UsersTable, CbtUsersTable, Questions, ExamsTable, ContactMessagesTable, PasswordUpdateForm,
     ActivateUserForm, DepositUserForm, PasswordChangeForm, CbtPasswordChangeForm, ScoresTable, 
-    GenerateCodeForm, ImageGallaryForm, AddPostForm
+    GenerateCodeForm, ImageGallaryForm, AddPostForm, CbtPromoteForm
 } from '../components'
 import '../styles/Dashboard.scss'
 import { GlobalContext } from '../app/GlobalState'
@@ -142,6 +142,11 @@ const Dashboard = () => {
                     { state.user.role === "admin" && (
                         <div className="admin-tool">
                             <GenerateCodeForm />
+                        </div>
+                    )}
+                    { (state.tempCbtRole === "admin" || state.user.role === "admin") && (
+                        <div className="admin-tool">
+                            <CbtPromoteForm />
                         </div>
                     )}
                     { state.user.role === "admin" && (

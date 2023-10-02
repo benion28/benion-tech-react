@@ -4,7 +4,7 @@ import { Form, Input, Button, Select, Alert, InputNumber  } from 'antd'
 import { SolutionOutlined, UserOutlined, BookOutlined, NumberOutlined, FieldNumberOutlined } from '@ant-design/icons'
 import '../styles/EditScoreForm.scss'
 import { GlobalContext } from '../app/GlobalState'
-import { sessions, terms, subjects, cbtClasses } from '../services/userHelper'
+import { sessions, terms, subjects, cbtClasses, getFullName } from '../services/userHelper'
 
 const { Option } = Select
 const { Item } = Form
@@ -47,7 +47,7 @@ const  EditScoreForm = ({ user }) => {
     }, [exam, firstCA, secondCA, form])
 
     form.setFieldsValue({
-        fullname: user.fullname,
+        fullname: getFullName(user.username, state.cbtUsers),
         session: user.session,
         className: user.className,
         username: user.username,

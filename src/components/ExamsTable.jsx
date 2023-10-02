@@ -3,7 +3,7 @@ import { DeleteOutlined, QuestionCircleOutlined, ReloadOutlined } from '@ant-des
 import { Table, Space, Button, Popconfirm, Typography, Badge } from 'antd'
 import { GlobalContext } from '../app/GlobalState'
 import '../styles/ExamsTable.scss'
-import { getCategoryName, getClassName, getSubjectName, getTermName } from '../services/userHelper'
+import { getCategoryName, getClassName, getSubjectName, getTermName, getFullName } from '../services/userHelper'
 
 const { Text } = Typography;
 
@@ -42,11 +42,6 @@ const ExamsTable = () => {
         rowExpandable: (record) => record.completed
     }
 
-    const getFullName = (username) => {
-        const cbtUser = state.cbtUsers.filter(user => user.username === username)
-        return `${cbtUser[0].firstname} ${cbtUser[0].lastname}`
-    }
-
     const scroll = {
         x: 'calc(500px + 50%)',
         y: 240
@@ -57,9 +52,9 @@ const ExamsTable = () => {
             title: () => (<b>Full Name</b>),
             dataIndex: 'username',
             defaultSortOrder: 'descend',
-            sorter: (a, b) => getFullName(a.username).length - getFullName(b.username).length,
+            sorter: (a, b) => getFullName(a.username, state.cbtUsers).length - getFullName(b.username, state.cbtUsers).length,
             key: 'fullname',
-            render: (username) => getFullName(username)
+            render: (username) => getFullName(username, state.cbtUsers)
         },
         {
             title: () => (<b>Username</b>),
