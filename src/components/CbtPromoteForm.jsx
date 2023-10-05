@@ -23,11 +23,11 @@ const CbtPromoteForm = () => {
         // Promote Code
         const { school, futureClass, currentClass,  role} = values
         const schoolFilter = state.cbtUsers.filter(student => student.school === school)
-        const classFilter = schoolFilter.filter(student => student.class === currentClass)
+        const classFilter = schoolFilter.filter(student => student.className === currentClass)
         const students = classFilter.filter(student => student.role === role)
 
         students.forEach(student => {
-            student.class = futureClass
+            student.className = futureClass
             updateCbtUser(student)
         })
     }
