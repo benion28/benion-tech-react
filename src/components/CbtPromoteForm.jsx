@@ -13,7 +13,7 @@ const CbtPromoteForm = () => {
     const [form] = Form.useForm()
     const [formMessage, setFormMessage] = useState('')
     const [formError, setFormError] = useState('')
-    const { state, updateCbtUser } = useContext(GlobalContext)
+    const { state, promoteCbtUsers } = useContext(GlobalContext)
 
     const onFinish = (values) => {
         !production && (console.log("Input data accepted !!", values))
@@ -21,15 +21,17 @@ const CbtPromoteForm = () => {
         setFormMessage('Input data accepted !!')
 
         // Promote Code
-        const { school, futureClass, currentClass,  role} = values
-        const schoolFilter = state.cbtUsers.filter(student => student.school === school)
-        const classFilter = schoolFilter.filter(student => student.className === currentClass)
-        const students = classFilter.filter(student => student.role === role)
+        promoteCbtUsers(values)
+        // const { school, futureClass, currentClass,  role} = values
+        // const schoolFilter = state.cbtUsers.filter(student => student.school === school)
+        // const classFilter = schoolFilter.filter(student => student.className === currentClass)
+        // const students = classFilter.filter(student => student.role === role)
 
-        students.forEach(student => {
-            student.className = futureClass
-            updateCbtUser(student)
-        })
+        // students.forEach(student => {
+        //     student.className = futureClass
+        //     promoteCbtUsers(student)
+        // })
+        form.resetFields()
     }
 
     const onFinishFailed = (errorInfo) => {

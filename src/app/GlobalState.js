@@ -195,6 +195,11 @@ export const GlobalStore = ({ children }) => {
         CBT_USERS_STATE.updateCbtUser(user, axios, host, adminConfig, ACTIONS, dispatch, getCbtUsers)
     }
 
+    // Promote Cbt Users
+    const promoteCbtUsers = (user) => {
+        CBT_USERS_STATE.promoteCbtUsers(user, axios, host, adminConfig, ACTIONS, dispatch, getCbtUsers)
+    }
+
     // Update Cbt Exam
     const updateExam = (key, values) => {
         CBT_USERS_STATE.updateExam(values, key, axios, host, config, ACTIONS, dispatch, getCbtUsers, getCbtExams)
@@ -358,6 +363,7 @@ export const GlobalStore = ({ children }) => {
             cbtUserLogout,
             findCbtUser,
             updateExam,
+            promoteCbtUsers,
             createExam,
             deleteExam,
             getCbtExams,

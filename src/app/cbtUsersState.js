@@ -379,6 +379,45 @@ export const updateCbtUser = (user, axios, host, adminConfig, ACTIONS, dispatch,
     })
 }
 
+export const promoteCbtUsers = (user, axios, host, adminConfig, ACTIONS, dispatch, getCbtUsers) => {
+    axios({
+        url: `/benion-cbt/api/promote-users`,
+        method: 'put',
+        baseURL: host,
+        headers: adminConfig.headers,
+        data: user
+    }).then(response => {
+        !production && (console.log("Promote Cbt Users Response", response))
+        getCbtUsers()
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: null
+        })
+        dispatch({
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
+        })
+    }).catch(error => {
+        !production && (console.log("Promote Cbt Users Error", error))
+        dispatch({
+            type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: `Promote Cbt-Users Error - ${error.message} (${error?.response?.data?.error?.message})`
+        })
+        dispatch({
+            type: ACTIONS.usersFormError,
+            payload: `${error?.response?.data?.error?.message} (${error.message})`
+        })
+    })
+}
+
 export const deleteCbtExam = (key, axios, host, adminConfig, ACTIONS, dispatch, getCbtExams) => {
     axios({
         url: `/benion-cbt/api/delete-exam/${key}`,
