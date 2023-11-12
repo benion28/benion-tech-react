@@ -508,7 +508,7 @@ const TestArea = () => {
             {/* <ImageGallaryForm /> */}
             {/* <AddPostForm />
             <CbtAddForm /> */}
-            {/* <CbtPromoteForm /> */}
+            <CbtPromoteForm />
             <Loader type="pacman" />
         </React.Fragment>
     )

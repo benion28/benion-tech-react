@@ -12,6 +12,7 @@ const GenerateCodeForm = () => {
     const [form] = Form.useForm()
     const [formMessage, setFormMessage] = useState('')
     const [password, setPassword] = useState('')
+    const [iscopied, setIscopied] = useState(false)
     const [formError, setFormError] = useState('')
     const { state  } = useContext(GlobalContext)
 
@@ -40,13 +41,30 @@ const GenerateCodeForm = () => {
         }
     }
 
+    async function copyTextToClipboard(text) {
+        if ('clipboard' in navigator) {
+            return await navigator.clipboard.writeText(text)
+        } else {
+            return document.execCommand('copy', true, text)
+        }
+    }
+
     const onReset = () => {
         setPassword('')
         form.resetFields()
     }
 
     const onCopy = () => {
-        console.log("Copied to clipboard")
+        copyTextToClipboard(password)
+            .then(() => {
+                setIscopied(true)
+                setTimeout(() => {
+                    setIscopied(false)
+                }, 4500)
+            })
+            .catch((error) => {
+                console.log('Generate Password Error: ', error)
+            })
     }
 
     return (
@@ -90,9 +108,12 @@ const GenerateCodeForm = () => {
                             <span className="text">{password}</span>
                         </div>
                     )}
+                    { (password !== '' && iscopied) && (
+                        <Alert message="Password Copied Successfully" type="success" showIcon closable />
+                    )}
                     <div className="generate-button-controller">
                         <Item>
-                            <Button className="copy-button" type="primary" onClick={ onCopy }>
+                            <Button disabled={iscopied || password === ''} className="copy-button" type="primary" onClick={ onCopy }>
                                 Copy
                             </Button>
                             <Button className="reset-button" type="danger" onClick={ onReset }>
