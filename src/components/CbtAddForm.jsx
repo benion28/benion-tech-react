@@ -94,6 +94,7 @@ const CbtAddForm = () => {
                     </Item>
                 </div>
                 <div className="form-controller">
+                    const [students, setStudents] = useState([])
                     <Item className='form-item' name="school" label="School" rules={[ { required: true } ]}>
                         <Select placeholder="Select a School"  allowClear>
                             {cbtSchools.map(item => (

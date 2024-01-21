@@ -303,7 +303,10 @@ export const terms = [
 
 export const sessions = [
     { name: '2021/2022 Academic Year', value: '2021/2022' },
-    { name: '2022/2023 Academic Year', value: '2022/2023' }
+    { name: '2022/2023 Academic Year', value: '2022/2023' },
+    { name: '2023/2024 Academic Year', value: '2023/2024' },
+    { name: '2024/2025 Academic Year', value: '2024/2025' },
+    { name: '2025/2026 Academic Year', value: '2025/2026' }
 ]
 
 export const subjects = [
