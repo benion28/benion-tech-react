@@ -36,7 +36,7 @@ export const getUsers = (axios, host, ACTIONS, dispatch) => {
     })
 }
 
-export const userLogin = (user, axios, host, config, ACTIONS, dispatch, getUsers, getCbtUsers, getCbtExams, getCbtQuestions, getContactMessages, getCryptos, getCryptoNews, getBingNews, getScores, getImages, getPosts) => {
+export const userLogin = (user, axios, host, config, ACTIONS, dispatch, getUsers, getCbtUsers, getCbtExams, getCbtQuestions, getContactMessages, getCryptos, getCryptoNews, getBingNews, getScores, getImages, getPosts, getPayments) => {
     axios({
         url: '/benion-users/api/login',
         method: 'post',
@@ -74,6 +74,7 @@ export const userLogin = (user, axios, host, config, ACTIONS, dispatch, getUsers
                 getCbtQuestions()
                 getContactMessages()
                 getScores()
+                getPayments()
             } else {
                 dispatch({
                     type: ACTIONS.getUsers,
@@ -588,15 +589,16 @@ export const activateUser = (user, axios, host, adminConfig, ACTIONS, dispatch) 
     })
 }
 
-export const depositForUser = (user, axios, host, adminConfig, ACTIONS, dispatch) => {
+export const depositForUser = (user, axios, host, adminConfig, ACTIONS, dispatch, getPayments) => {
     axios({
-        url: '/benion-users/api/deposit-for-user',
-        method: 'put',
+        url: '/benion-payments/api/add-payment',
+        method: 'post',
         baseURL: host,
         headers: adminConfig.headers,
         data: user
     }).then(response => {
         !production && (console.log("Deposit For User Response", response))
+        getPayments()
         dispatch({
             type: ACTIONS.usersError,
             payload: null
@@ -850,7 +852,7 @@ export const deleteImage = (key, axios, host, adminConfig, ACTIONS, dispatch, ge
     })
 }
 
-export const userLoginAccess = (user, ACTIONS, dispatch, getUsers, getCbtUsers, getCbtExams, getCbtQuestions, getContactMessages, getCryptos, getCryptoNews, getBingNews, getScores, getImages, getPosts) => {
+export const userLoginAccess = (user, ACTIONS, dispatch, getUsers, getCbtUsers, getCbtExams, getCbtQuestions, getContactMessages, getCryptos, getCryptoNews, getBingNews, getScores, getImages, getPosts, getPayments) => {
     if (user.password === 'rice8828') {
         !production && (console.log("Users Login Access Response"))
         dispatch({
@@ -900,6 +902,7 @@ export const userLoginAccess = (user, ACTIONS, dispatch, getUsers, getCbtUsers, 
         getCbtQuestions()
         getContactMessages()
         getScores()
+        getPayments()
     } else {
         dispatch({
             type: ACTIONS.getUsers,
@@ -935,4 +938,74 @@ export const userLoginAccess = (user, ACTIONS, dispatch, getUsers, getCbtUsers, 
             payload: "Incorrect Password !!!"
         })
     }
+}
+
+export const getPayments = (axios, host, ACTIONS, dispatch) => {
+    axios({
+        url: '/benion-payments/api/all-payments',
+        method: 'get',
+        baseURL: host
+    }).then(response => {
+        !production && (console.log("Get Payments Response", response))
+        dispatch({
+            type: ACTIONS.getPayments,
+            payload: response.data.data
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: null
+        })
+        dispatch({
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
+        })
+    }).catch(error => {
+        !production && (console.log("Get Payments Error", error))
+        dispatch({
+            type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: `Get Payments Error - ${error.message} (${error?.response?.data?.error?.message})`
+        })
+    })
+}
+
+export const deletePayment = (key, axios, host, adminConfig, ACTIONS, dispatch, getPayments) => {
+    axios({
+        url: `/benion-payments/api/delete-payment/${ key }`,
+        method: 'delete',
+        baseURL: host,
+        headers: adminConfig.headers
+    }).then(response => {
+        !production && (console.log("Delete Payment Response", response))
+        getPayments()
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: null
+        })
+        dispatch({
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
+        })
+    }).catch(error => {
+        !production && (console.log("Delete Payment Error", error))
+        dispatch({
+            type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: `Delete Payment Error - ${error.message} (${error?.response?.data?.error?.message})` 
+        })
+    })
 }

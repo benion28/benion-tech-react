@@ -7,7 +7,7 @@ import { DownOutlined, SmileOutlined, LogoutOutlined, TableOutlined, MoneyCollec
 import Loader from 'react-loaders'
 import { UsersTable, CbtUsersTable, Questions, ExamsTable, ContactMessagesTable, PasswordUpdateForm,
     ActivateUserForm, DepositUserForm, PasswordChangeForm, CbtPasswordChangeForm, ScoresTable, 
-    GenerateCodeForm, ImageGallaryForm, AddPostForm, CbtPromoteForm
+    GenerateCodeForm, ImageGallaryForm, AddPostForm, CbtPromoteForm, PaymentsTable
 } from '../components'
 import '../styles/Dashboard.scss'
 import { GlobalContext } from '../app/GlobalState'
@@ -185,6 +185,9 @@ const Dashboard = () => {
                         </TabPane>
                         <TabPane className="tabs-panel" tab={ <span> <Title level={4}>Student's Scores</Title> </span> } key="5">
                             <ScoresTable />
+                        </TabPane>
+                        <TabPane className="tabs-panel" tab={ <span> <Title level={4}>Payments</Title> </span> } key="6">
+                            <PaymentsTable />
                         </TabPane>
                     </Tabs>
                 </div>

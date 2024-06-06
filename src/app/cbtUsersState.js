@@ -115,7 +115,7 @@ export const getCbtUsers = (axios, host, ACTIONS, dispatch) => {
     })
 }
 
-export const cbtUserLogin = (user, axios, host, config, ACTIONS, dispatch, getCbtUsers, getCbtExams, getCbtQuestions, getScores) => {
+export const cbtUserLogin = (user, axios, host, config, ACTIONS, dispatch, getCbtUsers, getCbtExams, getCbtQuestions, getScores, getPayments) => {
     axios({
         url: '/benion-cbt/api/login',
         method: 'post',
@@ -152,6 +152,7 @@ export const cbtUserLogin = (user, axios, host, config, ACTIONS, dispatch, getCb
             getCbtExams()
             getCbtQuestions()
             getScores()
+            getPayments()
         } else {
             dispatch({
                 type: ACTIONS.usersWarning,

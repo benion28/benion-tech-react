@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react'
 import { Form, Input, Button, Alert, Typography, InputNumber } from 'antd'
 import { MoneyCollectOutlined, DollarOutlined, UserOutlined } from '@ant-design/icons'
 import '../styles/DepositUserForm.scss'
-import { production } from '../services/userHelper'
+import { createPassword, production } from '../services/userHelper'
 import { GlobalContext } from '../app/GlobalState'
 
 const { Item } = Form
@@ -18,6 +18,25 @@ const DepositUserForm = () => {
         !production && (console.log("Input data accepted !!", values))
         setFormError('')
         setFormMessage('Input data accepted !!')
+
+        // Update Values
+        values.reference = createPassword(10, true, true, false)
+        values.channel = "manual"
+        values.date = new Date().toISOString()
+        values.currency = "NGN"
+        values.ipAddress = ""
+        values.sendersEmail = state.user.token ? `${state.user.firstname.toLowerCase()}.${state.user.lastname.toLowerCase()}@${state.user.role}.com` : `${state.cbtUser.firstname.toLowerCase()}.${state.cbtUser.lastname.toLowerCase()}@${state.cbtUser.role}.com`
+        values.recieversUsername = values.username
+        values.customersFirstName = state.user.token ? state.user.firstname : state.cbtUser.firstname
+        values.customersLastName = state.user.token ? state.user.lastname : state.cbtUser.lastname
+        values.customersEmail = state.user.token ? `${state.user.firstname.toLowerCase()}.${state.user.lastname.toLowerCase()}@${state.user.role}.com` : `${state.cbtUser.firstname.toLowerCase()}.${state.cbtUser.lastname.toLowerCase()}@${state.cbtUser.role}.com`
+        values.authCode = ""
+        values.cardType = ""
+        values.expiryMonth = ""
+        values.expiryYear = ""
+        values.last4 = ""
+        values.bank = "Deposit Bank"
+        values.accountName = "Manual Deposit"
 
         // Deposit
         depositForUser(values)

@@ -3,8 +3,10 @@ import { EditOutlined, DeleteOutlined, UserAddOutlined, QuestionCircleOutlined, 
 import { Table, Space, Button, Popconfirm, Typography, Popover } from 'antd'
 import { AddUserForm, EditUserForm } from '../components'
 import { GlobalContext } from '../app/GlobalState'
+import millify from 'millify'
 import '../styles/UsersTable.scss'
-import { genders, userRoles } from '../services/userHelper'
+import { fetchTotalPayments, formatAmountManuallyOld, genders, userRoles } from '../services/userHelper'
+import { render } from '@testing-library/react'
 
 const { Text, Title } = Typography;
 
@@ -13,6 +15,8 @@ const UsersTable = () => {
     const [ newUserPopover, setNewUserPopover ] = useState(false)
     const [ editUserPopover, setEditUserPopover ] = useState(false)
     const [ details, setDetails ] = useState({ _id: 'gfsgdfgdew4rrewtr5e' })
+
+    console.log("State",state)
 
     const deleteConfirm = (id) => {
         deleteUser(id)
@@ -83,10 +87,11 @@ const UsersTable = () => {
     },
     {
         title: () => (<b>Balance</b>),
-        dataIndex: 'amountBalance',
+        dataIndex: 'username',
         defaultSortOrder: 'descend',
         key: 'amountBalance',
-        sorter: (a, b) => a.amountBalance - b.amountBalance
+        sorter: (a, b) => fetchTotalPayments(a.username, state.payments) - fetchTotalPayments(b.username, state.payments),
+        render: (username) => `${fetchTotalPayments(username, state.payments)} (${millify(fetchTotalPayments(username, state.payments))})`
     },
     {
         title: () => (<b>Email</b>),

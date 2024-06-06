@@ -74,6 +74,7 @@ export const foundUser = {
 export const initialState = {
     users: [],
     cbtUsers: [],
+    writeExamQuestions: [],
     cbtExams: [
         [],
         [],
@@ -87,6 +88,12 @@ export const initialState = {
         []
     ],
     contactMessages: [
+        [],
+        [],
+        {},
+        []
+    ],
+    payments: [
         [],
         [],
         {},
@@ -446,4 +453,15 @@ export const limitPosts = (posts, total) => {
         items = posts
     }
     return items
+}
+
+export const fetchTotalPayments = (username, payments) => {
+    let total = 0
+    const filteredUsername = payments[3].filter(data => data.recieversUsername.trim() === username.trim())
+    if (filteredUsername.length > 0) {
+        for (let index = 0; index < filteredUsername.length; index++) {
+            total += filteredUsername[index].amount
+        }
+    }
+    return total
 }

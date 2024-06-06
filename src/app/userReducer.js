@@ -112,3 +112,16 @@ export const getImages = (state, action) => {
     }
 }
 
+export const getPayments = (state, action) => {
+    return {
+        ...state,
+        payments: action.payload,
+        loading: false
+    }
+}
+
+export const deletePayment = (state, action) => {
+    return {
+        ...state
+    }
+}
