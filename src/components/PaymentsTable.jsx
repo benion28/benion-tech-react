@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { DeleteOutlined, QuestionCircleOutlined, ReloadOutlined } from '@ant-design/icons'
-import { Table, Space, Button, Popconfirm, Typography } from 'antd'
+import { Table, Space, Button, Popconfirm, Typography, Badge } from 'antd'
 import millify from "millify"
 import { GlobalContext } from '../app/GlobalState'
 import '../styles/ExamsTable.scss'
@@ -92,6 +92,27 @@ const PaymentsTable = () => {
             defaultSortOrder: 'descend',
             sorter: (a, b) => a.channel.length - b.channel.length,
             key: 'channel'
+        },
+        {
+            title: () => (<b>Type</b>),
+            dataIndex: 'type',
+            key: 'type',
+            filters: [
+                {
+                    text: "Credit",
+                    value: "credit"
+                },
+                {
+                    text: "Debit",
+                    value: "debit"
+                }
+            ],
+            onFilter: (value, record) => record.type.indexOf(value) === 0,
+            render: (type) => (
+                <span>
+                    {type === "credit" ? <Badge status="success" /> : <Badge status="warning" />} {type}
+                </span>
+            )
         },
         {
             title: () => (<b>Actions</b>),

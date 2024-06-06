@@ -37,6 +37,7 @@ const DepositUserForm = () => {
         values.last4 = ""
         values.bank = "Deposit Bank"
         values.accountName = "Manual Deposit"
+        values.type = "credit"
 
         // Deposit
         depositForUser(values)
