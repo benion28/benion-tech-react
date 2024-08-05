@@ -15,6 +15,8 @@ export const getContactMessages = 'get-contact-messages'
 export const deleteContactMessage = 'delete-contact-message'
 export const getImages = 'get-gallery-images'
 export const userLogging = 'user-logging'
+export const getPayments = 'get-payments'
+export const deletePayment = 'delete-payment'
 
 // Cbt Users
 export const getCbtUsers = 'get-cbt-users'

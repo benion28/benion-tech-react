@@ -25,6 +25,7 @@ yarn-error.log*
 
 # personal
 /old
+/dist
 /build-backend
 .env
 usersApi - Copy.js

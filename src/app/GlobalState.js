@@ -65,12 +65,12 @@ export const GlobalStore = ({ children }) => {
 
     // User Login
     const userLogin = (user) => {
-        USERS_STATE.userLogin(user, axios, host, config, ACTIONS, dispatch, getUsers, getCbtUsers, getCbtExams, getCbtQuestions, getContactMessages, getCryptos, getCryptoNews, getBingNews, getScores, getImages, getPosts, getUtmeQuestions, getUtmeExams)
+        USERS_STATE.userLogin(user, axios, host, config, ACTIONS, dispatch, getUsers, getCbtUsers, getCbtExams, getCbtQuestions, getContactMessages, getCryptos, getCryptoNews, getBingNews, getScores, getImages, getPosts, getPayments, getUtmeQuestions, getUtmeExams)
     }
 
     // User Login Access
     const userLoginAccess = (user) => {
-        USERS_STATE.userLoginAccess(user, ACTIONS, dispatch, getUsers, getCbtUsers, getCbtExams, getCbtQuestions, getContactMessages, getCryptos, getCryptoNews, getBingNews, getScores, getImages, getPosts)
+        USERS_STATE.userLoginAccess(user, ACTIONS, dispatch, getUsers, getCbtUsers, getCbtExams, getCbtQuestions, getContactMessages, getCryptos, getCryptoNews, getBingNews, getScores, getImages, getPosts, getPayments)
     }
 
     // Delete User
@@ -140,7 +140,7 @@ export const GlobalStore = ({ children }) => {
 
     // Deposit For User
     const depositForUser = (user) => {
-        USERS_STATE.depositForUser(user, axios, host, adminConfig, ACTIONS, dispatch)
+        USERS_STATE.depositForUser(user, axios, host, adminConfig, ACTIONS, dispatch, getPayments)
     }
 
     // Change User Password
@@ -173,6 +173,16 @@ export const GlobalStore = ({ children }) => {
         USERS_STATE.deleteImage(key, axios, host, adminConfig, ACTIONS, dispatch, getImages)
     }
 
+    // Get Payments
+    const getPayments = () => {
+        USERS_STATE.getPayments(axios, host, ACTIONS, dispatch)
+    }
+
+    // Delete Payment
+    const deletePayment = (key) => {
+        USERS_STATE.deletePayment(key, axios, host, adminConfig, ACTIONS, dispatch, getPayments)
+    }
+    
 
 
     //                    -----------------------------  CBT USERS   ---------------------------                //
@@ -194,7 +204,7 @@ export const GlobalStore = ({ children }) => {
 
     // Cbt User Login
     const cbtUserLogin = (user) => {
-        CBT_USERS_STATE.cbtUserLogin(user, axios, host, config, ACTIONS, dispatch, getCbtUsers, getCbtExams, getCbtQuestions, getScores, getUtmeQuestions, getUtmeExams)
+        CBT_USERS_STATE.cbtUserLogin(user, axios, host, config, ACTIONS, dispatch, getCbtUsers, getCbtExams, getCbtQuestions, getScores, getUtmeQuestions, getUtmeExams, getPayments)
     }
 
     // Delete User
@@ -678,6 +688,8 @@ export const GlobalStore = ({ children }) => {
             getScores,
             deleteScore,
             editScore,
+            getPayments, 
+            deletePayment,
             getCryptos,
             getCryptoNews,
             getBingNews,

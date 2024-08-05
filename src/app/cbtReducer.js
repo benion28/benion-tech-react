@@ -28,6 +28,7 @@ export const getCbtQuestions = (state, action) => {
     return {
         ...state,
         cbtQuestions: action.payload,
+        writeExamQuestions: action.payload[3].sort(() => Math.random() - 0.5),
         loading: false
     }
 }

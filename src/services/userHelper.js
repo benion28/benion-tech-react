@@ -124,6 +124,7 @@ export const initialState = {
     examResults: [],
     transports: [],
     examSchedules: [],
+    writeExamQuestions: [],
     cbtExams: [
         [],
         [],
@@ -154,7 +155,12 @@ export const initialState = {
         {},
         []
     ],
-    writeExamQuestions: [],
+    payments: [
+        [],
+        [],
+        {},
+        []
+    ],
     scores: [
         [],
         [],

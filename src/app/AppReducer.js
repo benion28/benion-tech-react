@@ -37,6 +37,10 @@ const AppReducer = (state, action) => {
             return USERS_REDUCER.getImages(state, action)
         case ACTIONS.userLogging:
             return USERS_REDUCER.userLogging(state, action)
+        case ACTIONS.getPayments:
+            return USERS_REDUCER.getPayments(state, action)
+        case ACTIONS.deletePayment:
+            return USERS_REDUCER.deletePayment(state, action)
         // Cbt
         case ACTIONS.getCbtUsers:
             return CBT_REDUCER.getCbtUsers(state, action)

@@ -115,7 +115,7 @@ export const getCbtUsers = (axios, host, ACTIONS, dispatch) => {
     })
 }
 
-export const cbtUserLogin = (user, axios, host, config, ACTIONS, dispatch, getCbtUsers, getCbtExams, getCbtQuestions, getScores, getUtmeQuestions, getUtmeExams) => {
+export const cbtUserLogin = (user, axios, host, config, ACTIONS, dispatch, getCbtUsers, getCbtExams, getCbtQuestions, getScores, getUtmeQuestions, getUtmeExams, getPayments) => {
     dispatch({
         type: ACTIONS.cbtLogging,
         payload: true
@@ -159,6 +159,7 @@ export const cbtUserLogin = (user, axios, host, config, ACTIONS, dispatch, getCb
             getScores()
             getUtmeQuestions()
             getUtmeExams()
+            getPayments()
         } else {
             dispatch({
                 type: ACTIONS.usersWarning,
