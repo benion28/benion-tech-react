@@ -1,9 +1,9 @@
 .form-group {
-  max-width: 500px;
+    max-width: 500px;
 
-  .form-alert {
-      margin-bottom: 5%;
-  }
+    .form-alert {
+        margin-bottom: 5%;
+    }
 }
 
 .form-controller {
@@ -22,10 +22,28 @@
     .submit-button {
         width: 100%;
         margin-right: 10%;
+        margin-left: 10%;
     }
 
     .reset-button {
         width: 100%;
         margin-left: 10%;
+        margin-right: 10%;
+    }
+}
+
+.image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    height: 90%;
+    margin-top: 2pt;
+    margin-bottom: 5pt;
+    margin-left: 5pt;
+
+    img {
+        width: 80%;
+        height: 80%;
     }
 }

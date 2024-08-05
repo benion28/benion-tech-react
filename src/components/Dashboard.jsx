@@ -7,7 +7,7 @@ import { DownOutlined, SmileOutlined, LogoutOutlined, TableOutlined, MoneyCollec
 import Loader from 'react-loaders'
 import { UsersTable, CbtUsersTable, Questions, ExamsTable, ContactMessagesTable, PasswordUpdateForm,
     ActivateUserForm, DepositUserForm, PasswordChangeForm, CbtPasswordChangeForm, ScoresTable, 
-    GenerateCodeForm, ImageGallaryForm, AddPostForm, CbtPromoteForm
+    GenerateCodeForm, ImageGallaryForm, AddPostForm, CbtPromoteForm, UserExamsTable, UtmeQuestions
 } from '../components'
 import '../styles/Dashboard.scss'
 import { GlobalContext } from '../app/GlobalState'
@@ -19,6 +19,7 @@ const { TabPane } = Tabs
 
 const Dashboard = () => {
     const [showTable, setShowTable] = useState(false)
+    const [showUtme, setShowUtme] = useState(false)
     const { state, userLogout } = useContext(GlobalContext)
 
     const menuItems = [
@@ -168,6 +169,13 @@ const Dashboard = () => {
                     </Button>
                 </div>
             )}
+            { (state.loggedIn && state.user.role === "admin" && !showTable) && (
+                <div className="toggle-container">
+                    <Button className='toggle-button' onClick={ () => setShowUtme(!showUtme) }>
+                        {showUtme ? <EyeInvisibleOutlined  /> : <EyeOutlined  />} {showUtme ? "Hide UTME" : "Show UTME"} Questions
+                    </Button>
+                </div>
+            )}
             { (showTable && state.loggedIn && state.user.role === "admin") && (
                 <div className="tables">
                     <Tabs defaultActiveKey="1" className="tabs-form" type="card">
@@ -186,13 +194,32 @@ const Dashboard = () => {
                         <TabPane className="tabs-panel" tab={ <span> <Title level={4}>Student's Scores</Title> </span> } key="5">
                             <ScoresTable />
                         </TabPane>
+                        <TabPane className="tabs-panel" tab={ <span> <Title level={4}>Utme Exams</Title> </span> } key="6">
+                            <UserExamsTable self = { false } />
+                        </TabPane>
                     </Tabs>
                 </div>
             )}
-            { (!showTable && state.cbtLoggedIn && state.tempCbtRole !== "student") && (
+            { showTable && state.cbtLoggedIn && (
+                <div className="cbt-tables">
+                    <Tabs defaultActiveKey="1" className="tabs-form" type="card">
+                        <TabPane className="tabs-panel" tab={ <span> <Title level={4}>Exam Data</Title> </span> } key="1">
+                            <UserExamsTable self = { true } />
+                        </TabPane>
+                    </Tabs>
+                </div>
+            )}
+            { (!showTable && !showUtme && state.cbtLoggedIn && state.tempCbtRole !== "student") && (
                 <div className="questions">
                     <div className="list">
                         <Questions />
+                    </div>
+                </div>
+            )}
+            { (!showTable && showUtme && state.cbtLoggedIn && state.tempCbtRole !== "student") && (
+                <div className="questions">
+                    <div className="list">
+                        <UtmeQuestions />
                     </div>
                 </div>
             )}

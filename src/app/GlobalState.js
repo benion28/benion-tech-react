@@ -1,10 +1,12 @@
 import React, { createContext, useReducer } from 'react'
 import axios from 'axios'
+import { toast } from 'react-toastify'
 import AppReducer from './AppReducer'
 import { initialState, host } from '../services/userHelper'
 import * as ACTIONS from '../services/actions'
 import * as USERS_STATE from './usersState'
 import * as CBT_USERS_STATE from './cbtUsersState'
+import * as SMS_USERS_STATE from './smsUsersState'
 import * as NEWS_STATE from './newsState'
 
 // Create Context
@@ -12,7 +14,7 @@ export const GlobalContext = createContext(initialState)
 
 // Store Component
 export const GlobalStore = ({ children }) => {
-    const [ state, dispatch ] = useReducer(AppReducer, initialState)
+    const [state, dispatch] = useReducer(AppReducer, initialState)
     const token = state.user.token || ''
     const { Provider } = GlobalContext
 
@@ -29,6 +31,31 @@ export const GlobalStore = ({ children }) => {
         }
     }
 
+    const getTokens = () => {
+        const tokens = {
+            access_token: "",
+            refresh_token: ""
+        }
+
+        if (state.smsUser.access_token !== null || state.smsUser.refresh_token !== null) {
+            tokens.access_token = state.smsUser.access_token
+            tokens.refresh_token = state.smsUser.refresh_token
+        }
+
+        return tokens
+    }
+
+    const access_token = getTokens().access_token
+    const refresh_token = getTokens().refresh_token
+
+    const authConfig = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${access_token}`
+        }
+    }
+
     //                    -----------------------------  USERS   ---------------------------                //
 
     // Get Users
@@ -38,7 +65,7 @@ export const GlobalStore = ({ children }) => {
 
     // User Login
     const userLogin = (user) => {
-        USERS_STATE.userLogin(user, axios, host, config, ACTIONS, dispatch, getUsers, getCbtUsers, getCbtExams, getCbtQuestions, getContactMessages, getCryptos, getCryptoNews, getBingNews, getScores, getImages, getPosts)
+        USERS_STATE.userLogin(user, axios, host, config, ACTIONS, dispatch, getUsers, getCbtUsers, getCbtExams, getCbtQuestions, getContactMessages, getCryptos, getCryptoNews, getBingNews, getScores, getImages, getPosts, getUtmeQuestions, getUtmeExams)
     }
 
     // User Login Access
@@ -145,21 +172,21 @@ export const GlobalStore = ({ children }) => {
     const deleteImage = (key) => {
         USERS_STATE.deleteImage(key, axios, host, adminConfig, ACTIONS, dispatch, getImages)
     }
-    
+
 
 
     //                    -----------------------------  CBT USERS   ---------------------------                //
-    
+
     // Add Cbt User
     const addCbtUser = (user) => {
         CBT_USERS_STATE.addCbtUser(user, axios, host, adminConfig, ACTIONS, dispatch, getCbtUsers, getContactMessages)
     }
 
-     // Register Cbt Student
+    // Register Cbt Student
     const registerCbtUser = (user) => {
         CBT_USERS_STATE.registerCbtUser(user, axios, host, config, ACTIONS, dispatch, getContactMessages)
     }
-    
+
     // Get Cbt Users
     const getCbtUsers = () => {
         CBT_USERS_STATE.getCbtUsers(axios, host, ACTIONS, dispatch)
@@ -167,7 +194,7 @@ export const GlobalStore = ({ children }) => {
 
     // Cbt User Login
     const cbtUserLogin = (user) => {
-        CBT_USERS_STATE.cbtUserLogin(user, axios, host, config, ACTIONS, dispatch, getCbtUsers, getCbtExams, getCbtQuestions, getScores)
+        CBT_USERS_STATE.cbtUserLogin(user, axios, host, config, ACTIONS, dispatch, getCbtUsers, getCbtExams, getCbtQuestions, getScores, getUtmeQuestions, getUtmeExams)
     }
 
     // Delete User
@@ -275,15 +302,49 @@ export const GlobalStore = ({ children }) => {
         CBT_USERS_STATE.updateCbtUserPassword(user, axios, host, adminConfig, ACTIONS, dispatch)
     }
 
+    // Get Utme Questions
+    const getUtmeQuestions = () => {
+        CBT_USERS_STATE.getUtmeQuestions(axios, host, adminConfig, ACTIONS, dispatch)
+    }
 
-     //                    -----------------------------  NEWS   ---------------------------                //
+    // Get Utme Exams
+    const getUtmeExams = () => {
+        CBT_USERS_STATE.getUtmeExams(axios, host, adminConfig, ACTIONS, dispatch)
+    }
 
-     // Get News
+    // Add Utme Question
+    const addUtmeQuestion = (object) => {
+        CBT_USERS_STATE.addUtmeQuestion(object, axios, host, adminConfig, ACTIONS, dispatch, getUtmeExams, getUtmeQuestions)
+    }
+
+    // Create Utme Exams
+    const createUtmeExam = (values) => {
+        CBT_USERS_STATE.createUtmeExam(values, axios, host, adminConfig, ACTIONS, dispatch, getCbtUsers, getUtmeExams)
+    }
+
+    // Utme Exam Subject Category
+    const utmeExamSubjectCategory = (values) => {
+        CBT_USERS_STATE.utmeExamSubjectCategory(values, ACTIONS, dispatch)
+    }
+
+    // Delete Utme Exam
+    const deleteUtmeExam = (key) => {
+        CBT_USERS_STATE.deleteUtmeExam(key, axios, host, adminConfig, ACTIONS, dispatch, getUtmeExams)
+    }
+
+    // Delete Utme Question
+    const deleteUtmeQuestion = (key) => {
+        CBT_USERS_STATE.deleteUtmeQuestion(key, axios, host, adminConfig, ACTIONS, dispatch, getUtmeQuestions)
+    }
+
+    //                    -----------------------------  NEWS   ---------------------------                //
+
+    // Get News
     const getCryptos = (details) => {
         NEWS_STATE.getCryptos(details, axios, host, config, ACTIONS, dispatch)
     }
 
-     // Get Crypto News
+    // Get Crypto News
     const getCryptoNews = (details) => {
         NEWS_STATE.getCryptoNews(details, axios, host, config, ACTIONS, dispatch)
     }
@@ -323,6 +384,244 @@ export const GlobalStore = ({ children }) => {
         NEWS_STATE.deletePost(key, axios, host, adminConfig, ACTIONS, dispatch, getPosts)
     }
 
+    //                    -----------------------------  SMS USERS   ---------------------------                //
+    // Set Error
+    const setError = (message) => {
+        SMS_USERS_STATE.setError(message, dispatch)
+    }
+
+    // Set Message
+    const setMessage = (message) => {
+        SMS_USERS_STATE.setMessage(message, dispatch)
+    }
+
+    // Get Students
+    const getStudents = () => {
+        SMS_USERS_STATE.getStudents(dispatch, authConfig, setError)
+    }
+
+    // Get Parents
+    const getParents = () => {
+        SMS_USERS_STATE.getParents(dispatch, authConfig, setError)
+    }
+
+    // Get Teachers
+    const getTeachers = () => {
+        SMS_USERS_STATE.getTeachers(dispatch, authConfig, setError)
+    }
+
+    // Get Notifications
+    const getNotifications = () => {
+        SMS_USERS_STATE.getNotifications(dispatch, authConfig, setError)
+    }
+
+    // Get Notifications
+    const getSmsUsers = () => {
+        SMS_USERS_STATE.getSmsUsers(dispatch, authConfig, setError)
+    }
+
+    // Get Fees Collections
+    const getFeesCollections = () => {
+        SMS_USERS_STATE.getFeesCollections(dispatch, authConfig, setError)
+    }
+
+    // Get Expenses
+    const getExpenses = () => {
+        SMS_USERS_STATE.getExpenses(dispatch, authConfig, setError)
+    }
+
+    // Get Exam Results
+    const getExamResults = () => {
+        SMS_USERS_STATE.getExamResults(dispatch, authConfig, setError)
+    }
+
+    // Get Hostels
+    const getHostels = () => {
+        SMS_USERS_STATE.getHostels(dispatch, authConfig, setError)
+    }
+
+    // Get Exam Schedules
+    const getExamSchedules = () => {
+        SMS_USERS_STATE.getExamSchedules(dispatch, authConfig, setError)
+    }
+
+    // Get Transports
+    const getTransports = () => {
+        SMS_USERS_STATE.getTransports(dispatch, authConfig, setError)
+    }
+
+    // Get Clients
+    const getClients = () => {
+        SMS_USERS_STATE.getClients(dispatch, authConfig, setError)
+    }
+
+    // Get Attendances
+    const getAttendances = () => {
+        SMS_USERS_STATE.getAttendances(dispatch, authConfig, setError)
+    }
+
+    // User Login
+    const smsUserLogin = (user) => {
+        SMS_USERS_STATE.smsUserLogin(user, dispatch, config, getStudents, getParents, getTeachers, getNotifications, getUsers, getFeesCollections, getExpenses, getExamResults, getHostels, toast, getTransports, getExamSchedules, getAttendances, getClients)
+    }
+
+    // User Logout
+    const smsUserLogout = () => {
+        const data = { refresh_token }
+        SMS_USERS_STATE.smsUserLogout(data, dispatch, authConfig, toast)
+    }
+
+    // Decrypt State
+    const decryptState = (data) => {
+        SMS_USERS_STATE.decryptState(data, dispatch)
+    }
+
+
+    // Register User
+    const registerSmsUser = (user) => {
+        SMS_USERS_STATE.registerSmsUser(user, authConfig, getUsers, toast)
+    }
+
+    // Admit Student
+    const admitStudent = (student) => {
+        SMS_USERS_STATE.admitStudent(student, authConfig, getStudents, toast)
+    }
+
+    // Add Parent
+    const addParent = (parent) => {
+        SMS_USERS_STATE.addParent(parent, authConfig, getParents, toast)
+    }
+
+    // Add Teacher
+    const addTeacher = (teacher) => {
+        SMS_USERS_STATE.addTeacher(teacher, authConfig, getTeachers, toast)
+    }
+
+    // Add Fees Collection
+    const addFeesCollection = (item) => {
+        SMS_USERS_STATE.addFeesCollection(item, authConfig, getFeesCollections, toast)
+    }
+
+    // Add Expense
+    const addExpense = (item) => {
+        SMS_USERS_STATE.addExpense(item, authConfig, getExpenses, toast)
+    }
+
+    // Add Exam Schedule
+    const addExamSchedule = (item) => {
+        SMS_USERS_STATE.addExamSchedule(item, authConfig, getExamSchedules, toast)
+    }
+
+    // Add Exam Result
+    const addExamResult = (item) => {
+        SMS_USERS_STATE.addExamResult(item, authConfig, getExamResults, toast)
+    }
+
+    // Add Attendance
+    const addAttendance = (item) => {
+        SMS_USERS_STATE.addAttendance(item, authConfig, getAttendances, toast)
+    }
+
+    // Add Notification
+    const addNotification = (item) => {
+        SMS_USERS_STATE.addNotification(item, authConfig, getNotifications, toast)
+    }
+
+    // Add Notification
+    const sendMail = (item) => {
+        SMS_USERS_STATE.sendMail(item, authConfig, toast, setError, setMessage)
+    }
+
+    // Add Hostel
+    const addHostel = (item) => {
+        SMS_USERS_STATE.addHostel(item, authConfig, getHostels, toast)
+    }
+
+    // Add Transport
+    const addTransport = (item) => {
+        SMS_USERS_STATE.addTransport(item, authConfig, getTransports, toast)
+    }
+
+    // Add Client
+    const addClient = (item) => {
+        SMS_USERS_STATE.addClient(item, authConfig, getClients, toast)
+    }
+
+    // Forget Password
+    const changePassword = (item) => {
+        SMS_USERS_STATE.changePassword(item, authConfig, toast)
+    }
+
+    // Forget Password
+    const forgetPassword = (item) => {
+        SMS_USERS_STATE.forgetPassword(item, authConfig, setError, setMessage, toast)
+    }
+
+    // Delete User
+    const deleteSmsUser = (id) => {
+        SMS_USERS_STATE.deleteSmsUser(id, authConfig, getUsers, toast)
+    }
+
+    // Delete Student
+    const deleteStudent = (id) => {
+        SMS_USERS_STATE.deleteStudent(id, authConfig, getStudents, toast)
+    }
+
+    // Delete Parent
+    const deleteParent = (id) => {
+        SMS_USERS_STATE.deleteParent(id, authConfig, getParents, toast)
+    }
+
+    // Delete Teacher
+    const deleteTeacher = (id) => {
+        SMS_USERS_STATE.deleteTeacher(id, authConfig, getTeachers, toast)
+    }
+
+    // Delete Fees Collection
+    const deleteFeesCollection = (id) => {
+        SMS_USERS_STATE.deleteFeesCollection(id, authConfig, getFeesCollections, toast)
+    }
+
+    // Delete Expense
+    const deleteExpense = (id) => {
+        SMS_USERS_STATE.deleteExpense(id, authConfig, getExpenses, toast)
+    }
+
+    // Delete Exam Schedule
+    const deleteExamSchedule = (id) => {
+        SMS_USERS_STATE.deleteExamSchedule(id, authConfig, getExamSchedules, toast)
+    }
+
+    // Delete Exam Result
+    const deleteExamResult = (id) => {
+        SMS_USERS_STATE.deleteExamResult(id, authConfig, getExamResults, toast)
+    }
+
+    // Delete Notification
+    const deleteNotification = (id) => {
+        SMS_USERS_STATE.deleteNotification(id, authConfig, getNotifications, toast)
+    }
+
+    // Delete Hostel
+    const deleteHostel = (id) => {
+        SMS_USERS_STATE.deleteHostel(id, authConfig, getHostels, toast)
+    }
+
+    // Delete Transport
+    const deleteTransport = (id) => {
+        SMS_USERS_STATE.deleteTransport(id, authConfig, getTransports, toast)
+    }
+
+    // Delete Client
+    const deleteClient = (id) => {
+        SMS_USERS_STATE.deleteClient(id, authConfig, getClients, toast)
+    }
+
+    // Delete Attendance
+    const deleteAttendance = (id) => {
+        SMS_USERS_STATE.deleteClient(id, authConfig, getAttendances, toast)
+    }
+
     return (
         <Provider value={{
             state,
@@ -342,13 +641,13 @@ export const GlobalStore = ({ children }) => {
             depositForUser,
             changeUserPassword,
             updateUserPassword,
-            getImages, 
-            addImage, 
-            updateImage, 
+            getImages,
+            addImage,
+            updateImage,
             deleteImage,
-            getPosts, 
-            addPost, 
-            updatePost, 
+            getPosts,
+            addPost,
+            updatePost,
             deletePost,
             addCbtUser,
             getCbtUsers,
@@ -370,6 +669,7 @@ export const GlobalStore = ({ children }) => {
             getCbtQuestions,
             updateCbtUserPassword,
             examCategory,
+            utmeExamSubjectCategory,
             examAnswered,
             addQuestion,
             editQuestion,
@@ -382,9 +682,62 @@ export const GlobalStore = ({ children }) => {
             getCryptoNews,
             getBingNews,
             getCrypto,
-            getCryptoHistory
+            getCryptoHistory,
+            getUtmeQuestions,
+            getUtmeExams,
+            addUtmeQuestion,
+            createUtmeExam,
+            deleteUtmeExam,
+            deleteUtmeQuestion,
+            smsUserLogin,
+            getStudents,
+            getParents,
+            getTeachers,
+            getNotifications,
+            getSmsUsers,
+            getFeesCollections,
+            getExpenses,
+            getExamResults,
+            getHostels,
+            getAttendances,
+            smsUserLogout,
+            setError,
+            setMessage,
+            decryptState,
+            getExamSchedules,
+            getTransports,
+            getClients,
+            registerSmsUser,
+            admitStudent,
+            addParent,
+            addTeacher,
+            addFeesCollection,
+            addExpense,
+            addExamSchedule,
+            addExamResult,
+            addNotification,
+            addAttendance,
+            sendMail,
+            addHostel,
+            addTransport,
+            addClient,
+            deleteSmsUser,
+            deleteStudent,
+            deleteParent,
+            deleteTeacher,
+            deleteFeesCollection,
+            deleteExpense,
+            deleteExamSchedule,
+            deleteExamResult,
+            deleteNotification,
+            deleteHostel,
+            deleteTransport,
+            deleteClient,
+            deleteAttendance,
+            changePassword,
+            forgetPassword
         }}>
-            { children }
+            {children}
         </Provider>
     )
 }

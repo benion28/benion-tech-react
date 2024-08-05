@@ -12,14 +12,17 @@ import {
     Post,
     AllPosts,
     Questions,
+    UtmeQuestions,
     Donate, 
     Contact, 
     Register, 
+    Utme,
     LogIn, 
     ServerResponse, 
     Forget, 
     Cryptos,
     Crypto,
+    Sms,
     TestArea
 } from '../components'
 import { GlobalContext } from '../app/GlobalState'
@@ -50,9 +53,12 @@ const Main = () => {
                        <Route exact path="/contact" element={<Contact />} />
                        <Route exact path="/dashboard" element={<Dashboard />} />
                        <Route exact path="/benion-cbt" element={<Cbt />} />
+                       <Route exact path="/benion-sms" element={<Sms />} />
+                       <Route exact path="/benion-utme" element={<Utme />} />
                        <Route exact path="/benion-users/all-posts" element={<AllPosts />} />
                        <Route exact path="/posts" element={<Posts />} />
                        <Route exact path="/benion-cbt-users/all-questions" element={<Questions />} />
+                       <Route exact path="/benion-cbt-users/utme-questions" element={<UtmeQuestions />} />
                        <Route exact path="/benion-donate" element={<Donate />} />
                        <Route exact path="/register" element={<Register />} />
                        <Route exact path="/login" element={<LogIn />} />

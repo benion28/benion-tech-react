@@ -83,7 +83,7 @@ const LogInForm = () => {
                         { !state.loggedIn && (
                             <Item>
                                 <Button type="primary" htmlType="submit" className="login-form-button">
-                                    Log In <LoginOutlined />
+                                    {state.userLogging ? "Logging In, Please Wait..." : "Log In"} <LoginOutlined />
                                 </Button>
                                 <Button type="danger" onClick={ () => onGoogleSignIn() } className="google-button">
                                     Or Sign In With Your Google Account <GoogleOutlined />

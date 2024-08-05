@@ -30,7 +30,7 @@ export const registerCbtUser = (user, axios, host, config, ACTIONS, dispatch, ge
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Register Cbt-User Error - ${error.message} (${error?.response?.data?.error?.message})` 
+            payload: `Register Cbt-User Error - ${error.message} (${error?.response?.data?.error?.message})`
         })
         dispatch({
             type: ACTIONS.usersFormError,
@@ -70,7 +70,7 @@ export const addCbtUser = (user, axios, host, adminConfig, ACTIONS, dispatch, ge
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Add Cbt-User Error - ${error.message} (${error?.response?.data?.error?.message})` 
+            payload: `Add Cbt-User Error - ${error.message} (${error?.response?.data?.error?.message})`
         })
         dispatch({
             type: ACTIONS.usersFormError,
@@ -110,12 +110,17 @@ export const getCbtUsers = (axios, host, ACTIONS, dispatch) => {
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Get Cbt-Users Error - ${error.message} (${error?.response?.data?.error?.message})` 
+            payload: `Get Cbt-Users Error - ${error.message} (${error?.response?.data?.error?.message})`
         })
     })
 }
 
-export const cbtUserLogin = (user, axios, host, config, ACTIONS, dispatch, getCbtUsers, getCbtExams, getCbtQuestions, getScores) => {
+export const cbtUserLogin = (user, axios, host, config, ACTIONS, dispatch, getCbtUsers, getCbtExams, getCbtQuestions, getScores, getUtmeQuestions, getUtmeExams) => {
+    dispatch({
+        type: ACTIONS.cbtLogging,
+        payload: true
+    })
+
     axios({
         url: '/benion-cbt/api/login',
         method: 'post',
@@ -152,12 +157,14 @@ export const cbtUserLogin = (user, axios, host, config, ACTIONS, dispatch, getCb
             getCbtExams()
             getCbtQuestions()
             getScores()
+            getUtmeQuestions()
+            getUtmeExams()
         } else {
             dispatch({
                 type: ACTIONS.usersWarning,
                 payload: response.data.error
             })
-                dispatch({
+            dispatch({
                 type: ACTIONS.usersMessage,
                 payload: null
             })
@@ -174,12 +181,16 @@ export const cbtUserLogin = (user, axios, host, config, ACTIONS, dispatch, getCb
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Cbt-User Login Error - ${error.message} (${error?.response?.data?.error?.message})` 
+            payload: `Cbt-User Login Error - ${error.message} (${error?.response?.data?.error?.message})`
         })
         dispatch({
             type: ACTIONS.usersFormError,
             payload: `${error?.response?.data?.error?.message} (${error.message})`
         })
+    })
+    dispatch({
+        type: ACTIONS.cbtLogging,
+        payload: false
     })
 }
 
@@ -231,7 +242,7 @@ export const findCbtUser = (user, axios, host, config, ACTIONS, dispatch) => {
 
 export const deleteCbtUser = (id, axios, host, adminConfig, ACTIONS, dispatch) => {
     axios({
-        url: `/benion-cbt/api/delete-user/${ id }`,
+        url: `/benion-cbt/api/delete-user/${id}`,
         method: 'delete',
         baseURL: host,
         headers: adminConfig.headers
@@ -261,7 +272,7 @@ export const deleteCbtUser = (id, axios, host, adminConfig, ACTIONS, dispatch) =
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Delete Cbt-User Error - ${error.message} (${error?.response?.data?.error?.message})` 
+            payload: `Delete Cbt-User Error - ${error.message} (${error?.response?.data?.error?.message})`
         })
     })
 }
@@ -703,7 +714,7 @@ export const editQuestion = (object, key, axios, host, adminConfig, ACTIONS, dis
 
 export const deleteQuestion = (key, axios, host, adminConfig, ACTIONS, dispatch, getCbtQuestions) => {
     axios({
-        url: `/benion-cbt/api/delete-question/${ key }`,
+        url: `/benion-cbt/api/delete-question/${key}`,
         method: 'delete',
         baseURL: host,
         headers: adminConfig.headers
@@ -889,7 +900,7 @@ export const editScore = (object, key, axios, host, adminConfig, ACTIONS, dispat
 
 export const deleteScore = (key, axios, host, adminConfig, ACTIONS, dispatch, getCbtQuestions) => {
     axios({
-        url: `/benion-cbt/api/delete-cbt-score/${ key }`,
+        url: `/benion-cbt/api/delete-cbt-score/${key}`,
         method: 'delete',
         baseURL: host,
         headers: adminConfig.headers
@@ -918,5 +929,241 @@ export const deleteScore = (key, axios, host, adminConfig, ACTIONS, dispatch, ge
             type: ACTIONS.usersError,
             payload: `Delete Score Error - ${error.message} (${error?.response?.data?.error?.message})`
         })
+    })
+}
+
+export const addUtmeQuestion = (object, axios, host, adminConfig, ACTIONS, dispatch, getUtmeExams, getUtmeQuestions) => {
+    axios({
+        url: `/benion-cbt/api/${object.key ? `edit-utme-question/${object.key}` : 'add-utme-question'}`,
+        method: `${object.key ? 'put' : 'post'}`,
+        baseURL: host,
+        headers: adminConfig.headers,
+        data: object
+    }).then(response => {
+        !production && (console.log(`${object.key ? 'Edit' : 'Add'} Utme Question Response`, response))
+        getUtmeExams()
+        getUtmeQuestions()
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: null
+        })
+        dispatch({
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
+        })
+    }).catch(error => {
+        !production && (console.log(`${object.key ? 'Edit' : 'Add'} Utme Question Error`, error))
+        dispatch({
+            type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: `${object.key ? 'Edit' : 'Add'} Utme Question Error - ${error.message} (${error?.response?.data?.error?.message})`
+        })
+        dispatch({
+            type: ACTIONS.usersFormError,
+            payload: `${error?.response?.data?.error?.message} (${error.message})`
+        })
+    })
+}
+
+export const deleteUtmeQuestion = (key, axios, host, adminConfig, ACTIONS, dispatch, getUtmeQuestions) => {
+    axios({
+        url: `/benion-cbt/api/delete-utme-question/${key}`,
+        method: 'delete',
+        baseURL: host,
+        headers: adminConfig.headers
+    }).then(response => {
+        !production && (console.log("Delete Utme-Question Response", response))
+        getUtmeQuestions()
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: null
+        })
+        dispatch({
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
+        })
+    }).catch(error => {
+        !production && (console.log("Delete Utme-Question Error", error))
+        dispatch({
+            type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: `Delete Exam-Question Error - ${error.message} (${error?.response?.data?.error?.message})`
+        })
+    })
+}
+
+export const getUtmeQuestions = (axios, host, adminConfig, ACTIONS, dispatch) => {
+    axios({
+        url: '/benion-cbt/api/utme-exam-questions',
+        method: 'get',
+        baseURL: host,
+        headers: adminConfig.headers
+    }).then(response => {
+        !production && (console.log("Get Utme-Exams-Questions Response", response))
+        dispatch({
+            type: ACTIONS.getUtmeQuestions,
+            payload: response.data.data
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: null
+        })
+        dispatch({
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
+        })
+    }).catch(error => {
+        !production && (console.log("Get Utme-Questions Error", error))
+        dispatch({
+            type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: `Get Utme-Questions Error - ${error.message} (${error?.response?.data?.error?.message})`
+        })
+    })
+}
+
+export const getUtmeExams = (axios, host, adminConfig, ACTIONS, dispatch) => {
+    axios({
+        url: '/benion-cbt/api/utme-exam-data',
+        method: 'get',
+        baseURL: host,
+        headers: adminConfig.headers
+    }).then(response => {
+        !production && (console.log("Get Utme-Exams Response", response))
+        dispatch({
+            type: ACTIONS.getUtmeExams,
+            payload: response.data.data
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: null
+        })
+        dispatch({
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
+        })
+    }).catch(error => {
+        !production && (console.log("Get Utme-Exams Error", error))
+        dispatch({
+            type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: `Get Utme-Exams Error - ${error.message} (${error?.response?.data?.error?.message})`
+        })
+    })
+}
+
+export const createUtmeExam = (values, axios, host, config, ACTIONS, dispatch, getCbtUsers, getUtmeExams) => {
+    axios({
+        url: `/benion-cbt/api/${values.key ? `edit-utme-exam/${values.key}` : 'add-utme-exam'}`,
+        method: `${values.key ? 'put' : 'post'}`,
+        baseURL: host,
+        headers: config.headers,
+        data: values
+    }).then(response => {
+        !production && (console.log(`${values.key ? 'Edit' : 'Add'} Utme-Exam Response`, response))
+        getCbtUsers()
+        getUtmeExams()
+        if (values.key) {
+            dispatch({
+                type: ACTIONS.updateUtmeExam,
+                payload: response.data.data
+            })
+        } else {
+            dispatch({
+                type: ACTIONS.createUtmeExam,
+                payload: response.data.data
+            })
+        }
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: null
+        })
+        dispatch({
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
+        })
+    }).catch(error => {
+        !production && (console.log(`${values.key ? 'Edit' : 'Add'} Utme-Exam Error`, error))
+        dispatch({
+            type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: `${values.key ? 'Edit' : 'Add'} Utme-Exam Error - ${error.message} (${error?.response?.data?.error?.message})`
+        })
+    })
+}
+
+export const deleteUtmeExam = (key, axios, host, adminConfig, ACTIONS, dispatch, getUtmeExams) => {
+    axios({
+        url: `/benion-cbt/api/delete-utme-exam/${key}`,
+        method: 'delete',
+        baseURL: host,
+        headers: adminConfig.headers
+    }).then(response => {
+        !production && (console.log("Delete Utme Exam Response", response))
+        getUtmeExams()
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: null
+        })
+        dispatch({
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
+        })
+    }).catch(error => {
+        !production && (console.log("Delete Utme Exam Response", error))
+        dispatch({
+            type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: `Delete Cbt-Exam Error - ${error.message} (${error?.response?.data?.error?.message})`
+        })
+    })
+}
+
+export const utmeExamSubjectCategory = (values, ACTIONS, dispatch) => {
+    dispatch({
+        type: ACTIONS.utmeExamSubjectCategory,
+        payload: values
     })
 }

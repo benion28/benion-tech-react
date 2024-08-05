@@ -152,3 +152,66 @@ export const getScores = (state, action) => {
         loading: false
     }
 }
+
+export const createUtmeExam = (state, action) => {
+    return {
+        ...state,
+        utmeExam: action.payload,
+        utmeAnswers: action.payload.answers,
+        utmeAnswered: action.payload.answered,
+        utmeExamKey: action.payload.$key
+    }
+}
+
+export const updateUtmeExam = (state, action) => {
+    return {
+        ...state,
+        utmeExam: action.payload,
+        utmeAnswers: action.payload.answers,
+        utmeAnswered: action.payload.answered
+    }
+}
+
+export const getUtmeExams = (state, action) => {
+    return {
+        ...state,
+        utmeExams: action.payload,
+        loading: false
+    }
+}
+
+export const getUtmeQuestions = (state, action) => {
+    return {
+        ...state,
+        utmeQuestions: action.payload,
+        writeUtmeExamQuestions: action.payload[3].sort(() => Math.random() - 0.5),
+        loading: false
+    }
+}
+
+export const cbtLogging = (state, action) => {
+    return {
+        ...state,
+        cbtLogging: action.payload
+    }
+}
+
+export const utmeExamSubjectCategory = (state, action) => {
+    const exams = anCompletedExam(state, action.payload, state.tempCbtUsername)
+    const exam = exams[0]
+    const time = new Date().getTime()
+    const completedExam = {
+        examTime: exam.examTime,
+        answers: exam.answers,
+        completed: exam.completed,
+        score: exam.score
+    }
+    return {
+        ...state,
+        cbtExam: lodash.extend(state.cbtExam, {completed: false}),
+        examSubjectCategory: action.payload,
+        cbtStartTime: time,
+        startExam: exam.$key !== null && exam.completed ? false : true,
+        completeExam: exam.$key !== null && exam.completed ? lodash.extend(state.completeExam, completedExam) : completeExam
+    }
+}

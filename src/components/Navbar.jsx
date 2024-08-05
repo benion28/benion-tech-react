@@ -12,14 +12,15 @@ import {
     DatabaseOutlined,
     GlobalOutlined,
     HomeFilled,
-    PoweroffOutlined
+    PoweroffOutlined,
+    TeamOutlined
 } from '@ant-design/icons'
 import benionPassport from '../images/benion-passport.jpg'
 import { GlobalContext } from '../app/GlobalState'
 import '../styles/Navbar.scss'
 
-const { Title  } = Typography;
-const { Item  } = Menu;
+const { Title } = Typography;
+const { Item } = Menu;
 
 const Navbar = () => {
     const [activeMenu, setActiveMenu] = useState(true);
@@ -53,7 +54,7 @@ const Navbar = () => {
                     <Button className="menu-control-container" onClick={() => setActiveMenu(!activeMenu)}>
                         <MenuOutlined />
                     </Button>
-                </div>  
+                </div>
             )}
             {(activeMenu && !state.startExam) && (
                 <Menu theme="dark">
@@ -70,12 +71,12 @@ const Navbar = () => {
                     <Item icon={<FundOutlined />}>
                         <Link to="/gallery"><b>Gallery</b></Link>
                     </Item>
-                    { state.loggedIn && (
+                    {state.loggedIn && (
                         <Item icon={<DollarCircleOutlined />}>
                             <Link to="/cryptos"><b>Cryptos</b></Link>
                         </Item>
                     )}
-                    { (!state.loggedIn || (state.user.role !== 'admin' && state.loggedIn)) && (
+                    {(!state.loggedIn || (state.user.role !== 'admin' && state.loggedIn)) && (
                         <Item icon={<GlobalOutlined />}>
                             <Link to="/posts"><b>Posts</b></Link>
                         </Item>
@@ -83,20 +84,33 @@ const Navbar = () => {
                     <Item icon={<DesktopOutlined />}>
                         <Link to="/benion-cbt"><b>CBT</b></Link>
                     </Item>
-                    { (state.user.role === 'admin' && state.loggedIn) && (
+                    {(state.cbtLoggedIn) && (
+                        <Item icon={<DesktopOutlined />}>
+                            <Link to="/benion-utme"><b>UTME</b></Link>
+                        </Item>
+                    )}
+                    <Item icon={<TeamOutlined />}>
+                        <Link to="/benion-sms"><b>SMS</b></Link>
+                    </Item>
+                    {(state.user.role === 'admin' && state.loggedIn) && (
                         <Item icon={<PoweroffOutlined />}>
-                            <Button type='ghost' onClick={ () => showAlert(!state.showAlert) } className='alert-item'><b>Swich Alert ({ state.showAlert ? "OFF" : "ON" }) </b> <PoweroffOutlined className={ state.showAlert ? 'alert-on' : 'alert-off' } /></Button>
+                            <Button type='ghost' onClick={() => showAlert(!state.showAlert)} className='alert-item'><b>Swich Alert ({state.showAlert ? "OFF" : "ON"}) </b> <PoweroffOutlined className={state.showAlert ? 'alert-on' : 'alert-off'} /></Button>
                         </Item>
                     )}
                     <Item icon={<MoneyCollectOutlined />}>
                         <Link to="/benion-donate"><b>Donate</b></Link>
                     </Item>
-                    { (state.cbtLoggedIn && state.tempCbtRole !== "student") && (
+                    {(state.cbtLoggedIn && state.tempCbtRole !== "student") && (
                         <Item icon={<ReadOutlined />}>
                             <Link to="/benion-cbt-users/all-questions"><b>All Questions</b></Link>
                         </Item>
                     )}
-                    { (state.user.role === 'admin' && state.loggedIn) && (
+                    {(state.cbtLoggedIn && state.tempCbtRole !== "student") && (
+                        <Item icon={<ReadOutlined />}>
+                            <Link to="/benion-cbt-users/utme-questions"><b>UTME Questions</b></Link>
+                        </Item>
+                    )}
+                    {(state.user.role === 'admin' && state.loggedIn) && (
                         <Item icon={<DatabaseOutlined />}>
                             <Link to="/benion-users/all-posts"><b>All Posts</b></Link>
                         </Item>

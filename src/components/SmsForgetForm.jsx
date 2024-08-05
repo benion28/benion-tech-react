@@ -1,14 +1,14 @@
 import React, { useState, useContext } from 'react'
 import { Form, Input, Button, Alert } from 'antd'
-import { UserOutlined, LockOutlined, LoginOutlined } from '@ant-design/icons'
+import { MailOutlined, LoginOutlined } from '@ant-design/icons'
 import '../styles/CbtLoginForm.scss'
 import { production } from '../services/userHelper'
 import { GlobalContext } from '../app/GlobalState'
 
 const { Item } = Form
-const { Password } = Input
+const { Fragment } = React
 
-const CbtLoginForm = () => {
+const SmsForgetForm = () => {
     const [form] = Form.useForm();
     const [formMessage, setFormMessage] = useState('')
     const [formError, setFormError] = useState('')
@@ -31,11 +31,14 @@ const CbtLoginForm = () => {
     }
 
     const validateMessages = {
-        required: '${label} is required!'
+        required: '${label} is required!',
+        types: {
+            email: 'This is not a valid email!'
+        }
     }
 
     return (
-        <React.Fragment>
+        <Fragment>
             <div className="form-group">
                 { (!production || (state.user.role === 'admin' && state.showAlert)) && (
                     <div className="form-alert">
@@ -54,25 +57,20 @@ const CbtLoginForm = () => {
                 </div>
                 { !state.cbtLoggedIn && (
                     <Form name="normal_login" form={ form } className="login-form" onFinishFailed={ onFinishFailed } validateMessages={ validateMessages } initialValues={{ remember: true }} onFinish={ onFinish }>
-                        <Item label="Username" name="username" rules={[ { required: true} ]}>
-                            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" allowClear />
+                        <Item className='form-item' label="Email" name="email" rules={[ { type:'email', required: true } ]}>
+                            <Input prefix={<MailOutlined />} placeholder="Your Email Address" allowClear />
                         </Item>
-                        <Item label="Password" name="password" rules={[ { required: true, min: 8, max: 12 } ]} hasFeedback>
-                            <Password prefix={<LockOutlined className="site-form-item-icon" />} placeholder="Password" allowClear />
-                        </Item>
-                        { !state.cbtLoggedIn && (
                             <Item>
                                 <Button type="primary" htmlType="submit" className="login-form-button">
-                                  {state.cbtLogging ? "Logging In, Please Wait..." : "Log In"} <LoginOutlined />
+                                    Submit <LoginOutlined />
                                 </Button>
                             </Item>
-                        )}
                     </Form>
                 )}
             </div>
-        </React.Fragment>
+        </Fragment>
     )
 }
 
-export default CbtLoginForm
+export default SmsForgetForm
 

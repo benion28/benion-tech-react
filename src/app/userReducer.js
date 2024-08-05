@@ -112,3 +112,9 @@ export const getImages = (state, action) => {
     }
 }
 
+export const userLogging = (state, action) => {
+    return {
+        ...state,
+        userLogging: action.payload
+    }
+}

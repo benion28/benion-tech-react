@@ -40,7 +40,44 @@ export const cbtUser = {
     completed: true
 }
 
+
+export const smsUser = {
+    firstname: "Sms", 
+    lastname: "User", 
+    email: null, 
+    address: null, 
+    balance: 0, 
+    dateofbirth: null, 
+    joiningdate: null, 
+    gender: null, 
+    middlename: "Guest", 
+    password: null, 
+    phone: null, 
+    religion: null, 
+    created_at: null,
+    access_token: null, 
+    refresh_token: null, 
+    user_id: null, 
+    clientEmail: null, 
+    roles: [null]
+}
+
 export const cbtExam = {
+    $key: null,
+    category: null,
+    id: null,
+    className: null,
+    examTime: 0,
+    subject: null,
+    username: null,
+    answered: '',
+    answers: '',
+    term: null,
+    completed: true,
+    score: 404404
+}
+
+export const utmeExam = {
     $key: null,
     category: null,
     id: null,
@@ -74,7 +111,26 @@ export const foundUser = {
 export const initialState = {
     users: [],
     cbtUsers: [],
+    smsUsers: [],
+    students: [],
+    teachers: [],
+    parents: [],
+    hostels: [],
+    clients: [],
+    attendances: [],
+    notifications: [],
+    expenses: [],
+    feesCollections: [],
+    examResults: [],
+    transports: [],
+    examSchedules: [],
     cbtExams: [
+        [],
+        [],
+        {},
+        []
+    ],
+    utmeExams: [
         [],
         [],
         {},
@@ -86,12 +142,19 @@ export const initialState = {
         {},
         []
     ],
+    utmeQuestions: [
+        [],
+        [],
+        {},
+        []
+    ],
     contactMessages: [
         [],
         [],
         {},
         []
     ],
+    writeExamQuestions: [],
     scores: [
         [],
         [],
@@ -148,8 +211,10 @@ export const initialState = {
     cryptoHistory: [],
     user,
     cbtUser,
+    smsUser,
     foundUser,
     cbtExam,
+    utmeExam,
     completeExam,
     totalQuestions: 19,
     examTimeLimit: 30,
@@ -171,7 +236,10 @@ export const initialState = {
     advanceExam: false,
     cbtAnswers: '',
     cbtAnswered: '',
+    utmeAnswers: '',
+    utmeAnswered: '',
     cbtExamKey: '',
+    utmeExamKey: '',
     error: null,
     message: null,
     warning: null,
@@ -180,12 +248,29 @@ export const initialState = {
     startExam: false,
     loggedIn: false,
     showAlert: false,
-    cbtLoggedIn: false
+    multipleAccess: false,
+    singleAccess: true,
+    cbtLoggedIn: false,
+    smsLoggedIn: false,
+    formMessage: {
+        success: false,
+        message: null
+    },
+    logging: false,
+    cbtLogging: false,
+    userLogging: false
 }
 
 // export const host = production ? 'https://benion-tech-server.herokuapp.com' : 'http://localhost:8828'
 // export const host = production ? 'https://benion-tech-server.up.railway.app' : 'http://localhost:8828'
+export const host_1 = "https://sms-penetralia.azurewebsites.net"
+export const host_2 = "https://sms-penetralia-tmp.azurewebsites.net"
+export const host_3 = "https://benion-tech-server.onrender.com/benion-sms"
+export const host_4 = "http://localhost:3000"
+
 export const host = production ? 'https://benion-tech-server.onrender.com/' : 'http://localhost:8828'
+export const smsHost = host_3
+export const smshost2 = host_4
 
 
 export const formatAmountMillify = (value) => {
@@ -281,6 +366,37 @@ export const userRoles = [
     { name: 'Guest', value: 'guest' }
 ]
 
+export const smsClasses = [
+    { name: "JS 1", value: "js1" },
+    { name: "JS 2", value: "js2" },
+    { name: "JS 3", value: "js3" },
+    { name: "SS 1", value: "ss1" },
+    { name: "SS 2", value: "ss2" },
+    { name: "SS 3", value: "ss3" }
+]
+
+export const religions = [
+    { value: "christianity", name: "Christianity" },
+    { value: "islam", name: "Islam" },
+    { value: "traditional", name: "Traditional" },
+    { value: "others", name: "Others" }
+]
+
+export const smsUserFormRoles = [
+    { name: "Student", value: "STUDENT" },
+    { name: "Parent", value: "PARENT" },
+    { name: "Admin", value: "ADMIN" },
+    { name: "Client", value: "MODR" },
+    { name: "Vendor", value: "VENDOR" },
+    { name: "Teacher", value: "TEACHER" },
+]
+
+export const smsGenders = [
+    { name: "MALE", value: "MALE" },
+    { name: "FEMALE", value: "FEMALE" },
+    { name: "OTHERS", value: "OTHERS" }
+]
+
 export const cbtCategories = [
     { name: 'General', value: 'general' },
     { name: 'Junior', value: 'junior' },
@@ -309,16 +425,38 @@ export const sessions = [
     { name: '2025/2026 Academic Year', value: '2025/2026' }
 ]
 
+export const utmeSubjects = [
+    { name: 'Mathematics', value: 'mathematics' },
+    { name: 'English Language', value: 'english' },
+    { name: 'Chemistry', value: 'chemistry' },
+    { name: 'Physics', value: 'physics' },
+    { name: 'Government', value: 'government' },
+    { name: 'Economics', value: 'economics' },
+    { name: 'Geography', value: 'geography' },
+    { name: 'Commerce', value: 'commerce' },
+    { name: 'Biology', value: 'biology' },
+    { name: 'History', value: 'history' },
+    { name: 'Accounting', value: 'accounting' }
+]
+
 export const subjects = [
     { name: 'Mathematics', value: 'maths' },
     { name: 'English Language', value: 'english' },
     { name: 'Basic Science', value: 'basic-science' },
     { name: 'Chemistry', value: 'chemistry' },
     { name: 'Physics', value: 'physics' },
+    { name: 'Computer Science', value: 'computer' },
     { name: 'Further Mathematics', value: 'further-maths' },
     { name: 'Government', value: 'government' },
     { name: 'Economics', value: 'economics' },
     { name: 'Geography', value: 'geography' }
+]
+
+export const examTypes = [
+    { name: 'WASSCE', value: 'wassce' }, 
+    { name: 'Jamb UTME', value: 'utme' },
+    { name: 'Post UTME', value: 'post-utme' },
+    { name: 'NECO', value: 'neco' }
 ]
 
 export const postTags = [
@@ -346,28 +484,33 @@ export const getClassName = (className) => {
         return "Graduated"
     } else {
         const filteredData = cbtClasses.filter(data => data.value === className)
-        return filteredData[0].name
+        return filteredData[0] ? filteredData[0].name : ""
     }
 }
 
 export const getCategoryName = (category) => {
     const filteredData = cbtCategories.filter(data => data.value === category)
-    return filteredData[0].name
+    return filteredData[0] ? filteredData[0].name : ""
 }
 
 export const getTermName = (term) => {
     const filteredData = terms.filter(data => data.value === term)
-    return filteredData[0].name
+    return filteredData[0] ? filteredData[0].name : ""
 }
 
 export const getSubjectName = (subject) => {
     const filteredData = subjects.filter(data => data.value === subject)
-    return filteredData[0].name
+    return filteredData[0] ? filteredData[0].name : ""
+}
+
+export const getUtmeSubjectName = (subject) => {
+    const filteredData = utmeSubjects.filter(data => data.value === subject)
+    return filteredData[0] ? filteredData[0].name : ""
 }
 
 export const getSchoolName = (school) => {
     const filteredData = cbtSchools.filter(data => data.value === school)
-    return filteredData[0].name
+    return filteredData[0] ? filteredData[0].name : ""
 }
 
 export const getFullName = (username, users) => {
@@ -446,4 +589,88 @@ export const limitPosts = (posts, total) => {
         items = posts
     }
     return items
+}
+
+export const textArray = (text) => {
+    const textArray = []
+    for (let index = 0; index < text.length; index++) {
+        textArray.push(text[index])
+    }
+    return textArray
+}
+
+export const fetchUtmeQuestions = (items, count) => {
+    const questions = []
+    for (let index = 0; index < items.length; index++) {
+        if (questions.length <= count) {
+            questions.push(items[index])
+        }
+        if (questions.length === count) {
+            break
+        }
+    }
+    return questions
+}
+
+export const firstZero = (value) => {
+    let text = typeof(value) !== "string" ? String(value) : value
+    if (text.length === 1) {
+        text = "0" + text
+    }
+    return text
+}
+
+export const firstCapital = (value) => {
+    const text = value ? value : " "
+    const first = text[0].toUpperCase()
+    const remaining = value.slice(1 - value.length).toLowerCase()
+    return first + remaining
+}
+
+export const fetchTotalPayments = (username, payments) => {
+    let total = 0
+    const filteredUsername = payments[3].filter(data => data.recieversUsername.trim() === username.trim())
+    if (filteredUsername.length > 0) {
+        for (let index = 0; index < filteredUsername.length; index++) {
+            total += filteredUsername[index].amount
+        }
+    }
+    return total
+}
+
+export const verifySentData = (axios, url, method, headers, data) => {
+    if (smsHost === host_3) {
+        return ""
+    }
+    
+    if (method === "post" || method === "put") {
+        axios({ url, method, baseURL: smshost2, headers, data }).then(response => {
+            const result = response.data
+            if (result.meta.status === "200" || result.meta.status === "201") {
+                console.warn("Benion Request Sent Successfully")
+            } else {
+                console.warn("Benion Request Failed")
+            }
+        }).catch(error => {
+            console.warn(`Benion Request Encountered An Error. ${error.message}`)
+        })
+    } else {
+        console.log("Benion Request Method Not Allowed")
+    }
+}
+
+const generateValues = (length, chars) => {
+    let password = ""
+    for (let i = 0; i < length; i++) {
+        password += chars.charAt(Math.floor(Math.random() * chars.length))
+    }
+    return password
+}
+
+export const generateCode = (length, hasAlpha, hasNumbers, hasSymbols) => {
+    let chars = ""
+    hasAlpha = hasAlpha ? (chars += alpha) : ""
+    hasNumbers = hasNumbers ? (chars += numbers) : ""
+    hasSymbols = hasSymbols ? (chars += symbols) : ""
+    return generateValues(length, chars)
 }

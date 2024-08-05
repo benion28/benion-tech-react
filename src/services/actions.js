@@ -14,6 +14,7 @@ export const showAlert = 'show-alert'
 export const getContactMessages = 'get-contact-messages'
 export const deleteContactMessage = 'delete-contact-message'
 export const getImages = 'get-gallery-images'
+export const userLogging = 'user-logging'
 
 // Cbt Users
 export const getCbtUsers = 'get-cbt-users'
@@ -31,8 +32,14 @@ export const examCategory = 'exam-category'
 export const examAnswered = 'exam-answered'
 export const addQuestion = 'add-question'
 export const editQuestion = 'edit-question'
-export const getCbtQuestions = 'get-cbt-question' 
-export const getScores = 'get-scores' 
+export const getCbtQuestions = 'get-cbt-question'
+export const getScores = 'get-scores'
+export const getUtmeQuestions = 'get-utme-questions'
+export const getUtmeExams = 'get-utme-exams'
+export const createUtmeExam = 'create-utme-exam'
+export const updateUtmeExam = 'update-utme-exam'
+export const cbtLogging = 'cbt-logging'
+export const utmeExamSubjectCategory = 'utme-exam-subject-category'
 
 // News
 export const getCryptos = 'get-cryptos'
@@ -41,3 +48,24 @@ export const getCryptoNews = 'get-crypto-news'
 export const getBingNews = 'get-bing-news'
 export const getCryptoHistory = 'get-crypto-history'
 export const getPosts = 'get-posts'
+
+// SMS
+export const smsUserLogin = "sms-user-log-in"
+export const getStudents = "get-students"
+export const getParents = "get-parents"
+export const getTeachers = "get-teachers"
+export const getNotifications = "get-notifications"
+export const getSmsUsers = "get-users"
+export const getFeesCollections = "get-fees-collections"
+export const getExpenses = "get-expenses"
+export const getExamResults = "get-exam-results"
+export const getHostels = "get-hostels"
+export const smsUserLogout = "sms-user-log-out"
+export const setError = "set-error"
+export const setMessage = "set-message"
+export const decryptState = "decrypt-state"
+export const getExamSchedules = "get-exam-schedules"
+export const getTransports = "get-transports"
+export const getClients = "get-clients"
+export const getAttendances = "get-attendances"
+export const loggingIn = "logging-in"

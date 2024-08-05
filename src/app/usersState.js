@@ -31,12 +31,17 @@ export const getUsers = (axios, host, ACTIONS, dispatch) => {
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Get Users Error - ${error.message} (${error?.response?.data?.error?.message})` 
+            payload: `Get Users Error - ${error.message} (${error?.response?.data?.error?.message})`
         })
     })
 }
 
-export const userLogin = (user, axios, host, config, ACTIONS, dispatch, getUsers, getCbtUsers, getCbtExams, getCbtQuestions, getContactMessages, getCryptos, getCryptoNews, getBingNews, getScores, getImages, getPosts) => {
+export const userLogin = (user, axios, host, config, ACTIONS, dispatch, getUsers, getCbtUsers, getCbtExams, getCbtQuestions, getContactMessages, getCryptos, getCryptoNews, getBingNews, getScores, getImages, getPosts, getUtmeQuestions, getUtmeExams) => {
+    dispatch({
+        type: ACTIONS.userLogging,
+        payload: true
+    })
+
     axios({
         url: '/benion-users/api/login',
         method: 'post',
@@ -74,6 +79,8 @@ export const userLogin = (user, axios, host, config, ACTIONS, dispatch, getUsers
                 getCbtQuestions()
                 getContactMessages()
                 getScores()
+                getUtmeQuestions()
+                getUtmeExams()
             } else {
                 dispatch({
                     type: ACTIONS.getUsers,
@@ -114,18 +121,22 @@ export const userLogin = (user, axios, host, config, ACTIONS, dispatch, getUsers
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `User Login Error - ${error.message} (${error?.response?.data?.error?.message})` 
+            payload: `User Login Error - ${error.message} (${error?.response?.data?.error?.message})`
         })
         dispatch({
             type: ACTIONS.usersFormError,
             payload: `${error?.response?.data?.error?.message} (${error.message})`
         })
     })
+    dispatch({
+        type: ACTIONS.userLogging,
+        payload: false
+    })
 }
 
 export const deleteUser = (id, axios, host, adminConfig, ACTIONS, dispatch) => {
     axios({
-        url: `/benion-users/api/delete-user/${ id }`,
+        url: `/benion-users/api/delete-user/${id}`,
         method: 'delete',
         baseURL: host,
         headers: adminConfig.headers
@@ -155,7 +166,7 @@ export const deleteUser = (id, axios, host, adminConfig, ACTIONS, dispatch) => {
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Delete User Error - ${error.message} (${error?.response?.data?.error?.message})` 
+            payload: `Delete User Error - ${error.message} (${error?.response?.data?.error?.message})`
         })
     })
 }
@@ -192,7 +203,7 @@ export const deleteAllUsers = (axios, host, adminConfig, ACTIONS, dispatch) => {
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Delete Users Error - ${error.message} (${error?.response?.data?.error?.message})` 
+            payload: `Delete Users Error - ${error.message} (${error?.response?.data?.error?.message})`
         })
     })
 }
@@ -225,7 +236,7 @@ export const googleSignIn = (axios, host, config, ACTIONS, dispatch) => {
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Google Auth Error - ${error.message} (${error?.response?.data?.error?.message})` 
+            payload: `Google Auth Error - ${error.message} (${error?.response?.data?.error?.message})`
         })
         dispatch({
             type: ACTIONS.usersFormError,
@@ -264,7 +275,7 @@ export const registerUser = (user, axios, host, config, ACTIONS, dispatch, getCo
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Register User Error - ${error.message} (${error?.response?.data?.error?.message})` 
+            payload: `Register User Error - ${error.message} (${error?.response?.data?.error?.message})`
         })
         dispatch({
             type: ACTIONS.usersFormError,
@@ -302,7 +313,7 @@ export const userForget = (user, axios, host, config, ACTIONS, dispatch) => {
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Forget User Error - ${error.message} (${error?.response?.data?.error?.message})` 
+            payload: `Forget User Error - ${error.message} (${error?.response?.data?.error?.message})`
         })
         dispatch({
             type: ACTIONS.usersFormError,
@@ -341,7 +352,7 @@ export const userLogout = (axios, host, ACTIONS, dispatch) => {
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `User Logout Error - ${error.message} (${error?.response?.data?.error?.message})` 
+            payload: `User Logout Error - ${error.message} (${error?.response?.data?.error?.message})`
         })
     })
 }
@@ -375,7 +386,7 @@ export const userContact = (user, axios, host, config, ACTIONS, dispatch) => {
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `User Contact Error - ${error.message} (${error?.response?.data?.error?.message})` 
+            payload: `User Contact Error - ${error.message} (${error?.response?.data?.error?.message})`
         })
         dispatch({
             type: ACTIONS.usersFormError,
@@ -415,7 +426,7 @@ export const updateUser = (user, axios, host, adminConfig, ACTIONS, dispatch, ge
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Update User Error - ${error.message} (${error?.response?.data?.error?.message})` 
+            payload: `Update User Error - ${error.message} (${error?.response?.data?.error?.message})`
         })
         dispatch({
             type: ACTIONS.usersFormError,
@@ -459,7 +470,7 @@ export const addUser = (user, axios, host, config, ACTIONS, dispatch, getUsers, 
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Add User Error - ${error.message} (${error?.response?.data?.error?.message})` 
+            payload: `Add User Error - ${error.message} (${error?.response?.data?.error?.message})`
         })
         dispatch({
             type: ACTIONS.usersFormError,
@@ -507,14 +518,14 @@ export const getContactMessages = (axios, host, ACTIONS, dispatch) => {
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Get Contact Messages Error - ${error.message} (${error?.response?.data?.error?.message})` 
+            payload: `Get Contact Messages Error - ${error.message} (${error?.response?.data?.error?.message})`
         })
     })
 }
 
 export const deleteContactMessage = (key, axios, host, adminConfig, ACTIONS, dispatch, getContactMessages) => {
     axios({
-        url: `/benion-users/api/delete-contact-message/${ key }`,
+        url: `/benion-users/api/delete-contact-message/${key}`,
         method: 'delete',
         baseURL: host,
         headers: adminConfig.headers
@@ -545,7 +556,7 @@ export const deleteContactMessage = (key, axios, host, adminConfig, ACTIONS, dis
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Delete Contact Message Error - ${error.message} (${error?.response?.data?.error?.message})` 
+            payload: `Delete Contact Message Error - ${error.message} (${error?.response?.data?.error?.message})`
         })
     })
 }
@@ -579,7 +590,7 @@ export const activateUser = (user, axios, host, adminConfig, ACTIONS, dispatch) 
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Activate User Error - ${error.message} (${error?.response?.data?.error?.message})` 
+            payload: `Activate User Error - ${error.message} (${error?.response?.data?.error?.message})`
         })
         dispatch({
             type: ACTIONS.usersFormError,
@@ -617,7 +628,7 @@ export const depositForUser = (user, axios, host, adminConfig, ACTIONS, dispatch
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Deposit For User Error - ${error.message} (${error?.response?.data?.error?.message})` 
+            payload: `Deposit For User Error - ${error.message} (${error?.response?.data?.error?.message})`
         })
         dispatch({
             type: ACTIONS.usersFormError,
@@ -655,7 +666,7 @@ export const changeUserPassword = (token, user, axios, host, adminConfig, ACTION
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Change User Password Error - ${error.message} (${error?.response?.data?.error?.message})` 
+            payload: `Change User Password Error - ${error.message} (${error?.response?.data?.error?.message})`
         })
         dispatch({
             type: ACTIONS.usersFormError,
@@ -693,7 +704,7 @@ export const updateUserPassword = (user, axios, host, adminConfig, ACTIONS, disp
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Update User Password Error - ${error.message} (${error?.response?.data?.error?.message})` 
+            payload: `Update User Password Error - ${error.message} (${error?.response?.data?.error?.message})`
         })
         dispatch({
             type: ACTIONS.usersFormError,
@@ -732,7 +743,7 @@ export const addImage = (data, axios, host, adminConfig, ACTIONS, dispatch, getI
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Add Image Error - ${error.message} (${error?.response?.data?.error?.message})` 
+            payload: `Add Image Error - ${error.message} (${error?.response?.data?.error?.message})`
         })
         dispatch({
             type: ACTIONS.usersFormError,
@@ -807,7 +818,7 @@ export const updateImage = (data, axios, host, adminConfig, ACTIONS, dispatch, g
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Update Image Error - ${error.message} (${error?.response?.data?.error?.message})` 
+            payload: `Update Image Error - ${error.message} (${error?.response?.data?.error?.message})`
         })
         dispatch({
             type: ACTIONS.usersFormError,
@@ -818,7 +829,7 @@ export const updateImage = (data, axios, host, adminConfig, ACTIONS, dispatch, g
 
 export const deleteImage = (key, axios, host, adminConfig, ACTIONS, dispatch, getImages) => {
     axios({
-        url: `/benion-users/api/delete-image/${ key }`,
+        url: `/benion-users/api/delete-image/${key}`,
         method: 'delete',
         baseURL: host,
         headers: adminConfig.headers
@@ -845,7 +856,7 @@ export const deleteImage = (key, axios, host, adminConfig, ACTIONS, dispatch, ge
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: `Delete Image Error - ${error.message} (${error?.response?.data?.error?.message})` 
+            payload: `Delete Image Error - ${error.message} (${error?.response?.data?.error?.message})`
         })
     })
 }
@@ -928,7 +939,7 @@ export const userLoginAccess = (user, ACTIONS, dispatch, getUsers, getCbtUsers, 
         })
         dispatch({
             type: ACTIONS.usersError,
-            payload: "User Login Access Error !!!" 
+            payload: "User Login Access Error !!!"
         })
         dispatch({
             type: ACTIONS.usersFormError,
