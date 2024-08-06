@@ -12,7 +12,7 @@ const SmsForgetForm = () => {
     const [form] = Form.useForm();
     const [formMessage, setFormMessage] = useState('')
     const [formError, setFormError] = useState('')
-    const { cbtUserLogin, state  } = useContext(GlobalContext)
+    const { forgetPassword, state  } = useContext(GlobalContext)
 
     const onFinish = (values) => {
         !production && (console.log("Cbt Login data accepted !!", values))
@@ -20,7 +20,7 @@ const SmsForgetForm = () => {
         setFormMessage('Cbt Login data accepted !!')
 
         // Cbt Log In
-        cbtUserLogin(values)
+        forgetPassword(values)
         form.resetFields()
     }
 
@@ -55,7 +55,7 @@ const SmsForgetForm = () => {
                         <Alert message={state.formError} type="warning" showIcon closable />
                     )}
                 </div>
-                { !state.cbtLoggedIn && (
+                { !state.smsLoggedIn && (
                     <Form name="normal_login" form={ form } className="login-form" onFinishFailed={ onFinishFailed } validateMessages={ validateMessages } initialValues={{ remember: true }} onFinish={ onFinish }>
                         <Item className='form-item' label="Email" name="email" rules={[ { type:'email', required: true } ]}>
                             <Input prefix={<MailOutlined />} placeholder="Your Email Address" allowClear />

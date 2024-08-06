@@ -1,5 +1,5 @@
 import lodash from "lodash"
-import { anExam, cbtExam, cbtUser, completeExam, anCompletedExam } from "../services/userHelper"
+import { anExam, cbtExam, cbtUser, completeExam, anCompletedExam, anCompletedUtmeExam } from "../services/userHelper"
 
 export const getCbtUsers = (state, action) => {
     return {
@@ -198,7 +198,7 @@ export const cbtLogging = (state, action) => {
 }
 
 export const utmeExamSubjectCategory = (state, action) => {
-    const exams = anCompletedExam(state, action.payload, state.tempCbtUsername)
+    const exams = anCompletedUtmeExam(state, action.payload, state.tempCbtUsername)
     const exam = exams[0]
     const time = new Date().getTime()
     const completedExam = {

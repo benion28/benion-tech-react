@@ -1,80 +1,63 @@
 import * as _ from "lodash"
 
-const tokenExpTime = "30m"
-
 export const smsUserLogin = (state, action) => {
     const payload = action.payload
-    const modifiedState = _.extend(state, { smsUser: payload, smsLoggedIn: true })
-    return modifiedState
+    const smsUser = _.extend(state.smsUser, payload)
+    return { ...state, smsUser, smsLoggedIn: true }
 }
 
 export const getStudents = (state, action) => {
-    const modifiedState = _.extend(state, { loggedIn: !state.user.id, students: action.payload })
-    return modifiedState
+    return { ...state, students: action.payload }
 }
 
 export const getParents = (state, action) => {
-    const modifiedState = _.extend(state, { loggedIn: !state.user.id, parents: action.payload })
-    return modifiedState
+    return { ...state, parents: action.payload }
 }
 
 export const getTeachers = (state, action) => {
-    const modifiedState = _.extend(state, { loggedIn: !state.user.id, teachers: action.payload })
-    return modifiedState
+    return { ...state, teachers: action.payload }
 }
 
 export const getNotifications = (state, action) => {
-    const modifiedState = _.extend(state, { loggedIn: !state.user.id, notifications: action.payload })
-    return modifiedState
+    return { ...state, notifications: action.payload }
 }
 
 export const getSmsUsers = (state, action) => {
-    const modifiedState = _.extend(state, { loggedIn: !state.user.id, smsUsers: action.payload })
-    return modifiedState
+    return { ...state, smsUsers: action.payload }
 }
 
 export const getFeesCollections = (state, action) => {
-    const modifiedState = _.extend(state, { loggedIn: !state.user.id, feesCollections: action.payload })
-    return modifiedState
+    return { ...state, feesCollections: action.payload }
 }
 
 export const getExpenses = (state, action) => {
-    const modifiedState = _.extend(state, { loggedIn: !state.user.id, expenses: action.payload })
-    return modifiedState
+    return { ...state, expenses: action.payload }
 }
 
 export const getExamResults = (state, action) => {
-    const modifiedState = _.extend(state, { loggedIn: !state.user.id, examResults: action.payload })
-    return modifiedState
+    return { ...state, examResults: action.payload }
 }
 
 export const getHostels = (state, action) => {
-    const modifiedState = _.extend(state, { loggedIn: !state.user.id, hostels: action.payload })
-    return modifiedState
+    return { ...state, hostels: action.payload }
 }
 
 export const getExamSchedules = (state, action) => {
-    const modifiedState = _.extend(state, { loggedIn: !state.user.id, examSchedules: action.payload })
-    return modifiedState
+    return { ...state, examSchedules: action.payload }
 }
 
 export const getAttendances = (state, action) => {
-    const modifiedState = _.extend(state, { loggedIn: !state.user.id, attendances: action.payload })
-    return modifiedState
+    return { ...state, attendances: action.payload }
 }
 
 export const smsUserLogout = (state, action) => {
     const payload = action.payload
-    payload.loggedIn = false
-    localStorage.removeItem("userAuth")
-    localStorage.removeItem("userState")
-    localStorage.clear()
-    return _.extend(state, payload)
+    const smsUser = _.extend(state.smsUser, payload)
+    return { ...state, smsUser, smsLoggedIn: false }
 }
 
 export const loggingIn = (state, action) => {
-    const modifiedState = _.extend(state, { loggedIn: !state.user.id, logging: action.payload  })
-    return modifiedState
+    return { ...state, logging: action.payload }
 }
 
 export const decryptState = (state, action) => {
@@ -85,21 +68,17 @@ export const decryptState = (state, action) => {
 }
 
 export const getTransports = (state, action) => {
-    const modifiedState = _.extend(state, { loggedIn: !state.user.id, transports: action.payload })
-    return modifiedState
+    return { ...state, transports: action.payload }
 }
 
 export const getClients = (state, action) => {
-    const modifiedState = _.extend(state, { loggedIn: !state.user.id, clients: action.payload })
-    return modifiedState
+    return { ...state, clients: action.payload }
 }
 
 export const setError = (state, action) => {
-    const modifiedState = _.extend(state, { loggedIn: !state.user.id, error: action.payload, message: null  })
-    return modifiedState
+    return { ...state, error: action.payload }
 }
 
 export const setMessage = (state, action) => {
-    const modifiedState = _.extend(state, { loggedIn: !state.user.id, error: null, message: action.payload  })
-    return modifiedState
+    return { ...state, message: action.payload }
 }

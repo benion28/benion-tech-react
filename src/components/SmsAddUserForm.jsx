@@ -99,7 +99,7 @@ const SmsAddUserForm = ({ user }) => {
                 </div>
                 <div className="form-controller">
                     <Item className='form-item' name="gender" label="Gender" rules={[{ required: true }]}>
-                        <Select placeholder="Select a Gender" allowClear>
+                        <Select  style={{ width: 150 }} placeholder="Select a Gender" allowClear>
                             {smsGenders.map(item => (
                                 <Option key={item.value} value={item.value}>{firstCapital(item.name)}</Option>
                             ))}
@@ -123,7 +123,7 @@ const SmsAddUserForm = ({ user }) => {
                 </div>
                 <div className="form-controller">
                     <Item className='form-item' name="religion" label="Religion" rules={[{ required: true }]}>
-                        <Select placeholder="Select a Religion" allowClear>
+                        <Select  style={{ width: 150 }} placeholder="Select a Religion" allowClear>
                             {religions.map(item => (
                                 <Option key={item.value} value={item.value}>{item.name}</Option>
                             ))}

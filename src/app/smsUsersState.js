@@ -353,7 +353,7 @@ export const smsUserLogout = (data, dispatch, config, toast) => {
         console.log("Logout Result: ", result)
         dispatch({
             type: ACTIONS.smsUserLogout,
-            payload: initialState
+            payload: initialState.smsUser
         })
         toast.success('Successfully logged out!')
         

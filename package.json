@@ -13,7 +13,7 @@
     "@testing-library/react": "^13.1.1",
     "@testing-library/user-event": "^13.5.0",
     "animate.css": "^4.1.1",
-    "antd": "^4.20.0",
+    "antd": "^4.24.16",
     "axios": "^0.27.0",
     "chart.js": "^3.7.1",
     "firebase": "^9.9.3",

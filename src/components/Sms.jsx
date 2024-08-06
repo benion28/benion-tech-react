@@ -31,9 +31,9 @@ const Sms = () => {
 
     return (
         <Fragment>
-            <ToastContainer />
             <Title level={2} className="heading">School Management System</Title>
-            {(state.smsLoggedIn) && (
+            <ToastContainer />
+            {(!state.smsLoggedIn) && (
                 <Row className="home-container">
                     <Col className="home-items">
                         <Col className="home-items">
@@ -56,7 +56,9 @@ const Sms = () => {
                     </Col>
                 </Row>
             )}
-            <SmsTables />
+            {(state.smsLoggedIn) && (
+                <SmsTables />
+            )}
             <Loader type="pacman" />
         </Fragment>
     )

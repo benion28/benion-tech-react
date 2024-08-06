@@ -1,51 +1,53 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { CloseOutlined, DeleteOutlined, EditOutlined, QuestionCircleOutlined, ReloadOutlined, UserAddOutlined } from '@ant-design/icons'
 import { Table, Space, Button, Popconfirm, Typography, Popover } from 'antd'
-import { SmsAddUserForm } from '../components'
+import { SmsAddParentForm } from '../components'
 import { GlobalContext } from '../app/GlobalState'
 import '../styles/ExamsTable.scss'
-import { smsUserFormRoles, smsGenders, firstCapital } from '../services/userHelper'
+import { smsGenders, firstCapital } from '../services/userHelper'
 
 const { Text, Title } = Typography
 const { Fragment } = React
 
-const SmsUsersTable = () => {
-    const { state, deleteSmsUser, getSmsUsers } = useContext(GlobalContext)
+const SmsParentsTable = () => {
+    const { state, deleteParent, getParents } = useContext(GlobalContext)
+    const [parents, setParents] = useState([])
     const [newUserPopover, setNewUserPopover] = useState(false)
-    const [users, setUsers] = useState([])
     const [editUserPopover, setEditUserPopover] = useState(false)
     const [details, setDetails] = useState({ id: 'gfsgdfgdew4rrewtr5e' })
 
-    const initialUser = {
-        firstname: "",
-        lastname: "",
-        middlename: "",
+    const initialParent = {
+        first_name: "",
+        last_name: "",
+        gender: "",
+        occupation: "",
+        blood_group: "",
+        religion: "",
+        email: "",
+        client_email: (state.smsUser.roles[0] === "ADMIN" || state.smsUser.roles[0] === "MODR") ? state.smsUser.email : state.smsUser.clientEmail,
         phone: "",
         address: "",
-        email: "",
-        image: "",
-        gender: "",
-        religion: "",
-        dateofbirth: "",
-        joiningdate: "",
-        roles: [{ name: "" }],
-        clientemail: (state.smsUser.roles[0] === "ADMIN" || state.smsUser.roles[0] === "MODR") ? state.smsUser.email : state.smsUser.clientEmail
+        short_bio: "",
+        image_url: ""
     }
 
     useEffect(() => {
-        if (state.smsUser.roles[0] === "MODR") {
-            const filteredUsers = state.smsUsers.filter(user => user.clientemail === state.smsUser.email)
-            if (filteredUsers.length > 0) {
-                setUsers(filteredUsers)
+        if (state.smsUser.roles[0] !== "ADMIN") {
+            let filteredParents = state.parents.filter(parent => parent.client_email === state.smsUser.clientEmail)
+            if (state.smsUser.roles[0] === "MODR") {
+                filteredParents = state.parents.filter(parent => parent.client_email === state.smsUser.email)
+            }
+            if (filteredParents.length > 0) {
+                setParents(filteredParents)
             }
         } else {
-            setUsers(state.smsUsers)
+            setParents(state.parents)
         }
-    }, [state.smsUsers, state.smsUser])
+    }, [state.parents, state.smsUser])
 
 
     const deleteConfirm = (id) => {
-        deleteSmsUser(id)
+        deleteParent(id)
     }
 
     const onEdit = (user) => {
@@ -57,35 +59,23 @@ const SmsUsersTable = () => {
         expandedRowRender: (record) => (
             <div style={{ margin: 0 }}>
                 <p style={{ marginBottom: 1 }}>
-                    <b>First Name:</b> {record.firstname}
+                    <b>First Name:</b> {record.first_name}
                 </p>
                 <p style={{ marginBottom: 1 }}>
-                    <b>Middle Name:</b> {record.middlename}
+                    <b>Last Name:</b> {record.last_name}
                 </p>
                 <p style={{ marginBottom: 1 }}>
-                    <b>Last Name:</b> {record.lastname}
+                    <b>Occupation:</b> {record.occupation}
                 </p>
                 <p style={{ marginBottom: 1 }}>
                     <b>Phone:</b> {record.phone}
                 </p>
                 <p style={{ marginBottom: 1 }}>
-                    <b>Password:</b> {record.password}
-                </p>
-                <p style={{ marginBottom: 1 }}>
-                    <b>Passcode:</b> {record.passcode ? record.passcode : ''}
-                </p>
-                <p style={{ marginBottom: 1 }}>
-                    <b>Date of Birth:</b> {record.dateofbirth.slice(0, 10)}
-                </p>
-                <p style={{ marginBottom: 1 }}>
-                    <b>Joining Date:</b> {record.joiningdate.slice(0, 10)}
-                </p>
-                <p style={{ marginBottom: 1 }}>
-                    <b>Address:</b> {record.address}
+                    <b>Blood Group:</b> {record.blood_group}
                 </p>
             </div>
         ),
-        rowExpandable: (record) => true
+        rowExpandable: (record) => record
     }
 
     const scroll = {
@@ -96,17 +86,17 @@ const SmsUsersTable = () => {
     const columns = [
         {
             title: () => (<b>First Name</b>),
-            dataIndex: 'firstname',
+            dataIndex: 'first_name',
             defaultSortOrder: 'descend',
-            sorter: (a, b) => a.firstname.length - b.firstname.length,
-            key: 'firstname'
+            sorter: (a, b) => a.first_name.length - b.first_name.length,
+            key: 'first_name'
         },
         {
             title: () => (<b>Last Name</b>),
-            dataIndex: 'lastname',
+            dataIndex: 'last_name',
             defaultSortOrder: 'descend',
-            sorter: (a, b) => a.lastname.length - b.lastname.length,
-            key: 'lastname'
+            sorter: (a, b) => a.last_name.length - b.last_name.length,
+            key: 'last_name'
         },
         {
             title: () => (<b>Email</b>),
@@ -114,18 +104,6 @@ const SmsUsersTable = () => {
             defaultSortOrder: 'descend',
             sorter: (a, b) => a.email.length - b.email.length,
             key: 'email'
-        },
-        {
-            title: () => (<b>Role</b>),
-            dataIndex: 'userRole',
-            key: 'userRole',
-            filters: smsUserFormRoles.map(role => (
-                {
-                    text: firstCapital(role.name),
-                    value: role.value
-                }
-            )),
-            onFilter: (value, record) => record.userRole.indexOf(value) === 0
         },
         {
             title: () => (<b>Gender</b>),
@@ -142,10 +120,10 @@ const SmsUsersTable = () => {
         },
         {
             title: () => (<b>Client Email</b>),
-            dataIndex: 'clientemail',
+            dataIndex: 'client_email',
             defaultSortOrder: 'descend',
-            sorter: (a, b) => a.clientemail.length - b.clientemail.length,
-            key: 'clientemail'
+            sorter: (a, b) => a.client_email.length - b.client_email.length,
+            key: 'client_email'
         },
         {
             title: () => (<b>Actions</b>),
@@ -155,8 +133,8 @@ const SmsUsersTable = () => {
                 <Space size='middle'>
                     <Popover
                         placement='bottomLeft'
-                        content={<SmsAddUserForm user={details} />}
-                        title={() => (<Title level={2} className='add-user-title'><b>Edit Existing User</b> <Button onClick={() => setEditUserPopover(false)} className='add-user-button'><CloseOutlined /></Button></Title>)}
+                        content={<SmsAddParentForm parent={details} />}
+                        title={() => (<Title level={2} className='add-user-title'><b>Edit Existing Parent</b> <Button onClick={() => setEditUserPopover(false)} className='add-user-button'><CloseOutlined /></Button></Title>)}
                         trigger='click'
                         visible={editUserPopover && (record.id === details.id)}
                     >
@@ -165,7 +143,7 @@ const SmsUsersTable = () => {
                         </Button>
                     </Popover>
                     <Popconfirm
-                        title="Are you sure to delete this user?"
+                        title="Are you sure to delete this parent?"
                         icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
                         onConfirm={() => deleteConfirm(record.id)}
                     >
@@ -184,32 +162,32 @@ const SmsUsersTable = () => {
                 <div className="add-user">
                     <Popover
                         placement='bottomRight'
-                        content={<SmsAddUserForm user = { initialUser } />}
-                        title={() => (<Title level={2} className='add-user-title'><b>Add New User</b> <Button onClick={() => setNewUserPopover(false)} className='add-user-button'><CloseOutlined /></Button></Title>)}
+                        content={<SmsAddParentForm parent={initialParent} />}
+                        title={() => (<Title level={2} className='add-user-title'><b>Add New Parent</b> <Button onClick={() => setNewUserPopover(false)} className='add-user-button'><CloseOutlined /></Button></Title>)}
                         trigger='click'
                         visible={newUserPopover}
                     >
                         <Button className='add-button' onClick={() => setNewUserPopover(true)}>
-                            <UserAddOutlined />  Add User
+                            <UserAddOutlined />  Add Parent
                         </Button>
                     </Popover>
                 </div>
-                <Button className='get-button' onClick={() => getSmsUsers()}>
+                <Button className='get-button' onClick={() => getParents()}>
                     <ReloadOutlined /> Reload
                 </Button>
             </div>
             <div className="table-container">
-                <Table rowKey={(record) => record.id} scroll={scroll} className='table' expandable={expandable} columns={columns} dataSource={users} />
+                <Table rowKey={(record) => record.id} scroll={scroll} className='table' expandable={expandable} columns={columns} dataSource={parents} />
             </div>
             <div className="footer">
-                {users.length > 0 && (
+                {parents.length > 0 && (
                     <Text className='footer-text' level={1}>
-                        <b>Currently there are {users.length} Users !!!</b>
+                        <b>Currently there are {parents.length} Parents !!!</b>
                     </Text>
                 )}
-                {users.length < 1 && (
+                {parents.length < 1 && (
                     <Text className='footer-text' level={1}>
-                        <b>Currently there are no Users !!!</b>
+                        <b>Currently there are no Parents !!!</b>
                     </Text>
                 )}
             </div>
@@ -217,4 +195,4 @@ const SmsUsersTable = () => {
     )
 }
 
-export default SmsUsersTable
+export default SmsParentsTable

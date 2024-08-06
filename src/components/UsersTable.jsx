@@ -16,8 +16,6 @@ const UsersTable = () => {
     const [ editUserPopover, setEditUserPopover ] = useState(false)
     const [ details, setDetails ] = useState({ _id: 'gfsgdfgdew4rrewtr5e' })
 
-    console.log("State",state)
-
     const deleteConfirm = (id) => {
         deleteUser(id)
     }

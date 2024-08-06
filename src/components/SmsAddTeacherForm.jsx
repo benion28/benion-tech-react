@@ -1,66 +1,58 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { Form, Input, Button, Checkbox, Select, DatePicker, Alert, InputNumber, message, Upload } from 'antd'
+import { Form, Input, Button, Checkbox, Select, DatePicker, Alert, message, Upload } from 'antd'
 import { PhoneOutlined, MailOutlined, EnvironmentOutlined, SolutionOutlined, UploadOutlined } from '@ant-design/icons'
 import { GlobalContext } from '../app/GlobalState'
 import '../styles/AddUserForm.scss'
-import { production, firstCapital, smsClasses, sessions, generateCode } from '../services/userHelper'
+import { production, smsClasses, sessions, subjects } from '../services/userHelper'
 
 const { Option } = Select
 const { TextArea } = Input
 const { Item } = Form
 
-const SmsAdmitStudentForm = ({ student }) => {
-    const { state, admitStudent } = useContext(GlobalContext)
+const SmsAddTeacherForm = ({ teacher }) => {
+    const { state, addTeacher } = useContext(GlobalContext)
     const [form] = Form.useForm()
-    const [students, setStudents] = useState([]);
-    const [parents, setParents] = useState([]);
+    const [teachers, setTeachers] = useState([])
     const [fileList, setFileList] = useState(null)
     const [formMessage, setFormMessage] = useState('')
     const [formError, setFormError] = useState('')
 
-    form.setFieldsValue(student)
+    form.setFieldsValue(teacher)
 
     useEffect(() => {
-        let filteredParents = []
-        let filteredStudents = []
+        let filteredTeachers = []
         if (state.smsUser.roles[0] === "ADMIN") {
-            filteredStudents = state.smsUsers.filter(user => user.roles[0].name === "STUDENT")
-            filteredParents = state.smsUsers.filter(user => user.roles[0].name === "PARENT")
+            filteredTeachers = state.smsUsers.filter(user => user.roles[0].name === "TEACHER")
         } else {
-            filteredStudents = state.smsUsers.filter(user => (user.roles[0].name === "STUDENT") && (user.clientemail === state.smsUser.email))
-            filteredParents = state.smsUsers.filter(user => (user.roles[0].name === "PARENT") && (user.clientemail === state.smsUser.email))
+            filteredTeachers = state.smsUsers.filter(user => (user.roles[0].name === "TEACHER") && (user.clientemail === state.smsUser.email))
         }
 
-        if (filteredStudents.length > 0) {
-            setStudents(filteredStudents)
-        }
-
-        if (filteredParents.length > 0) {
-            setParents(filteredParents)
+        if (filteredTeachers.length > 0) {
+            setTeachers(filteredTeachers)
         }
     }, [state.smsUsers, state.smsUser])
 
     const onFinish = (values) => {
-        !production && (console.log('Admit Student data success !!', values))
+        !production && (console.log('Add Teacher data success !!', values))
         setFormError('')
-        setFormMessage('Admit Student data success !!')
+        setFormMessage('Add Teacher data success !!')
 
-        // Admit Student
+        // Add Teacher
 
-        if (student.id) {
-            values.id = student.id
-            admitStudent(values)
+        if (teacher.id) {
+            values.id = teacher.id
+            addTeacher(values)
         } else {
-            admitStudent(values)
+            addTeacher(values)
         }
 
         form.resetFields()
     }
 
     const onFinishFailed = (errorInfo) => {
-        !production && (console.log('Admit Student data failed !!', errorInfo))
+        !production && (console.log('Add Teacher data failed !!', errorInfo))
         setFormMessage('')
-        setFormError('Admit Student data failed, check fields for errors !!')
+        setFormError('Add Teacher data failed, check fields for errors !!')
     }
 
     const validateMessages = {
@@ -76,43 +68,22 @@ const SmsAdmitStudentForm = ({ student }) => {
     }
 
     const handleEmailInputChange = (value) => {
-        if (students.length > 0) {
-            const fetchedStudentList = students.filter(student => (student.email === value))
-            if (fetchedStudentList.length > 0) {
-                const fetchedStudent = fetchedStudentList[0]
+        if (teachers.length > 0) {
+            const fetchedTeacherList = teachers.filter(teacher => (teacher.email === value))
+            if (fetchedTeacherList.length > 0) {
+                const fetchedTeacher = fetchedTeacherList[0]
                 form.setFieldsValue({
-                    first_name: fetchedStudent.firstname,
-                    last_name: fetchedStudent.lastname,
-                    email: fetchedStudent.email,
-                    gender: fetchedStudent.gender,
-                    religion: fetchedStudent.religion,
-                    date_of_birth: fetchedStudent.dateofbirth.slice(0, 10),
-                    address: fetchedStudent.address
+                    phone: fetchedTeacher.phone,
+                    lastname: fetchedTeacher.lastname,
+                    firstname: fetchedTeacher.firstname,
+                    religion: fetchedTeacher.religion,
+                    dateofbirth: fetchedTeacher.dateofbirth,
+                    gender: fetchedTeacher.gender,
+                    address: fetchedTeacher.address,
+                    email: value
                 })
             }
         }
-    }
-
-    const handleParentEmailInputChange = (value) => {
-        if (parents.length > 0) {
-            const fetchedParentList = parents.filter(parent => (parent.email === value))
-            if (fetchedParentList.length > 0) {
-                const fetchedParent = fetchedParentList[0]
-                form.setFieldsValue({
-                    father_name: `${firstCapital(fetchedParent.firstname)} ${firstCapital(fetchedParent.lastname)}`,
-                    phone: fetchedParent.phone,
-                    parent_email: value
-                })
-            }
-        }
-    }
-
-    const onGenerate = () => {
-        const date = new Date()
-        const number = `${date.getFullYear()}/${state.smsUser.firstname[0].toUpperCase()}${state.smsUser.lastname[0].toUpperCase()}/${generateCode(5, false, true, false)}`
-        form.setFieldsValue({
-            admission_number: number
-        })
     }
 
     const normFile = (info) => {
@@ -147,11 +118,11 @@ const SmsAdmitStudentForm = ({ student }) => {
                     <Alert message={state.formError} type="warning" showIcon closable />
                 )}
             </div>
-            <Form name="basic" form={form} validateMessages={validateMessages} initialValues={student} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off">
+            <Form name="basic" form={form} validateMessages={validateMessages} initialValues={teacher} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off">
                 <div className="form-controller">
-                    <Item className='form-item' hasFeedback label="Student Email" name="email" rules={[{ required: true }]}>
-                        <Select style={{ width: 300 }} prefix={<MailOutlined />} showSearch onChange={(value) => handleEmailInputChange(value)} optionFilterProp="children" placeholder="Select a Student Email" allowClear>
-                            {students?.map(item => (
+                    <Item className='form-item' hasFeedback label="Teacher Email" name="email" rules={[{ required: true }]}>
+                        <Select style={{ width: 300 }} prefix={<MailOutlined />} showSearch onChange={(value) => handleEmailInputChange(value)} optionFilterProp="children" placeholder="Select a Teacher Email" allowClear>
+                            {teachers?.map(item => (
                                 <Option key={item.id} value={item.email}>{item.email}</Option>
                             ))}
                         </Select>
@@ -182,28 +153,11 @@ const SmsAdmitStudentForm = ({ student }) => {
                     </Item>
                 </div>
                 <div className="form-controller">
-                    <Item className='form-item' hasFeedback label="Parent Email" name="parent_email" rules={[{ required: true }]}>
-                        <Select  style={{ width: 300 }} prefix={<MailOutlined />} className="form-control" showSearch onChange={(value) => handleParentEmailInputChange(value)} optionFilterProp="children" placeholder="Search a Parent Email" allowClear>
-                            {parents?.map(item => (
-                                <Option key={item.id} value={item.email}>{item.email}</Option>
-                            ))}
-                        </Select>
-                    </Item>
-                </div>
-                <div className="form-controller">
-                    <Item className='form-item' label="Father's Name" name="father_name" rules={[{ required: true }]}>
-                        <Input prefix={<SolutionOutlined />} placeholder="Father's Name" allowClear disabled />
-                    </Item>
-                    <Item className='form-item' label="Father's Phone" name="phone" hasFeedback rules={[{ required: true, min: 8, max: 11 }]}>
-                        <Input prefix={<PhoneOutlined />} placeholder="Father's / Guardian's Phone" allowClear disabled />
-                    </Item>
-                </div>
-                <div className="form-controller">
                     <Item className='form-item' label="Blood Group" name="blood_group" rules={[{ required: true }]}>
                         <Input prefix={<SolutionOutlined />} placeholder="Blood Group" allowClear />
                     </Item>
-                    <Item className='form-item' label="Mother's Phone" name="mothers_phone" hasFeedback rules={[{ required: true, min: 8, max: 11 }]}>
-                        <Input prefix={<PhoneOutlined />} placeholder="Mother's Phone" allowClear />
+                    <Item className='form-item' label="Phone" name="phone" hasFeedback rules={[{ required: true, min: 8, max: 11 }]}>
+                        <Input prefix={<PhoneOutlined />} placeholder="Phone" allowClear disabled />
                     </Item>
                 </div>
                 <div className="form-controller">
@@ -212,15 +166,15 @@ const SmsAdmitStudentForm = ({ student }) => {
                     </Item>
                 </div>
                 <div className="form-controller">
-                    <Item className='form-item' name="class_name" label="Class" rules={[{ required: true }]}>
-                        <Select  style={{ width: 150 }} placeholder="Select a Class" allowClear>
+                    <Item className='form-item' name="class_room" label="Class" rules={[{ required: true }]}>
+                        <Select style={{ width: 150 }} placeholder="Select a Class" allowClear>
                             {smsClasses.map(item => (
                                 <Option key={item.value} value={item.value}>{item.name}</Option>
                             ))}
                         </Select>
                     </Item>
                     <Item className='form-item' name="section" label="Session" rules={[{ required: true }]}>
-                        <Select  style={{ width: 150 }} placeholder="Select a Session" allowClear>
+                        <Select style={{ width: 150 }} placeholder="Select a Session" allowClear>
                             {sessions.map(item => (
                                 <Option key={item.value} value={item.value}>{item.name}</Option>
                             ))}
@@ -228,29 +182,30 @@ const SmsAdmitStudentForm = ({ student }) => {
                     </Item>
                 </div>
                 <div className="form-controller">
-                    <Item className='form-item' name="discount" label="Discount" rules={[{ required: true }]}>
-                        <InputNumber placeholder="Discount" allowClear />
+                    <Item className='form-item' name="subject" label="Subject" rules={[{ required: true }]}>
+                        <Select style={{ width: 150 }} placeholder="Select a Subject" allowClear>
+                            {subjects.map(item => (
+                                <Option key={item.value} value={item.value}>{item.name}</Option>
+                            ))}
+                        </Select>
                     </Item>
-                    <Item className='form-item' name="admission_date" label="Admission Date" rules={[{ required: true }]}>
-                        <DatePicker placeholder="Admission Date" allowClear />
+                    <Item className='form-item' name="joiningdate" label="Joining Date" rules={[{ required: true }]}>
+                        <DatePicker placeholder="Joining Date" allowClear />
                     </Item>
                 </div>
                 <div className="form-controller">
-                    <Item className='form-item' label="Admission No" name="admission_number" rules={[{ required: true }]}>
-                        <Input prefix={<SolutionOutlined />} placeholder="Year/Code/Sequential Number" allowClear />
-                    </Item>
                     <Item className='form-item' label="Short Bio" name="short_bio" rules={[{ required: true }]} hasFeedback>
                         <TextArea prefix={<SolutionOutlined className="site-form-item-icon" />} placeholder="Short Bio" allowClear />
                     </Item>
                 </div>
                 <div className="form-controller">
-                    <Upload className='form-item' name="image" accept="image/*" action="/upload.do" listType="picture" onChange={(info) => normFile(info)} allowClear>
+                    <Upload className='form-item' name="image_url" accept="image/*" action="/upload.do" listType="picture" onChange={(info) => normFile(info)} allowClear>
                         <Button icon={<UploadOutlined />}>Click to upload an image</Button>
                     </Upload>
                 </div>
                 <div className="form-controller">
                     <Item label="Agree" name="agree" valuePropName="checked" rules={[{ required: true }]}>
-                        <Checkbox>I intentionally wish to admit a student</Checkbox>
+                        <Checkbox>I intentionally wish to add a teacher</Checkbox>
                     </Item>
                 </div>
                 <div className="button-controller">
@@ -264,18 +219,11 @@ const SmsAdmitStudentForm = ({ student }) => {
                             Reset
                         </Button>
                     </Item>
-                    {!student.id && (
-                        <Item className="reset-button" >
-                            <Button className="reset-button" onClick={onGenerate} type="warning">
-                                Generate Admission No
-                            </Button>
-                        </Item>
-                    )}
                 </div>
             </Form>
         </div>
     )
 }
 
-export default SmsAdmitStudentForm
+export default SmsAddTeacherForm
 

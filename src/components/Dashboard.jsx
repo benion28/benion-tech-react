@@ -197,7 +197,7 @@ const Dashboard = () => {
                         <TabPane className="tabs-panel" tab={ <span> <Title level={4}>Payments</Title> </span> } key="6">
                             <PaymentsTable />
                         </TabPane>
-                        <TabPane className="tabs-panel" tab={ <span> <Title level={4}>Utme Exams</Title> </span> } key="6">
+                        <TabPane className="tabs-panel" tab={ <span> <Title level={4}>Utme Exams</Title> </span> } key="7">
                             <UserExamsTable self = { false } />
                         </TabPane>
                     </Tabs>

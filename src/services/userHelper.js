@@ -555,6 +555,21 @@ export const anCompletedExam = (state, payload, username) => {
     }
 }
 
+export const anCompletedUtmeExam = (state, payload, username) => {
+    const filterUsername = state.utmeExams[3].filter(item => item.username === username)
+    const filterCategory = filterUsername.filter(item => item.category === payload.examCategory)
+    const filterClass = filterCategory.filter(item => item.className === payload.examClass)
+    const filterSubject = filterClass.filter(item => item.subject === payload.examSubject)
+    const filterTerm = filterSubject.filter(item => item.term === payload.examTerm)
+    const filterCompleted = filterTerm
+
+    if (filterCompleted.length > 0) {
+        return filterCompleted 
+    } else {
+        return [utmeExam]
+    }
+}
+
 export const cbtUserFind = (user, state) => {
     const roleFilter = state.cbtUsers.filter(data => data.role === user.role)
     const schoolFilter = roleFilter.filter(data => data.school === user.school)
@@ -680,3 +695,14 @@ export const generateCode = (length, hasAlpha, hasNumbers, hasSymbols) => {
     hasSymbols = hasSymbols ? (chars += symbols) : ""
     return generateValues(length, chars)
 }
+
+export const paymentStatus = [
+    { value: "completed", name: "Completed" },
+    { value: "late", name: "Late Payment" },
+    { value: "pending", name: "Pending" }
+]
+
+export const planType = [
+    { value: "basic", name: "Basic" },
+    { value: "premium", name: "Premium" }
+]

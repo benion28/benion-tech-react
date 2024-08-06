@@ -13,7 +13,7 @@ const SmsLoginForm = () => {
     const [form] = Form.useForm();
     const [formMessage, setFormMessage] = useState('')
     const [formError, setFormError] = useState('')
-    const { cbtUserLogin, state  } = useContext(GlobalContext)
+    const { smsUserLogin, state  } = useContext(GlobalContext)
 
     const onFinish = (values) => {
         !production && (console.log("Cbt Login data accepted !!", values))
@@ -21,7 +21,7 @@ const SmsLoginForm = () => {
         setFormMessage('Cbt Login data accepted !!')
 
         // Cbt Log In
-        cbtUserLogin(values)
+        smsUserLogin(values)
         form.resetFields()
     }
 
@@ -56,7 +56,7 @@ const SmsLoginForm = () => {
                         <Alert message={state.formError} type="warning" showIcon closable />
                     )}
                 </div>
-                { !state.cbtLoggedIn && (
+                { !state.smsLoggedIn && (
                     <Form name="normal_login" form={ form } className="login-form" onFinishFailed={ onFinishFailed } validateMessages={ validateMessages } initialValues={{ remember: true }} onFinish={ onFinish }>
                         <Item className='form-item' label="Email" name="email" rules={[ { type:'email', required: true } ]}>
                             <Input prefix={<MailOutlined />} placeholder="Your Email Address" allowClear />
@@ -64,7 +64,7 @@ const SmsLoginForm = () => {
                         <Item label="Password" name="password" rules={[ { required: true, min: 8, max: 12 } ]} hasFeedback>
                             <Password prefix={<LockOutlined className="site-form-item-icon" />} placeholder="Password" allowClear />
                         </Item>
-                        { !state.cbtLoggedIn && (
+                        { !state.smsLoggedIn && (
                             <Item>
                                 <Button type="primary" htmlType="submit" className="login-form-button">
                                     Log In <LoginOutlined />

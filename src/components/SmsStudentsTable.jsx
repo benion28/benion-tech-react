@@ -89,11 +89,14 @@ const SmsStudentsTable = () => {
                     <b>Phone:</b> {record.phone}
                 </p>
                 <p style={{ marginBottom: 1 }}>
+                    <b>Blood Group:</b> {record.blood_group}
+                </p>
+                <p style={{ marginBottom: 1 }}>
                     <b>Date of Birth:</b> {record.date_of_birth.slice(0, 10)}
                 </p>
             </div>
         ),
-        rowExpandable: (record) => record.completed
+        rowExpandable: (record) => true
     }
 
     const scroll = {
@@ -180,9 +183,9 @@ const SmsStudentsTable = () => {
                         </Button>
                     </Popover>
                     <Popconfirm
-                        title="Are you sure to delete this exam?"
+                        title="Are you sure to delete this student?"
                         icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
-                        onConfirm={() => deleteConfirm(record.$key)}
+                        onConfirm={() => deleteConfirm(record.id)}
                     >
                         <Button className='delete-button'>
                             <DeleteOutlined />
@@ -200,7 +203,7 @@ const SmsStudentsTable = () => {
                     <Popover
                         placement='bottomRight'
                         content={<SmsAdmitStudentForm student={initialStudent} />}
-                        title={() => (<Title level={2} className='add-user-title'><b>Add New Student</b> <Button onClick={() => setNewUserPopover(false)} className='add-user-button'><CloseOutlined /></Button></Title>)}
+                        title={() => (<Title level={2} className='add-user-title'><b>Admit New Student</b> <Button onClick={() => setNewUserPopover(false)} className='add-user-button'><CloseOutlined /></Button></Title>)}
                         trigger='click'
                         visible={newUserPopover}
                     >
@@ -214,7 +217,7 @@ const SmsStudentsTable = () => {
                 </Button>
             </div>
             <div className="table-container">
-                <Table rowKey={(record) => record.$key} scroll={scroll} className='table' expandable={expandable} columns={columns} dataSource={students} />
+                <Table rowKey={(record) => record.id} scroll={scroll} className='table' expandable={expandable} columns={columns} dataSource={students} />
             </div>
             <div className="footer">
                 {students.length > 0 && (
