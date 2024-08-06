@@ -4,7 +4,7 @@ import { Table, Space, Button, Popconfirm, Typography, Popover } from 'antd'
 import { SmsAddTeacherForm } from '../components'
 import { GlobalContext } from '../app/GlobalState'
 import '../styles/ExamsTable.scss'
-import { smsClasses, smsGenders, firstCapital, subjects } from '../services/userHelper'
+import { smsClasses, smsGenders, firstCapital, getSmsClassName, getSmsSubjectName, smsSubjects } from '../services/userHelper'
 
 const { Text, Title } = Typography
 const { Fragment } = React
@@ -119,7 +119,7 @@ const SmsTeachersTable = () => {
             title: () => (<b>Gender</b>),
             dataIndex: 'gender',
             key: 'gender',
-            render: (gender) => gender.toLowerCase(),
+            render: (gender) => firstCapital(gender),
             filters: smsGenders.map(gender => (
                 {
                     text: firstCapital(gender.name),
@@ -132,6 +132,7 @@ const SmsTeachersTable = () => {
             title: () => (<b>Class</b>),
             dataIndex: 'class_room',
             key: 'class_room',
+            render: (class_room) => getSmsClassName(class_room),
             filters: smsClasses.map(className => (
                 {
                     text: className.name,
@@ -144,7 +145,8 @@ const SmsTeachersTable = () => {
             title: () => (<b>Subject</b>),
             dataIndex: 'subject',
             key: 'subject',
-            filters: subjects.map(item => (
+            render: (subject) => getSmsSubjectName(subject),
+            filters: smsSubjects.map(item => (
                 {
                     text: item.name,
                     value: item.value

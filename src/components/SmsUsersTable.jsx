@@ -43,6 +43,8 @@ const SmsUsersTable = () => {
         }
     }, [state.smsUsers, state.smsUser])
 
+    console.log("State", state)
+
 
     const deleteConfirm = (id) => {
         deleteSmsUser(id)
@@ -85,7 +87,7 @@ const SmsUsersTable = () => {
                 </p>
             </div>
         ),
-        rowExpandable: (record) => true
+        rowExpandable: (record) => record
     }
 
     const scroll = {
@@ -117,21 +119,22 @@ const SmsUsersTable = () => {
         },
         {
             title: () => (<b>Role</b>),
-            dataIndex: 'userRole',
-            key: 'userRole',
+            dataIndex: 'roles',
+            key: 'roles',
             filters: smsUserFormRoles.map(role => (
                 {
                     text: firstCapital(role.name),
                     value: role.value
                 }
             )),
-            onFilter: (value, record) => record.userRole.indexOf(value) === 0
+            render: (roles) => firstCapital(roles[0].name),
+            onFilter: (value, record) => record.roles[0].name.indexOf(value) === 0
         },
         {
             title: () => (<b>Gender</b>),
             dataIndex: 'gender',
             key: 'gender',
-            render: (gender) => gender.toLowerCase(),
+            render: (gender) => firstCapital(gender),
             filters: smsGenders.map(gender => (
                 {
                     text: firstCapital(gender.name),

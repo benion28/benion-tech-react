@@ -472,7 +472,7 @@ export const GlobalStore = ({ children }) => {
 
     // User Login
     const smsUserLogin = (user) => {
-        SMS_USERS_STATE.smsUserLogin(user, dispatch, config, getStudents, getParents, getTeachers, getNotifications, getUsers, getFeesCollections, getExpenses, getExamResults, getHostels, toast, getTransports, getExamSchedules, getAttendances, getClients)
+        SMS_USERS_STATE.smsUserLogin(user, dispatch, config, getStudents, getParents, getTeachers, getNotifications, getSmsUsers, getFeesCollections, getExpenses, getExamResults, getHostels, toast, getTransports, getExamSchedules, getAttendances, getClients)
     }
 
     // User Logout

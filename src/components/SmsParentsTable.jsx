@@ -109,7 +109,7 @@ const SmsParentsTable = () => {
             title: () => (<b>Gender</b>),
             dataIndex: 'gender',
             key: 'gender',
-            render: (gender) => gender.toLowerCase(),
+            render: (gender) => firstCapital(gender),
             filters: smsGenders.map(gender => (
                 {
                     text: firstCapital(gender.name),

@@ -4,7 +4,7 @@ import { Table, Space, Button, Popconfirm, Typography, Popover } from 'antd'
 import { SmsAdmitStudentForm } from '../components'
 import { GlobalContext } from '../app/GlobalState'
 import '../styles/ExamsTable.scss'
-import { smsClasses, smsGenders, firstCapital } from '../services/userHelper'
+import { smsClasses, smsGenders, firstCapital, getSmsClassName } from '../services/userHelper'
 
 const { Text, Title } = Typography
 const { Fragment } = React
@@ -96,7 +96,7 @@ const SmsStudentsTable = () => {
                 </p>
             </div>
         ),
-        rowExpandable: (record) => true
+        rowExpandable: (record) => record
     }
 
     const scroll = {
@@ -137,7 +137,7 @@ const SmsStudentsTable = () => {
             title: () => (<b>Gender</b>),
             dataIndex: 'gender',
             key: 'gender',
-            render: (gender) => gender.toLowerCase(),
+            render: (gender) => firstCapital(gender),
             filters: smsGenders.map(gender => (
                 {
                     text: firstCapital(gender.name),
@@ -150,6 +150,7 @@ const SmsStudentsTable = () => {
             title: () => (<b>Class</b>),
             dataIndex: 'class_name',
             key: 'class_name',
+            render: (class_name) => getSmsClassName(class_name),
             filters: smsClasses.map(className => (
                 {
                     text: className.name,

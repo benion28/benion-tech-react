@@ -4,7 +4,7 @@ import { Table, Space, Button, Popconfirm, Typography, Popover, Badge } from 'an
 import { SmsAddClientForm } from '../components'
 import { GlobalContext } from '../app/GlobalState'
 import '../styles/UsersTable.scss'
-import { paymentStatus, planType } from '../services/userHelper'
+import { getPaymentStatusName, getPlanTypeName, paymentStatus, planType } from '../services/userHelper'
 
 const { Fragment } = React
 const { Text, Title } = Typography
@@ -72,6 +72,7 @@ const SmsClientsTable = () => {
             title: () => (<b>Type</b>),
             dataIndex: 'plan_type',
             key: 'plan_type',
+            render: (plan_type) => getPlanTypeName(plan_type),
             filters: planType.map(item => (
                 {
                     text: item.name,
@@ -86,7 +87,7 @@ const SmsClientsTable = () => {
             key: 'plan_status',
             render: (plan_status) => (
                 <span>
-                    {(plan_status === "paid" || plan_status === "completed") ? <Badge status="success" /> : <Badge status="warning" />} {plan_status}
+                    {plan_status === "completed" ? <Badge status="success" /> : <Badge status="warning" />} {getPaymentStatusName(plan_status)}
                 </span>
             ),
             filters: paymentStatus.map(item => (
@@ -96,13 +97,6 @@ const SmsClientsTable = () => {
                 }
             )),
             onFilter: (value, record) => record.plan_status.indexOf(value) === 0
-        },
-        {
-            title: () => (<b>Client Email</b>),
-            dataIndex: 'client_email',
-            defaultSortOrder: 'descend',
-            sorter: (a, b) => a.client_email.length - b.client_email.length,
-            key: 'client_email'
         },
         {
             title: () => (<b>Actions</b>),
@@ -124,7 +118,7 @@ const SmsClientsTable = () => {
                     <Popconfirm
                         title="Are you sure to delete this client?"
                         icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
-                        onConfirm={() => deleteConfirm(record._id)}
+                        onConfirm={() => deleteConfirm(record.id)}
                     >
                         <Button className='delete-button'>
                             <DeleteOutlined />

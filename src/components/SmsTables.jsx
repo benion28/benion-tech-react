@@ -1,6 +1,6 @@
 import React from 'react'
 import { Tabs, Typography } from 'antd'
-import { SmsUsersTable, SmsStudentsTable, SmsParentsTable, SmsTeachersTable, SmsClientsTable } from '../components'
+import { SmsUsersTable, SmsStudentsTable, SmsParentsTable, SmsTeachersTable, SmsClientsTable, SmsFeesCollectionTable } from '../components'
 
 const { TabPane } = Tabs
 
@@ -32,7 +32,7 @@ const SmsTables = () => {
             <div className="tables">
                 <Tabs defaultActiveKey="1" className="tabs-form" type="card">
                     <TabPane className="tabs-panel" tab={<span> <Title level={4}>Fees Collection</Title> </span>} key="1">
-                        <div>UsersTable</div>
+                        <SmsFeesCollectionTable />
                     </TabPane>
                     <TabPane className="tabs-panel" tab={<span> <Title level={4}>Expense</Title> </span>} key="2">
                         <div>CbtUsersTable</div>

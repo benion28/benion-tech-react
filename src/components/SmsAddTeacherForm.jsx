@@ -3,7 +3,7 @@ import { Form, Input, Button, Checkbox, Select, DatePicker, Alert, message, Uplo
 import { PhoneOutlined, MailOutlined, EnvironmentOutlined, SolutionOutlined, UploadOutlined } from '@ant-design/icons'
 import { GlobalContext } from '../app/GlobalState'
 import '../styles/AddUserForm.scss'
-import { production, smsClasses, sessions, subjects } from '../services/userHelper'
+import { production, smsClasses, sessions, smsSubjects } from '../services/userHelper'
 
 const { Option } = Select
 const { TextArea } = Input
@@ -74,10 +74,10 @@ const SmsAddTeacherForm = ({ teacher }) => {
                 const fetchedTeacher = fetchedTeacherList[0]
                 form.setFieldsValue({
                     phone: fetchedTeacher.phone,
-                    lastname: fetchedTeacher.lastname,
-                    firstname: fetchedTeacher.firstname,
+                    last_name: fetchedTeacher.lastname,
+                    first_name: fetchedTeacher.firstname,
                     religion: fetchedTeacher.religion,
-                    dateofbirth: fetchedTeacher.dateofbirth,
+                    date_of_birth: fetchedTeacher.dateofbirth,
                     gender: fetchedTeacher.gender,
                     address: fetchedTeacher.address,
                     email: value
@@ -184,7 +184,7 @@ const SmsAddTeacherForm = ({ teacher }) => {
                 <div className="form-controller">
                     <Item className='form-item' name="subject" label="Subject" rules={[{ required: true }]}>
                         <Select style={{ width: 150 }} placeholder="Select a Subject" allowClear>
-                            {subjects.map(item => (
+                            {smsSubjects.map(item => (
                                 <Option key={item.value} value={item.value}>{item.name}</Option>
                             ))}
                         </Select>

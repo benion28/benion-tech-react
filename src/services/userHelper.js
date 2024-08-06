@@ -223,12 +223,16 @@ export const initialState = {
     utmeExam,
     completeExam,
     totalQuestions: 19,
+    totalUtmeQuestions: 50,
     examTimeLimit: 30,
+    utmeExamTimeLimit: 40,
     cbtTimeSpent: 0,
+    cbtStartTime: 0,
     cbtExamTerm: 'second-term',
     cbtExamSubject: 'maths',
     cbtExamClass: '',
     examCategory: '',
+    examSubjectCategory: '',
     seniorExamCategory: 'general',
     juniorExamCategory: 'junior',
     tempCategory: 'jse',
@@ -403,6 +407,11 @@ export const smsGenders = [
     { name: "OTHERS", value: "OTHERS" }
 ]
 
+export const feesType = [
+    { value: "fees", name: "Fees" },
+    { value: "others", name: "Others" }
+]
+
 export const cbtCategories = [
     { name: 'General', value: 'general' },
     { name: 'Junior', value: 'junior' },
@@ -458,6 +467,22 @@ export const subjects = [
     { name: 'Geography', value: 'geography' }
 ]
 
+export const smsSubjects = [
+    { name: "Mathematics", value: "maths" },
+    { name: "English Language", value: "english" },
+    { name: "Chemistry", value: "chemistry" },
+    { name: "Physics", value: "physics" },
+    { name: "Economics", value: "economics" },
+    { name: "Computer Science", value: "computer" },
+    { name: "Literature In English", value: "literature" },
+    { name: "Government", value: "government" },
+    { name: "Marketting", value: "marketting" },
+    { name: "Civic Education", value: "civuc" },
+    { name: "Geography", value: "geography" },
+    { name: "Further Mathematics", value: "further" },
+    { name: "Accounting", value: "accounting" }
+]
+
 export const examTypes = [
     { name: 'WASSCE', value: 'wassce' }, 
     { name: 'Jamb UTME', value: 'utme' },
@@ -494,6 +519,15 @@ export const getClassName = (className) => {
     }
 }
 
+export const getSmsClassName = (className) => {
+    if (className === "graduated") {
+        return "Graduated"
+    } else {
+        const filteredData = smsClasses.filter(data => data.value === className)
+        return filteredData[0] ? filteredData[0].name : ""
+    }
+}
+
 export const getCategoryName = (category) => {
     const filteredData = cbtCategories.filter(data => data.value === category)
     return filteredData[0] ? filteredData[0].name : ""
@@ -506,6 +540,11 @@ export const getTermName = (term) => {
 
 export const getSubjectName = (subject) => {
     const filteredData = subjects.filter(data => data.value === subject)
+    return filteredData[0] ? filteredData[0].name : ""
+}
+
+export const getSmsSubjectName = (subject) => {
+    const filteredData = smsSubjects.filter(data => data.value === subject)
     return filteredData[0] ? filteredData[0].name : ""
 }
 
@@ -706,3 +745,29 @@ export const planType = [
     { value: "basic", name: "Basic" },
     { value: "premium", name: "Premium" }
 ]
+
+export const getPaymentStatusName = (term) => {
+    const filteredData = paymentStatus.filter(data => data.value === term)
+    return filteredData[0] ? filteredData[0].name : ""
+}
+
+export const getPlanTypeName = (term) => {
+    const filteredData = planType.filter(data => data.value === term)
+    return filteredData[0] ? filteredData[0].name : ""
+}
+
+export const getPaymentTypeName = (term) => {
+    const filteredData = feesType.filter(data => data.value === term)
+    return filteredData[0] ? filteredData[0].name : ""
+}
+
+export const getFeesCollectionFullName = (email, feesCollections) => {
+    const feesUser = feesCollections.filter(item => item.email === email)[0]
+    const firstname = 'No'
+    const lastname = 'Name'
+    if (feesUser === undefined | feesUser === null) {
+        return `${firstname} ${lastname}`
+    } else {
+        return `${firstCapital(feesUser.first_name)} ${firstCapital(feesUser.last_name)}`
+    }
+}

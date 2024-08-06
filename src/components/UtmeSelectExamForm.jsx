@@ -88,15 +88,15 @@ const UtmeSelectExamForm = () => {
                     </div>
                 )}
                 <Form name="normal_login" form={ form } className="login-form" onFinishFailed={ onFinishFailed } validateMessages={ validateMessages } initialValues={formInitials} onFinish={ onFinish }>
-                    <Alert className="information-alert" message="Exam Instructions" description={`${state.tempCbtFirstname.toUpperCase()} ${state.tempCbtLastname.toUpperCase()}, you are required to answer ${state.totalQuestions} questions in ${state.examTimeLimit} minutes. Select English and three other subjects to get started. Make sure to submit on completion of all the questions.`} type="info" showIcon />
+                    <Alert className="information-alert" message="Exam Instructions" description={`${state.tempCbtFirstname.toUpperCase()} ${state.tempCbtLastname.toUpperCase()}, you are required to answer ${state.totalUtmeQuestions} questions in ${state.utmeExamTimeLimit} minutes. Select English and three other subjects to get started. Make sure to submit on completion of all the questions.`} type="info" showIcon />
                     <div className="item-list">
                         {utmeSubjects.filter(item => item.value === "english").map(item => (
-                            <Item name="english" valuePropName={item.value} noStyle>
+                            <Item key={item.value} name="english" valuePropName={item.value} noStyle>
                                 <Checkbox checked disabled className='input-label'>{item.name}</Checkbox>
                             </Item>
                         ))}
                         {utmeSubjects.filter(item => item.value !== "english").map(item => (
-                            <Item name={item.value} valuePropName={item.value} noStyle>
+                            <Item key={item.value} name={item.value} valuePropName={item.value} noStyle>
                                 <Checkbox disabled = {selectedSubjects.length >= 4 && !selectedSubjects.includes(item.value)} onClick={ (event) => handleSelectSubject(event, item.value)} className='input-label'>{item.name}</Checkbox>
                             </Item>
                         ))}

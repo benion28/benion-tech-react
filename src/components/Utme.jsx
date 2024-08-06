@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import {  AnimateText, UtmeSelectExamForm, UtmeExam, LoginAccess, AuthAccess } from '../components'
-import { BookOutlined  } from '@ant-design/icons'
-import { Tabs, Typography, Row, Col, Image, Button, Alert  } from 'antd'
+import { Tabs, Typography, Row, Col, Image, Alert  } from 'antd'
 import Loader from 'react-loaders'
 import { GlobalContext } from '../app/GlobalState'
 import benionTechIcon from '../images/benion-tech-icon.png'
@@ -17,26 +16,13 @@ const Utme = () => {
     const techArray = textArray("Benion-Tech")
     const greeting1 = textArray("Hello")
     const greeting2 = textArray("Welcome To")
-    const { state, examCategory, examAnswered  } = useContext(GlobalContext)
+    const { state  } = useContext(GlobalContext)
 
     useEffect(() => {
         setTimeout(() => {
             setLetterClass('text-animate-hover')
         }, 5000)
     }, [])
-
-    const handleContinueExams = () => {
-        examCategory({
-            examTerm: state.cbtExam.term,
-            examCategory: state.cbtExam.category,
-            examSubject: state.cbtExam.subject,
-            examClass: state.cbtExam.className
-        })
-        examAnswered({
-            answers: state.cbtExam.answers,
-            answered: state.cbtExam.answered
-        })
-    }
 
     return (
         <React.Fragment>
@@ -52,25 +38,11 @@ const Utme = () => {
                             <Title className="text-title" level={3}><AnimateText letterClass={letterClass} stringArray={nameArray} index={25} /></Title>
                         </Col>
                     </Col>
-                    {(!state.completeExam.completed && (state.multipleAccess || state.singleAccess) && state.cbtLoggedIn && state.cbtExamCompleted && !state.startExam ) && (
+                    {((state.multipleAccess || state.singleAccess) && state.cbtLoggedIn && !state.startExam ) && (
                         <Col className="form-tabs">
                             <Tabs defaultActiveKey="1" className="tabs-form" type="card">
-                                <TabPane className="tabs-panel" tab={ <span> <Title level={4}>CBT Exam Selector</Title> </span> } key="1">
+                                <TabPane className="tabs-panel" tab={ <span> <Title level={4}>UTME Exam Selector</Title> </span> } key="1">
                                     <UtmeSelectExamForm />
-                                </TabPane>
-                            </Tabs>
-                        </Col>
-                    )}
-                    {(!state.completeExam.completed && (state.multipleAccess || state.singleAccess) && state.cbtLoggedIn && !state.cbtExamCompleted && !state.startExam ) && (
-                        <Col className="form-tabs">
-                            <Tabs defaultActiveKey="1" className="tabs-form" type="card">
-                                <TabPane className="tabs-panel" tab={ <span> <Title level={4}>CBT Exam In Progress</Title> </span> } key="1">
-                                    <div className="continue-exam-container">
-                                        <Alert className="information-alert" message={`Welcome ${state.tempCbtFirstname.toUpperCase()} ${state.tempCbtLastname.toUpperCase()}, you currently have an examination in progress !!`} description={`Finish your exams in order to start a new one, you have spent ${state.cbtTimeSpent} minute${state.cbtTimeSpent > 1 ? 's' : ''} already and answered  ${state.cbtAnswered.split(",").length} question${state.cbtAnswered.split(",").length > 1 ? 's' : ''} only.`} type="info" showIcon />
-                                        <Button type="primary" onClick={ () => handleContinueExams() } className="login-form-button">
-                                            Continue Exams <BookOutlined />
-                                        </Button>
-                                    </div>
                                 </TabPane>
                             </Tabs>
                         </Col>
@@ -83,7 +55,7 @@ const Utme = () => {
                     {(state.completeExam.completed && !state.multipleAccess && state.cbtLoggedIn && !state.startExam) && (
                         <div className="exams">
                             <Tabs defaultActiveKey="1" className="tabs-form" type="card">
-                                <TabPane className="tabs-panel" tab={ <span> <Title level={4}>CBT Exam Completed</Title> </span> } key="1">
+                                <TabPane className="tabs-panel" tab={ <span> <Title level={4}>UTME Exam Completed</Title> </span> } key="1">
                                     <Alert 
                                         className="information-alert-form" 
                                         message="Exam Already Accessed  !!!" 
