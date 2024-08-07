@@ -78,8 +78,7 @@ const SmsAddParentForm = ({ parent }) => {
                     firstname: fetchedParent.firstname,
                     religion: fetchedParent.religion,
                     gender: fetchedParent.gender,
-                    address: fetchedParent.address,
-                    email: value
+                    address: fetchedParent.address
                 })
             }
         }

@@ -1,56 +1,54 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { EditOutlined, DeleteOutlined, UserAddOutlined, QuestionCircleOutlined, CloseOutlined, ReloadOutlined } from '@ant-design/icons'
 import { Table, Space, Button, Popconfirm, Typography, Popover, Badge } from 'antd'
-import { SmsAddFeesCollectionForm } from '../components'
+import { SmsAddExpenseForm } from '../components'
 import { GlobalContext } from '../app/GlobalState'
 import '../styles/UsersTable.scss'
-import { feesType, getFeesCollectionFullName, getPaymentStatusName, getPaymentTypeName, getSmsClassName, paymentStatus, smsClasses } from '../services/userHelper'
+import { expenseType, feesType, getExpenseTypeName, getFeesCollectionFullName, getPaymentStatusName, getPaymentTypeName, getSmsClassName, paymentStatus, smsClasses } from '../services/userHelper'
 
 const { Fragment } = React
 const { Text, Title } = Typography
 
-const SmsFeesCollectionTable = () => {
-    const { state, deleteFeesCollection, getFeesCollections } = useContext(GlobalContext)
+const SmsExpensesTable = () => {
+    const { state, deleteExpense, getExpenses } = useContext(GlobalContext)
     const [newUserPopover, setNewUserPopover] = useState(false)
-    const [feesCollections, setFeesCollections] = useState([])
+    const [expenses, setExpenses] = useState([])
     const [editUserPopover, setEditUserPopover] = useState(false)
     const [details, setDetails] = useState({ _id: 'gfsgdfgdew4rrewtr5e' })
 
-    const initialFeesCollection = {
+    const initialExpenses = {
         first_name: "",
-        admission_number: "",
         last_name: "",
         status: "",
-        fees_date: "",
-        due_date: "",
+        date_expense: "",
         expense_type: "",
-        email: "",
-        phone: "",
-        amount: "",
         client_email: (state.smsUser.roles[0] === "ADMIN" || state.smsUser.roles[0] === "MODR") ? state.smsUser.email : state.smsUser.clientEmail,
-        fees: "",
-        gender: "",
-        class_room: "",
-        school_section: "",
-        parent_email: ""
+        parent_email: "",
+        phone: "",
+        amount: ""
     };
 
     useEffect(() => {
         if (state.smsUser.roles[0] !== "ADMIN") {
-            let filteredFees = state.feesCollections.filter(feesCollection => feesCollection.client_email === state.smsUser.clientEmail)
-            if (state.smsUser.roles[0] === "MODR") {
-                filteredFees = state.feesCollections.filter(feesCollection => feesCollection.client_email === state.smsUser.email)
-            }
-            if (filteredFees.length > 0) {
-                setFeesCollections(filteredFees)
-            }
-        } else {
-            setFeesCollections(state.feesCollections)
+      let filteredExpenses = state.expenses.filter(expense => expense.client_email === state.smsUser.clientEmail)
+      if (state.smsUser.roles[0] === "MODR") {
+        filteredExpenses = state.expenses.filter(expense => expense.client_email === state.smsUser.email)
+      } else if (state.smsUser.roles[0] === "TEACHER") {
+        const filteredTeacher = state.teachers.filter(teacher => teacher.email === state.smsUser.email)
+        if (filteredTeacher.length > 0) {
+          filteredExpenses = state.expenses.filter(expense => expense.parent_email === filteredTeacher[0].email)
         }
-    }, [state.feesCollections, state.smsUser])
+      }
+      if (filteredExpenses.length > 0) {
+        setExpenses(filteredExpenses)
+      }
+    } else {
+      setExpenses(state.expenses)
+    }
+  }, [state.expenses, state.smsUser, state.teachers])
 
     const deleteConfirm = (id) => {
-        deleteFeesCollection(id)
+        deleteExpense(id)
     }
 
     const onEdit = (user) => {
@@ -73,19 +71,16 @@ const SmsFeesCollectionTable = () => {
                     <b>Last Name:</b> {record.last_name}
                 </p>
                 <p style={{ marginBottom: 1 }}>
-                    <b>Student Email:</b> {record.email}
+                    <b>Email:</b> {record.parent_email}
                 </p>
                 <p style={{ marginBottom: 1 }}>
-                    <b>Parent Email:</b> {record.parent_email}
+                    <b>Phone:</b> {record.phone}
                 </p>
                 <p style={{ marginBottom: 1 }}>
-                    <b>Amount Paid:</b> {`₦${record.fees}`}
+                    <b>Amount:</b> {`₦${record.amount}`}
                 </p>
                 <p style={{ marginBottom: 1 }}>
-                    <b>Total Amount:</b> {`₦${record.amount}`}
-                </p>
-                <p style={{ marginBottom: 1 }}>
-                    <b>Payment Date:</b> {record.fees_date}
+                    <b>Payment Date:</b> {record.date_expense}
                 </p>
             </div>
         ),
@@ -95,39 +90,26 @@ const SmsFeesCollectionTable = () => {
     const columns = [
         {
             title: () => (<b>Name</b>),
-            dataIndex: 'email',
+            dataIndex: 'parent_email',
             defaultSortOrder: 'descend',
-            sorter: (a, b) => a.email.length - b.email.length,
-            render: (email) => getFeesCollectionFullName(email, state.feesCollections),
-            key: 'email'
+            sorter: (a, b) => a.parent_email.length - b.parent_email.length,
+            render: (parent_email) => getFeesCollectionFullName(parent_email, state.smsUser),
+            key: 'parent_email'
         },
         {
-            title: () => (<b>Class</b>),
-            dataIndex: 'class_room',
-            key: 'class_room',
-            render: (class_room) => getSmsClassName(class_room),
-            filters: smsClasses.map(className => (
-                {
-                    text: className.name,
-                    value: className.value
-                }
-            )),
-            onFilter: (value, record) => record.class_room.indexOf(value) === 0
-        },
-        {
-            title: () => (<b>Fees Paid</b>),
-            dataIndex: 'fees',
+            title: () => (<b>Amount</b>),
+            dataIndex: 'amount',
             defaultSortOrder: 'descend',
-            sorter: (a, b) => Number(a.fees) - Number(b.fees),
-            render: (fees) => `₦${fees}`,
-            key: 'fees'
+            sorter: (a, b) => Number(a.amount) - Number(b.amount),
+            render: (amount) => `₦${amount}`,
+            key: 'amount'
         },
         {
             title: () => (<b>Type</b>),
             dataIndex: 'expense_type',
             key: 'expense_type',
-            render: (expense_type) => getPaymentTypeName(expense_type),
-            filters: feesType.map(item => (
+            render: (expense_type) => getExpenseTypeName(expense_type),
+            filters: expenseType.map(item => (
                 {
                     text: item.name,
                     value: item.value
@@ -172,8 +154,8 @@ const SmsFeesCollectionTable = () => {
                 <Space size='middle'>
                     <Popover
                         placement='bottomLeft'
-                        content={<SmsAddFeesCollectionForm feesCollection={details} />}
-                        title={() => (<Title level={2} className='add-user-title'><b>Edit Existing Fees Collection</b> <Button onClick={() => setEditUserPopover(false)} className='add-user-button'><CloseOutlined /></Button></Title>)}
+                        content={<SmsAddExpenseForm expense={details} />}
+                        title={() => (<Title level={2} className='add-user-title'><b>Edit Existing Expense</b> <Button onClick={() => setEditUserPopover(false)} className='add-user-button'><CloseOutlined /></Button></Title>)}
                         trigger='click'
                         visible={editUserPopover && (record.id === details.id)}
                     >
@@ -201,34 +183,34 @@ const SmsFeesCollectionTable = () => {
                 <div className="add-user">
                     <Popover
                         placement='bottomRight'
-                        content={<SmsAddFeesCollectionForm feesCollection={initialFeesCollection} />}
-                        title={() => (<Title level={2} className='add-user-title'><b>Add New Fees Collection</b> <Button onClick={() => setNewUserPopover(false)} className='add-user-button'><CloseOutlined /></Button></Title>)}
+                        content={<SmsAddExpenseForm expense={initialExpenses} />}
+                        title={() => (<Title level={2} className='add-user-title'><b>Add New Expense</b> <Button onClick={() => setNewUserPopover(false)} className='add-user-button'><CloseOutlined /></Button></Title>)}
                         trigger='click'
                         visible={newUserPopover}
                     >
                         <Button className='add-button' onClick={() => setNewUserPopover(true)}>
-                            <UserAddOutlined />  Add Fees Collection
+                            <UserAddOutlined />  Add Expense
                         </Button>
                     </Popover>
                 </div>
                 <div className="button-container">
-                    <Button className='get-button' onClick={() => getFeesCollections()}>
+                    <Button className='get-button' onClick={() => getExpenses()}>
                         <ReloadOutlined /> Reload
                     </Button>
                 </div>
             </div>
             <div className="table-container">
-                <Table rowKey={(record) => record.id} scroll={scroll} className='table' columns={columns} expandable={expandable} dataSource={feesCollections} />
+                <Table rowKey={(record) => record.id} scroll={scroll} className='table' columns={columns} expandable={expandable} dataSource={expenses} />
             </div>
             <div className="footer">
-                {feesCollections.length > 0 && (
+                {expenses.length > 0 && (
                     <Text className='footer-text' level={1}>
-                        <b>Currently there are {feesCollections.length} Fees Collection !!!</b>
+                        <b>Currently there are {expenses.length} Expenses !!!</b>
                     </Text>
                 )}
-                {feesCollections.length < 1 && (
+                {expenses.length < 1 && (
                     <Text className='footer-text' level={1}>
-                        <b>Currently there are no Fees Collection !!!</b>
+                        <b>Currently there are no Expenses !!!</b>
                     </Text>
                 )}
             </div>
@@ -236,4 +218,4 @@ const SmsFeesCollectionTable = () => {
     )
 }
 
-export default SmsFeesCollectionTable
+export default SmsExpensesTable

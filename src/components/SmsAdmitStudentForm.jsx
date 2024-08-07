@@ -83,7 +83,6 @@ const SmsAdmitStudentForm = ({ student }) => {
                 form.setFieldsValue({
                     first_name: fetchedStudent.firstname,
                     last_name: fetchedStudent.lastname,
-                    email: fetchedStudent.email,
                     gender: fetchedStudent.gender,
                     religion: fetchedStudent.religion,
                     date_of_birth: fetchedStudent.dateofbirth.slice(0, 10),
@@ -100,8 +99,7 @@ const SmsAdmitStudentForm = ({ student }) => {
                 const fetchedParent = fetchedParentList[0]
                 form.setFieldsValue({
                     father_name: `${firstCapital(fetchedParent.firstname)} ${firstCapital(fetchedParent.lastname)}`,
-                    phone: fetchedParent.phone,
-                    parent_email: value
+                    phone: fetchedParent.phone
                 })
             }
         }

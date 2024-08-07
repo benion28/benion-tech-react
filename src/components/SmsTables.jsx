@@ -1,6 +1,8 @@
 import React from 'react'
 import { Tabs, Typography } from 'antd'
-import { SmsUsersTable, SmsStudentsTable, SmsParentsTable, SmsTeachersTable, SmsClientsTable, SmsFeesCollectionTable } from '../components'
+import { SmsUsersTable, SmsStudentsTable, SmsParentsTable, SmsTeachersTable, SmsClientsTable, SmsFeesCollectionTable, 
+    SmsExpensesTable, SmsExamScheduleTable, SmsExamResultsTable
+} from '../components'
 
 const { TabPane } = Tabs
 
@@ -35,17 +37,17 @@ const SmsTables = () => {
                         <SmsFeesCollectionTable />
                     </TabPane>
                     <TabPane className="tabs-panel" tab={<span> <Title level={4}>Expense</Title> </span>} key="2">
-                        <div>CbtUsersTable</div>
+                        <SmsExpensesTable />
                     </TabPane>
                 </Tabs>
             </div>
             <div className="tables">
                 <Tabs defaultActiveKey="1" className="tabs-form" type="card">
                     <TabPane className="tabs-panel" tab={<span> <Title level={4}>Exam Result</Title> </span>} key="1">
-                        <div>UsersTable</div>
+                        <SmsExamResultsTable />
                     </TabPane>
                     <TabPane className="tabs-panel" tab={<span> <Title level={4}>Exam Schedule</Title> </span>} key="2">
-                        <div>CbtUsersTable</div>
+                        <SmsExamScheduleTable />
                     </TabPane>
                 </Tabs>
             </div>

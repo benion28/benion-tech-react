@@ -1,16 +1,15 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { Form, Input, Button, Checkbox, Select, DatePicker, Alert, InputNumber, message, Upload } from 'antd'
-import { PhoneOutlined, MailOutlined, EnvironmentOutlined, SolutionOutlined, UploadOutlined } from '@ant-design/icons'
+import { Form, Input, Button, Checkbox, Select, DatePicker, Alert } from 'antd'
+import { MailOutlined, SolutionOutlined } from '@ant-design/icons'
 import { GlobalContext } from '../app/GlobalState'
 import '../styles/AddUserForm.scss'
-import { production, firstCapital, smsClasses, sessions, generateCode, feesType, paymentStatus } from '../services/userHelper'
+import { production, sessions, feesType, paymentStatus } from '../services/userHelper'
 
 const { Option } = Select
-const { TextArea } = Input
 const { Item } = Form
 
 const SmsAddFeesCollectionForm = ({ feesCollection }) => {
-    const { state, admitStudent } = useContext(GlobalContext)
+    const { state, addFeesCollection } = useContext(GlobalContext)
     const [form] = Form.useForm()
     const [students, setStudents] = useState([]);
     const [formMessage, setFormMessage] = useState('')
@@ -40,9 +39,9 @@ const SmsAddFeesCollectionForm = ({ feesCollection }) => {
 
         if (feesCollection.id) {
             values.id = feesCollection.id
-            admitStudent(values)
+            addFeesCollection(values)
         } else {
-            admitStudent(values)
+            addFeesCollection(values)
         }
 
         form.resetFields()
@@ -74,7 +73,6 @@ const SmsAddFeesCollectionForm = ({ feesCollection }) => {
                 form.setFieldsValue({
                     first_name: fetchedStudent.first_name,
                     last_name: fetchedStudent.last_name,
-                    email: fetchedStudent.email,
                     gender: fetchedStudent.gender,
                     class_room: fetchedStudent.class_name,
                     parent_email: fetchedStudent.parent_email,
@@ -160,14 +158,14 @@ const SmsAddFeesCollectionForm = ({ feesCollection }) => {
                 </div>
                 <div className="form-controller">
                     <Item className='form-item' name="expense_type" label="Payment Type" rules={[{ required: true }]}>
-                        <Select style={{ width: 150 }} placeholder="Payment Type" allowClear>
+                        <Select style={{ width: 120 }} placeholder="Payment Type" allowClear>
                             {feesType.map(item => (
                                 <Option key={item.value} value={item.value}>{item.name}</Option>
                             ))}
                         </Select>
                     </Item>
                     <Item className='form-item' name="status" label="Payment Status" rules={[{ required: true }]}>
-                        <Select style={{ width: 150 }} placeholder="Payment Status" allowClear>
+                        <Select style={{ width: 120 }} placeholder="Payment Status" allowClear>
                             {paymentStatus.map(item => (
                                 <Option key={item.value} value={item.value}>{item.name}</Option>
                             ))}

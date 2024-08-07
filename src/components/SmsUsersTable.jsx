@@ -146,9 +146,14 @@ const SmsUsersTable = () => {
         {
             title: () => (<b>Client Email</b>),
             dataIndex: 'clientemail',
-            defaultSortOrder: 'descend',
-            sorter: (a, b) => a.clientemail.length - b.clientemail.length,
-            key: 'clientemail'
+            key: 'clientemail',
+            filters: state.clients.map(item => (
+                {
+                    text: item.name,
+                    value: item.email
+                }
+            )),
+            onFilter: (value, record) => record.clientemail.indexOf(value) === 0
         },
         {
             title: () => (<b>Actions</b>),

@@ -66,8 +66,7 @@ const SmsAddClientForm = ({ client }) => {
             if (fetchedClientList.length > 0) {
                 const fetchedClient = fetchedClientList[0]
                 form.setFieldsValue({
-                    phone: fetchedClient.phone,
-                    email: value
+                    phone: fetchedClient.phone
                 })
             }
         }

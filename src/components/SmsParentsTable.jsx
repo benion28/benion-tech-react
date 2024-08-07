@@ -121,9 +121,14 @@ const SmsParentsTable = () => {
         {
             title: () => (<b>Client Email</b>),
             dataIndex: 'client_email',
-            defaultSortOrder: 'descend',
-            sorter: (a, b) => a.client_email.length - b.client_email.length,
-            key: 'client_email'
+            key: 'client_email',
+            filters: state.clients.map(item => (
+                {
+                    text: item.name,
+                    value: item.email
+                }
+            )),
+            onFilter: (value, record) => record.client_email.indexOf(value) === 0
         },
         {
             title: () => (<b>Actions</b>),

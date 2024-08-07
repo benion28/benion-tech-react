@@ -79,8 +79,7 @@ const SmsAddTeacherForm = ({ teacher }) => {
                     religion: fetchedTeacher.religion,
                     date_of_birth: fetchedTeacher.dateofbirth,
                     gender: fetchedTeacher.gender,
-                    address: fetchedTeacher.address,
-                    email: value
+                    address: fetchedTeacher.address
                 })
             }
         }

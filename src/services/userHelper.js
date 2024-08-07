@@ -756,9 +756,26 @@ export const getPlanTypeName = (term) => {
     return filteredData[0] ? filteredData[0].name : ""
 }
 
+export const expenseType = [
+    { value: "purchase", name: "Purchase" },
+    { value: "wage", name: "Wage" },
+    { value: "salary", name: "Salary" }
+]
+
 export const getPaymentTypeName = (term) => {
     const filteredData = feesType.filter(data => data.value === term)
     return filteredData[0] ? filteredData[0].name : ""
+}
+
+export const getExpenseTypeName = (term) => {
+    const filteredData = expenseType.filter(data => data.value === term)
+    return filteredData[0] ? filteredData[0].name : ""
+}
+
+export const getTeacherFullName = (email, teachers) => {
+    const value = email ? email : " "
+    const filteredTeachers = teachers.filter(teacher => teacher.email === value)
+    return filteredTeachers.length > 0 ? `${firstCapital(filteredTeachers[0].first_name)} ${firstCapital(filteredTeachers[0].last_name)}` : ""
 }
 
 export const getFeesCollectionFullName = (email, feesCollections) => {
@@ -770,4 +787,49 @@ export const getFeesCollectionFullName = (email, feesCollections) => {
     } else {
         return `${firstCapital(feesUser.first_name)} ${firstCapital(feesUser.last_name)}`
     }
+}
+
+export const getGradeName = (score, cA) => {
+    let grade = ""
+    score = Number(score) + Number(cA)
+    if (score <= 30) {
+        grade = "Fail"
+    } else if (score >= 30 && score < 40) {
+        grade = "Weak Pass"
+    } else if (score >= 40 && score < 50) {
+        grade = "Pass"
+    } else if (score >= 50 && score < 60) {
+        grade = "Good"
+    } else if (score >= 60 && score < 70) {
+        grade = "Very Good"
+    } else if (score >= 70) {
+        grade = "Excellent"
+    }
+    return grade
+}
+
+export const getGradePoint = (score, cA) => {
+    let grade = ""
+    score = Number(score) + Number(cA)
+    if (score <= 30) {
+        grade = "F"
+    } else if (score >= 30 && score < 40) {
+        grade = "E"
+    } else if (score >= 40 && score < 50) {
+        grade = "D"
+    } else if (score >= 50 && score < 60) {
+        grade = "C"
+    } else if (score >= 60 && score < 70) {
+        grade = "B"
+    } else if (score >= 70) {
+        grade = "A"
+    }
+    return grade
+}
+
+export const getPercentageScore = (score, cA, totalScore) => {
+    score = Number(score) + Number(cA)
+    totalScore = Number(totalScore)
+    const percent = Math.ceil((score / totalScore) * 100)
+    return String(percent) + "%"
 }
