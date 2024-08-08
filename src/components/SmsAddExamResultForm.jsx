@@ -194,12 +194,12 @@ const SmsAddExamResultForm = ({ examResult }) => {
                     <Item className='form-item' label="Percentage From" name="percentage_from" rules={[{ required: true }]}>
                         <Input prefix={<SolutionOutlined />} placeholder="Percentage From" allowClear />
                     </Item>
-                    <Item className='form-item' name="ca" label="CA" rules={[{ required: true }]}>
+                    <Item className='form-item' name="ca" label="CA" rules={[{ type: 'number', required: true }]}>
                         <InputNumber placeholder="CA" allowClear />
                     </Item>
                 </div>
                 <div className="form-controller">
-                    <Item className='form-item' name="mark" label="Exam" rules={[{ required: true }]}>
+                    <Item className='form-item' name="mark" label="Exam" rules={[{ type: 'number', required: true }]}>
                         <InputNumber onChange={(value) => handleMark(value)} placeholder="Exam" allowClear />
                     </Item>
                     <Item className='form-item' label="Percentage Score" name="percentage_score" rules={[{ required: true }]}>

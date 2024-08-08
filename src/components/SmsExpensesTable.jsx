@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { EditOutlined, DeleteOutlined, UserAddOutlined, QuestionCircleOutlined, CloseOutlined, ReloadOutlined } from '@ant-design/icons'
+import { EditOutlined, DeleteOutlined, PlusOutlined, QuestionCircleOutlined, CloseOutlined, ReloadOutlined } from '@ant-design/icons'
 import { Table, Space, Button, Popconfirm, Typography, Popover, Badge } from 'antd'
 import { SmsAddExpenseForm } from '../components'
 import { GlobalContext } from '../app/GlobalState'
 import '../styles/UsersTable.scss'
-import { expenseType, feesType, getExpenseTypeName, getFeesCollectionFullName, getPaymentStatusName, getPaymentTypeName, getSmsClassName, paymentStatus, smsClasses } from '../services/userHelper'
+import { expenseType, feesType, getExpenseTypeName, getFeesCollectionFullName, getPaymentStatusName, paymentStatus } from '../services/userHelper'
 
 const { Fragment } = React
 const { Text, Title } = Typography
@@ -189,7 +189,7 @@ const SmsExpensesTable = () => {
                         visible={newUserPopover}
                     >
                         <Button className='add-button' onClick={() => setNewUserPopover(true)}>
-                            <UserAddOutlined />  Add Expense
+                            <PlusOutlined />  Add Expense
                         </Button>
                     </Popover>
                 </div>

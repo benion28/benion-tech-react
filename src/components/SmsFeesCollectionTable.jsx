@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { EditOutlined, DeleteOutlined, UserAddOutlined, QuestionCircleOutlined, CloseOutlined, ReloadOutlined } from '@ant-design/icons'
+import { EditOutlined, DeleteOutlined, PlusOutlined, QuestionCircleOutlined, CloseOutlined, ReloadOutlined } from '@ant-design/icons'
 import { Table, Space, Button, Popconfirm, Typography, Popover, Badge } from 'antd'
 import { SmsAddFeesCollectionForm } from '../components'
 import { GlobalContext } from '../app/GlobalState'
@@ -207,7 +207,7 @@ const SmsFeesCollectionTable = () => {
                         visible={newUserPopover}
                     >
                         <Button className='add-button' onClick={() => setNewUserPopover(true)}>
-                            <UserAddOutlined />  Add Fees Collection
+                            <PlusOutlined />  Add Fees Collection
                         </Button>
                     </Popover>
                 </div>

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Tabs, Typography } from 'antd'
 import { SmsUsersTable, SmsStudentsTable, SmsParentsTable, SmsTeachersTable, SmsClientsTable, SmsFeesCollectionTable, 
-    SmsExpensesTable, SmsExamScheduleTable, SmsExamResultsTable
+    SmsExpensesTable, SmsExamScheduleTable, SmsExamResultsTable, SmsHostelsTable, SmsTransportsTable, SmsAttendancesTable
 } from '../components'
 
 const { TabPane } = Tabs
@@ -12,7 +12,7 @@ const { Title } = Typography
 const SmsTables = () => {
     return (
         <Fragment>
-            <div className="tables">
+            <div style={{ marginTop: 30, marginBottom: 30 }} className="tables">
                 <Tabs defaultActiveKey="1" className="tabs-form" type="card">
                     <TabPane className="tabs-panel" tab={<span> <Title level={4}>Users</Title> </span>} key="1">
                         <SmsUsersTable />
@@ -31,7 +31,8 @@ const SmsTables = () => {
                     </TabPane>
                 </Tabs>
             </div>
-            <div className="tables">
+            <hr></hr>
+            <div style={{ marginTop: 30, marginBottom: 30 }} className="tables">
                 <Tabs defaultActiveKey="1" className="tabs-form" type="card">
                     <TabPane className="tabs-panel" tab={<span> <Title level={4}>Fees Collection</Title> </span>} key="1">
                         <SmsFeesCollectionTable />
@@ -41,7 +42,8 @@ const SmsTables = () => {
                     </TabPane>
                 </Tabs>
             </div>
-            <div className="tables">
+            <hr></hr>
+            <div style={{ marginTop: 30, marginBottom: 30 }} className="tables">
                 <Tabs defaultActiveKey="1" className="tabs-form" type="card">
                     <TabPane className="tabs-panel" tab={<span> <Title level={4}>Exam Result</Title> </span>} key="1">
                         <SmsExamResultsTable />
@@ -51,16 +53,17 @@ const SmsTables = () => {
                     </TabPane>
                 </Tabs>
             </div>
-            <div className="tables">
+            <hr></hr>
+            <div style={{ marginTop: 30, marginBottom: 30 }} className="tables">
                 <Tabs defaultActiveKey="1" className="tabs-form" type="card">
                     <TabPane className="tabs-panel" tab={<span> <Title level={4}>Hostel</Title> </span>} key="1">
-                        <div>UsersTable</div>
+                        <SmsHostelsTable />
                     </TabPane>
                     <TabPane className="tabs-panel" tab={<span> <Title level={4}>Transport</Title> </span>} key="2">
-                        <div>CbtUsersTable</div>
+                        <SmsTransportsTable />
                     </TabPane>
                     <TabPane className="tabs-panel" tab={<span> <Title level={4}>Attendance</Title> </span>} key="3">
-                        <div>ExamsTable</div>
+                        <SmsAttendancesTable />
                     </TabPane>
                 </Tabs>
             </div>

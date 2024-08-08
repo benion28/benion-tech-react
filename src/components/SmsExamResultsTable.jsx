@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { EditOutlined, DeleteOutlined, UserAddOutlined, QuestionCircleOutlined, CloseOutlined, ReloadOutlined } from '@ant-design/icons'
+import { EditOutlined, DeleteOutlined, PlusOutlined, QuestionCircleOutlined, CloseOutlined, ReloadOutlined } from '@ant-design/icons'
 import { Table, Space, Button, Popconfirm, Typography, Popover } from 'antd'
 import { SmsAddExamResultForm } from '../components'
 import { GlobalContext } from '../app/GlobalState'
 import '../styles/UsersTable.scss'
-import { getSmsClassName, getSmsSubjectName, sessions, smsClasses, smsSubjects } from '../services/userHelper'
+import { getSmsClassName, getSmsSubjectName, smsClasses, smsSubjects } from '../services/userHelper'
 
 const { Fragment } = React
 const { Text, Title } = Typography
@@ -222,7 +222,7 @@ const SmsExamResultsTable = () => {
                         visible={newUserPopover}
                     >
                         <Button className='add-button' onClick={() => setNewUserPopover(true)}>
-                            <UserAddOutlined />  Add Exam Result
+                            <PlusOutlined />  Add Exam Result
                         </Button>
                     </Popover>
                 </div>

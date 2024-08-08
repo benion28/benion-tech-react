@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
 import { Form, Input, Button, Checkbox, Select, DatePicker, Alert } from 'antd'
-import { MailOutlined, SolutionOutlined } from '@ant-design/icons'
+import { MailOutlined, PhoneOutlined, SolutionOutlined } from '@ant-design/icons'
 import { GlobalContext } from '../app/GlobalState'
 import '../styles/AddUserForm.scss'
 import { production, paymentStatus, expenseType } from '../services/userHelper'
@@ -8,35 +8,35 @@ import { production, paymentStatus, expenseType } from '../services/userHelper'
 const { Option } = Select
 const { Item } = Form
 
-const SmsAddExpenseForm = ({ expense }) => {
-    const { state, addExpense } = useContext(GlobalContext)
+const SmsAddTransportForm = ({ transport }) => {
+    const { state, addTransport } = useContext(GlobalContext)
     const [form] = Form.useForm()
     const [formMessage, setFormMessage] = useState('')
     const [formError, setFormError] = useState('')
 
-    form.setFieldsValue(expense)
+    form.setFieldsValue(transport)
 
     const onFinish = (values) => {
-        !production && (console.log('Add Expense data success !!', values))
+        !production && (console.log('Add Transport data success !!', values))
         setFormError('')
-        setFormMessage('Add Expense data success !!')
+        setFormMessage('Add Transport data success !!')
 
-        // Add Expense
+        // Add Transport
 
-        if (expense.id) {
-            values.id = expense.id
-            addExpense(values)
+        if (transport.id) {
+            values.id = transport.id
+            addTransport(values)
         } else {
-            addExpense(values)
+            addTransport(values)
         }
 
         form.resetFields()
     }
 
     const onFinishFailed = (errorInfo) => {
-        !production && (console.log('Add Expense data failed !!', errorInfo))
+        !production && (console.log('Add Transport data failed !!', errorInfo))
         setFormMessage('')
-        setFormError('Add Expense data failed, check fields for errors !!')
+        setFormError('Add Transport data failed, check fields for errors !!')
     }
 
     const validateMessages = {
@@ -69,26 +69,18 @@ const SmsAddExpenseForm = ({ expense }) => {
                     <Alert message={state.formError} type="warning" showIcon closable />
                 )}
             </div>
-            <Form name="basic" form={form} validateMessages={validateMessages} initialValues={expense} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off">
+            <Form name="basic" form={form} validateMessages={validateMessages} initialValues={transport} onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off">
                 <div className="form-controller">
-                    <Item className='form-item' label="First Name" name="first_name" rules={[{ required: true }]}>
-                        <Input prefix={<SolutionOutlined />} placeholder="First Name" allowClear />
-                    </Item>
-                    <Item className='form-item' label="Last Name" name="last_name" rules={[{ required: true }]}>
-                        <Input prefix={<SolutionOutlined />} placeholder="Last Name" allowClear />
+                    <Item className='form-item' label="Route Name" name="route_name" rules={[{ required: true }]}>
+                        <Input prefix={<SolutionOutlined />} placeholder="Route Name" allowClear />
                     </Item>
                 </div>
                 <div className="form-controller">
-                    <Item className='form-item' label="Email" name="parent_email" rules={[{ type: 'email', required: true }]}>
-                        <Input prefix={<MailOutlined />} placeholder="Email Address" allowClear />
+                    <Item className='form-item' label="Vehicle No" name="vehicle_number" rules={[{ required: true }]}>
+                        <Input prefix={<SolutionOutlined />} placeholder="Vehicle No" allowClear />
                     </Item>
-                </div>
-                <div className="form-controller">
-                    <Item className='form-item' label="Amount" name="amount" rules={[{ required: true }]}>
-                        <Input prefix={<SolutionOutlined />} placeholder="Amount" allowClear />
-                    </Item>
-                    <Item className='form-item' name="date_expense" label="Payment Date" rules={[{ required: true }]}>
-                        <DatePicker placeholder="Payment Date" allowClear />
+                    <Item className='form-item' label="License No" name="license_number" rules={[{ required: true }]}>
+                        <Input prefix={<SolutionOutlined />} placeholder="License No" allowClear />
                     </Item>
                 </div>
                 <div className="form-controller">
@@ -97,24 +89,16 @@ const SmsAddExpenseForm = ({ expense }) => {
                     </Item>
                 </div>
                 <div className="form-controller">
-                    <Item className='form-item' name="expense_type" label="Expense Type" rules={[{ required: true }]}>
-                        <Select style={{ width: 120 }} placeholder="Expense Type" allowClear>
-                            {expenseType.map(item => (
-                                <Option key={item.value} value={item.value}>{item.name}</Option>
-                            ))}
-                        </Select>
+                    <Item className='form-item' label="Driver Name" name="driver_name" rules={[{ required: true }]}>
+                        <Input prefix={<SolutionOutlined />} placeholder="Driver Name" allowClear />
                     </Item>
-                    <Item className='form-item' name="status" label="Payment Status" rules={[{ required: true }]}>
-                        <Select style={{ width: 120 }} placeholder="Payment Status" allowClear>
-                            {paymentStatus.map(item => (
-                                <Option key={item.value} value={item.value}>{item.name}</Option>
-                            ))}
-                        </Select>
+                    <Item className='form-item' label="Driver Phone" name="phone_number" hasFeedback rules={[{ required: true, min: 8, max: 11 }]}>
+                        <Input prefix={<PhoneOutlined />} placeholder="Driver Phone" allowClear />
                     </Item>
                 </div>
                 <div className="form-controller">
                     <Item label="Agree" name="agree" valuePropName="checked" rules={[{ required: true }]}>
-                        <Checkbox>I intentionally wish to add an expense</Checkbox>
+                        <Checkbox>I intentionally wish to add a transport</Checkbox>
                     </Item>
                 </div>
                 <div className="button-controller">
@@ -134,5 +118,5 @@ const SmsAddExpenseForm = ({ expense }) => {
     )
 }
 
-export default SmsAddExpenseForm
+export default SmsAddTransportForm
 

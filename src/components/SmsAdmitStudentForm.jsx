@@ -226,7 +226,7 @@ const SmsAdmitStudentForm = ({ student }) => {
                     </Item>
                 </div>
                 <div className="form-controller">
-                    <Item className='form-item' name="discount" label="Discount" rules={[{ required: true }]}>
+                    <Item className='form-item' name="discount" label="Discount" rules={[{ type: 'number', required: true }]}>
                         <InputNumber placeholder="Discount" allowClear />
                     </Item>
                     <Item className='form-item' name="admission_date" label="Admission Date" rules={[{ required: true }]}>

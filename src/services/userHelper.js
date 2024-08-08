@@ -778,6 +778,12 @@ export const getTeacherFullName = (email, teachers) => {
     return filteredTeachers.length > 0 ? `${firstCapital(filteredTeachers[0].first_name)} ${firstCapital(filteredTeachers[0].last_name)}` : ""
 }
 
+export const getStudentFullName = (email, students) => {
+    const value = email ? email : " "
+    const filteredStudents = students.filter(student => student.email === value)
+    return filteredStudents.length > 0 ? `${firstCapital(filteredStudents[0].first_name)} ${firstCapital(filteredStudents[0].last_name)}` : ""
+}
+
 export const getFeesCollectionFullName = (email, feesCollections) => {
     const feesUser = feesCollections.filter(item => item.email === email)[0]
     const firstname = 'No'
@@ -832,4 +838,47 @@ export const getPercentageScore = (score, cA, totalScore) => {
     totalScore = Number(totalScore)
     const percent = Math.ceil((score / totalScore) * 100)
     return String(percent) + "%"
+}
+
+export const months = [
+    { name: "January", value: "january", days: 31 },
+    { name: "February", value: "february", days: 29 },
+    { name: "March", value: "march", days: 31 },
+    { name: "April", value: "april", days: 30 },
+    { name: "May", value: "may", days: 31 },
+    { name: "June", value: "june", days: 30 },
+    { name: "July", value: "july", days: 31 },
+    { name: "August", value: "august", days: 31 },
+    { name: "September", value: "september", days: 30 },
+    { name: "October", value: "october", days: 31 },
+    { name: "November", value: "november", days: 30 },
+    { name: "December", value: "december", days: 31 }
+]
+
+export const years = [
+    { name: "2023", value: "2023" },
+    { name: "2024", value: "2024" },
+    { name: "2025", value: "2025" },
+    { name: "2026", value: "2026" },
+    { name: "2027", value: "2027" },
+    { name: "2028", value: "2028" }
+]
+
+export const attendanceStatus = [
+    { value: "present", name: "Present" },
+    { value: "absent", name: "Absent" }
+]
+
+export const getMonthName = (text) => {
+    const value = text ? text : " "
+    const filteredMonthName = months.filter(item => item.value === value)
+    return filteredMonthName[0] ? filteredMonthName[0].name : ""
+}
+
+export const getNumbersArray = (number) => {
+    const numbersArray = []
+    for (let i = 1; i <= number; i++) {
+        numbersArray.push(i)
+    }
+    return numbersArray
 }
