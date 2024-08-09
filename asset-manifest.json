@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.css": "/benion-tech-react/static/css/main.d2e323f0.css",
-    "main.js": "/benion-tech-react/static/js/main.d414387c.js",
-    "static/media/benion-tech-icon.png": "/benion-tech-react/static/media/benion-tech-icon.4aa74b7a55e04e2ac6ca.png",
-    "static/media/benion-tech-light.jpg": "/benion-tech-react/static/media/benion-tech-light.0a758cb194e00fb8f44a.jpg",
-    "static/media/benion-passport.jpg": "/benion-tech-react/static/media/benion-passport.9d56c6e2bddbde9397f8.jpg",
-    "static/media/helvetica-neu.ttf": "/benion-tech-react/static/media/helvetica-neu.8a19678078a6b21c8057.ttf",
-    "static/media/LaBelleAurore.woff": "/benion-tech-react/static/media/LaBelleAurore.9c5433c64baa43d1d274.woff",
-    "static/media/LaBelleAurore.woff2": "/benion-tech-react/static/media/LaBelleAurore.a83c1c58fd7e43972e4a.woff2",
-    "static/media/CoolveticaRg-Regular.woff": "/benion-tech-react/static/media/CoolveticaRg-Regular.8307bfa187bccdc55f4d.woff",
-    "static/media/CoolveticaRg-Regular.woff2": "/benion-tech-react/static/media/CoolveticaRg-Regular.7d1f3b1dd46ad6557a17.woff2",
-    "index.html": "/benion-tech-react/index.html",
-    "main.d2e323f0.css.map": "/benion-tech-react/static/css/main.d2e323f0.css.map",
-    "main.d414387c.js.map": "/benion-tech-react/static/js/main.d414387c.js.map"
+    "main.css": "//benion-tech-react/static/css/main.b1596449.css",
+    "main.js": "//benion-tech-react/static/js/main.2255f79d.js",
+    "static/media/benion-tech-icon.png": "//benion-tech-react/static/media/benion-tech-icon.4aa74b7a55e04e2ac6ca.png",
+    "static/media/benion-tech-light.jpg": "//benion-tech-react/static/media/benion-tech-light.0a758cb194e00fb8f44a.jpg",
+    "static/media/benion-passport.jpg": "//benion-tech-react/static/media/benion-passport.9d56c6e2bddbde9397f8.jpg",
+    "static/media/helvetica-neu.ttf": "//benion-tech-react/static/media/helvetica-neu.8a19678078a6b21c8057.ttf",
+    "static/media/LaBelleAurore.woff": "//benion-tech-react/static/media/LaBelleAurore.9c5433c64baa43d1d274.woff",
+    "static/media/LaBelleAurore.woff2": "//benion-tech-react/static/media/LaBelleAurore.a83c1c58fd7e43972e4a.woff2",
+    "static/media/CoolveticaRg-Regular.woff": "//benion-tech-react/static/media/CoolveticaRg-Regular.8307bfa187bccdc55f4d.woff",
+    "static/media/CoolveticaRg-Regular.woff2": "//benion-tech-react/static/media/CoolveticaRg-Regular.7d1f3b1dd46ad6557a17.woff2",
+    "index.html": "//benion-tech-react/index.html",
+    "main.b1596449.css.map": "//benion-tech-react/static/css/main.b1596449.css.map",
+    "main.2255f79d.js.map": "//benion-tech-react/static/js/main.2255f79d.js.map"
   },
   "entrypoints": [
-    "static/css/main.d2e323f0.css",
-    "static/js/main.d414387c.js"
+    "static/css/main.b1596449.css",
+    "static/js/main.2255f79d.js"
   ]
 }
