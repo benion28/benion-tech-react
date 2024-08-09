@@ -1,49 +1,63 @@
-import React, { useContext } from 'react'
-import { DeleteOutlined, QuestionCircleOutlined, ReloadOutlined } from '@ant-design/icons'
-import { Table, Space, Button, Popconfirm, Typography, Badge } from 'antd'
+import React, { useContext, useState } from 'react'
+import { CloseOutlined, DeleteOutlined, EditOutlined, PlusOutlined, QuestionCircleOutlined, ReloadOutlined } from '@ant-design/icons'
+import { Table, Space, Button, Popconfirm, Typography, Badge, Popover } from 'antd'
 import millify from "millify"
+import { DepositUserForm } from '../components'
 import { GlobalContext } from '../app/GlobalState'
 import '../styles/ExamsTable.scss'
 
-const { Text } = Typography;
+const { Text, Title } = Typography
 
 const PaymentsTable = () => {
     const { state, deletePayment, getPayments } = useContext(GlobalContext)
+    const [newUserPopover, setNewUserPopover] = useState(false)
+    const [editUserPopover, setEditUserPopover] = useState(false)
+    const [details, setDetails] = useState({ _id: 'gfsgdfgdew4rrewtr5e' })
 
     const deleteConfirm = (key) => {
         deletePayment(key)
     }
 
+    const onEdit = (user) => {
+        setEditUserPopover(true)
+        setDetails(user)
+    }
+
+    const initialPayment = {
+        username: "",
+        amount: 0
+    }
+
     const expandable = {
         expandedRowRender: (record) => (
-            <div style={ { margin: 0} }>
-                <p style={ { marginBottom: 1} }>
+            <div style={{ margin: 0 }}>
+                <p style={{ marginBottom: 1 }}>
                     <b>Amount:</b> {record.amount} ({millify(record.amount)})
                 </p>
-                <p style={ { marginBottom: 1} }>
+                <p style={{ marginBottom: 1 }}>
                     <b>Customer's Firstname:</b> {record.customersFirstName}
                 </p>
-                <p style={ { marginBottom: 1} }>
+                <p style={{ marginBottom: 1 }}>
                     <b>Customer's Lastname:</b> {record.customersLastName}
                 </p>
-                <p style={ { marginBottom: 1} }>
+                <p style={{ marginBottom: 1 }}>
                     <b>Customer's Email:</b> {record.customersEmail}
                 </p>
-                { state.cbtUser.role === "admin" && state.cbtLoggedIn && (
+                {state.cbtUser.role === "admin" && state.cbtLoggedIn && (
                     <hr></hr>
                 )}
-                { state.cbtUser.role === "admin" && state.cbtLoggedIn && (
-                    <p style={ { marginBottom: 1} }>
+                {state.cbtUser.role === "admin" && state.cbtLoggedIn && (
+                    <p style={{ marginBottom: 1 }}>
                         <b>Currency:</b> {record.currency}
                     </p>
                 )}
-                { state.cbtUser.role === "admin" && state.cbtLoggedIn && (
-                    <p style={ { marginBottom: 1} }>
+                {state.cbtUser.role === "admin" && state.cbtLoggedIn && (
+                    <p style={{ marginBottom: 1 }}>
                         <b>Sender's Email:</b> {record.sendersEmail}
                     </p>
                 )}
-                { state.cbtUser.role === "admin" && state.cbtLoggedIn && (
-                    <p style={ { marginBottom: 1} }>
+                {state.cbtUser.role === "admin" && state.cbtLoggedIn && (
+                    <p style={{ marginBottom: 1 }}>
                         <b>Bank:</b> {record.bank}
                     </p>
                 )}
@@ -120,14 +134,27 @@ const PaymentsTable = () => {
             fixed: 'right',
             render: (record) => (
                 <Space size='middle'>
-                    {((state.loggedIn && state.user.role === "admin" ) || ( state.cbtLoggedIn && state.cbtUser.role !== "student" )) && (
+                    {(record.channel === "manual") && ((state.loggedIn && state.user.role === "admin") || (state.cbtLoggedIn && state.cbtUser.role !== "student")) && (
+                        <Popover
+                            placement='bottomLeft'
+                            content={<DepositUserForm payment={details} />}
+                            title={() => (<Title level={2} className='add-user-title'><b>Edit Existing Payment</b> <Button onClick={() => setEditUserPopover(false)} className='add-user-button'><CloseOutlined /></Button></Title>)}
+                            trigger='click'
+                            visible={editUserPopover && (record.id === details.id)}
+                        >
+                            <Button className='edit-button' onClick={() => onEdit(record)}>
+                                <EditOutlined />
+                            </Button>
+                        </Popover>
+                    )}
+                    {((state.loggedIn && state.user.role === "admin") || (state.cbtLoggedIn && state.cbtUser.role !== "student")) && (
                         <Popconfirm
                             title="Are you sure to delete this exam?"
-                            icon={<QuestionCircleOutlined style={{ color: 'red' }}  />}
-                            onConfirm={ () => deleteConfirm(record.$key) }
+                            icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
+                            onConfirm={() => deleteConfirm(record.$key)}
                         >
                             <Button className='delete-button'>
-                                <DeleteOutlined  />
+                                <DeleteOutlined />
                             </Button>
                         </Popconfirm>
                     )}
@@ -138,21 +165,34 @@ const PaymentsTable = () => {
 
     return (
         <React.Fragment>
+            <div className="add-user">
+                    <Popover
+                        placement='bottomRight'
+                        content={<DepositUserForm item={initialPayment} />}
+                        title={() => (<Title level={2} className='add-user-title'><b>Add New Payment</b> <Button onClick={() => setNewUserPopover(false)} className='add-user-button'><CloseOutlined /></Button></Title>)}
+                        trigger='click'
+                        visible={newUserPopover}
+                    >
+                        <Button className='add-button' onClick={() => setNewUserPopover(true)}>
+                            <PlusOutlined />  Add Payment
+                        </Button>
+                    </Popover>
+                </div>
             <div className="button-container">
-                <Button className='get-button' onClick={ () => getPayments() }>
-                    <ReloadOutlined  /> Reload
+                <Button className='get-button' onClick={() => getPayments()}>
+                    <ReloadOutlined /> Reload
                 </Button>
             </div>
             <div className="table-container">
-                <Table rowKey={ (record) => record.$key } scroll={scroll} className='table' expandable={expandable} columns={columns} dataSource={state.payments[3]} />
+                <Table rowKey={(record) => record.$key} scroll={scroll} className='table' expandable={expandable} columns={columns} dataSource={state.payments[3]} />
             </div>
             <div className="footer">
-                { state.payments[3].length > 0 && (
+                {state.payments[3].length > 0 && (
                     <Text className='footer-text' level={1}>
-                        <b>Currently there are { state.payments[3].length } Payment Data !!!</b>
+                        <b>Currently there are {state.payments[3].length} Payment Data !!!</b>
                     </Text>
                 )}
-                { state.payments[3].length < 1 && (
+                {state.payments[3].length < 1 && (
                     <Text className='footer-text' level={1}>
                         <b>Currently there are no Payment Data !!!</b>
                     </Text>

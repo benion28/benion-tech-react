@@ -4,7 +4,7 @@ import { Table, Space, Button, Popconfirm, Typography, Popover, Badge } from 'an
 import { SmsAddExpenseForm } from '../components'
 import { GlobalContext } from '../app/GlobalState'
 import '../styles/UsersTable.scss'
-import { expenseType, feesType, getExpenseTypeName, getFeesCollectionFullName, getPaymentStatusName, paymentStatus } from '../services/userHelper'
+import { expenseType, getExpenseTypeName, getFeesCollectionFullName, getPaymentStatusName, paymentStatus } from '../services/userHelper'
 
 const { Fragment } = React
 const { Text, Title } = Typography

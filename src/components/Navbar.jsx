@@ -13,7 +13,8 @@ import {
     GlobalOutlined,
     HomeFilled,
     PoweroffOutlined,
-    TeamOutlined
+    TeamOutlined,
+    MoneyCollectTwoTone
 } from '@ant-design/icons'
 import benionPassport from '../images/benion-passport.jpg'
 import { GlobalContext } from '../app/GlobalState'
@@ -79,6 +80,11 @@ const Navbar = () => {
                     {(!state.loggedIn || (state.user.role !== 'admin' && state.loggedIn)) && (
                         <Item icon={<GlobalOutlined />}>
                             <Link to="/posts"><b>Posts</b></Link>
+                        </Item>
+                    )}
+                    {(state.loggedIn) && (
+                        <Item icon={<MoneyCollectTwoTone />}>
+                            <a target='_blank' rel='noreferrer'  href="https://benion-tech-server.onrender.com/benion-payments"><b>Make Online Deposit</b></a>
                         </Item>
                     )}
                     <Item icon={<DesktopOutlined />}>

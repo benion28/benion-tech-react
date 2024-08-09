@@ -8,11 +8,13 @@ import { GlobalContext } from '../app/GlobalState'
 const { Item } = Form
 const { Title } = Typography
 
-const DepositUserForm = () => {
+const DepositUserForm = ({ payment }) => {
     const [form] = Form.useForm()
     const [formMessage, setFormMessage] = useState('')
     const [formError, setFormError] = useState('')
     const { depositForUser, state  } = useContext(GlobalContext)
+
+    form.setFieldsValue(payment)
 
     const onFinish = (values) => {
         !production && (console.log("Input data accepted !!", values))
@@ -75,7 +77,7 @@ const DepositUserForm = () => {
                         <Alert message={state.formError} type="warning" showIcon closable />
                     )}
                 </div>
-                <Form name="normal_login" form={ form } className="login-form" onFinishFailed={ onFinishFailed } initialValues={{ remember: true }} validateMessages={ validateMessages } onFinish={ onFinish }>
+                <Form name="normal_login" form={ form } className="login-form" onFinishFailed={ onFinishFailed } initialValues={payment} validateMessages={ validateMessages } onFinish={ onFinish }>
                     <Title level={4} className="text">Deposit For A User</Title>
                     <Item className='form-item' label="Username" name="username" hasFeedback rules={[ { required: true } ]}>
                         <Input prefix={<UserOutlined />}  placeholder="Username" allowClear />
