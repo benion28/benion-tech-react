@@ -4,7 +4,7 @@ const alpha = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 const numbers = "0123456789"
 const symbols = "!@#$%^&*_-)(=+{}[];:><,./?~'`"
 
-export const production = false
+export const production = true
 
 
 const generatePassword = (length, chars) => {
