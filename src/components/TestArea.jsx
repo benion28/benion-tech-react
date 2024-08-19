@@ -505,10 +505,10 @@ const TestArea = () => {
             {/* <EditScoreForm /> */}
             {/* <Scores /> */}
             {/* <GenerateCodeForm /> */}
-            {/* <ImageGallaryForm /> */}
+            <ImageGallaryForm />
             {/* <AddPostForm />
             <CbtAddForm /> */}
-            <CbtPromoteForm />
+            {/* <CbtPromoteForm /> */}
             <Loader type="pacman" />
         </React.Fragment>
     )

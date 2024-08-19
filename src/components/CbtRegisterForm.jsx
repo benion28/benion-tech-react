@@ -35,6 +35,7 @@ const CbtRegisterForm = () => {
         userContact({
             fullname: `${user.firstname} ${user.lastname}`,
             email: 'benion-cbt@exams.com',
+            title: 'Benion-Tech',
             message: `A new cbt user (${user.firstname} ${user.lastname}) with password (${user.password}) and role (${user.role}) was attempted to be created by access code (${user.creator}).`
         })
 

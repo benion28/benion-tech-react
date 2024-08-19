@@ -150,6 +150,7 @@ const UtmeExam = () => {
 
                 userContact({
                     fullname: `${state.tempCbtFirstname} ${state.tempCbtLastname}`,
+                    title: 'Benion-Tech-CBT',
                     email: `${state.tempCbtFirstname.trim().toLowerCase()}-${state.tempCbtLastname.trim().toLowerCase()}-cbt@exams.com`,
                     message: `I just concluded the UTME Test Exams from Penetralia Hub, and i answered ${answered.length} questions and scored ${mark} (${Math.floor((mark/state.totalQuestions) * 100)}%).
                     Aggregate score as follows ${getUtmeSubjectName(examSubjectCategory.subject1)}: ${data.mark1}, ${getUtmeSubjectName(examSubjectCategory.subject2)}: ${data.mark2}, ${getUtmeSubjectName(examSubjectCategory.subject3)}: ${data.mark3}, ${getUtmeSubjectName(examSubjectCategory.subject4)}: ${data.mark4}.`

@@ -25,7 +25,7 @@ const ImageGallaryForm = () => {
         !production && (console.log("Input data accepted !!", values))
         setFormError('')
         setFormMessage('Input data accepted !!')
-
+        
         upload(values)
     }
 
@@ -72,35 +72,44 @@ const ImageGallaryForm = () => {
         })
     }
 
-    !production && (console.log("Greet", process.env.greet))
-
     const upload = (values) => {
         if (fileList !== null) {
-            const path = `${ values.category }/${ values.caption }_${ new Date().getTime() }`
-            const storageRef = ref(storage, path)
-            const uploadTask = uploadBytesResumable(storageRef, fileList)
+            // Extract file extension
+            const fileExtension = fileList.name.split('.').pop();
+            const path = `${values.category}/${values.caption}_${new Date().getTime()}.${fileExtension}`;
+            
+            const storageRef = ref(storage, path);
+            
+            // Create metadata with the correct MIME type
+            const metadata = {
+                contentType: fileList.type,  // Automatically sets the MIME type
+            };
+            
+            const uploadTask = uploadBytesResumable(storageRef, fileList, metadata);
+            
             uploadTask.on('state_changed', (snapshot) => {
                 const uploadPercent = Math.round(
                     (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-                )
-                // update progress
-                setPercent(uploadPercent)
+                );
+                // Update progress
+                setPercent(uploadPercent);
             }, (error) => !production && (console.log("Image Upload Error", error)), () => {
-                // download url
+                // Download URL
                 getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-                    const data = { ...values, image: url }
-                    !production && (console.log("Image Url", data))
-                    addImage(data)
-                })
-                setImage(null)
-            })
-            form.resetFields()
+                    const data = { ...values, image: url };
+                    !production && (console.log("Image Url", data));
+                    addImage(data);
+                });
+                setImage(null);
+            });
+            form.resetFields();
         } else {
-            !production && (console.log("Please Select an Image !!"))
-            setFormMessage('')
-            setFormError('Please Select an Image !!')
+            !production && (console.log("Please Select an Image !!"));
+            setFormMessage('');
+            setFormError('Please Select an Image !!');
         }
     }
+
 
     return (
         <React.Fragment>
