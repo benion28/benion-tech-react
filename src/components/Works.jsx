@@ -32,8 +32,8 @@ const Works = () => {
         const data = state?.galleryImages[3]
         const category = 'Works'
         if (data.length > 0) {
-            const worksFilter = data.filter(image => image.category === category)
-            const othersFilter = data.filter(image => image.category !== category)
+            const worksFilter = data.filter(image => (image.category.toLowerCase() === category.toLowerCase() || image.category.toLowerCase() === 'work'))
+            const othersFilter = data.filter(image => (image.category.toLowerCase() !== category.toLowerCase() && image.category.toLowerCase() !== 'work'))
             setImages(data)
             setOtherImages(othersFilter)
             setWorkImages(worksFilter)
@@ -60,10 +60,11 @@ const Works = () => {
         if (value === 'all') {
             setImages(data)
         } else if (value === 'Works') {
-            const worksFilter = data.filter(image => image.category === value)
+            const worksFilter = data.filter(image => (image.category.toLowerCase() === value.toLowerCase() || image.category.toLowerCase() === 'work'))
             setImages(worksFilter)
         } else {
-            const othersFilter = data.filter(image => image.category !== value)
+            const value = 'Works'
+            const othersFilter = data.filter(image => (image.category.toLowerCase() !== value.toLowerCase() && image.category.toLowerCase() !== 'work'))
             setImages(othersFilter)
         }
     }
@@ -201,7 +202,7 @@ const Works = () => {
                         <div className="option-item">
                             <Select placeholder="Select a Category" optionFilterProp="children" onChange={(value) => handleCategory(value)}  allowClear>
                                 <Option value="all">All Categories</Option>
-                                <Option value="Works">Others</Option>
+                                <Option value="Works">Works</Option>
                                 <Option value="Others">Others</Option>
                             </Select>
                         </div>

@@ -174,6 +174,7 @@ const ImageGallaryForm = () => {
                             <Option value="vanilla">Vanilla</Option>
                             <Option value="python">Python</Option>
                             <Option value="express">Express</Option>
+                            <Option value="laravel">Laravel</Option>
                             <Option value="others">Others</Option>
                         </Select>
                     </Item>
