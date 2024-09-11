@@ -30,6 +30,10 @@ export const getFeesCollections = (state, action) => {
     return { ...state, feesCollections: action.payload }
 }
 
+export const getTransactions = (state, action) => {
+    return { ...state, transactions: action.payload }
+}
+
 export const getExpenses = (state, action) => {
     return { ...state, expenses: action.payload }
 }

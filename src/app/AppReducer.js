@@ -108,6 +108,8 @@ const AppReducer = (state, action) => {
             return SMS_REDUCER.getSmsUsers(state, action)
         case ACTIONS.getFeesCollections:
             return SMS_REDUCER.getFeesCollections(state, action)
+        case ACTIONS.getTransactions:
+            return SMS_REDUCER.getTransactions(state, action)
         case ACTIONS.getExpenses:
             return SMS_REDUCER.getExpenses(state, action)
         case ACTIONS.getExamResults:

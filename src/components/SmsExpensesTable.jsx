@@ -4,7 +4,7 @@ import { Table, Space, Button, Popconfirm, Typography, Popover, Badge } from 'an
 import { SmsAddExpenseForm } from '../components'
 import { GlobalContext } from '../app/GlobalState'
 import '../styles/UsersTable.scss'
-import { expenseType, getExpenseTypeName, getFeesCollectionFullName, getPaymentStatusName, paymentStatus } from '../services/userHelper'
+import { expenseType, getExpenseTypeName, getSmsUserFullName, getPaymentStatusName, paymentStatus } from '../services/userHelper'
 
 const { Fragment } = React
 const { Text, Title } = Typography
@@ -93,7 +93,7 @@ const SmsExpensesTable = () => {
             dataIndex: 'parent_email',
             defaultSortOrder: 'descend',
             sorter: (a, b) => a.parent_email.length - b.parent_email.length,
-            render: (parent_email) => getFeesCollectionFullName(parent_email, state.smsUser),
+            render: (parent_email) => getSmsUserFullName(parent_email, state.smsUsers),
             key: 'parent_email'
         },
         {

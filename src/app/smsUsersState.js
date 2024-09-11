@@ -10,7 +10,7 @@ let request = {
     data: null,
 };
 
-export const smsUserLogin = (user, dispatch, config, getStudents, getParents, getTeachers, getNotifications, getSmsUsers, getFeesCollections, getExpenses, getExamResults, getHostels, toast, getTransports, getExamSchedules, getAttendances, getClients) => {
+export const smsUserLogin = (user, dispatch, config, getStudents, getParents, getTeachers, getNotifications, getSmsUsers, getFeesCollections, getExpenses, getExamResults, getHostels, toast, getTransports, getExamSchedules, getAttendances, getClients, getTransactions) => {
     const url = '/api/auth/login'
     request.data = user
     dispatch({
@@ -47,6 +47,7 @@ export const smsUserLogin = (user, dispatch, config, getStudents, getParents, ge
             getFeesCollections()
             getExamSchedules()
             getAttendances()
+            getTransactions()
             console.log("responseUser", responseUser)
             dispatch({
                 type: ACTIONS.loggingIn,
@@ -217,6 +218,32 @@ export const getFeesCollections = (dispatch, config, setError) => {
         if (result.meta.status === "200") {
             dispatch({
                 type: ACTIONS.getFeesCollections,
+                payload: result.data
+            })
+        } else {
+            setError(`Unable to fetch data.`)
+            console.log(`Unable to fetch data. (${result.meta.message})`)
+        }
+    }).catch(error => {
+        setError('An error occurred. Please reload your browser or sign out and log in again.')
+        console.log(`An error occurred. Please try again. (${error.message})`)
+    })
+}
+
+export const getTransactions = (dispatch, config, setError) => {
+    const url = "/api/paystack/success_payment"
+    setError(null)
+
+    axios({
+        url,
+        method: 'get',
+        headers: config.headers,
+       baseURL: smsHost 
+    }).then(response => {
+        const result = response.data
+        if (result.meta.status === "200") {
+            dispatch({
+                type: ACTIONS.getTransactions,
                 payload: result.data
             })
         } else {
@@ -600,6 +627,36 @@ export const addFeesCollection = (item, authConfig, getFeesCollections, toast) =
     }).catch(error => {
         toast.error('An error occurred while trying to add a fees collection. Please try again.')
         console.log(`An error occurred while trying to add a fees collection. Please try again. (${error.message})`)
+        
+    })
+}
+
+export const addTransaction = (item, authConfig, getTransactions, toast) => {
+    const url = `/api/paystack/${item.id ? `edit_payment/${item.id}` : 'create_manual_payment'}`
+    request.data = item
+
+    console.warn("Request Data: ", { url, data: item })
+
+    const headers = authConfig.headers
+    const method = `${item.id ? 'put' : 'post'}`
+    const data = request
+
+    axios({ url, method, baseURL: smsHost, headers, data }).then(response => {
+        const result = response.data
+        console.warn("Add Transaction Result: ", result)
+        if (result.meta.status === "201" || result.meta.status === "200" || result.meta.status === "OK") {
+            toast.success(`Well done! You successfully ${item.id ? "edited" : "added"} a transaction.`)
+            verifySentData(axios, url, method, headers, data)
+            getTransactions()
+            
+        } else {
+            toast.error(`Unable to ${item.id ? "edit" : "add"} a transaction.`)
+            console.log(`Unable to ${item.id ? "edit" : "add"} a transaction. (${result.meta.message})`)
+            
+        }
+    }).catch(error => {
+        toast.error('An error occurred while trying to add a transaction. Please try again.')
+        console.log(`An error occurred while trying to add a transaction. Please try again. (${error.message})`)
         
     })
 }
@@ -1072,6 +1129,35 @@ export const deleteFeesCollection = (id, authConfig, getFeesCollections, toast) 
         } else {
             console.log(`Unable to delete a fees collection. (${result.meta.message})`)
             toast.error(`Unable to delete a fees collection.`)
+            
+        }
+    }).catch(error => {
+        toast.error('An error occurred while trying to delete a fees collection. Please try again.')
+        console.log(`An error occurred while trying to delete a fees collection. Please try again. (${error.message})`)
+        
+    })
+}
+
+export const deleteTransaction = (id, authConfig, getTransactions, toast) => {
+    const url = `/api/paystack/delete_payment/${id}`
+
+    console.warn("Request Data: ", { url, data: id })
+
+    axios({
+        url,
+        method: 'delete',
+        baseURL: smsHost,
+        headers: authConfig.headers
+    }).then(response => {
+        const result = response.data
+        console.warn("Delete Transaction Result: ", result)
+        if (result.meta.status === "200" || result.meta.status === "202") {
+            toast.success(`Well done! You successfully deleted a transaction.`)
+            getTransactions()
+            
+        } else {
+            console.log(`Unable to delete a transaction. (${result.meta.message})`)
+            toast.error(`Unable to delete a transaction.`)
             
         }
     }).catch(error => {

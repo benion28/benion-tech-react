@@ -435,6 +435,11 @@ export const GlobalStore = ({ children }) => {
         SMS_USERS_STATE.getFeesCollections(dispatch, authConfig, setError)
     }
 
+    // Get Transactions
+    const getTransactions = () => {
+        SMS_USERS_STATE.getTransactions(dispatch, authConfig, setError)
+    }
+
     // Get Expenses
     const getExpenses = () => {
         SMS_USERS_STATE.getExpenses(dispatch, authConfig, setError)
@@ -472,7 +477,7 @@ export const GlobalStore = ({ children }) => {
 
     // User Login
     const smsUserLogin = (user) => {
-        SMS_USERS_STATE.smsUserLogin(user, dispatch, config, getStudents, getParents, getTeachers, getNotifications, getSmsUsers, getFeesCollections, getExpenses, getExamResults, getHostels, toast, getTransports, getExamSchedules, getAttendances, getClients)
+        SMS_USERS_STATE.smsUserLogin(user, dispatch, config, getStudents, getParents, getTeachers, getNotifications, getSmsUsers, getFeesCollections, getExpenses, getExamResults, getHostels, toast, getTransports, getExamSchedules, getAttendances, getClients, getTransactions)
     }
 
     // User Logout
@@ -510,6 +515,11 @@ export const GlobalStore = ({ children }) => {
     // Add Fees Collection
     const addFeesCollection = (item) => {
         SMS_USERS_STATE.addFeesCollection(item, authConfig, getFeesCollections, toast)
+    }
+
+    // Add Transaction
+    const addTransaction = (item) => {
+        SMS_USERS_STATE.addTransaction(item, authConfig, getTransactions, toast)
     }
 
     // Add Expense
@@ -590,6 +600,11 @@ export const GlobalStore = ({ children }) => {
     // Delete Fees Collection
     const deleteFeesCollection = (id) => {
         SMS_USERS_STATE.deleteFeesCollection(id, authConfig, getFeesCollections, toast)
+    }
+
+    // Delete Transaction
+    const deleteTransaction = (id) => {
+        SMS_USERS_STATE.deleteTransaction(id, authConfig, getTransactions, toast)
     }
 
     // Delete Expense
@@ -747,7 +762,10 @@ export const GlobalStore = ({ children }) => {
             deleteClient,
             deleteAttendance,
             changePassword,
-            forgetPassword
+            forgetPassword,
+            getTransactions,
+            addTransaction,
+            deleteTransaction
         }}>
             {children}
         </Provider>

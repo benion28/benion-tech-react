@@ -4,7 +4,7 @@ import { Table, Space, Button, Popconfirm, Typography, Popover, Badge } from 'an
 import { SmsAddFeesCollectionForm } from '../components'
 import { GlobalContext } from '../app/GlobalState'
 import '../styles/UsersTable.scss'
-import { feesType, getFeesCollectionFullName, getPaymentStatusName, getPaymentTypeName, getSmsClassName, paymentStatus, smsClasses } from '../services/userHelper'
+import { feesType, getSmsUserFullName, getPaymentStatusName, getPaymentTypeName, getSmsClassName, paymentStatus, smsClasses } from '../services/userHelper'
 
 const { Fragment } = React
 const { Text, Title } = Typography
@@ -98,7 +98,7 @@ const SmsFeesCollectionTable = () => {
             dataIndex: 'email',
             defaultSortOrder: 'descend',
             sorter: (a, b) => a.email.length - b.email.length,
-            render: (email) => getFeesCollectionFullName(email, state.feesCollections),
+            render: (email) => getSmsUserFullName(email, state.smsUsers),
             key: 'email'
         },
         {

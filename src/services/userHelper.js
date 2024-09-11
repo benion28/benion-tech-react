@@ -124,6 +124,7 @@ export const initialState = {
     examResults: [],
     transports: [],
     examSchedules: [],
+    transactions: [],
     writeExamQuestions: [],
     cbtExams: [
         [],
@@ -826,14 +827,14 @@ export const getStudentFullName = (email, students) => {
     return filteredStudents.length > 0 ? `${firstCapital(filteredStudents[0].first_name)} ${firstCapital(filteredStudents[0].last_name)}` : ""
 }
 
-export const getFeesCollectionFullName = (email, feesCollections) => {
+export const getSmsUserFullName = (email, feesCollections) => {
     const feesUser = feesCollections.filter(item => item.email === email)[0]
     const firstname = 'No'
     const lastname = 'Name'
     if (feesUser === undefined | feesUser === null) {
         return `${firstname} ${lastname}`
     } else {
-        return `${firstCapital(feesUser.first_name)} ${firstCapital(feesUser.last_name)}`
+        return `${firstCapital(feesUser.firstname)} ${firstCapital(feesUser.lastname)}`
     }
 }
 
