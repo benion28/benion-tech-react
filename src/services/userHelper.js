@@ -1,4 +1,5 @@
 import millify from "millify"
+import * as XLSX from 'xlsx';
 
 const alpha = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 const numbers = "0123456789"
@@ -924,4 +925,19 @@ export const getNumbersArray = (number) => {
         numbersArray.push(i)
     }
     return numbersArray
+}
+
+export const exportToExcel = (data, fileName = 'sheet', download = true) => {
+    console.log("Export Details: ", {data, fileName})
+    // Create a new workbook and a worksheet
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.json_to_sheet(data);
+    // Append the worksheet to the workbook
+    XLSX.utils.book_append_sheet(wb, ws, 'sheet1');
+
+    if(download){
+        return XLSX.writeFileXLSX(wb, `${fileName}.xlsx`);
+    }else{
+        return XLSX.write(wb, {bookType: 'xlsx'});
+    }
 }

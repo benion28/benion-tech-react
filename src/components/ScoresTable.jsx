@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react'
-import { EditOutlined, DeleteOutlined, UserAddOutlined, QuestionCircleOutlined, CloseOutlined, ReloadOutlined } from '@ant-design/icons'
+import { EditOutlined, DeleteOutlined, UserAddOutlined, QuestionCircleOutlined, CloseOutlined, ReloadOutlined, DownloadOutlined } from '@ant-design/icons'
 import { Table, Space, Button, Popconfirm, Typography, Popover } from 'antd'
 import { AddScoreForm, EditScoreForm } from '../components'
 import { GlobalContext } from '../app/GlobalState'
 import '../styles/ScoresTable.scss'
-import { sessions, terms, subjects, cbtClasses, getSubjectName, getClassName, getTermName, getFullName } from '../services/userHelper'
+import { sessions, terms, subjects, cbtClasses, getSubjectName, getClassName, getTermName, getFullName, exportToExcel } from '../services/userHelper'
 
 const { Text, Title } = Typography;
 
@@ -147,9 +147,9 @@ const ScoresTable = () => {
 
     return (
         <React.Fragment>
-            <div className="tools-container">
+            <div className="tools-container" style={{ display: 'flex', flexDirection: 'row' }}>
                 { (state.cbtLoggedIn && state.cbtUser.role !== "student") && (
-                    <div className="add-user">
+                    <div className="add-user" style={{ marginRight: '2pt'}}>
                         <Popover
                             placement='bottomRight'
                             content={ <AddScoreForm />}
@@ -164,9 +164,16 @@ const ScoresTable = () => {
                     </div>
                 )}
                 { (state.cbtLoggedIn && state.cbtUser.role !== "student") && (
-                    <div className="button-container">
+                    <div className="button-container" style={{ marginRight: '2pt'}}>
                         <Button className='get-button' onClick={ () => getScores() }>
                             <ReloadOutlined  /> Reload
+                        </Button>
+                    </div>
+                )}
+                { (state.cbtLoggedIn && state.cbtUser.role !== "student") && (
+                    <div className="button-container">
+                        <Button className='get-button' onClick={ () => exportToExcel(state.scores[3], 'Scores') }>
+                            <DownloadOutlined  /> Export Excel
                         </Button>
                     </div>
                 )}

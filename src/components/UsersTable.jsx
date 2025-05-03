@@ -1,11 +1,11 @@
 import React, { useContext, useState } from 'react'
-import { EditOutlined, DeleteOutlined, UserAddOutlined, QuestionCircleOutlined, CloseOutlined, ReloadOutlined } from '@ant-design/icons'
+import { EditOutlined, DeleteOutlined, UserAddOutlined, QuestionCircleOutlined, CloseOutlined, ReloadOutlined, DownloadOutlined } from '@ant-design/icons'
 import { Table, Space, Button, Popconfirm, Typography, Popover } from 'antd'
 import { AddUserForm, EditUserForm } from '../components'
 import { GlobalContext } from '../app/GlobalState'
 import millify from 'millify'
 import '../styles/UsersTable.scss'
-import { fetchTotalPayments, formatAmountManuallyOld, genders, userRoles } from '../services/userHelper'
+import { fetchTotalPayments, formatAmountManuallyOld, genders, userRoles, exportToExcel } from '../services/userHelper'
 import { render } from '@testing-library/react'
 
 const { Text, Title } = Typography;
@@ -131,8 +131,8 @@ const UsersTable = () => {
 
     return (
         <React.Fragment>
-            <div className="tools-container">
-                <div className="add-user">
+            <div className="tools-container" style={{ display: 'flex', flexDirection: 'row' }}>
+                <div className="add-user" style={{ marginRight: '2pt'}}>
                     <Popover
                         placement='bottomRight'
                         content={ <AddUserForm />}
@@ -145,9 +145,14 @@ const UsersTable = () => {
                         </Button>
                     </Popover>
                 </div>
-                <div className="button-container">
+                <div className="button-container" style={{ marginRight: '2pt'}}>
                     <Button className='get-button' onClick={ () => getUsers() }>
                         <ReloadOutlined  /> Reload
+                    </Button>
+                </div>
+                <div className="button-container">
+                    <Button className='get-button' onClick={ () => exportToExcel(state.users, 'Users') }>
+                        <DownloadOutlined  /> Export Excel
                     </Button>
                 </div>
             </div>
