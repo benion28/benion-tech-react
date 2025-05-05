@@ -65,7 +65,7 @@ export const GlobalStore = ({ children }) => {
 
     // User Login
     const userLogin = (user) => {
-        USERS_STATE.userLogin(user, axios, host, config, ACTIONS, dispatch, getUsers, getCbtUsers, getCbtExams, getCbtQuestions, getContactMessages, getCryptos, getCryptoNews, getBingNews, getScores, getImages, getPosts, getPayments, getUtmeQuestions, getUtmeExams)
+        USERS_STATE.userLogin(user, axios, host, config, ACTIONS, dispatch, getUsers, getCbtUsers, getCbtExams, getCbtQuestions, getContactMessages, getCryptos, getCryptoNews, getBingNews, getScores, getImages, getPosts, getPayments, getUtmeQuestions, getUtmeExams, getCountryStates, getStateLgas)
     }
 
     // User Login Access
@@ -181,6 +181,36 @@ export const GlobalStore = ({ children }) => {
     // Delete Payment
     const deletePayment = (key) => {
         USERS_STATE.deletePayment(key, axios, host, adminConfig, ACTIONS, dispatch, getPayments)
+    }
+
+    // Get Country States
+    const getCountryStates = () => {
+        USERS_STATE.getCountryStates(axios, host, ACTIONS, dispatch)
+    }
+
+    // Get State Lgas
+    const getStateLgas = () => {
+        USERS_STATE.getStateLgas(axios, host, ACTIONS, dispatch)
+    }
+
+    // Add Country State
+    const addCountryState = (object) => {
+        USERS_STATE.addCountryState(object, axios, host, adminConfig, ACTIONS, dispatch, getCountryStates)
+    }
+
+    // Add State Lga
+    const addStateLga = (object) => {
+        USERS_STATE.addStateLga(object, axios, host, adminConfig, ACTIONS, dispatch, getStateLgas)
+    }
+
+    // Delete Country State
+    const deleteCountryState = (key) => {
+        USERS_STATE.deleteCountryState(key, axios, host, adminConfig, ACTIONS, dispatch, getCountryStates)
+    }
+
+    // Delete State Lga
+    const deleteStateLga = (key) => {
+        USERS_STATE.deleteStateLga(key, axios, host, adminConfig, ACTIONS, dispatch, getStateLgas)
     }
     
 
@@ -765,7 +795,13 @@ export const GlobalStore = ({ children }) => {
             forgetPassword,
             getTransactions,
             addTransaction,
-            deleteTransaction
+            deleteTransaction,
+            getCountryStates,
+            getStateLgas,
+            addCountryState,
+            addStateLga,
+            deleteCountryState,
+            deleteStateLga
         }}>
             {children}
         </Provider>

@@ -132,3 +132,11 @@ export const deletePayment = (state, action) => {
         ...state
     }
 }
+
+export const getCountryStates = (state, action) => {
+    return { ...state, countryStates: action.payload }
+}
+
+export const getStateLgas = (state, action) => {
+    return { ...state, stateLgas: action.payload }
+}

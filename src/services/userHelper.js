@@ -181,6 +181,18 @@ export const initialState = {
         {},
         []
     ],
+    countryStates: [
+        [],
+        [],
+        {},
+        []
+    ],
+    stateLgas: [
+        [],
+        [],
+        {},
+        []
+    ],
     cryptos: { 
         stats: {
             totalCoins: null, 

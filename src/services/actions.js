@@ -17,6 +17,8 @@ export const getImages = 'get-gallery-images'
 export const userLogging = 'user-logging'
 export const getPayments = 'get-payments'
 export const deletePayment = 'delete-payment'
+export const getCountryStates = 'get-country-states'
+export const getStateLgas = 'get-state-lgas'
 
 // Cbt Users
 export const getCbtUsers = 'get-cbt-users'

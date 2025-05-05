@@ -7,7 +7,8 @@ import { DownOutlined, SmileOutlined, LogoutOutlined, TableOutlined, MoneyCollec
 import Loader from 'react-loaders'
 import { UsersTable, CbtUsersTable, Questions, ExamsTable, ContactMessagesTable, PasswordUpdateForm,
     ActivateUserForm, DepositUserForm, PasswordChangeForm, CbtPasswordChangeForm, ScoresTable, 
-    GenerateCodeForm, ImageGallaryForm, AddPostForm, CbtPromoteForm, UserExamsTable, UtmeQuestions, PaymentsTable
+    GenerateCodeForm, ImageGallaryForm, AddPostForm, CbtPromoteForm, UserExamsTable, UtmeQuestions, PaymentsTable,
+    CountryStatesTable, StateLgasTable
 } from '../components'
 import '../styles/Dashboard.scss'
 import { GlobalContext } from '../app/GlobalState'
@@ -19,6 +20,7 @@ const { TabPane } = Tabs
 
 const Dashboard = () => {
     const [showTable, setShowTable] = useState(false)
+    const [showPersonalTable, setShowPersonalTable] = useState(false)
     const [showUtme, setShowUtme] = useState(false)
     const { state, userLogout } = useContext(GlobalContext)
 
@@ -164,8 +166,15 @@ const Dashboard = () => {
             )}
             { (state.loggedIn && state.user.role === "admin") && (
                 <div className="toggle-container">
-                    <Button className='toggle-button' onClick={ () => setShowTable(!showTable) }>
-                        {showTable ? <EyeInvisibleOutlined  /> : <EyeOutlined  />} {showTable ? "Hide" : "Show"} Tables
+                    <Button className='toggle-button' onClick={ () => {setShowTable(!showTable); setShowPersonalTable(false)} }>
+                        {(showTable && !showPersonalTable) ? <EyeInvisibleOutlined  /> : <EyeOutlined  />} {showTable ? "Hide" : "Show"} Tables
+                    </Button>
+                </div>
+            )}
+            { (state.loggedIn && state.user.role === "admin") && (
+                <div className="toggle-container">
+                    <Button className='toggle-button' onClick={ () => {setShowTable(false); setShowPersonalTable(!showPersonalTable)} }>
+                        {(!showTable && showPersonalTable) ? <EyeInvisibleOutlined  /> : <EyeOutlined  />} {showTable ? "Hide" : "Show"} Personal Tables
                     </Button>
                 </div>
             )}
@@ -176,7 +185,7 @@ const Dashboard = () => {
                     </Button>
                 </div>
             )}
-            { (showTable && state.loggedIn && state.user.role === "admin") && (
+            { (!showPersonalTable && showTable && state.loggedIn && state.user.role === "admin") && (
                 <div className="tables">
                     <Tabs defaultActiveKey="1" className="tabs-form" type="card">
                         <TabPane className="tabs-panel" tab={ <span> <Title level={4}>Users</Title> </span> } key="1">
@@ -203,10 +212,22 @@ const Dashboard = () => {
                     </Tabs>
                 </div>
             )}
-            { showTable && state.cbtLoggedIn && (
+            { (showPersonalTable && !showTable && state.loggedIn && state.user.role === "admin") && (
+                <div className="tables">
+                    <Tabs defaultActiveKey="8" className="tabs-form" type="card">
+                        <TabPane className="tabs-panel" tab={ <span> <Title level={4}>Country States</Title> </span> } key="8">
+                            <CountryStatesTable self = { false } />
+                        </TabPane>
+                        <TabPane className="tabs-panel" tab={ <span> <Title level={4}>State Lgas</Title> </span> } key="9">
+                            <StateLgasTable self = { false } />
+                        </TabPane>
+                    </Tabs>
+                </div>
+            )}
+            { !showPersonalTable && showTable && state.cbtLoggedIn && (
                 <div className="cbt-tables">
-                    <Tabs defaultActiveKey="1" className="tabs-form" type="card">
-                        <TabPane className="tabs-panel" tab={ <span> <Title level={4}>Exam Data</Title> </span> } key="1">
+                    <Tabs defaultActiveKey="10" className="tabs-form" type="card">
+                        <TabPane className="tabs-panel" tab={ <span> <Title level={4}>Exam Data</Title> </span> } key="10">
                             <UserExamsTable self = { true } />
                         </TabPane>
                     </Tabs>

@@ -36,7 +36,7 @@ export const getUsers = (axios, host, ACTIONS, dispatch) => {
     })
 }
 
-export const userLogin = (user, axios, host, config, ACTIONS, dispatch, getUsers, getCbtUsers, getCbtExams, getCbtQuestions, getContactMessages, getCryptos, getCryptoNews, getBingNews, getScores, getImages, getPosts, getPayments, getUtmeQuestions, getUtmeExams) => {
+export const userLogin = (user, axios, host, config, ACTIONS, dispatch, getUsers, getCbtUsers, getCbtExams, getCbtQuestions, getContactMessages, getCryptos, getCryptoNews, getBingNews, getScores, getImages, getPosts, getPayments, getUtmeQuestions, getUtmeExams, getCountryStates, getStateLgas) => {
     axios({
         url: '/benion-users/api/login',
         method: 'post',
@@ -77,6 +77,8 @@ export const userLogin = (user, axios, host, config, ACTIONS, dispatch, getUsers
                 getPayments()
                 getUtmeQuestions()
                 getUtmeExams()
+                getCountryStates()
+                getStateLgas()
             } else {
                 dispatch({
                     type: ACTIONS.getUsers,
@@ -1012,6 +1014,224 @@ export const deletePayment = (key, axios, host, adminConfig, ACTIONS, dispatch, 
         dispatch({
             type: ACTIONS.usersError,
             payload: `Delete Payment Error - ${error.message} (${error?.response?.data?.error?.message})` 
+        })
+    })
+}
+
+export const getCountryStates = (axios, host, ACTIONS, dispatch) => {
+    axios({
+        url: '/benion-test/api/get-country-states',
+        method: 'get',
+        baseURL: host
+    }).then(response => {
+        !production && (console.log("Get Country States Response", response))
+        dispatch({
+            type: ACTIONS.getCountryStates,
+            payload: response.data.data
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: null
+        })
+        dispatch({
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
+        })
+    }).catch(error => {
+        !production && (console.log("Get Country States Error", error))
+        dispatch({
+            type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: `Get Country States Error - ${error.message} (${error?.response?.data?.error?.message})`
+        })
+    })
+}
+
+export const getStateLgas = (axios, host, ACTIONS, dispatch) => {
+    axios({
+        url: '/benion-test/api/get-state-lgas',
+        method: 'get',
+        baseURL: host
+    }).then(response => {
+        !production && (console.log("Get State Lgas Response", response))
+        dispatch({
+            type: ACTIONS.getStateLgas,
+            payload: response.data.data
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: null
+        })
+        dispatch({
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
+        })
+    }).catch(error => {
+        !production && (console.log("Get State Lgas Error", error))
+        dispatch({
+            type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: `Get State Lgas Error - ${error.message} (${error?.response?.data?.error?.message})`
+        })
+    })
+}
+
+export const addCountryState = (object, axios, host, adminConfig, ACTIONS, dispatch, getCountryStates) => {
+    axios({
+        url: `/benion-test/api/${object.key ? `edit-country-state/${object.key}` : 'add-country-state'}`,
+        method: object.key ? 'put' : 'post',
+        baseURL: host,
+        headers: adminConfig.headers,
+        data: object
+    }).then(response => {
+        !production && (console.log(`${object.key ? 'Update' : 'Add'} Country State Response`, response))
+        getCountryStates()
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: null
+        })
+        dispatch({
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
+        })
+    }).catch(error => {
+        !production && (console.log(`${object.key ? 'Update' : 'Add'} Country State Error`, error))
+        dispatch({
+            type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: `${object.key ? 'Update' : 'Add'} Country State Error - ${error.message} (${error?.response?.data?.error?.message})`
+        })
+        dispatch({
+            type: ACTIONS.usersFormError,
+            payload: `${error?.response?.data?.error?.message} (${error.message})`
+        })
+    })
+}
+
+export const addStateLga = (object, axios, host, adminConfig, ACTIONS, dispatch, getStateLgas) => {
+    axios({
+        url: `/benion-test/api/${object.key ? `edit-state-lga/${object.key}` : 'add-state-lga'}`,
+        method: object.key ? 'put' : 'post',
+        baseURL: host,
+        headers: adminConfig.headers,
+        data: object
+    }).then(response => {
+        !production && (console.log(`${object.key ? 'Update' : 'Add'} State Lga Response`, response))
+        getStateLgas()
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: null
+        })
+        dispatch({
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
+        })
+    }).catch(error => {
+        !production && (console.log(`${object.key ? 'Update' : 'Add'} State Lga Error`, error))
+        dispatch({
+            type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: `${object.key ? 'Update' : 'Add'} State Lga Error - ${error.message} (${error?.response?.data?.error?.message})`
+        })
+        dispatch({
+            type: ACTIONS.usersFormError,
+            payload: `${error?.response?.data?.error?.message} (${error.message})`
+        })
+    })
+}
+
+export const deleteCountryState = (key, axios, host, adminConfig, ACTIONS, dispatch, getCountryStates) => {
+    axios({
+        url: `/benion-test/api/delete-country-state/${key}`,
+        method: 'delete',
+        baseURL: host,
+        headers: adminConfig.headers
+    }).then(response => {
+        !production && (console.log("Delete Country State Response", response))
+        getCountryStates()
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: null
+        })
+        dispatch({
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
+        })
+    }).catch(error => {
+        !production && (console.log("Delete Country State Error", error))
+        dispatch({
+            type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: `Delete Country State Error - ${error.message} (${error?.response?.data?.error?.message})`
+        })
+    })
+}
+
+export const deleteStateLga = (key, axios, host, adminConfig, ACTIONS, dispatch, getStateLgas) => {
+    axios({
+        url: `/benion-test/api/delete-state-lga/${key}`,
+        method: 'delete',
+        baseURL: host,
+        headers: adminConfig.headers
+    }).then(response => {
+        !production && (console.log("Delete State Lga Response", response))
+        getStateLgas()
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: null
+        })
+        dispatch({
+            type: response.data.success ? ACTIONS.usersMessage : ACTIONS.usersWarning,
+            payload: response.data.success ? response.data.message : response.data.error
+        })
+    }).catch(error => {
+        !production && (console.log("Delete State Lga Error", error))
+        dispatch({
+            type: ACTIONS.usersMessage,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersWarning,
+            payload: null
+        })
+        dispatch({
+            type: ACTIONS.usersError,
+            payload: `Delete State Lga Error - ${error.message} (${error?.response?.data?.error?.message})`
         })
     })
 }

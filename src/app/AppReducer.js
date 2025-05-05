@@ -41,6 +41,10 @@ const AppReducer = (state, action) => {
             return USERS_REDUCER.getPayments(state, action)
         case ACTIONS.deletePayment:
             return USERS_REDUCER.deletePayment(state, action)
+        case ACTIONS.getCountryStates:
+            return USERS_REDUCER.getCountryStates(state, action)
+        case ACTIONS.getStateLgas:
+            return USERS_REDUCER.getStateLgas(state, action)
         // Cbt
         case ACTIONS.getCbtUsers:
             return CBT_REDUCER.getCbtUsers(state, action)
