@@ -1,74 +1,73 @@
-# Benion-Tech Project Overview
+# Welcome to your Lovable project
 
-This React project was created by Bernard Iorver and serves as the front-end for Benion-Tech!!!
+## Project info
 
-# Getting Started with Create React App
+**URL**: https://lovable.dev/projects/739db784-e31c-47ec-a725-6a0c2b74f7ab
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## How can I edit this code?
 
-## Available Scripts
+There are several ways of editing your application.
 
-In the project directory, you can run:
+**Use Lovable**
 
-### `npm start`
+Simply visit the [Lovable Project](https://lovable.dev/projects/739db784-e31c-47ec-a725-6a0c2b74f7ab) and start prompting.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Changes made via Lovable will be committed automatically to this repo.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+**Use your preferred IDE**
 
-### `npm test`
+If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
-### `npm run build`
+Follow these steps:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```sh
+# Step 1: Clone the repository using the project's Git URL.
+git clone <YOUR_GIT_URL>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# Step 2: Navigate to the project directory.
+cd <YOUR_PROJECT_NAME>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# Step 3: Install the necessary dependencies.
+npm i
 
-### `npm run eject`
+# Step 4: Start the development server with auto-reloading and an instant preview.
+npm run dev
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+**Edit a file directly in GitHub**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Navigate to the desired file(s).
+- Click the "Edit" button (pencil icon) at the top right of the file view.
+- Make your changes and commit the changes.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+**Use GitHub Codespaces**
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- Navigate to the main page of your repository.
+- Click on the "Code" button (green button) near the top right.
+- Select the "Codespaces" tab.
+- Click on "New codespace" to launch a new Codespace environment.
+- Edit files directly within the Codespace and commit and push your changes once you're done.
 
-## Learn More
+## What technologies are used for this project?
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+This project is built with:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Vite
+- TypeScript
+- React
+- shadcn-ui
+- Tailwind CSS
 
-### Code Splitting
+## How can I deploy this project?
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Simply open [Lovable](https://lovable.dev/projects/739db784-e31c-47ec-a725-6a0c2b74f7ab) and click on Share -> Publish.
 
-### Analyzing the Bundle Size
+## Can I connect a custom domain to my Lovable project?
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Yes, you can!
 
-### Making a Progressive Web App
+To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
