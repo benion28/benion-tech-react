@@ -1,23 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import * as usersService from '../../services/usersService';
-
-export interface User {
-  id: string;
-  username: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  role: 'admin' | 'editor' | 'user';
-  isActive: boolean;
-  avatar?: string;
-  phoneNumber?: string;
-  address?: string;
-  stateId?: string;
-  lgaId?: string;
-  createdAt: string;
-  updatedAt: string;
-  lastLoginAt?: string;
-}
+import { User } from '@/models/User';
 
 interface UsersState {
   users: User[];
@@ -181,11 +164,11 @@ const usersSlice = createSlice({
       })
       .addCase(updateUser.fulfilled, (state, action) => {
         state.loading = false;
-        const index = state.users.findIndex(user => user.id === action.payload.id);
+        const index = state.users.findIndex(user => user._id === action.payload._id);
         if (index !== -1) {
           state.users[index] = action.payload;
         }
-        if (state.currentUser?.id === action.payload.id) {
+        if (state.currentUser?._id === action.payload._id) {
           state.currentUser = action.payload;
         }
         state.error = null;
@@ -201,8 +184,8 @@ const usersSlice = createSlice({
       })
       .addCase(deleteUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.users = state.users.filter(user => user.id !== action.payload);
-        if (state.currentUser?.id === action.payload) {
+        state.users = state.users.filter(user => user._id !== action.payload);
+        if (state.currentUser?._id === action.payload) {
           state.currentUser = null;
         }
         state.error = null;

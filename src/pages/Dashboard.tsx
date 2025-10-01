@@ -18,12 +18,15 @@ import { useAppDispatch, useAppSelector } from '@/hooks/useRedux'
 import { fetchPosts } from '@/store/slices/postsSlice'
 import { fetchMediaItems } from '@/store/slices/gallerySlice'
 import { fetchUsers } from '@/store/slices/usersSlice'
+import { RootState } from '@/store'
+import { useSelector } from 'react-redux'
 
 export default function Dashboard() {
   const dispatch = useAppDispatch()
   const { posts } = useAppSelector((state) => state.posts)
   const { mediaItems } = useAppSelector((state) => state.gallery)
   const { users } = useAppSelector((state) => state.users)
+  const { user } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
     // Fetch initial data for dashboard stats
@@ -109,7 +112,7 @@ export default function Dashboard() {
         {/* Welcome Section */}
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
-            <h2 className="text-2xl font-bold">Welcome back, Bernard!</h2>
+            <h2 className="text-2xl font-bold">Welcome back, {user?.username ? user.username.charAt(0).toUpperCase() + user.username.slice(1) : "Guest"}!</h2>
             <p className="text-muted-foreground">
               Here's what's happening with your content management system today.
             </p>

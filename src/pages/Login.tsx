@@ -7,6 +7,10 @@ import { Label } from '@/components/ui/label'
 import { Checkbox } from '@/components/ui/checkbox'
 import { AuthLayout } from '@/components/auth/AuthLayout'
 import { useToast } from '@/hooks/use-toast'
+import { login } from '@/services/authService'
+import { loginUser } from '@/store/slices/authSlice'
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../store';
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false)
@@ -18,6 +22,8 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
   const { toast } = useToast()
+  const dispatch: AppDispatch = useDispatch()
+  const { user } = useSelector((state: RootState) => state.auth);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -25,13 +31,12 @@ export default function Login() {
 
     try {
       // Simulate login API call
-      await new Promise(resolve => setTimeout(resolve, 1500))
-      
+      const response = await dispatch(loginUser(
+        { username: formData.username, password: formData.password }
+      )).unwrap()
+      console.log('response', response)
       // Check credentials (demo authentication)
-      if (
-        (formData.username === 'benion' && formData.password === 'rice8828') ||
-        (formData.username === 'guest' && formData.password === 'guest123')
-      ) {
+      if (response.success) {
         toast({
           title: "Login Successful",
           description: `Welcome back, ${formData.username}!`,

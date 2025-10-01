@@ -8,9 +8,9 @@ import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { toast } from 'sonner'
-import { 
-  Plus, 
-  Search, 
+import {
+  Plus,
+  Search,
   Filter,
   User,
   Mail,
@@ -31,14 +31,19 @@ export default function Users() {
   const [searchQuery, setSearchQuery] = useState('')
   const [isCreateOpen, setIsCreateOpen] = useState(false)
   const [newUser, setNewUser] = useState({
+    _id: '',
     username: '',
     email: '',
-    firstName: '',
-    lastName: '',
+    firstname: '',
+    lastname: '',
     role: 'user' as 'admin' | 'editor' | 'user',
-    phoneNumber: '',
-    address: '',
-    isActive: true
+    profile: '',
+    job: '',
+    town: '',
+    password: '',
+    amountBalance: 0,
+    date: '',
+    token: '',
   })
 
   useEffect(() => {
@@ -48,17 +53,17 @@ export default function Users() {
   const handleSearch = (value: string) => {
     setSearchQuery(value)
     dispatch(setFilters({ search: value }))
-    dispatch(fetchUsers({ 
-      page: 1, 
-      limit: 10, 
+    dispatch(fetchUsers({
+      page: 1,
+      limit: 10,
       search: value,
       role: filters.role,
-      status: filters.status 
+      status: filters.status
     }))
   }
 
   const handleCreateUser = async () => {
-    if (!newUser.username || !newUser.email || !newUser.firstName || !newUser.lastName) {
+    if (!newUser.username || !newUser.email || !newUser.firstname || !newUser.lastname) {
       toast.error('Please fill in all required fields')
       return
     }
@@ -68,14 +73,19 @@ export default function Users() {
       toast.success('User created successfully')
       setIsCreateOpen(false)
       setNewUser({
+        _id: '',
         username: '',
         email: '',
-        firstName: '',
-        lastName: '',
-        role: 'user',
-        phoneNumber: '',
-        address: '',
-        isActive: true
+        firstname: '',
+        lastname: '',
+        role: 'user' as 'admin' | 'editor' | 'user',
+        profile: '',
+        job: '',
+        town: '',
+        password: '',
+        amountBalance: 0,
+        date: '',
+        token: '',
       })
     } catch (error) {
       toast.error('Failed to create user')
@@ -105,7 +115,7 @@ export default function Users() {
   }
 
   return (
-    <DashboardLayout 
+    <DashboardLayout
       title="Users"
       breadcrumbs={[{ label: "Users" }]}
     >
@@ -137,20 +147,20 @@ export default function Users() {
                 <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="firstName">First Name *</Label>
+                      <Label htmlFor="firstname">First Name *</Label>
                       <Input
-                        id="firstName"
-                        value={newUser.firstName}
-                        onChange={(e) => setNewUser({ ...newUser, firstName: e.target.value })}
+                        id="firstname"
+                        value={newUser.firstname}
+                        onChange={(e) => setNewUser({ ...newUser, firstname: e.target.value })}
                         placeholder="Enter first name"
                       />
                     </div>
                     <div>
-                      <Label htmlFor="lastName">Last Name *</Label>
+                      <Label htmlFor="lastname">Last Name *</Label>
                       <Input
-                        id="lastName"
-                        value={newUser.lastName}
-                        onChange={(e) => setNewUser({ ...newUser, lastName: e.target.value })}
+                        id="lastname"
+                        value={newUser.lastname}
+                        onChange={(e) => setNewUser({ ...newUser, lastname: e.target.value })}
                         placeholder="Enter last name"
                       />
                     </div>
@@ -171,7 +181,7 @@ export default function Users() {
                       type="email"
                       value={newUser.email}
                       onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
-                      placeholder="Enter email address"
+                      placeholder="Enter email town"
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
@@ -189,26 +199,26 @@ export default function Users() {
                       </Select>
                     </div>
                     <div>
-                      <Label htmlFor="phone">Phone Number</Label>
+                      <Label htmlFor="job">Job</Label>
                       <Input
-                        id="phone"
-                        value={newUser.phoneNumber}
-                        onChange={(e) => setNewUser({ ...newUser, phoneNumber: e.target.value })}
-                        placeholder="Enter phone number"
+                        id="job"
+                        value={newUser.job}
+                        onChange={(e) => setNewUser({ ...newUser, job: e.target.value })}
+                        placeholder="Enter job"
                       />
                     </div>
                   </div>
                   <div>
-                    <Label htmlFor="address">Address</Label>
+                    <Label htmlFor="town">town</Label>
                     <Input
-                      id="address"
-                      value={newUser.address}
-                      onChange={(e) => setNewUser({ ...newUser, address: e.target.value })}
-                      placeholder="Enter address"
+                      id="town"
+                      value={newUser.town}
+                      onChange={(e) => setNewUser({ ...newUser, town: e.target.value })}
+                      placeholder="Enter town"
                     />
                   </div>
-                  <Button 
-                    onClick={handleCreateUser} 
+                  <Button
+                    onClick={handleCreateUser}
                     disabled={loading}
                     className="w-full"
                   >
@@ -236,7 +246,7 @@ export default function Users() {
               </div>
             </CardContent>
           </Card>
-          
+
           <Card className="glass-card">
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
@@ -245,12 +255,12 @@ export default function Users() {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Active Users</p>
-                  <p className="text-xl font-bold">{users.filter(u => u.isActive).length}</p>
+                  <p className="text-xl font-bold">{users.filter(u => u.amountBalance > 0).length}</p>
                 </div>
               </div>
             </CardContent>
           </Card>
-          
+
           <Card className="glass-card">
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
@@ -264,7 +274,7 @@ export default function Users() {
               </div>
             </CardContent>
           </Card>
-          
+
           <Card className="glass-card">
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
@@ -303,21 +313,21 @@ export default function Users() {
         ) : (
           <div className="space-y-4">
             {users.map((user) => (
-              <Card key={user.id} className="glass-card hover:shadow-modern transition-all duration-300">
+              <Card key={user._id} className="glass-card hover:shadow-modern transition-all duration-300">
                 <CardContent className="p-6">
                   <div className="flex items-start gap-4">
                     <Avatar className="h-12 w-12">
-                      <AvatarImage src={user.avatar} />
+                      <AvatarImage src={user.profile} />
                       <AvatarFallback>
-                        {user.firstName[0]}{user.lastName[0]}
+                        {user.firstname[0]}{user.lastname[0]}
                       </AvatarFallback>
                     </Avatar>
-                    
+
                     <div className="flex-1 space-y-3">
                       <div className="flex items-start justify-between">
                         <div className="space-y-1">
                           <h3 className="text-lg font-semibold">
-                            {user.firstName} {user.lastName}
+                            {user.firstname} {user.lastname}
                           </h3>
                           <p className="text-sm text-muted-foreground">
                             @{user.username}
@@ -327,50 +337,50 @@ export default function Users() {
                           <Badge className={`${getRoleColor(user.role)} text-white`}>
                             {user.role}
                           </Badge>
-                          <Badge variant={user.isActive ? 'default' : 'secondary'}>
-                            {user.isActive ? 'Active' : 'Inactive'}
+                          <Badge variant={user.amountBalance > 0 ? 'default' : 'secondary'}>
+                            {user.amountBalance > 0 ? 'Active' : 'Inactive'}
                           </Badge>
                         </div>
                       </div>
-                      
+
                       <div className="flex items-center gap-6 text-sm text-muted-foreground">
                         <span className="flex items-center gap-1">
                           <Mail className="h-3 w-3" />
                           {user.email}
                         </span>
-                        {user.phoneNumber && (
+                        {user.job && (
                           <span className="flex items-center gap-1">
                             <Phone className="h-3 w-3" />
-                            {user.phoneNumber}
+                            {user.job}
                           </span>
                         )}
-                        {user.address && (
+                        {user.town && (
                           <span className="flex items-center gap-1">
                             <MapPin className="h-3 w-3" />
-                            {user.address}
+                            {user.town}
                           </span>
                         )}
                       </div>
-                      
+
                       <div className="text-xs text-muted-foreground">
-                        Created: {new Date(user.createdAt).toLocaleDateString()}
-                        {user.lastLoginAt && (
+                        Created: {new Date(user.date).toLocaleDateString()}
+                        {user.birthday && (
                           <span className="ml-4">
-                            Last login: {new Date(user.lastLoginAt).toLocaleDateString()}
+                            Birthday: {new Date(user.birthday).toLocaleDateString()}
                           </span>
                         )}
                       </div>
                     </div>
-                    
+
                     <div className="flex gap-2">
                       <Button variant="ghost" size="icon" title="Edit user">
                         <Edit className="h-4 w-4" />
                       </Button>
-                      <Button 
-                        variant="ghost" 
-                        size="icon" 
+                      <Button
+                        variant="ghost"
+                        size="icon"
                         className="hover:text-destructive"
-                        onClick={() => handleDeleteUser(user.id)}
+                        onClick={() => handleDeleteUser(user._id)}
                         title="Delete user"
                       >
                         <Trash2 className="h-4 w-4" />

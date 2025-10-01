@@ -28,6 +28,8 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
+import { useSelector } from "react-redux"
+import { RootState } from "@/store"
 
 const mainNavItems = [
   { title: "Dashboard", url: "/dashboard", icon: Home },
@@ -48,6 +50,7 @@ export function AppSidebar() {
   const { state } = useSidebar()
   const location = useLocation()
   const currentPath = location.pathname
+  const { user } = useSelector((state: RootState) => state.auth);
 
   const isCollapsed = state === "collapsed"
   const isActive = (path: string) => currentPath === path
@@ -133,16 +136,16 @@ export function AppSidebar() {
           {/* User profile */}
           <div className="flex items-center gap-3">
             <Avatar className="h-8 w-8 flex-shrink-0">
-              <AvatarImage src="/placeholder-avatar.jpg" />
+              <AvatarImage src={user?.profile} />
               <AvatarFallback className="bg-primary text-primary-foreground text-xs">
-                BT
+                {user?.firstname ? user?.firstname[0] : "G"}{user?.lastname ? user?.lastname[0] : "U"}
               </AvatarFallback>
             </Avatar>
             {!isCollapsed && (
               <div className="flex-1 min-w-0">
-                <p className="font-medium text-sm text-sidebar-foreground truncate">Bernard Iorver</p>
+                <p className="font-medium text-sm text-sidebar-foreground truncate">{user?.firstname ?? "Guest"} {user?.lastname ?? "User"}</p>
                 <p className="text-xs text-sidebar-foreground/60 truncate">
-                  Developer
+                  {user?.role ? user?.role?.charAt(0).toUpperCase() + user?.role.slice(1) : "Guest"}
                 </p>
               </div>
             )}
