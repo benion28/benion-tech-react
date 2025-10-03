@@ -24,7 +24,7 @@ export const loginUser = createAsyncThunk(
     try {
       const response = await authService.login(credentials);
       return response;
-    } catch (error: any) {
+    } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Login failed');
     }
   }
@@ -42,7 +42,7 @@ export const registerUser = createAsyncThunk(
     try {
       const response = await authService.register(userData);
       return response;
-    } catch (error: any) {
+    } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Registration failed');
     }
   }
@@ -55,7 +55,7 @@ export const logoutUser = createAsyncThunk(
       await authService.logout();
       localStorage.removeItem('token');
       return {};
-    } catch (error: any) {
+    } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Logout failed');
     }
   }
@@ -67,7 +67,7 @@ export const getCurrentUser = createAsyncThunk(
     try {
       const response = await authService.getCurrentUser();
       return response;
-    } catch (error: any) {
+    } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Failed to get user');
     }
   }

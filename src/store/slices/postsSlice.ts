@@ -58,7 +58,7 @@ export const fetchPosts = createAsyncThunk(
     try {
       const response = await postsService.getPosts(params);
       return response;
-    } catch (error: any) {
+    } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Failed to fetch posts');
     }
   }
@@ -70,7 +70,7 @@ export const fetchPostById = createAsyncThunk(
     try {
       const response = await postsService.getPostById(id);
       return response;
-    } catch (error: any) {
+    } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Failed to fetch post');
     }
   }
@@ -82,7 +82,7 @@ export const createPost = createAsyncThunk(
     try {
       const response = await postsService.createPost(postData);
       return response;
-    } catch (error: any) {
+    } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Failed to create post');
     }
   }
@@ -94,7 +94,7 @@ export const updatePost = createAsyncThunk(
     try {
       const response = await postsService.updatePost(id, data);
       return response;
-    } catch (error: any) {
+    } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Failed to update post');
     }
   }
@@ -106,7 +106,7 @@ export const deletePost = createAsyncThunk(
     try {
       await postsService.deletePost(id);
       return id;
-    } catch (error: any) {
+    } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Failed to delete post');
     }
   }

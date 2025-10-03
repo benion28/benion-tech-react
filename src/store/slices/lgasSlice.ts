@@ -31,7 +31,7 @@ export const fetchLGAs = createAsyncThunk(
     try {
       const response = await lgasService.getLGAs(stateId);
       return response;
-    } catch (error: any) {
+    } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Failed to fetch LGAs');
     }
   }
@@ -43,7 +43,7 @@ export const fetchLGAById = createAsyncThunk(
     try {
       const response = await lgasService.getLGAById(id);
       return response;
-    } catch (error: any) {
+    } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Failed to fetch LGA');
     }
   }
@@ -55,7 +55,7 @@ export const createLGA = createAsyncThunk(
     try {
       const response = await lgasService.createLGA(lgaData);
       return response;
-    } catch (error: any) {
+    } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Failed to create LGA');
     }
   }
@@ -67,7 +67,7 @@ export const updateLGA = createAsyncThunk(
     try {
       const response = await lgasService.updateLGA(id, data);
       return response;
-    } catch (error: any) {
+    } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Failed to update LGA');
     }
   }
@@ -79,7 +79,7 @@ export const deleteLGA = createAsyncThunk(
     try {
       await lgasService.deleteLGA(id);
       return id;
-    } catch (error: any) {
+    } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Failed to delete LGA');
     }
   }

@@ -63,7 +63,7 @@ export const fetchMediaItems = createAsyncThunk(
     try {
       const response = await galleryService.getMediaItems(params);
       return response;
-    } catch (error: any) {
+    } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Failed to fetch media items');
     }
   }
@@ -75,7 +75,7 @@ export const fetchMediaItemById = createAsyncThunk(
     try {
       const response = await galleryService.getMediaItemById(id);
       return response;
-    } catch (error: any) {
+    } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Failed to fetch media item');
     }
   }
@@ -87,7 +87,7 @@ export const uploadMediaItem = createAsyncThunk(
     try {
       const response = await galleryService.uploadMedia(fileData);
       return response;
-    } catch (error: any) {
+    } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Failed to upload media');
     }
   }
@@ -99,7 +99,7 @@ export const updateMediaItem = createAsyncThunk(
     try {
       const response = await galleryService.updateMediaItem(id, data);
       return response;
-    } catch (error: any) {
+    } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Failed to update media item');
     }
   }
@@ -111,7 +111,7 @@ export const deleteMediaItem = createAsyncThunk(
     try {
       await galleryService.deleteMediaItem(id);
       return id;
-    } catch (error: any) {
+    } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Failed to delete media item');
     }
   }

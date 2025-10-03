@@ -44,7 +44,7 @@ export const fetchUsers = createAsyncThunk(
     try {
       const response = await usersService.getUsers(params);
       return response;
-    } catch (error: any) {
+    } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Failed to fetch users');
     }
   }
@@ -56,7 +56,7 @@ export const fetchUserById = createAsyncThunk(
     try {
       const response = await usersService.getUserById(id);
       return response;
-    } catch (error: any) {
+    } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Failed to fetch user');
     }
   }
@@ -68,7 +68,7 @@ export const createUser = createAsyncThunk(
     try {
       const response = await usersService.createUser(userData);
       return response;
-    } catch (error: any) {
+    } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Failed to create user');
     }
   }
@@ -80,7 +80,7 @@ export const updateUser = createAsyncThunk(
     try {
       const response = await usersService.updateUser(id, data);
       return response;
-    } catch (error: any) {
+    } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Failed to update user');
     }
   }
@@ -92,7 +92,7 @@ export const deleteUser = createAsyncThunk(
     try {
       await usersService.deleteUser(id);
       return id;
-    } catch (error: any) {
+    } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Failed to delete user');
     }
   }

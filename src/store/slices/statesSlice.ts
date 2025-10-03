@@ -32,7 +32,7 @@ export const fetchStates = createAsyncThunk(
     try {
       const response = await statesService.getStates();
       return response;
-    } catch (error: any) {
+    } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Failed to fetch states');
     }
   }
@@ -44,7 +44,7 @@ export const fetchStateById = createAsyncThunk(
     try {
       const response = await statesService.getStateById(id);
       return response;
-    } catch (error: any) {
+    } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Failed to fetch state');
     }
   }
@@ -56,7 +56,7 @@ export const createState = createAsyncThunk(
     try {
       const response = await statesService.createState(stateData);
       return response;
-    } catch (error: any) {
+    } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Failed to create state');
     }
   }
@@ -68,7 +68,7 @@ export const updateState = createAsyncThunk(
     try {
       const response = await statesService.updateState(id, data);
       return response;
-    } catch (error: any) {
+    } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Failed to update state');
     }
   }
@@ -80,7 +80,7 @@ export const deleteState = createAsyncThunk(
     try {
       await statesService.deleteState(id);
       return id;
-    } catch (error: any) {
+    } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Failed to delete state');
     }
   }
