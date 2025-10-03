@@ -14,6 +14,7 @@ import Gallery from "./pages/Gallery";
 import Posts from "./pages/Posts";
 import Users from "./pages/Users";
 import NotFound from "./pages/NotFound";
+import SMS from "./pages/SMS";
 
 const queryClient = new QueryClient();
 
@@ -40,7 +41,7 @@ const App = () => (
             <Route path="/posts" element={<Posts />} />
             <Route path="/users" element={<Users />} />
             <Route path="/cbt" element={<Dashboard />} />
-            <Route path="/sms" element={<Dashboard />} />
+            <Route path="/sms" element={<SMS />} />
             <Route path="/donate" element={<Dashboard />} />
             <Route path="/profile" element={<Dashboard />} />
             <Route path="/settings" element={<Dashboard />} />
